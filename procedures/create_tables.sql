@@ -1,6 +1,6 @@
 use omeka;
 
-CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_countries`
+CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 (
     `country_id` int(6) unsigned NOT NULL AUTO_INCREMENT, # ID of the country for internal use
     `name`       varchar(255)    NOT NULL,                # The name of the country (e.g. "Germany")
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_countries`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_cities`
+CREATE TABLE IF NOT EXISTS `%PREFIX%cities`
 (
     `city_id`    int(6) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
     `country_id` int(6) unsigned NOT NULL,                # ID of the country in which the city exists
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_cities`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_festivals`
+CREATE TABLE IF NOT EXISTS `%PREFIX%festivals`
 (
     `festival_id` int(6) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
     `country_id`  int(6) unsigned NOT NULL,                # ID of the country in which the festival exists
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_festivals`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `omeka_supereightfestivals_filmmakers`
+CREATE TABLE IF NOT EXISTS `%PREFIX%filmmakers`
 (
     `filmmaker_id` int(6) unsigned NOT NULL AUTO_INCREMENT,
     `name`         varchar(255)    NOT NULL,

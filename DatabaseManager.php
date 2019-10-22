@@ -2,6 +2,8 @@
 
 class DatabaseManager
 {
+    const PREFIX = "omeka_super8festivals_";
+
     /**
      * @var string The IP of the server
      */
@@ -63,6 +65,7 @@ SQL;
     public function executeFile($path)
     {
         $commands = file_get_contents($path);
+        $commands = str_replace("%PREFIX%", self::PREFIX, $commands);
         return $this->connection->multi_query($commands);
     }
 

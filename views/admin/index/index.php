@@ -1,15 +1,24 @@
 <?php
-$head = array('bodyclass' => 'simple-pages primary',
-    'title' => html_escape(__('Super8Festivals | Index')),
-    'content_class' => 'horizontal-nav');
+$head = array(
+    'title' => html_escape(__('Super 8 Festivals | Control Panel')),
+);
 echo head($head);
 ?>
 
-<p>This is the primary control panel for the Super 8 Festivals website.</p>
+<div>
+    <a href="super-eight-festivals/countries/" class="add big green button">Countries</a>
+</div>
 
+<div>
+    <a href="super-eight-festivals/cities" class="add big green button">Cities</a>
+</div>
 
-<button>Countries</button>
-<button>Cities</button>
-<button>Filmmakers</button>
+<div>
+    <a href="super-eight-festivals/filmmakers" class="add big green button">Filmmakers</a>
+</div>
+
+<div>
+    <a href="super-eight-festivals/settings" class="add big green button">Settings</a>
+</div>
 
 <?php echo foot(); ?>

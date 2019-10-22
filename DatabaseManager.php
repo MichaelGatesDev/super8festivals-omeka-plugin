@@ -27,12 +27,15 @@ class DatabaseManager
      */
     private $connection = null;
 
-    public function __construct($serverName, $username, $password, $databaseName)
+    public function __construct()
     {
-        $this->serverName = $serverName;
-        $this->username = $username;
-        $this->password = $password;
-        $this->databaseName = $databaseName;
+        $ini_array = parse_ini_file(__DIR__ . "/../../db.ini", true);
+        $db = $ini_array["database"];
+        $this->serverName = $db["host"];
+        $this->username = $db["username"];
+        $this->password = $db["password"];
+        $this->databaseName = $db["dbname"];
+        $this->initialize();
     }
 
     public function initialize()
@@ -48,20 +51,6 @@ class DatabaseManager
         }
     }
 
-    public function createTable($name, $cols)
-    {
-        $sql = <<<SQL
-        CREATE TABLE IF NOT EXISTS `$name` 
-        (
-            `$cols`
-        ) 
-        ENGINE = InnoDB
-        DEFAULT CHARSET = utf8
-        COLLATE = utf8_unicode_ci;
-SQL;
-        return $this->connection->query($sql);
-    }
-
     public function executeFile($path)
     {
         $commands = file_get_contents($path);
@@ -69,9 +58,17 @@ SQL;
         return $this->connection->multi_query($commands);
     }
 
+    public function executeSingleQueryFile($path)
+    {
+        $command = file_get_contents($path);
+        $command = str_replace("%PREFIX%", self::PREFIX, $command);
+        return $this->connection->query($command);
+    }
+
     public function query($query)
     {
-
+        $query = str_replace("%PREFIX%", self::PREFIX, $query);
+        return $this->connection->query($query);
     }
 
 

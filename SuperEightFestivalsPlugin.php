@@ -24,16 +24,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function __construct()
     {
-        $ini_array = parse_ini_file(__DIR__ . "/../../db.ini", true);
-        $db = $ini_array["database"];
-        $this->databaseManager = new DatabaseManager(
-            $db["host"],
-            $db["username"],
-            $db["password"],
-            $db["dbname"]
-        );
         $this->databaseHelper = new DatabaseHelper($this->databaseManager);
-        $this->databaseManager->initialize();
     }
 
     public function hookInstall()

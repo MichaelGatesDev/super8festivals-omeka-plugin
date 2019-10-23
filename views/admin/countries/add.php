@@ -5,6 +5,8 @@ $head = array(
 echo head($head);
 ?>
 
+<?php echo flash(); ?>
+
 <?php echo $form; ?>
 
 <?php echo foot(); ?>

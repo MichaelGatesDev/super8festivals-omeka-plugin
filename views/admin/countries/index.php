@@ -6,8 +6,6 @@ echo head($head);
 ?>
 
 
-<p>This is the countries tab!</p>
-
 <a class="add-page button small green" href="<?php echo html_escape(url('super-eight-festivals/countries/add')); ?>">
     Add Country
 </a>
@@ -15,10 +13,14 @@ echo head($head);
     Browse Countries
 </a>
 
-<?php if (!has_loop_records('simple_pages_page')): ?>
-    <p><?php echo __('There are no countries.'); ?></p>
+<?php if (!get_records('SuperEightFestivalsCountry')): ?>
+    <p>
+        <?php echo 'There are no countries.'; ?>
+        <a href="<?php echo html_escape(url('super-eight-festivals/countries/add')); ?>"><?php echo __('Add a country.'); ?></a>
+    </p>
 <?php else: ?>
-    <?php echo $this->partial('countries/browse.php', array('countries' => $countries)); ?>
+    <?php echo $this->partial('countries/browse-list.php'); ?>
 <?php endif; ?>
+
 
 <?php echo foot(); ?>

@@ -30,6 +30,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
     {
         // Create tables
         $this->databaseHelper->createTables();
+
+        // Save an example page.
+        $page = new SuperEightFestivalsCountry();
+        $page->name = "Test Country";
+        $page->latitude = -1.337;
+        $page->longitude = -1.337;
+        $page->save();
     }
 
     public function hookInitialize()
@@ -54,8 +61,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
 function console_log($output, $with_script_tags = true)
 {
-    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-        ');';
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
     if ($with_script_tags) {
         $js_code = '<script>' . $js_code . '</script>';
     }

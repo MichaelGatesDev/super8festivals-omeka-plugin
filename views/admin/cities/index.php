@@ -5,6 +5,7 @@ $head = array(
 echo head($head);
 ?>
 
+<?php echo flash(); ?>
 
 <p>This is the cities tab!</p>
 

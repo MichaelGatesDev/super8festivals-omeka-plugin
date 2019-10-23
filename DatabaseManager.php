@@ -2,7 +2,7 @@
 
 class DatabaseManager
 {
-    const PREFIX = "omeka_super8festivals_";
+    const PREFIX = "omeka_super_eight_festivals_";
 
     /**
      * @var string The IP of the server

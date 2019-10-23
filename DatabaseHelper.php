@@ -27,7 +27,7 @@ class DatabaseHelper
 
     public function getAllCountries()
     {
-        return $this->databaseManager->executeSingleQueryFile(__DIR__ . "/procedures/drop_tables.sql");
+//        return $this->databaseManager->executeSingleQueryFile(__DIR__ . "/procedures/drop_tables.sql");
 
 //        return "[country list here]";
     }

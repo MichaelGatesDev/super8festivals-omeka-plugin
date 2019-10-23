@@ -5,6 +5,8 @@ $head = array(
 echo head($head);
 ?>
 
+<?php echo flash(); ?>
+
 <div>
     <a href="super-eight-festivals/countries/" class="add big green button">Countries</a>
 </div>

@@ -2,17 +2,13 @@
 
 class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractActionController
 {
-    /**
-     * @var DatabaseHelper|null
-     */
-    private $databaseHelper = null;
 
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
+    public function init()
     {
-        parent::__construct($request, $response, $invokeArgs);
-        $this->databaseHelper = new DatabaseHelper(new DatabaseManager());
+        // Set the model class so this controller can perform some functions,
+        // such as $this->findById()
+        $this->_helper->db->setDefaultModelName('SuperEightFestivalsCountry');
     }
-
 
     public function indexAction()
     {
@@ -22,7 +18,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
     public function addAction()
     {
         // Create new country
-        $country = new Super8FestivalsCountry();
+        $country = new SuperEightFestivalsCountry();
         $form = $this->_getForm();
         $this->view->form = $form;
         $this->processCountryForm($country, $form, 'add');
@@ -31,57 +27,67 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
 
     public function browseAction()
     {
-        $this->view->assign('databaseHelper', $this->databaseHelper);
         return;
     }
 
     protected function _getForm()
     {
-        $form = new Omeka_Form_Admin(array('type' => 'super8festivals_country'));
+        $form = new Omeka_Form_Admin(
+            array(
+                'type' => 'super_eight_festivals_country'
+            )
+        );
 
         $form->addElementToEditGroup(
-            'text', 'country_name',
+            'text', 'name',
             array(
-                'id' => 'super8festivals-country-name',
-                'label' => 'Country Name',
+                'id' => 'name',
+                'label' => 'Country',
                 'description' => "The name of the country (required)",
                 'required' => true
             )
         );
+
         $form->addElementToEditGroup(
-            'text', 'country_latitude',
+            'text', 'latitude',
             array(
-                'id' => 'super8festivals-country-latitude',
-                'label' => 'Country Latitude',
+                'id' => 'latitude',
+                'label' => 'Latitude',
                 'description' => "The latitudinal position of the capital or center of mass (required)",
                 'required' => true
             )
         );
 
         $form->addElementToEditGroup(
-            'text', 'country_longitude',
+            'text', 'longitude',
             array(
-                'id' => 'super8festivals-country-longitude',
-                'label' => 'Country Longitude',
+                'id' => 'longitude',
+                'label' => 'Longitude',
                 'description' => "The longitudinal position of the capital or center of mass (required)",
                 'required' => true
             )
         );
 
+        if (class_exists('Omeka_Form_Element_SessionCsrfToken')) {
+            try {
+                $form->addElement('sessionCsrfToken', 'csrf_token');
+            } catch (Zend_Form_Exception $e) {
+                echo $e;
+            }
+        }
+
         return $form;
     }
 
     /**
-     * @param $country Super8FestivalsCountry
+     * @param $country SuperEightFestivalsCountry
      * @param $form Omeka_Form
      * @param $action
      */
     private function processCountryForm($country, $form, $action)
     {
         // Set the page object to the view.
-        $this->view->super8festivalsCountry = $country;
-
-//        echo json_encode($_POST);
+        $this->view->super_eight_festivals_country = $country;
 
         if ($this->getRequest()->isPost()) {
             try {
@@ -90,7 +96,6 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                     return;
                 }
             } catch (Zend_Form_Exception $e) {
-                echo $e;
                 $this->_helper->flashMessenger($e);
             }
             try {
@@ -107,10 +112,8 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                 // Catch validation errors.
             } catch (Omeka_Validate_Exception $e) {
                 $this->_helper->flashMessenger($e);
-                echo $e;
             } catch (Omeka_Record_Exception $e) {
                 $this->_helper->flashMessenger($e);
-                echo $e;
             }
         }
     }

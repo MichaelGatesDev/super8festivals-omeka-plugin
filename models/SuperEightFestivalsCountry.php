@@ -1,10 +1,10 @@
 <?php
 
-class Super8FestivalsCountry extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsCountry extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public $name = "";
-    public $latitude = -1.00;
-    public $longitude = -1.00;
+    public $name;
+    public $latitude;
+    public $longitude;
 
 
     protected function _initializeMixins()
@@ -18,15 +18,14 @@ class Super8FestivalsCountry extends Omeka_Record_AbstractRecord implements Zend
      */
     protected function _validate()
     {
-        if (empty($this->name) || !is_string($this->name)) {
-            $this->addError('super8festivals-country-name', 'The page must be given a name.');
+        if (empty($this->name)) {
+            $this->addError('name', 'The country must be given a name.');
         }
-
-        if (!is_numeric($this->latitude)) {
-            $this->addError('super8festivals-country-latitude', 'The latitude must be a floating point value');
+        if (!is_float(floatval($this->latitude))) {
+            $this->addError('latitude', 'The latitude must be a floating point value');
         }
-        if (!is_numeric($this->longitude)) {
-            $this->addError('super8festivals-country-longitude', 'The longitude must be a floating point value');
+        if (!is_float(floatval($this->longitude))) {
+            $this->addError('longitude', 'The longitude must be a floating point value');
         }
     }
 
@@ -46,8 +45,8 @@ class Super8FestivalsCountry extends Omeka_Record_AbstractRecord implements Zend
 
     public function getRecordUrl($action = 'show')
     {
-        if ('show' == $action) {
-            return public_url($this->slug);
+        if ($action == 'show') {
+            return public_url($this->name);
         }
         return array(
             'module' => 'super-eight-festivals',
@@ -59,6 +58,6 @@ class Super8FestivalsCountry extends Omeka_Record_AbstractRecord implements Zend
 
     public function getResourceId()
     {
-        return 'Super8Festivals_Country';
+        return 'SuperEightFestivals_Country';
     }
 }

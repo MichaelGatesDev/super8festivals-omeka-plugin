@@ -8,7 +8,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
     /**
      * @var DatabaseManager|null For all operations related to the database
      */
-    private $databaseManager = null;
     private $databaseHelper = null;
 
     protected $_hooks = array(
@@ -24,7 +23,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function __construct()
     {
-        $this->databaseHelper = new DatabaseHelper($this->databaseManager);
+        $this->databaseHelper = new DatabaseHelper(new DatabaseManager());
     }
 
     public function hookInstall()

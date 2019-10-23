@@ -1,5 +1,3 @@
-use omeka;
-
 DROP TABLE IF EXISTS `%PREFIX%countries`;
 DROP TABLE IF EXISTS `%PREFIX%cities`;
 DROP TABLE IF EXISTS `%PREFIX%festivals`;

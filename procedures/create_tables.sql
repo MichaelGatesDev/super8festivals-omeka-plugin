@@ -1,5 +1,3 @@
-use omeka;
-
 CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 (
     `country_id` int(6) unsigned NOT NULL AUTO_INCREMENT, # ID of the country for internal use

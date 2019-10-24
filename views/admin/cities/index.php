@@ -17,8 +17,8 @@ echo $this->partial('__components/records/record-view.php',
         'urlAddRecord' => 'super-eight-festivals/cities/add',
         'msgAskAddRecord' => 'Add a city.',
         'viewPartial' => $this->partial('__components/records/table-view.php', array(
-            'tableHeaders' => array('Name', 'Latitude', 'Longitude'),
-            'fields' => array('name', 'latitude', 'longitude'),
+            'tableHeaders' => array('Name', 'Latitude', 'Longitude', 'Country ID'),
+            'fields' => array('name', 'latitude', 'longitude', 'country_id'),
             'records' => $records,
         )),
     ));

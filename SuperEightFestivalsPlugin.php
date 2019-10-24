@@ -31,12 +31,20 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // Create tables
         $this->databaseHelper->createTables();
 
+        // Save an example country.
+        $country = new SuperEightFestivalsCountry();
+        $country->name = "Test Country";
+        $country->latitude = -1.337;
+        $country->longitude = -1.337;
+        $country->save();
+
         // Save an example page.
-        $page = new SuperEightFestivalsCountry();
-        $page->name = "Test Country";
-        $page->latitude = -1.337;
-        $page->longitude = -1.337;
-        $page->save();
+        $city = new SuperEightFestivalsCity();
+        $city->name = "Test City";
+        $city->latitude = -1.337;
+        $city->longitude = -1.337;
+        $city->country_id = $country->id;
+        $city->save();
     }
 
     public function hookInitialize()

@@ -14,33 +14,39 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%cities`
 (
-    `city_id`    int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
+    `id`         int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
     `country_id` int(10) unsigned NOT NULL,                # ID of the country in which the city exists
     `name`       varchar(255)     NOT NULL,                # The name of the city (e.g. "Brussels")
     `latitude`   FLOAT(8, 5)      NOT NULL,                # The latitudinal position of the city
     `longitude`  FLOAT(8, 5)      NOT NULL,                # The longitudinal position of the city
-    primary key (`city_id`)
+    PRIMARY KEY (`id`),
+    KEY `name` (`name`),
+    KEY `latitude` (`latitude`),
+    KEY `longitude` (`longitude`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festivals`
 (
-    `festival_id` int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
-    `country_id`  int(10) unsigned NOT NULL,                # ID of the country in which the festival exists
-    `city_id`     int(10) unsigned NOT NULL,                # ID of the city in which the festival exists
-    `name`        varchar(255)     NOT NULL,                # The name of the city (e.g. "Brussels")
-    `date`        DATE,
-    primary key (`festival_id`)
+    `id`         int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
+    `country_id` int(10) unsigned NOT NULL,                # ID of the country in which the festival exists
+    `city_id`    int(10) unsigned NOT NULL,                # ID of the city in which the festival exists
+    `name`       varchar(255)     NOT NULL,                # The name of the city (e.g. "Brussels")
+    `date`       DATE,
+    PRIMARY KEY (`id`),
+    KEY `name` (`name`),
+    KEY `date` (`date`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%filmmakers`
 (
-    `filmmaker_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `name`         varchar(255)     NOT NULL,
-    primary key (`filmmaker_id`)
+    `id`   int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
+    `name` varchar(255)     NOT NULL,
+    primary key (`id`),
+    KEY `name` (`name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;

@@ -21,7 +21,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         $city = new SuperEightFestivalsCity();
         $form = $this->_getForm();
         $this->view->form = $form;
-        $this->processCountryForm($city, $form, 'add');
+        $this->_processForm($city, $form, 'add');
         return;
     }
 
@@ -35,6 +35,16 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         $form = new Omeka_Form_Admin(
             array(
                 'type' => 'super_eight_festivals_city'
+            )
+        );
+
+        $form->addElementToEditGroup(
+            'text', 'country_id',
+            array(
+                'id' => 'country_id',
+                'label' => 'Country ID',
+                'description' => "The ID of the country (required)",
+                'required' => true
             )
         );
 
@@ -80,11 +90,11 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
     }
 
     /**
-     * @param $city SuperEightFestivalsCountry
+     * @param $city SuperEightFestivalsCity
      * @param $form Omeka_Form
      * @param $action
      */
-    private function processCountryForm($city, $form, $action)
+    private function _processForm($city, $form, $action)
     {
         // Set the page object to the view.
         $this->view->super_eight_festivals_city = $city;

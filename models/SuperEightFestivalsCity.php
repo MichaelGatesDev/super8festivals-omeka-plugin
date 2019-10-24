@@ -19,14 +19,17 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
      */
     protected function _validate()
     {
+        if (empty($this->country_id) || !is_numeric($this->country_id)) {
+            $this->addError('country_id', 'The country that the city exists in must be specified.');
+        }
         if (empty($this->name)) {
             $this->addError('name', 'The city must be given a name.');
         }
         if (!is_float(floatval($this->latitude))) {
-            $this->addError('latitude', 'The latitude must be a floating point value');
+            $this->addError('latitude', 'The latitude must be a floating point value.');
         }
         if (!is_float(floatval($this->longitude))) {
-            $this->addError('longitude', 'The longitude must be a floating point value');
+            $this->addError('longitude', 'The longitude must be a floating point value.');
         }
     }
 

@@ -7,20 +7,9 @@ echo head($head);
 
 <?php echo flash(); ?>
 
-<div>
-    <a href="super-eight-festivals/countries/" class="add big green button">Countries</a>
-</div>
-
-<div>
-    <a href="super-eight-festivals/cities" class="add big green button">Cities</a>
-</div>
-
-<div>
-    <a href="super-eight-festivals/filmmakers" class="add big green button">Filmmakers</a>
-</div>
-
-<div>
-    <a href="super-eight-festivals/settings" class="add big green button">Settings</a>
-</div>
+<?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/countries/', 'text' => 'Countries')); ?>
+<?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/cities/', 'text' => 'Cities')); ?>
+<?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/filmmakers/', 'text' => 'Filmmakers')); ?>
+<?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/settings/', 'text' => 'Settings')); ?>
 
 <?php echo foot(); ?>

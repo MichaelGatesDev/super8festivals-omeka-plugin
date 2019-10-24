@@ -6,21 +6,23 @@ echo head($head);
 ?>
 
 
-<a class="add-page button small green" href="<?php echo html_escape(url('super-eight-festivals/countries/add')); ?>">
-    Add Country
-</a>
-<a class="add-page button small green" href="<?php echo html_escape(url('super-eight-festivals/countries/browse')); ?>">
-    Browse Countries
-</a>
+<?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/countries/add', 'text' => 'Add Country')); ?>
 
-<?php if (!get_records('SuperEightFestivalsCountry')): ?>
-    <p>
-        <?php echo 'There are no countries.'; ?>
-        <a href="<?php echo html_escape(url('super-eight-festivals/countries/add')); ?>"><?php echo __('Add a country.'); ?></a>
-    </p>
-<?php else: ?>
-    <?php echo $this->partial('countries/browse-list.php'); ?>
-<?php endif; ?>
+<?php
+$records = get_records("SuperEightFestivalsCountry");
+echo $this->partial('__components/records/record-view.php',
+    array(
+        'records' => $records,
+        'msgNoRecordsFound' => 'No countries found.',
+        'urlAddRecord' => 'super-eight-festivals/countries/add',
+        'msgAskAddRecord' => 'Add a country.',
+        'viewPartial' => $this->partial('__components/records/table-view.php', array(
+            'tableHeaders' => array('Name', 'Latitude', 'Longitude'),
+            'fields' => array('name', 'latitude', 'longitude'),
+            'records' => $records,
+        )),
+    ));
+?>
 
 
 <?php echo foot(); ?>

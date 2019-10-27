@@ -19,10 +19,19 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
     {
         // Create new city
         $city = new SuperEightFestivalsCity();
-        $form = $this->_getForm();
+        $form = $this->_getForm($city);
         $this->view->form = $form;
         $this->_processForm($city, $form, 'add');
         return;
+    }
+
+    public function editAction()
+    {
+        // Get the requested city
+        $city = $this->_helper->db->findById();
+        $form = $this->_getForm($city);
+        $this->view->form = $form;
+        $this->_processForm($city, $form, 'edit');
     }
 
     public function browseAction()
@@ -30,8 +39,12 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         return;
     }
 
-    protected function _getForm()
+    protected function _getForm($city = null)
     {
+        if ($city && $city->exists()) {
+            $formOptions['record'] = $city;
+        }
+
         $form = new Omeka_Form_Admin(
             array(
                 'type' => 'super_eight_festivals_city'
@@ -39,21 +52,13 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         );
 
         $form->addElementToEditGroup(
-            'text', 'country_id',
+            'select', 'country_id',
             array(
                 'id' => 'country_id',
                 'label' => 'Country ID',
                 'description' => "The ID of the country (required)",
-                'required' => true
-            )
-        );
-
-        $form->addElementToEditGroup(
-            'text', 'name',
-            array(
-                'id' => 'name',
-                'label' => 'Country',
-                'description' => "The name of the city (required)",
+                'multiOptions' => get_parent_country_options($city),
+                'value' => $city->country_id,
                 'required' => true
             )
         );
@@ -64,6 +69,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 'id' => 'latitude',
                 'label' => 'Latitude',
                 'description' => "The latitudinal position of the capital or center of mass (required)",
+                'value' => $city->latitude,
                 'required' => true
             )
         );
@@ -74,6 +80,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 'id' => 'longitude',
                 'label' => 'Longitude',
                 'description' => "The longitudinal position of the capital or center of mass (required)",
+                'value' => $city->longitude,
                 'required' => true
             )
         );

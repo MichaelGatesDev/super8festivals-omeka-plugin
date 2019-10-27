@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/DatabaseManager.php';
 require_once dirname(__FILE__) . '/DatabaseHelper.php';
+require_once dirname(__FILE__) . '/helpers/SuperEightFestivalsFunctions.php';
 
 class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 {

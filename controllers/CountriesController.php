@@ -12,6 +12,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
 
     public function indexAction()
     {
+        $this->_helper->redirector('browse');
         return;
     }
 

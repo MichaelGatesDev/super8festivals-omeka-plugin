@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => html_escape('Super 8 Festivals | Add Country'),
+    'title' => __('Super 8 Festivals | Edit "%s"', metadata('super_eight_festivals_country', 'name'))
 );
 echo head($head);
 ?>

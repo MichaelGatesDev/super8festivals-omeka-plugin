@@ -22,34 +22,31 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         $form = $this->_getForm($city);
         $this->view->form = $form;
         $this->_processForm($city, $form, 'add');
-        return;
     }
 
     public function editAction()
     {
-        // Get the requested city
         $city = $this->_helper->db->findById();
         $form = $this->_getForm($city);
         $this->view->form = $form;
         $this->_processForm($city, $form, 'edit');
     }
 
-    public function browseAction()
-    {
-        return;
-    }
-
+    /**
+     * @param SuperEightFestivalsCity|null $city
+     * @return Omeka_Form_Admin
+     */
     protected function _getForm($city = null)
     {
+        $formOptions = array(
+            'type' => 'super_eight_festivals_city'
+        );
+
         if ($city && $city->exists()) {
             $formOptions['record'] = $city;
         }
 
-        $form = new Omeka_Form_Admin(
-            array(
-                'type' => 'super_eight_festivals_city'
-            )
-        );
+        $form = new Omeka_Form_Admin($formOptions);
 
         $form->addElementToEditGroup(
             'select', 'country_id',

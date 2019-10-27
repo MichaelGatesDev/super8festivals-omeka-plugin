@@ -1,4 +1,9 @@
 DROP TABLE IF EXISTS `%PREFIX%countries`;
 DROP TABLE IF EXISTS `%PREFIX%cities`;
 DROP TABLE IF EXISTS `%PREFIX%festivals`;
+
 DROP TABLE IF EXISTS `%PREFIX%filmmakers`;
+
+DROP TABLE IF EXISTS `%PREFIX%contributors`;
+DROP TABLE IF EXISTS `%PREFIX%contribution_types`;
+DROP TABLE IF EXISTS `%PREFIX%contributions`;

@@ -42,10 +42,6 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
             'type' => 'super_eight_festivals_country'
         );
 
-        if ($country != null && $country->exists()) {
-//            $formOptions['record'] = $country;
-        }
-
         $form = new Omeka_Form_Admin($formOptions);
 
         $form->addElementToEditGroup(

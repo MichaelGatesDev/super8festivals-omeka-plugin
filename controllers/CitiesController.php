@@ -42,10 +42,6 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
             'type' => 'super_eight_festivals_city'
         );
 
-        if ($city && $city->exists()) {
-            $formOptions['record'] = $city;
-        }
-
         $form = new Omeka_Form_Admin($formOptions);
 
         $form->addElementToEditGroup(

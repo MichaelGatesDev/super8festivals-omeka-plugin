@@ -14,9 +14,9 @@ echo head(array(
 <?php echo $this->partial('__components/tables/editable-record-table.php', array(
     'recordsVar' => 'super_eight_festivals_city',
     'recordType' => 'SuperEightFestivalsCity',
-    'headers' => array('Name', 'Latitude', 'Longitude', 'Parent Country'),
+    'headers' => array('Name', 'Latitude', 'Longitude', 'Parent Country ID', 'Internal ID'),
     'titleVar' => 'name',
-    'metaKeys' => array('latitude', 'longitude', 'country_id'),
+    'metaKeys' => array('latitude', 'longitude', 'country_id', 'id'),
 )); ?>
 
 <?php echo foot(); ?>

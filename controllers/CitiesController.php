@@ -12,6 +12,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
     public function indexAction()
     {
+        $this->_helper->redirector('browse');
         return;
     }
 
@@ -52,6 +53,17 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 'description' => "The ID of the country (required)",
                 'multiOptions' => get_parent_country_options($city),
                 'value' => $city->country_id,
+                'required' => true
+            )
+        );
+
+        $form->addElementToEditGroup(
+            'text', 'name',
+            array(
+                'id' => 'name',
+                'label' => 'City Name',
+                'description' => "The name of the city (required)",
+                'value' => $city->name,
                 'required' => true
             )
         );

@@ -1,7 +1,5 @@
 <?php
 if ($headers == null) $headers = array();
-
-
 set_loop_records($recordsVar, get_records($recordType));
 ?>
 
@@ -19,19 +17,21 @@ set_loop_records($recordsVar, get_records($recordType));
         <tr>
             <td>
                 <span class="title">
-                    <a href="<?php echo html_escape(record_url($recordsVar)); ?>">
+                    <a href="<?php echo record_url($recordsVar); ?>">
                         <?php echo metadata($recordsVar, $titleVar); ?>
                     </a>
                 </span>
                 <ul class="action-links group">
+                    <!-- Edit Item-->
                     <li>
                         <a href="<?php echo "edit/id/$record->id"; ?>">
-                            <?php echo 'edit'; ?>
+                            Edit
                         </a>
                     </li>
+                    <!-- Delete Item-->
                     <li>
-                        <a href="<?php echo "delete/id/$record->id"; ?>">
-                            <?php echo 'delete'; ?>
+                        <a href="<?php echo "delete-confirm/id/$record->id"; ?>">
+                            Delete
                         </a>
                     </li>
                 </ul>

@@ -1,28 +1,22 @@
 <?php
-$head = array(
+echo head(array(
     'title' => html_escape(__('Super 8 Festivals | Cities')),
-);
-echo head($head);
+));
 ?>
 
+<!--Omeka 'flash' message partial -->
+<?php echo flash(); ?>
 
+<!-- 'Add City' Button -->
 <?php echo $this->partial('__components/button.php', array('url' => 'add', 'text' => 'Add City')); ?>
 
-<?php
-$records = get_records("SuperEightFestivalsCity");
-echo $this->partial('__components/records/record-view.php',
-    array(
-        'records' => $records,
-        'msgNoRecordsFound' => 'No cities found.',
-        'urlAddRecord' => 'add',
-        'msgAskAddRecord' => 'Add a city.',
-        'viewPartial' => $this->partial('__components/records/table-view.php', array(
-            'tableHeaders' => array('Name', 'Latitude', 'Longitude', 'Country ID'),
-            'fields' => array('name', 'latitude', 'longitude', 'country_id'),
-            'records' => $records,
-        )),
-    ));
-?>
-
+<!-- Table of countries (editable) -->
+<?php echo $this->partial('__components/tables/editable-record-table.php', array(
+    'recordsVar' => 'super_eight_festivals_city',
+    'recordType' => 'SuperEightFestivalsCity',
+    'headers' => array('Name', 'Latitude', 'Longitude', 'Parent Country'),
+    'titleVar' => 'name',
+    'metaKeys' => array('latitude', 'longitude', 'country_id'),
+)); ?>
 
 <?php echo foot(); ?>

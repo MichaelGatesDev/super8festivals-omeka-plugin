@@ -89,6 +89,17 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             'label' => 'Submit',
             'uri' => url('/submit')
         );
+
+        // simple pages
+        $pages = get_db()->getTable('SimplePagesPage')->findAll();
+        foreach ($pages as $page) {
+            if (!$page->is_published) continue; // don't show hidden pages
+            $nav[] = array(
+                'label' => $page->title,
+                'uri' => url($page->slug)
+            );
+        }
+
         return $nav;
     }
 

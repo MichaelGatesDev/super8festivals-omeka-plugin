@@ -1,11 +1,9 @@
 CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 (
-    `id`           int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the country for internal use
-    `name`         varchar(255)     NOT NULL,                # The name of the country (e.g. "Germany")
-    `coords_north` FLOAT(8, 5)      NOT NULL,
-    `coords_east`  FLOAT(8, 5)      NOT NULL,
-    `coords_south` FLOAT(8, 5)      NOT NULL,
-    `coords_west`  FLOAT(8, 5)      NOT NULL,
+    `id`        int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the country for internal use
+    `name`      varchar(255)     NOT NULL,                # The name of the country (e.g. "Germany")
+    `latitude`  FLOAT(8, 5)      NOT NULL,                # The latitudinal position of the country
+    `longitude` FLOAT(8, 5)      NOT NULL,                # The longitudinal position of the country
     PRIMARY KEY (`id`),
     KEY `name` (`name`)
 ) ENGINE = InnoDB
@@ -14,13 +12,11 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%cities`
 (
-    `id`           int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
-    `country_id`   int(10) unsigned NOT NULL,                # ID of the country in which the city exists
-    `name`         varchar(255)     NOT NULL,                # The name of the city (e.g. "Brussels")
-    `coords_north` FLOAT(8, 5)      NOT NULL,
-    `coords_east`  FLOAT(8, 5)      NOT NULL,
-    `coords_south` FLOAT(8, 5)      NOT NULL,
-    `coords_west`  FLOAT(8, 5)      NOT NULL,
+    `id`         int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the city for internal use
+    `country_id` int(10) unsigned NOT NULL,                # ID of the country in which the city exists
+    `name`       varchar(255)     NOT NULL,                # The name of the city (e.g. "Brussels")
+    `latitude`   FLOAT(8, 5)      NOT NULL,                # The latitudinal position of the city
+    `longitude`  FLOAT(8, 5)      NOT NULL,                # The longitudinal position of the city
     PRIMARY KEY (`id`),
     KEY `name` (`name`)
 ) ENGINE = InnoDB

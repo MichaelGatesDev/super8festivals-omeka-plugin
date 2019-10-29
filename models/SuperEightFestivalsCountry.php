@@ -3,10 +3,8 @@
 class SuperEightFestivalsCountry extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     public $name;
-    public $coords_north;
-    public $coords_east;
-    public $coords_south;
-    public $coords_west;
+    public $latitude;
+    public $longitude;
 
 
     protected function _initializeMixins()
@@ -23,17 +21,11 @@ class SuperEightFestivalsCountry extends Omeka_Record_AbstractRecord implements 
         if (empty($this->name)) {
             $this->addError('name', 'The country must be given a name.');
         }
-        if (!is_float(floatval($this->coords_north))) {
-            $this->addError('coords_north', 'The coordinate must be a floating point value');
+        if (!is_float(floatval($this->latitude))) {
+            $this->addError('latitude', 'The latitude must be a floating point value');
         }
-        if (!is_float(floatval($this->coords_east))) {
-            $this->addError('coords_east', 'The coordinate must be a floating point value');
-        }
-        if (!is_float(floatval($this->coords_south))) {
-            $this->addError('coords_south', 'The coordinate must be a floating point value');
-        }
-        if (!is_float(floatval($this->coords_west))) {
-            $this->addError('coords_west', 'The coordinate must be a floating point value');
+        if (!is_float(floatval($this->longitude))) {
+            $this->addError('longitude', 'The longitude must be a floating point value');
         }
     }
 

@@ -162,6 +162,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                     array(
                         'module' => 'super-eight-festivals',
                         'controller' => 'country',
+                        'id' => $country->id,
                     )
                 )
             );

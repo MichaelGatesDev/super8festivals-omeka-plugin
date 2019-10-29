@@ -10,4 +10,7 @@ echo head($head);
 
 <p>This is the country controller</p>
 
+
+<?php echo json_encode($country); ?>
+
 <?php echo foot(); ?>

@@ -18,6 +18,12 @@ echo head($head);
     </div>
 
     <div class="row">
+        <div class="col text-center">
+            <p>Please do not hesitate to reach out to us at any time! We would love to hear from you.</p>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col">
             <div class="well well-sm">
                 <form>

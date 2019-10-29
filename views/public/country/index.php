@@ -8,9 +8,19 @@ echo head($head);
 <?php echo flash(); ?>
 
 
-<p>This is the country controller</p>
+<!--The name of the country-->
+<h2 class="country-name"><?= $country->name; ?></h2>
+
+<!-- mini-map to show the country in relation to other countries-->
+<div class="country-map" id="country-map">
+</div>
 
 
-<?php echo json_encode($country); ?>
+<!--Display a list of festivals-->
+<h3>Festivals:</h3>
+<ul>
+    <li>Example Festival Here</li>
+</ul>
+
 
 <?php echo foot(); ?>

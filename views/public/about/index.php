@@ -7,8 +7,14 @@ echo head($head);
 
 <?php echo flash(); ?>
 
+<section>
 
-<p>This is the about page</p>
+    <div class="intro">
+        <h2>About the Author</h2>
+        <p>Author's Name</p>
+    </div>
 
+
+</section>
 
 <?php echo foot(); ?>

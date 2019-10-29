@@ -1,14 +1,12 @@
 <?php
 $head = array(
-    'title' => html_escape(__('Super 8 Festivals | About')),
+    'title' => "Countries",
 );
 echo head($head);
 ?>
 
 <?php echo flash(); ?>
 
-
-We should show a list of the countries here.
 
 
 <?php

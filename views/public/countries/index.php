@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => html_escape(__('Super 8 Festivals | ????')),
+    'title' => "Countries",
 );
 echo head($head);
 ?>

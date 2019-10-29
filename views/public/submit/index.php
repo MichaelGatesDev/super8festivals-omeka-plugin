@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => html_escape(__('Super 8 Festivals | Submit')),
+    'title' => "Submit",
 );
 echo head($head);
 ?>

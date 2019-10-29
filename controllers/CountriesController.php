@@ -57,23 +57,45 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
         );
 
         $form->addElementToEditGroup(
-            'text', 'latitude',
+            'text', 'coordinate_north',
             array(
-                'id' => 'latitude',
-                'label' => 'Latitude',
-                'description' => "The latitudinal position of the capital or center of mass (required)",
-                'value' => $country->latitude,
+                'id' => 'coordinate_north',
+                'label' => 'Coordinate (North)',
+                'description' => "The northern geographical coordinate",
+                'value' => $country->coordinate_north,
                 'required' => true
             )
         );
 
         $form->addElementToEditGroup(
-            'text', 'longitude',
+            'text', 'coordinate_east',
             array(
-                'id' => 'longitude',
-                'label' => 'Longitude',
-                'description' => "The longitudinal position of the capital or center of mass (required)",
-                'value' => $country->longitude,
+                'id' => 'coordinate_east',
+                'label' => 'Coordinate (North)',
+                'description' => "The eastern geographical coordinate",
+                'value' => $country->coordinate_east,
+                'required' => true
+            )
+        );
+
+        $form->addElementToEditGroup(
+            'text', 'coordinate_north',
+            array(
+                'id' => 'coordinate_north',
+                'label' => 'Coordinate (North)',
+                'description' => "The western geographical coordinate",
+                'value' => $country->coordinate_north,
+                'required' => true
+            )
+        );
+
+        $form->addElementToEditGroup(
+            'text', 'coordinate_west',
+            array(
+                'id' => 'coordinate_west',
+                'label' => 'Coordinate (North)',
+                'description' => "The southern geographical coordinate",
+                'value' => $country->coordinate_west,
                 'required' => true
             )
         );

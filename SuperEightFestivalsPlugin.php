@@ -35,15 +35,19 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // Save an example country.
         $country = new SuperEightFestivalsCountry();
         $country->name = "Test Country";
-        $country->latitude = -1.337;
-        $country->longitude = -1.337;
+        $country->coords_north = 0;
+        $country->coords_east = 0;
+        $country->coords_south = 0;
+        $country->coords_west = 0;
         $country->save();
 
         // Save an example page.
         $city = new SuperEightFestivalsCity();
         $city->name = "Test City";
-        $city->latitude = -1.337;
-        $city->longitude = -1.337;
+        $city->coords_north = 0;
+        $city->coords_east = 0;
+        $city->coords_south = 0;
+        $city->coords_west = 0;
         $city->country_id = $country->id;
         $city->save();
     }

@@ -139,6 +139,35 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 )
             )
         );
+
+        // countries [list] route
+        $router->addRoute(
+            'countries',
+            new Zend_Controller_Router_Route(
+                "countries",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => 'countries-list',
+                )
+            )
+        );
+
+        // country routes
+        $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
+        foreach ($countries as $country) {
+            $router->addRoute(
+                'super_eight_festivals_country_' . $country->id,
+                new Zend_Controller_Router_Route(
+                    "countries/" . str_replace(" ", "-", strtolower($country->name)),
+                    array(
+                        'module' => 'super-eight-festivals',
+                        'controller' => 'country',
+                    )
+                )
+            );
+        }
+
+
     }
 
     function filterPublicNavigationItems($navArray)

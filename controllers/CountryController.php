@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivals_AboutController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_CountryController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {

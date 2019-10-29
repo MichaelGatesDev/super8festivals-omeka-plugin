@@ -15,9 +15,12 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         'install', // when the plugin is installed
         'uninstall', // when the plugin is uninstalled
         'initialize', // when the plugin starts up
+        'define_routes', // to add our custom routes
     );
     protected $_filters = array(
         'admin_navigation_main', // admin sidebar
+        'public_navigation_main', // main navbar
+        'public_navigation_items', // main navbar items
     );
     protected $_options = array();
 
@@ -66,13 +69,72 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         );
         return $nav;
     }
-}
 
-function console_log($output, $with_script_tags = true)
-{
-    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';
-    if ($with_script_tags) {
-        $js_code = '<script>' . $js_code . '</script>';
+    public function filterPublicNavigationMain($nav)
+    {
+        $nav = array();
+        $nav[] = array(
+            'label' => 'Home',
+            'uri' => url('/')
+        );
+        $nav[] = array(
+            'label' => 'About',
+            'uri' => url('/about')
+        );
+        $nav[] = array(
+            'label' => 'Contact',
+            'uri' => url('/contact')
+        );
+        $nav[] = array(
+            'label' => 'Submit',
+            'uri' => url('/submit')
+        );
+        return $nav;
     }
-    echo $js_code;
+
+    function hookDefineRoutes($args)
+    {
+        // Don't add these routes on the admin side to avoid conflicts.
+        if (is_admin_theme()) return;
+
+        $router = $args['router'];
+        $router->addRoute(
+            'about',
+            new Zend_Controller_Router_Route(
+                "about",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => 'about',
+                )
+            )
+        );
+        $router->addRoute(
+            'contact',
+            new Zend_Controller_Router_Route(
+                "contact",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => 'contact',
+                )
+            )
+        );
+        $router->addRoute(
+            'submit',
+            new Zend_Controller_Router_Route(
+                "submit",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => 'submit',
+                )
+            )
+        );
+    }
+
+    function filterPublicNavigationItems($navArray)
+    {
+//        $navArray[] = array('label' => __('My Plugin Items'),
+//            'uri' => url('myplugin/items')
+//        );
+        return $navArray;
+    }
 }

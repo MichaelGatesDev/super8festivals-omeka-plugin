@@ -1,9 +1,9 @@
 <?php
-$head = array(
-    'title' => html_escape(__('Super 8 Festivals | Add City')),
-);
-echo head($head);
+echo head(array(
+    'title' => 'Add City',
+));
 ?>
+
 
 <?php echo flash(); ?>
 

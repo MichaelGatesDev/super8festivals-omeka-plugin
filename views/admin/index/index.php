@@ -1,8 +1,7 @@
 <?php
-$head = array(
-    'title' => html_escape(__('Super 8 Festivals | Control Panel')),
-);
-echo head($head);
+echo head(array(
+    'title' => 'Admin Panel',
+));
 ?>
 
 <?php echo flash(); ?>

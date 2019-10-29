@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => html_escape(__('Super 8 Festivals | Countries')),
+    'title' => 'Browse Countries',
 ));
 ?>
 

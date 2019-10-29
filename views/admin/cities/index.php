@@ -1,8 +1,9 @@
 <?php
 echo head(array(
-    'title' => html_escape(__('Super 8 Festivals | Cities')),
+    'title' => 'Cities',
 ));
 ?>
+
 
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>

@@ -1,8 +1,7 @@
 <?php
-$head = array(
-    'title' => html_escape('Super 8 Festivals | Add Country'),
-);
-echo head($head);
+echo head(array(
+    'title' => 'Add Country',
+));
 ?>
 
 <?php echo flash(); ?>

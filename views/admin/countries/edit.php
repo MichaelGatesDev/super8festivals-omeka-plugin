@@ -1,8 +1,7 @@
 <?php
-$head = array(
-    'title' => __('Super 8 Festivals | Edit "%s"', metadata('super_eight_festivals_country', 'name'))
-);
-echo head($head);
+echo head(array(
+    'title' => 'Edit Country: ' . metadata('super_eight_festivals_country', 'name'),
+));
 ?>
 
 <?php echo flash(); ?>

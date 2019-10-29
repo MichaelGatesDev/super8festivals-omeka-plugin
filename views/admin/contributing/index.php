@@ -1,9 +1,9 @@
 <?php
-$head = array(
+echo head(array(
     'title' => 'Contributing',
-);
-echo head($head);
+));
 ?>
+
 
 <?php echo flash(); ?>
 

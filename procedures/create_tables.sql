@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
     `id`                INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contributor FOR internal USE
     `first_name`        VARCHAR(255),
     `last_name`         VARCHAR(255),
-    `organization_name` INT(10) UNSIGNED,                         # ID OF the contribution FOR internal USE
+    `organization_name` INT(10) UNSIGNED,
+    `email`             VARCHAR(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8

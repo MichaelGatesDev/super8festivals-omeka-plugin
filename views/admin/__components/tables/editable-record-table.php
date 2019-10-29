@@ -1,6 +1,6 @@
 <?php
 if ($headers == null) $headers = array();
-set_loop_records($recordsVar, get_records($recordType));
+set_loop_records($recordsVar, get_records($recordType, array(), -1));
 ?>
 
 

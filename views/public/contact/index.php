@@ -11,7 +11,7 @@ echo head($head);
 <!--Section: Contact v.2-->
 <section class="container">
 
-    <div class="row" style="margin-top: 50px;">
+    <div class="row">
         <div class="col text-center">
             <h2>Contact Us</h2>
         </div>

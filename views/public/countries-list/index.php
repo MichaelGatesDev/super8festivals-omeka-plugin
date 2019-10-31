@@ -11,6 +11,7 @@ echo head($head);
 
 <?php
 $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
+sort($countries);
 ?>
 
 <ul class="countries-list">

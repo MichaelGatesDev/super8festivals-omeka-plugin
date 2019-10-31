@@ -14,6 +14,7 @@ $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
 sort($countries);
 ?>
 
+<h3>Festival Countries:</h3>
 <ul class="countries-list">
     <?php foreach ($countries as $country): ?>
         <li>

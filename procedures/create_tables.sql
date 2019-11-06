@@ -73,15 +73,23 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%contribution_types`
   COLLATE = utf8_unicode_ci;
 
 INSERT INTO `%PREFIX%contribution_types` (`name`)
-VALUES ('films');
+VALUES ('film');
+INSERT INTO `%PREFIX%contribution_types` (`name`)
+VALUES ('film catalog');
 INSERT INTO `%PREFIX%contribution_types` (`name`)
 VALUES ('memorabilia');
 INSERT INTO `%PREFIX%contribution_types` (`name`)
-VALUES ('newspaper');
-INSERT INTO `%PREFIX%contribution_types` (`name`)
-VALUES ('magazine');
+VALUES ('newspaper/magazine');
 INSERT INTO `%PREFIX%contribution_types` (`name`)
 VALUES ('poster');
+INSERT INTO `%PREFIX%contribution_types` (`name`)
+VALUES ('photo');
+INSERT INTO `%PREFIX%contribution_types` (`name`)
+VALUES ('other');
+
+# Film catalogs
+# Photos
+# Other
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%contributions`
 (

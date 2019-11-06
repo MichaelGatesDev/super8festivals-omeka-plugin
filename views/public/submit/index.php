@@ -15,7 +15,7 @@ $files = 1; //TODO implement 'add/remove' button to allow for multiple files AND
 <!--Section: Contact v.2-->
 <section class="container">
 
-    <div class="row" style="margin-top: 50px;">
+    <div class="row">
         <div class="col text-center">
             <h2>Submit</h2>
         </div>

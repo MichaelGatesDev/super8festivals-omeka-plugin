@@ -9,8 +9,20 @@ echo head($head);
 
 <section class="container">
 
+    <div class="row">
+        <div class="col text-center">
+            <h2>About</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col text-center">
+            <p>Read about the book and the author below.</p>
+        </div>
+    </div>
+
     <hr/>
-    <div class="row" style="padding: 1em 0;">
+    <div class="row">
         <div class="col horizontal-align">
             <h2>The Book</h2>
         </div>

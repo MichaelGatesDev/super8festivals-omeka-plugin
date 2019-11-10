@@ -27,14 +27,33 @@ $files = 1; //TODO implement 'add/remove' button to allow for multiple files AND
         $name = $_POST['name'];
         $email = $_POST['email'];
         $materialType = $_POST['materialType'];
+        $optionalMessage = $_POST['optionalMessage'];
+//        mail($email, "Super8Festivals - Thank you for your submission!", $name . ", thank you for your submission! We have received it and will contact you soon.");
         ?>
 
         <p>
             <?= $name; ?>,<br/>
-            Thank you for your submission of <?= $materialType; ?>! <br/>
+            Thank you for your submission! <br/>
             We will email you at <a href="mailto:<?= $email; ?>"><?= $email; ?></a> as soon as we can.
         </p>
 
+        <hr/>
+
+        <div class="row">
+            <div class="col">
+                <p>Name: <?= $name ?></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Material Type: <?= $materialType ?></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>Message: <?= $optionalMessage ?></p>
+            </div>
+        </div>
 
     <?php else: ?>
 
@@ -74,7 +93,7 @@ $files = 1; //TODO implement 'add/remove' button to allow for multiple files AND
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="message">Optional Message</label>
-                                <textarea name="message" id="message" class="form-control" rows="9" cols="25" placeholder="Message"></textarea>
+                                <textarea name="optionalMessage" id="message" class="form-control" rows="9" cols="25" placeholder="Message"></textarea>
                             </div>
                         </div>
                     </div>

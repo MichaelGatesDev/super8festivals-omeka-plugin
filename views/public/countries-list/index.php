@@ -15,16 +15,27 @@ sort($countries);
 ?>
 
 <section class="container" id="countries-list">
-    <h3>Festival Countries:</h3>
-    <ul class="countries-list">
-        <?php foreach ($countries as $country): ?>
-            <li>
-                <a href="<?= $this->url('countries/' . str_replace(" ", "-", strtolower($country->name))); ?>">
-                    <?php echo $country->name ?>
-                </a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
+    <div class="row">
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            Images can go here
+        </div>
+        <div class="col-6">
+            <h2>Festival Countries:</h2>
+            <ul class="countries-list">
+                <?php foreach ($countries as $country): ?>
+                    <li>
+                        <a href="<?= $this->url('countries/' . str_replace(" ", "-", strtolower($country->name))); ?>">
+                            <?php echo $country->name ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
 </section>
 
 <?php echo foot(); ?>

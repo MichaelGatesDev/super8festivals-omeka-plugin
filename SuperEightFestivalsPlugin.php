@@ -140,6 +140,31 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             )
         );
 
+
+        // federation route
+        $router->addRoute(
+            'federation',
+            new Zend_Controller_Router_Route(
+                "federation",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => 'federation',
+                )
+            )
+        );
+
+        // filmmakers route
+        $router->addRoute(
+            'filmmakers',
+            new Zend_Controller_Router_Route(
+                "filmmakers",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => 'filmmakers',
+                )
+            )
+        );
+
         // countries [list] route
         $router->addRoute(
             'countries',

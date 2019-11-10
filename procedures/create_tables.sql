@@ -29,10 +29,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festivals`
     `country_id` int(10) unsigned NOT NULL,
     `city_id`    int(10) unsigned NOT NULL,
     `name`       varchar(255)     NOT NULL,
-    `date`       DATE,
+    `year`       int(4),
     PRIMARY KEY (`id`),
     KEY `name` (`name`),
-    KEY `date` (`date`)
+    KEY `date` (`year`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;

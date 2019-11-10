@@ -53,6 +53,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize()
     {
+        // Create missing tables
+        $this->databaseHelper->createTables();
     }
 
     function hookUninstall()

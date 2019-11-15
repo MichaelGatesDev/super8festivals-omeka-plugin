@@ -19,7 +19,7 @@ echo head($head);
 
     <div class="row">
 
-        <div class="col-12 order-2 col-lg-2 order-1">
+        <div class="col-6 order-2 col-lg-2 order-1">
             <div class="row button-row">
                 <div class="col">
                     <div class="button">
@@ -57,7 +57,7 @@ echo head($head);
             </div>
         </div>
 
-        <div class="col-12 order-3 col-lg-2 order-lg-3">
+        <div class="col-6 order-3 col-lg-2 order-lg-3">
             <div class="row button-row">
                 <div class="col">
                     <div class="button">

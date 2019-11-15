@@ -1,6 +1,7 @@
 :root {
     --button-padding: 1.75em;
-    --banner-height: 300px;
+    --button-spacing: 1.25em;
+    --banner-height: 250px;
 }
 
 section.container-fluid {
@@ -18,8 +19,7 @@ h2 {
 }
 
 .row.button-row {
-    /*margin: 1em 0;*/
-    margin-bottom: 1.75em;
+    margin-bottom: var(--button-spacing);
 }
 
 .button, .banner {
@@ -32,13 +32,16 @@ h2 {
 }
 
 .button {
-    padding: var(--button-padding) 0;
+}
+
+.button a {
+    padding: var(--button-padding);
 }
 
 .banner {
     min-height: var(--banner-height);
     margin-bottom: 1em;
-    height: calc(100% - var(--button-padding));
+    height: calc(100% - var(--button-spacing));
 }
 
 .banner a, .button a {

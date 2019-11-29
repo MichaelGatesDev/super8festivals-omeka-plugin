@@ -7,7 +7,7 @@ echo head($head);
 
 <?php echo flash(); ?>
 
-<section class="container">
+<section class="container-fluid">
     <div class="row">
         <div class="col">
             <h2>Federation</h2>

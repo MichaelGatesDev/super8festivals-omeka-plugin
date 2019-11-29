@@ -9,7 +9,7 @@ echo head($head);
 
 
 <!--Section: Contact v.2-->
-<section class="container">
+<section class="container-fluid">
 
     <div class="row">
         <div class="col text-center">

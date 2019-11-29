@@ -14,7 +14,7 @@ $placeholderImage = img('placeholder.svg', 'images');
 
 <section class="container-fluid">
 
-    <section class="vh-100 d-flex flex-column w-100 justify-content-center">
+    <section class="d-flex flex-column w-100 justify-content-center">
         <!--The name of the country-->
         <div class="row">
             <div class="col">

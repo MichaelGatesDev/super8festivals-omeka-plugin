@@ -30,3 +30,13 @@ function get_parent_country_id($cityID)
     $city = get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
     return $city->country_id;
 }
+
+function get_city_by_id($cityID)
+{
+    return get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
+}
+
+function get_country_by_id($countryID)
+{
+    return get_db()->getTable('SuperEightFestivalsCountry')->find($countryID);
+}

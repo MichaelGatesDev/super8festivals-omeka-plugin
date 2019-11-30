@@ -9,10 +9,82 @@ echo head($head);
 
 
 <?php
-$name = (isset($_POST['name']) && !empty($_POST['name'])) ? $_POST['name'] : null;
-$email = (isset($_POST['email']) && !empty($_POST['email'])) ? $_POST['email'] : null;
-$subject = (isset($_POST['subject']) && !empty($_POST['subject'])) ? $_POST['subject'] : null;
-$message = (isset($_POST['message']) && !empty($_POST['message'])) ? $_POST['message'] : null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    function died($error)
+    {
+        // your error code can go here
+        echo "We are very sorry, but there were error(s) found with the form you submitted. ";
+        echo "These errors appear below.<br /><br />";
+        echo $error . "<br /><br />";
+        echo "Please go back and fix these errors.<br /><br />";
+        die();
+    }
+
+    // validation expected data exists
+    if (
+        !isset($_POST['name']) ||
+        !isset($_POST['email']) ||
+        !isset($_POST['subject']) ||
+        !isset($_POST['message'])
+    ) {
+        died('We are sorry, but there appears to be a problem with the form you submitted.');
+    }
+
+    $name = $_POST['name']; // required
+    $email = $_POST['email']; // required
+    $subject = $_POST['subject']; // required
+    $message = $_POST['message']; // required
+
+//    $error_message = "";
+//
+//    // name
+//    $string_exp = "/^[A-Za-z .'-]+$/";
+//    if (!preg_match($string_exp, $name)) {
+//        $error_message .= 'The name you entered does not appear to be valid.<br />';
+//    }
+//
+//    // email
+//    $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
+//    if (!preg_match($email_exp, $email)) {
+//        $error_message .= 'The email address you entered does not appear to be valid.<br />';
+//    }
+//
+//    // subject
+//    if (strlen($subject) <= 0) {
+//        $error_message .= 'The subject you entered appears to be empty.<br />';
+//    }
+//
+//    // message
+//    if (strlen($message) <= 0) {
+//        $error_message .= 'The message you entered appears to be empty.<br />';
+//    }
+//
+//    // handle errors
+//    if (strlen($error_message) > 0) {
+//        died($error_message);
+//    }
+//
+//    $config = array(
+//        'ssl' => 'tls',
+//        'port' => 587,
+//        'auth' => 'login',
+//        'username' => 'our.email@gmail.com',
+//        'password' => 'password123'
+//    );
+//    $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
+//    $mail = new Zend_Mail();
+//    try {
+//        $mail
+//            ->setFrom($email, $name)
+//            ->setSubject($subject)
+//            ->addTo('our.email@gmail.com')
+//            ->setBodyText($message)
+//            ->send($transport);
+//    } catch (Zend_Mail_Exception $e) {
+//        died($e);
+//    }
+}
 ?>
 
 <!--Section: Contact v.2-->

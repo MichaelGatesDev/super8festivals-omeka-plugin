@@ -8,8 +8,26 @@ echo head($head);
 <?php echo flash(); ?>
 
 
+<?php
+$name = (isset($_POST['name']) && !empty($_POST['name'])) ? $_POST['name'] : null;
+$email = (isset($_POST['email']) && !empty($_POST['email'])) ? $_POST['email'] : null;
+$subject = (isset($_POST['subject']) && !empty($_POST['subject'])) ? $_POST['subject'] : null;
+$message = (isset($_POST['message']) && !empty($_POST['message'])) ? $_POST['message'] : null;
+?>
+
 <!--Section: Contact v.2-->
 <section class="container">
+
+    <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
+        <div class="row">
+            <div class="col text-center">
+                <div class="alert alert-primary" role="alert">
+                    Thank you for your email, <?= $name; ?>!<br/>
+                    We will email you back at <a href="mailto:<?= $email; ?>" class="alert-link"><?= $email; ?></a> as soon as we can.
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <div class="row">
         <div class="col text-center">
@@ -27,31 +45,30 @@ echo head($head);
     <div class="row">
         <div class="col">
             <div class="well well-sm">
-                <form>
+                <form action="contact" method="POST">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Name (Personal/Organization)</label>
-                                <input type="text" class="form-control" id="name" placeholder="Enter name" required="required"/>
+                                <input type="text" class="form-control" id="name" placeholder="Enter name" required="required" name="name"/>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email Address</label>
                                 <div class="input-group">
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email" required="required"/>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter email" required="required" name="email"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="subject">Subject</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="email" placeholder="Enter subject" required="required"/>
+                                    <input type="text" class="form-control" id="subject" placeholder="Enter subject" required="required" name="subject"/>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="name">
-                                    Message</label>
-                                <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required" placeholder="Message"></textarea>
+                                <label for="message">Message</label>
+                                <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required" placeholder="Message" name="message"></textarea>
                             </div>
                         </div>
                         <div class="col-md-12">

@@ -1,0 +1,19 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" preserveAspectRatio="none">
+    <defs>
+        <style type="text/css">
+            #bg {
+            fill: #2e2e2e;
+            }
+            #text {
+            fill: #ffffff;
+            font-weight: normal;
+            font-family:Helvetica, monospace;
+            font-size:3em;
+            }
+        </style>
+    </defs>
+    <g id="placeholder">
+        <rect id="bg" width="100%" height="100%"/>
+        <text id="text" x="10" y="110">200x200</text>
+    </g>
+</svg>

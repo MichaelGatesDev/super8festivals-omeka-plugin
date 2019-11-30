@@ -7,83 +7,48 @@ echo head($head);
 
 <?php echo flash(); ?>
 
-<section class="container-fluid">
+<section class="container">
 
     <div class="row">
-        <div class="col text-center">
+        <div class="col">
             <h2>About</h2>
         </div>
     </div>
 
     <div class="row">
-        <div class="col text-center">
-            <p>Read about the book and the author below.</p>
+        <div class="col-lg-2">
+            <img src="<?= img("placeholder-200x200.svg", "images"); ?>" class="img-fluid img-thumbnail" width="300px" height="300px" alt="Responsive image">
         </div>
-    </div>
-
-    <hr/>
-    <div class="row">
-        <div class="col horizontal-align">
-            <h2>The Book</h2>
-        </div>
-    </div>
-    <hr/>
-    <div class="row">
         <div class="col">
-            <div class="row">
-                <!--Book Image-->
-                <div class="col-3 horizontal-align">
-                    <img src="https://www.hachettebookgroup.com/wp-content/uploads/2019/05/national-bestseller-calypso.jpg" alt="" width="250" height="375">
-                </div>
-                <!--Book Info-->
-                <div class="col">
-                    <div class="row">
-                        <h3>My Cool Title</h3>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate ut pharetra sit amet aliquam id. In vitae turpis massa sed elementum tempus. Aliquet enim tortor at auctor urna. Pulvinar pellentesque
-                            habitant morbi tristique senectus et netus et. Tempus iaculis urna id volutpat lacus laoreet non curabitur. Vivamus at augue eget arcu dictum varius. Orci porta non pulvinar neque laoreet suspendisse interdum. Mattis nunc sed blandit libero volutpat sed cras. Pellentesque
-                            elit eget gravida cum sociis natoque. Tristique sollicitudin nibh sit amet commodo nulla. At auctor urna nunc id. Bibendum est ultricies integer quis auctor elit sed vulputate. Viverra ipsum nunc aliquet bibendum. Tortor pretium viverra suspendisse potenti nullam ac
-                            tortor vitae purus. Volutpat odio facilisis mauris sit. Duis ultricies lacus sed turpis tincidunt. Interdum velit laoreet id donec ultrices tincidunt. Rhoncus mattis rhoncus urna neque viverra justo.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <hr/>
-    <div class="row" style="padding: 1em 0;">
-        <div class="col horizontal-align">
-            <h2>The Author</h2>
-        </div>
-    </div>
-    <hr/>
-    <div class="row">
-        <div class="col">
-            <div class="row">
-                <!--Book Info-->
-                <div class="col">
-                    <div class="row">
-                        <h3>FirstName LastName</h3>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vulputate ut pharetra sit amet aliquam id. In vitae turpis massa sed elementum tempus. Aliquet enim tortor at auctor urna. Pulvinar pellentesque
-                            habitant morbi tristique senectus et netus et. Tempus iaculis urna id volutpat lacus laoreet non curabitur. Vivamus at augue eget arcu dictum varius. Orci porta non pulvinar neque laoreet suspendisse interdum. Mattis nunc sed blandit libero volutpat sed cras. Pellentesque
-                            elit eget gravida cum sociis natoque. Tristique sollicitudin nibh sit amet commodo nulla. At auctor urna nunc id. Bibendum est ultricies integer quis auctor elit sed vulputate. Viverra ipsum nunc aliquet bibendum. Tortor pretium viverra suspendisse potenti nullam ac
-                            tortor vitae purus. Volutpat odio facilisis mauris sit. Duis ultricies lacus sed turpis tincidunt. Interdum velit laoreet id donec ultrices tincidunt. Rhoncus mattis rhoncus urna neque viverra justo.
-                        </p>
-                    </div>
-                </div>
-                <!--Book Image-->
-                <div class="col-3 horizontal-align">
-                    <img src="http://mho6nxweoblkn351jmpbb12y.wpengine.netdna-cdn.com/wp-content/uploads/2018/09/person-placeholder.jpg" alt="" width="250" height="250">
-                </div>
-            </div>
+            <p>
+                I am a professor of Spanish and film at the State Univeristy of New York in Plattsburgh.
+                In 2008 I received a Fulbright grant to study the films of Venezuelan avant-garde filmmaker
+                Diego Rísquez. My intention was to examine Rísquez’s work from an author theory perspective.
+                A collection of newspaper clippings in Rísquez’s archive changed my mind. At this point I did
+                not even know what Super 8 was. Yet, I became eager to find out more about the young
+                filmmakers in the newspaper. They had maintained a transnational network, the International
+                Federation of Super 8 Cinema, outside of regional or national institutions.
+            </p>
+            <p>
+                Meeting these filmmakers was fascinating but took a long time. It took over ten years as
+                filmmakers lived in over twenty countries and I received little funding for my project. Most
+                funding sources were not interested in Super 8 culture. In some cases, I interviewed people at
+                airports between flights or took side trips after conferences or visiting relatives. The biggest
+                challenge, however, was not locating and meeting people, but writing about the fascinating
+                world I discovered.
+            </p>
+            <p>
+                Finding ways to write about people in the twenty countries interacting with each other
+                was challenging. For that, I wrote Small Gauge, Big Dreams, a book that focuses on Super 8 as a
+                technology that allowed the establishment of one of the first de-centralized, transnational,
+                cinematic networks.
+            </p>
+            <p>
+                My second challenge was to document my findings. Only in rare instances had local,
+                regional or national archives collect the films, photographs, and catalogs that filmmakers had
+                kept in their attics. This meant that readers could not go to their libraries or a website to view
+                the objects or documents I cite in the book. For that, I created this website.
+            </p>
         </div>
     </div>
 

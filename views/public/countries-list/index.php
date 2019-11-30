@@ -17,7 +17,7 @@ sort($countries);
 <section class="container-fluid" id="countries-list">
 
     <div class="row mb-3">
-        <div class="col">
+        <div class="col d-flex justify-content-center justify-content-lg-start ">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary active" id="gridButton">Grid View</button>
                 <button type="button" class="btn btn-secondary" id="listButton">List View</button>

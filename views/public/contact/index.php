@@ -9,7 +9,7 @@ echo head($head);
 
 
 <!--Section: Contact v.2-->
-<section class="container-fluid">
+<section class="container">
 
     <div class="row">
         <div class="col text-center">
@@ -20,6 +20,7 @@ echo head($head);
     <div class="row">
         <div class="col text-center">
             <p>Please do not hesitate to reach out to us at any time! We would love to hear from you.</p>
+            <p>If you are looking to submit content for the website, please use <a href="submit">this link</a> instead.</p>
         </div>
     </div>
 

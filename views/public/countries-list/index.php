@@ -36,6 +36,7 @@ sort($countries);
                             <h3 class="card-title"><?= $country->name; ?></h3>
                             <!--                            <p class="card-text">This is a longer card <br> with <br> supporting <br> text below <br> as a natural lead-in to additional content. This content is a little bit longer.</p>-->
                             <p class="card-text"><small class="text-muted">(0) Festivals</small></p>
+                            <a href="<?= $this->url('countries/' . str_replace(" ", "-", strtolower($country->name))); ?>" class="stretched-link"></a>
                         </div>
                     </div>
                 <?php endforeach; ?>

@@ -10,7 +10,7 @@ echo head($head);
 <section class="container">
 
     <div class="row">
-        <div class="col">
+        <div class="col text-center">
             <h2>About</h2>
         </div>
     </div>

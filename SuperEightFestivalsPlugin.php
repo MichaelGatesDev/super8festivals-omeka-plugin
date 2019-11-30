@@ -105,96 +105,43 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
+    function addRoute($router, $routeID, $route, $controller, $id = null)
+    {
+        $router->addRoute(
+            $routeID,
+            new Zend_Controller_Router_Route(
+                $route,
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $controller,
+                    'id' => $id,
+                )
+            )
+        );
+    }
+
     function hookDefineRoutes($args)
     {
         // Don't add these routes on the admin side to avoid conflicts.
         if (is_admin_theme()) return;
 
         $router = $args['router'];
-        $router->addRoute(
-            'about',
-            new Zend_Controller_Router_Route(
-                "about",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => 'about',
-                )
-            )
-        );
-        $router->addRoute(
-            'contact',
-            new Zend_Controller_Router_Route(
-                "contact",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => 'contact',
-                )
-            )
-        );
-        $router->addRoute(
-            'submit',
-            new Zend_Controller_Router_Route(
-                "submit",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => 'submit',
-                )
-            )
-        );
 
+        $this->addRoute($router, 'about', 'about', 'about');
+        $this->addRoute($router, 'contact', 'contact', 'contact');
+        $this->addRoute($router, 'submit', 'submit', 'submit');
 
-        // federation route
-        $router->addRoute(
-            'federation',
-            new Zend_Controller_Router_Route(
-                "federation",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => 'federation',
-                )
-            )
-        );
+        $this->addRoute($router, 'federation', 'federation', 'federation');
+        $this->addRoute($router, 'history', 'history', 'history');
+        $this->addRoute($router, 'filmmakers', 'filmmakers', 'filmmakers');
 
-        // filmmakers route
-        $router->addRoute(
-            'filmmakers',
-            new Zend_Controller_Router_Route(
-                "filmmakers",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => 'filmmakers',
-                )
-            )
-        );
-
-        // countries [list] route
-        $router->addRoute(
-            'countries',
-            new Zend_Controller_Router_Route(
-                "countries",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => 'countries-list',
-                )
-            )
-        );
+        $this->addRoute($router, 'countries', 'countries', 'countries-list');
 
         // country routes
         $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
         foreach ($countries as $country) {
-            $router->addRoute(
-                'super_eight_festivals_country_' . $country->id,
-                new Zend_Controller_Router_Route(
-                    "countries/" . str_replace(" ", "-", strtolower($country->name)),
-                    array(
-                        'module' => 'super-eight-festivals',
-                        'controller' => 'country',
-                        'id' => $country->id,
-                    )
-                )
-            );
+            $this->addRoute($router, 'super_eight_festivals_country_' . $country->id, "countries/" . str_replace(" ", "-", strtolower($country->name)), 'country', $country->id);
         }
-
 
     }
 

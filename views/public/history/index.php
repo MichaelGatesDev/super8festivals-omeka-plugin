@@ -16,8 +16,8 @@ echo head($head);
     </div>
 
     <div class="row">
-        <div class="col-lg-2">
-            <img src="<?= img("placeholder-200x200.svg", "images"); ?>" class="img-fluid img-thumbnail" width="300px" height="300px" alt="Responsive image">
+        <div class="col-lg-3 pb-3 text-center">
+            <img src="<?= img("placeholder-200x200.svg", "images"); ?>" class="img-fluid img-thumbnail" alt="Isabel Arredondo">
         </div>
         <div class="col">
             <p>

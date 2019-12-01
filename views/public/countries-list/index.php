@@ -28,6 +28,7 @@ sort($countries);
 
     <div class="row" id="grid">
         <div class="col">
+            <h2>Festival Countries</h2>
             <div class="card-deck d-flex justify-content-center align-items-center text-center">
                 <?php foreach ($countries as $country): ?>
                     <div class="card mb-4" style="min-width: 280px; max-width: 240px;">
@@ -46,7 +47,7 @@ sort($countries);
 
     <div class="row d-none" id="list">
         <div class="col">
-            <h2>Festival Countries:</h2>
+            <h2>Festival Countries</h2>
             <ul class="countries-list">
                 <?php foreach ($countries as $country): ?>
                     <li>

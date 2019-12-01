@@ -17,7 +17,7 @@ sort($countries);
 <section class="container-fluid" id="countries-list">
 
     <div class="row mb-3">
-        <div class="col d-flex justify-content-center justify-content-lg-start ">
+        <div class="col d-flex justify-content-center">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary active" id="gridButton">Grid View</button>
                 <button type="button" class="btn btn-secondary" id="listButton">List View</button>
@@ -27,10 +27,10 @@ sort($countries);
 
 
     <div class="row" id="grid">
-        <div class="col d-flex justify-content-lg-start justify-content-center">
-            <div class="card-deck d-flex justify-content-lg-start justify-content-center">
+        <div class="col">
+            <div class="card-deck d-flex justify-content-center align-items-center text-center">
                 <?php foreach ($countries as $country): ?>
-                    <div class="card mb-4" style="min-width: 18rem; max-width: 18rem;">
+                    <div class="card mb-4" style="min-width: 280px; max-width: 240px;">
                         <img class="card-img-top" src="https://placehold.it/280x140/abc" alt="Card image cap">
                         <div class="card-body">
                             <h3 class="card-title"><?= $country->name; ?></h3>

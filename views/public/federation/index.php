@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => "Countries",
+    'title' => "Federation",
 );
 echo head($head);
 ?>

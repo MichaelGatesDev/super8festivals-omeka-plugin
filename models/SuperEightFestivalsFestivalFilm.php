@@ -1,0 +1,18 @@
+<?php
+
+class SuperEightFestivalsFestivalFilm extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+{
+    public $festival_id;
+    public $filmmaker_id;
+    public $title;
+    public $url;
+
+    protected function _validate()
+    {
+    }
+
+    public function getResourceId()
+    {
+        return 'SuperEightFestivals_Festival_Film';
+    }
+}

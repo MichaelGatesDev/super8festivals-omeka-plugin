@@ -10,17 +10,9 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
 (
-    `id`   int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the banner
-    `path` varchar(255)     NOT NULL,                # file path relative to server root
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
-
-CREATE TABLE IF NOT EXISTS `%PREFIX%country_posters`
-(
-    `id`   int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the banner
-    `path` varchar(255)     NOT NULL,                # file path relative to server root
+    `id`         int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the banner
+    `country_id` int(10) unsigned NOT NULL,                # ID of the country
+    `path`       varchar(255)     NOT NULL,                # file path relative to server root
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -39,79 +31,135 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%cities`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-# CREATE TABLE IF NOT EXISTS `%PREFIX%festivals`
-# (
-#     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT,
-#     `city_id` int(10) unsigned NOT NULL,
-#     `name`    varchar(255)     NOT NULL,
-#     `year`    int(4),
-#     PRIMARY KEY (`id`),
-#     KEY `name` (`name`),
-#     KEY `date` (`year`)
-# ) ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8
-#   COLLATE = utf8_unicode_ci;
-#
-# CREATE TABLE IF NOT EXISTS `%PREFIX%filmmakers`
-# (
-#     `id`                INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-#     `first_name`        VARCHAR(255),
-#     `last_name`         VARCHAR(255),
-#     `organization_name` VARCHAR(255),
-#     PRIMARY KEY (`id`),
-#     KEY `first_name` (`first_name`),
-#     KEY `last_name` (`last_name`),
-#     KEY `organization_name` (`organization_name`)
-# ) ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8
-#   COLLATE = utf8_unicode_ci;
-#
-# CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
-# (
-#     `id`                INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contributor FOR internal USE
-#     `first_name`        VARCHAR(255),
-#     `last_name`         VARCHAR(255),
-#     `organization_name` INT(10) UNSIGNED,
-#     `email`             VARCHAR(255)     NOT NULL,
-#     PRIMARY KEY (`id`)
-# ) ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8
-#   COLLATE = utf8_unicode_ci;
-#
-# CREATE TABLE IF NOT EXISTS `%PREFIX%contribution_types`
-# (
-#     `id`   INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution TYPE FOR internal USE
-#     `name` VARCHAR(255),
-#     PRIMARY KEY (`id`)
-# ) ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8
-#   COLLATE = utf8_unicode_ci;
-#
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('film');
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('film catalog');
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('memorabilia');
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('newspaper/magazine');
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('poster');
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('photo');
-# INSERT INTO `%PREFIX%contribution_types` (`name`)
-# VALUES ('other');
-#
-# # Film catalogs
-# # Photos
-# # Other
-#
-# CREATE TABLE IF NOT EXISTS `%PREFIX%contributions`
-# (
-#     `id`             INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution FOR internal USE
-#     `type`           INT(10) UNSIGNED NOT NULL,
-#     `contributor_id` INT(10) UNSIGNED NOT NULL,                # ID OF the contribution FOR internal USE
-#     PRIMARY KEY (`id`)
-# ) ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8
-#   COLLATE = utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS `%PREFIX%festivals`
+(
+    `id`      int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `city_id` int(10) unsigned NOT NULL,
+    `year`    int(4),
+    PRIMARY KEY (`id`),
+    KEY `year` (`year`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_film_catalogs`
+(
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the film catalog
+    `festival_id` int(10) unsigned NOT NULL,                # ID of the festival
+    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_filmmakers`
+(
+    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the filmmaker
+    `festival_id`       int(10) unsigned NOT NULL,                # ID of the festival
+    `first_name`        VARCHAR(255),
+    `last_name`         VARCHAR(255),
+    `organization_name` VARCHAR(255),
+    PRIMARY KEY (`id`),
+    KEY `first_name` (`first_name`),
+    KEY `last_name` (`last_name`),
+    KEY `organization_name` (`organization_name`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
+(
+    `id`           int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the film catalog
+    `festival_id`  int(10) unsigned NOT NULL,                # ID of the festival
+    `filmmaker_id` int(10) unsigned,                         # ID Of the filmmaker
+    `title`        varchar(255),
+    `url`          varchar(255)     NOT NULL,                # URL to YouTube/Vimeo
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilia`
+(
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the memorabilia
+    `festival_id` int(10) unsigned NOT NULL,                # ID of the festival
+    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_media` # Newspapers & Magazines
+(
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the print media
+    `festival_id` int(10) unsigned NOT NULL,                # ID of the festival
+    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photo`
+(
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the photo
+    `festival_id` int(10) unsigned NOT NULL,                # ID of the festival
+    `title`       varchar(255),
+    `description` varchar(255),
+    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_poster`
+(
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the poster
+    `festival_id` int(10) unsigned NOT NULL,                # ID of the festival
+    `title`       varchar(255),
+    `description` varchar(255),
+    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
+(
+    `id`                INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contributor 
+    `first_name`        VARCHAR(255),
+    `last_name`         VARCHAR(255),
+    `organization_name` VARCHAR(255),
+    `email`             VARCHAR(255)     NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%contribution_types`
+(
+    `id`   INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution TYPE 
+    `name` VARCHAR(255),
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+INSERT INTO `%PREFIX%contribution_types` (`name`)
+VALUES ('film')
+     , ('film catalog')
+     , ('memorabilia')
+     , ('print media')
+     , ('poster')
+     , ('photo')
+     , ('other')
+;
+
+CREATE TABLE IF NOT EXISTS `%PREFIX%contributions`
+(
+    `id`             INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution 
+    `type`           INT(10) UNSIGNED NOT NULL,                # Type of contribution
+    `contributor_id` INT(10) UNSIGNED NOT NULL,                # ID OF the contributor
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;

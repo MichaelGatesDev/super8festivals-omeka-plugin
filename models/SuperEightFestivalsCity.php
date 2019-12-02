@@ -7,16 +7,6 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
     public $latitude;
     public $longitude;
 
-
-    protected function _initializeMixins()
-    {
-        $this->_mixins[] = new Mixin_Search($this);
-        $this->_mixins[] = new Mixin_Timestamp($this, 'inserted', 'updated');
-    }
-
-    /**
-     * Validate the form data.
-     */
     protected function _validate()
     {
         if (empty($this->country_id) || !is_numeric($this->country_id)) {
@@ -33,9 +23,6 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
         }
     }
 
-    /**
-     * Prepare special variables before saving the form.
-     */
     protected function beforeSave($args)
     {
         $this->name = trim($this->name);
@@ -43,21 +30,6 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
 
     protected function afterSave($args)
     {
-        $this->setSearchTextTitle($this->name);
-        $this->addSearchText($this->name);
-    }
-
-    public function getRecordUrl($action = 'show')
-    {
-        if ($action == 'show') {
-            return public_url($this->name);
-        }
-        return array(
-            'module' => 'super-eight-festivals',
-            'controller' => 'index',
-            'action' => $action,
-            'id' => $this->id
-        );
     }
 
     public function getResourceId()

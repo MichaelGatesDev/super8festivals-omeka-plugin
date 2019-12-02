@@ -35,26 +35,55 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // Create tables
         $this->databaseHelper->createTables();
 
-        // Save an example country.
-        $country = new SuperEightFestivalsCountry();
-        $country->name = "Test Country";
-        $country->latitude = -1.337;
-        $country->longitude = -1.337;
-        $country->save();
+        // add countries
+        add_country('argentina');
+        add_country('australia');
+        add_country('belgium');
+        add_country('brazil');
+        add_country('canada');
+        add_country('colombia');
+        add_country('germany');
+        add_country('hong kong');
+        add_country('iran');
+        add_country('italy');
+        add_country('japan');
+        add_country('mexico');
+        add_country('philippines');
+        add_country('portugal');
+        add_country('puerto rico');
+        add_country('spain');
+        add_country('tunisia');
+        add_country('united states');
+        add_country('venezuela');
 
-        // Save an example page.
-        $city = new SuperEightFestivalsCity();
-        $city->name = "Test City";
-        $city->latitude = -1.337;
-        $city->longitude = -1.337;
-        $city->country_id = $country->id;
-        $city->save();
+        // add cities
+        add_city('germany', 'berlin', 52.52000, 13.40500);
+        add_city('argentina', 'rosario', -32.95870, -60.69300);
+        add_city('australia', 'sydney', -33.86880, 151.20930);
+        add_city('belgium', 'brussels', 50.85030, 4.35170);
+        add_city('brazil', 'sao paulo', -23.55050, -46.63330);
+        add_city('spain', 'barcelona', 41.38510, 2.17340);
+        add_city('united states', 'chicago', 41.87810, -87.62980);
+        add_city('colombia', 'bogota', 4.71100, -74.07210);
+        add_city('philippines', 'manila', 14.59950, 120.98420);
+        add_city('hong kong', 'hong kong', 22.31930, 114.16940);
+        add_city('iran', 'tehran', 35.68920, 51.38900);
+        add_city('japan', 'tokyo', 35.67620, 139.65030);
+        add_city('japan', 'hiroshima', 34.38530, 132.45531);
+        add_city('mexico', 'mexico city', 19.43260, -99.13320);
+        add_city('italy', 'montecallini', 39.81840, 18.31290);
+        add_city('portugal', 'lisbon', 38.72230, -9.13930);
+        add_city('puerto rico', 'san juan', 18.46550, 66.10570);
+        add_city('canada', 'montreal', 45.50170, -73.56730);
+        add_city('canada', 'toronto', 43.65320, -79.38320);
+        add_city('tunisia', 'kelibia', 36.84620, 11.09950);
+        add_city('venezuela', 'caracas', 10.48060, -66.90360);
     }
 
     public function hookInitialize()
     {
         // Create missing tables
-        $this->databaseHelper->createTables();
+//        $this->databaseHelper->createTables();
     }
 
     function hookUninstall()
@@ -152,4 +181,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 //        );
         return $navArray;
     }
+
+
 }

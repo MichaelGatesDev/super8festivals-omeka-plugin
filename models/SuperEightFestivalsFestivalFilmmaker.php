@@ -2,7 +2,7 @@
 
 class SuperEightFestivalsFestivalFilmmaker extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public $festival_id;
+    public $city_id;
     public $first_name;
     public $last_name;
     public $organization_name;

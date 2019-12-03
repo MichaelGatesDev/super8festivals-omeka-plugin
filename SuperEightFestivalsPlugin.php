@@ -78,6 +78,38 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         add_city('canada', 'toronto', 43.65320, -79.38320);
         add_city('tunisia', 'kelibia', 36.84620, 11.09950);
         add_city('venezuela', 'caracas', 10.48060, -66.90360);
+
+
+        //============================================================================\\
+        //      BELGIUM - THIS IS ONLY TEMPORARY FOR SHOWCASE, WILL BE DYNAMIC SOON
+        //============================================================================\\
+        // add banner
+        $belgiumBanner = new SuperEightFestivalsCountryBanner();
+        $belgiumBanner->country_id = get_country_by_name('belgium')->id;
+        $belgiumBanner->path = "/files/supereightfestivals/belgium/landing.jpg";
+        $belgiumBanner->save();
+
+        // add posters
+        $posterA = new SuperEightFestivalsFestivalPoster();
+        $posterA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $posterA->path = "/files/supereightfestivals/belgium/posters/aaa.jpg";
+        $posterA->title = "Poster A";
+        $posterA->description = "This is the description of Poster A.";
+        $posterA->save();
+        // add posters
+        $posterB = new SuperEightFestivalsFestivalPoster();
+        $posterB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $posterB->path = "/files/supereightfestivals/belgium/posters/bbb.jpg";
+        $posterA->title = "Poster B";
+        $posterB->description = "This is the description of Poster B.";
+        $posterB->save();
+        // add posters
+        $posterC = new SuperEightFestivalsFestivalPoster();
+        $posterC->path = "/files/supereightfestivals/belgium/posters/ccc.jpg";
+        $posterC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $posterC->description = "This is the description of Poster C.";
+        $posterA->title = "Poster C";
+        $posterC->save();
     }
 
     public function hookInitialize()

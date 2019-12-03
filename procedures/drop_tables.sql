@@ -9,8 +9,8 @@ DROP TABLE IF EXISTS `%PREFIX%festival_filmmakers`;
 DROP TABLE IF EXISTS `%PREFIX%festival_films`;
 DROP TABLE IF EXISTS `%PREFIX%festival_memorabilia`;
 DROP TABLE IF EXISTS `%PREFIX%festival_print_media`;
-DROP TABLE IF EXISTS `%PREFIX%festival_photo`;
-DROP TABLE IF EXISTS `%PREFIX%festival_poster`;
+DROP TABLE IF EXISTS `%PREFIX%festival_photos`;
+DROP TABLE IF EXISTS `%PREFIX%festival_posters`;
 
 DROP TABLE IF EXISTS `%PREFIX%contributors`;
 DROP TABLE IF EXISTS `%PREFIX%contribution_types`;

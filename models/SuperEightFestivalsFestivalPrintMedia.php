@@ -2,7 +2,7 @@
 
 class SuperEightFestivalsFestivalPrintMedia extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public $festival_id;
+    public $city_id;
     public $path;
 
     protected function _validate()

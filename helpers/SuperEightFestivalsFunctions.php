@@ -48,6 +48,12 @@ function get_country_by_name($countryName)
     return null;
 }
 
+function get_city_by_name($countryID, $cityName)
+{
+    $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('country_id' => $countryID, 'name' => $cityName), 1);
+    if (count($results) > 0) return $results[0];
+    return null;
+}
 
 function add_country($countryName)
 {
@@ -59,8 +65,6 @@ function add_country($countryName)
 
 function add_city($countryName, $name, $latitude, $longitude)
 {
-    echo "<script>alert($countryName);</script>";
-
     // Save an example page.
     $city = new SuperEightFestivalsCity();
     $city->name = $name;
@@ -68,4 +72,21 @@ function add_city($countryName, $name, $latitude, $longitude)
     $city->longitude = $longitude;
     $city->country_id = get_country_by_name($countryName)->id;
     $city->save();
+}
+
+function get_banner_for_country($countryID)
+{
+    $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);
+    if (count($results) > 0) return $results[0];
+    return null;
+}
+
+function get_all_films_for_country($countryID)
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilm')->findBy(array('country_id' => $countryID));
+}
+
+function get_all_posters_for_country($countryID)
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalPoster')->findBy(array('country_id' => $countryID));
 }

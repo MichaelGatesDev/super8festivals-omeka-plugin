@@ -5,7 +5,7 @@ function get_all_countries($sortByCountryName = false)
     $results = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
     if ($sortByCountryName) {
         usort($results, function ($a, $b) {
-            return get_country_by_id($a['country_id'])->name > get_country_by_id($b['country_id'])->name;
+            return get_country_by_id($a->id)->name > get_country_by_id($b->id)->name;
         });
     }
     return $results;

@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilia`
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
 (
     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the memorabilia
     `city_id` int(10) unsigned NOT NULL,                # ID of the festival
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilia`
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
 
-CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_media` # Newspapers & Magazines
+CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_medias` # Newspapers & Magazines
 (
     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the print media
     `city_id` int(10) unsigned NOT NULL,                # ID of the festival

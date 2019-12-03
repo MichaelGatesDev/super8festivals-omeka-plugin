@@ -7,7 +7,11 @@ echo head($head);
 ?>
 
 <?php
-$bannerPlaceholderImage = img('placeholder.svg', 'images');
+
+$posters = get_all_posters_for_country($country->id);
+$photos = get_all_photos_for_country($country->id);
+$printMedia = get_all_print_media_for_country($country->id);
+
 ?>
 
 <?php echo flash(); ?>
@@ -82,13 +86,61 @@ $bannerPlaceholderImage = img('placeholder.svg', 'images');
             </div>
         </div>
         <div class="row">
-            <?php foreach (get_all_posters_for_country($country->id) as $poster): ?>
-                <div class="col-md-4">
+            <?php foreach ($posters as $poster): ?>
+                <div class="col-md-4 ">
                     <div class="card mb-4 shadow-sm">
                         <img class="img-fluid" src="<?= $poster->path; ?>" alt="<?= $poster->title; ?>"/>
                         <div class="card-body">
                             <h5 class="card-title"><?= $poster->title; ?></h5>
                             <p class="card-text"><?= $poster->description; ?></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!--Photos-->
+    <section id="photos" class="container d-flex flex-column justify-content-center mt-5">
+        <div class="row">
+            <div class="col">
+                <h3>Photos</h3>
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($photos as $photo): ?>
+                <div class="col-md-4 ">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="img-fluid" src="<?= $photo->path; ?>" alt="<?= $photo->title; ?>"/>
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $photo->title; ?></h5>
+                            <p class="card-text"><?= $photo->description; ?></p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
+    <!--Print Media -->
+    <section id="print-media" class="container d-flex flex-column justify-content-center mt-5">
+        <div class="row">
+            <div class="col">
+                <h3>Print Media</h3>
+            </div>
+        </div>
+        <div class="row">
+            <?php foreach ($printMedia as $media): ?>
+                <div class="col-md-4 ">
+                    <div class="card mb-4 shadow-sm">
+                        <img class="img-fluid" src="<?= $media->path; ?>" alt=""/>
+                        <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">
                                 <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                             </div>

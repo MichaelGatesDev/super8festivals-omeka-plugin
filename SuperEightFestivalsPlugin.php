@@ -92,24 +92,49 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // add posters
         $posterA = new SuperEightFestivalsFestivalPoster();
         $posterA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterA->path = "/files/supereightfestivals/belgium/posters/aaa.jpg";
+        $posterA->path = "/files/supereightfestivals/belgium/brussels/posters/aaa.jpg";
         $posterA->title = "Poster A";
         $posterA->description = "This is the description of Poster A.";
         $posterA->save();
         // add posters
         $posterB = new SuperEightFestivalsFestivalPoster();
         $posterB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterB->path = "/files/supereightfestivals/belgium/posters/bbb.jpg";
+        $posterB->path = "/files/supereightfestivals/belgium/brussels/posters/bbb.jpg";
         $posterB->title = "Poster B";
         $posterB->description = "This is the description of Poster B.";
         $posterB->save();
         // add posters
         $posterC = new SuperEightFestivalsFestivalPoster();
-        $posterC->path = "/files/supereightfestivals/belgium/posters/ccc.jpg";
+        $posterC->path = "/files/supereightfestivals/belgium/brussels/posters/ccc.jpg";
         $posterC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
         $posterC->description = "This is the description of Poster C.";
         $posterC->title = "Poster C";
         $posterC->save();
+
+        // add photos
+        $photoA = new SuperEightFestivalsFestivalPhoto();
+        $photoA->path = "/files/supereightfestivals/belgium/brussels/photos/aaa.jpg";
+        $photoA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $photoA->description = "This is the description of Photo A.";
+        $photoA->title = "Photo A";
+        $photoA->save();
+        $photoB = new SuperEightFestivalsFestivalPhoto();
+        $photoB->path = "/files/supereightfestivals/belgium/brussels/photos/bbb.jpg";
+        $photoB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $photoB->description = "This is the description of Photo B.";
+        $photoB->title = "Photo B";
+        $photoB->save();
+
+        // add print media
+        $newspaper = new SuperEightFestivalsFestivalPrintMedia();
+        $newspaper->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $newspaper->path = "/files/supereightfestivals/belgium/brussels/print_media/newspaper.jpg";
+        $newspaper->save();
+        $magazine = new SuperEightFestivalsFestivalPrintMedia();
+        $magazine->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $magazine->path = "/files/supereightfestivals/belgium/brussels/print_media/magazine.jpg";
+        $magazine->save();
+
     }
 
     public function hookInitialize()

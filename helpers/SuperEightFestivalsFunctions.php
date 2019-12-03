@@ -81,12 +81,17 @@ function get_banner_for_country($countryID)
     return null;
 }
 
-function get_all_films_for_country($countryID)
-{
-    return get_db()->getTable('SuperEightFestivalsFestivalFilm')->findBy(array('country_id' => $countryID));
-}
-
 function get_all_posters_for_country($countryID)
 {
     return get_db()->getTable('SuperEightFestivalsFestivalPoster')->findBy(array('country_id' => $countryID));
+}
+
+function get_all_photos_for_country($countryID)
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalPhoto')->findBy(array('country_id' => $countryID));
+}
+
+function get_all_print_media_for_country($countryID)
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalPrintMedia')->findBy(array('country_id' => $countryID));
 }

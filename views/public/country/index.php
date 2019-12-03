@@ -28,17 +28,17 @@ $printMedia = get_all_print_media_for_country($country->id);
         <div class="col-6 order-2 col-lg-3 order-1">
             <div class="row button-row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Posters</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#posters" role="button">Posters</a>
                 </div>
             </div>
             <div class="row button-row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Photos</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#photos" role="button">Photos</a>
                 </div>
             </div>
             <div class="row button-row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Newspapers &amp; Magazines</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#print-media" role="button">Newspapers &amp; Magazines</a>
                 </div>
             </div>
         </div>
@@ -52,22 +52,22 @@ $printMedia = get_all_print_media_for_country($country->id);
         <div class="col-6 order-3 col-lg-3 order-lg-3">
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Memorabilia</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#memorabilia" role="button">Memorabilia</a>
                 </div>
             </div>
             <div class="row button-row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Films</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#films" role="button">Films</a>
                 </div>
             </div>
             <div class="row button-row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Filmmakers</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#filmmakers" role="button">Filmmakers</a>
                 </div>
             </div>
             <div class="row button-row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#" role="button">Film Catalogs</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3" href="#film-catalogs" role="button">Film Catalogs</a>
                 </div>
             </div>
         </div>

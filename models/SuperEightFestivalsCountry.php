@@ -20,6 +20,11 @@ class SuperEightFestivalsCountry extends Omeka_Record_AbstractRecord implements 
     {
     }
 
+    public function getRecordUrl($action = 'show')
+    {
+        return "/countries/" . $this->name;
+    }
+
     public function getResourceId()
     {
         return 'SuperEightFestivals_Country';

@@ -92,20 +92,20 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // add posters
         $posterA = new SuperEightFestivalsFestivalPoster();
         $posterA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterA->path = "/files/supereightfestivals/belgium/brussels/posters/aaa.jpg";
+        $posterA->path = "https://i.imgur.com/RwgkYuE.jpg";
         $posterA->title = "Poster A";
         $posterA->description = "This is the description of Poster A.";
         $posterA->save();
         // add posters
         $posterB = new SuperEightFestivalsFestivalPoster();
         $posterB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterB->path = "/files/supereightfestivals/belgium/brussels/posters/bbb.jpg";
+        $posterB->path = "https://i.imgur.com/SUNQTdK.jpg";
         $posterB->title = "Poster B";
         $posterB->description = "This is the description of Poster B.";
         $posterB->save();
         // add posters
         $posterC = new SuperEightFestivalsFestivalPoster();
-        $posterC->path = "/files/supereightfestivals/belgium/brussels/posters/ccc.jpg";
+        $posterC->path = "https://i.imgur.com/w3RP2lB.jpg";
         $posterC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
         $posterC->description = "This is the description of Poster C.";
         $posterC->title = "Poster C";
@@ -113,13 +113,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
         // add photos
         $photoA = new SuperEightFestivalsFestivalPhoto();
-        $photoA->path = "/files/supereightfestivals/belgium/brussels/photos/aaa.jpg";
+        $photoA->path = "https://i.imgur.com/QARf3yA.jpg";
         $photoA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
         $photoA->description = "This is the description of Photo A.";
         $photoA->title = "Photo A";
         $photoA->save();
         $photoB = new SuperEightFestivalsFestivalPhoto();
-        $photoB->path = "/files/supereightfestivals/belgium/brussels/photos/bbb.jpg";
+        $photoB->path = "https://i.imgur.com/IFdIlT1.jpg";
         $photoB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
         $photoB->description = "This is the description of Photo B.";
         $photoB->title = "Photo B";
@@ -128,11 +128,11 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // add print media
         $newspaper = new SuperEightFestivalsFestivalPrintMedia();
         $newspaper->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $newspaper->path = "/files/supereightfestivals/belgium/brussels/print_media/newspaper.jpg";
+        $newspaper->path = "https://i.imgur.com/EuYD9Hj.jpg";
         $newspaper->save();
         $magazine = new SuperEightFestivalsFestivalPrintMedia();
         $magazine->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $magazine->path = "/files/supereightfestivals/belgium/brussels/print_media/magazine.jpg";
+        $magazine->path = "https://i.imgur.com/IzdVLBe.jpg";
         $magazine->save();
 
     }

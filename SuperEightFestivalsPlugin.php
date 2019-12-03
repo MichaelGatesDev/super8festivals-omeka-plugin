@@ -100,7 +100,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $posterB = new SuperEightFestivalsFestivalPoster();
         $posterB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
         $posterB->path = "/files/supereightfestivals/belgium/posters/bbb.jpg";
-        $posterA->title = "Poster B";
+        $posterB->title = "Poster B";
         $posterB->description = "This is the description of Poster B.";
         $posterB->save();
         // add posters
@@ -108,7 +108,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $posterC->path = "/files/supereightfestivals/belgium/posters/ccc.jpg";
         $posterC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
         $posterC->description = "This is the description of Poster C.";
-        $posterA->title = "Poster C";
+        $posterC->title = "Poster C";
         $posterC->save();
     }
 

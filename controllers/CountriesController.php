@@ -56,28 +56,6 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
             )
         );
 
-        $form->addElementToEditGroup(
-            'text', 'latitude',
-            array(
-                'id' => 'latitude',
-                'label' => 'Latitude',
-                'description' => "The latitudinal position of the capital or center of mass (required)",
-                'value' => $country->latitude,
-                'required' => true
-            )
-        );
-
-        $form->addElementToEditGroup(
-            'text', 'longitude',
-            array(
-                'id' => 'longitude',
-                'label' => 'Longitude',
-                'description' => "The longitudinal position of the capital or center of mass (required)",
-                'value' => $country->longitude,
-                'required' => true
-            )
-        );
-
         if (class_exists('Omeka_Form_Element_SessionCsrfToken')) {
             try {
                 $form->addElement('sessionCsrfToken', 'csrf_token');
@@ -97,7 +75,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
     private function _processForm($country, $form, $action)
     {
         // Set the page object to the view.
-        $this->view->super_eight_festivals_country = $country;
+        $this->view->country = $country;
 
         if ($this->getRequest()->isPost()) {
             try {

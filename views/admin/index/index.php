@@ -1,32 +1,42 @@
 <?php
-echo head(array(
-    'title' => 'Admin Panel',
-));
+echo head(
+    array(
+        'title' => 'Admin Panel',
+    )
+);
 ?>
 
 <?php echo flash(); ?>
 
 <h2>Super 8 Festivals Control Panel</h2>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col"></div>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/countries/', 'text' => 'Countries')); ?>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/cities/', 'text' => 'Cities')); ?>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/festivals/', 'text' => 'Festivals')); ?>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/filmmakers/', 'text' => 'Filmmakers')); ?>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/contributing/', 'text' => 'Contributing')); ?>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/settings/', 'text' => 'Settings')); ?>
+
+<div style="display: flex; flex-direction: row;">
+    <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
+        <p style="margin-top: 0;">Browse, add, edit, and delete countries.</p>
+        <a href="super-eight-festivals/countries/" class="button green" style="margin: 0;">Countries</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
+        <p style="margin-top: 0;">Browse, add, edit, and delete cities.</p>
+        <a href="super-eight-festivals/cities/" class="button green" style="margin: 0;">Cities</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
+        <p style="margin-top: 0;">Browse, add, edit, and delete filmmakers.</p>
+        <a href="super-eight-festivals/filmmakers/" class="button green" style="margin: 0;">Filmmakers</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
+        <p style="margin-top: 0;">Browse, add, edit, and delete contributors.</p>
+        <a href="super-eight-festivals/contributors/" class="button green" style="margin: 0;">Contributors</a>
     </div>
 </div>
 
-<hr/>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col"></div>
-        <?php echo $this->partial('__components/button.php', array('url' => 'super-eight-festivals/edit-page/', 'text' => 'Edit Page Contents')); ?>
-    </div>
+<div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
+    <p style="margin-top: 0;">Edit text content on pages</p>
+    <a href="super-eight-festivals/edit-page" class="button blue" style="margin: 0;">Edit Page Contents</a>
 </div>
+
 
 <?php echo foot(); ?>

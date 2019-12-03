@@ -32,6 +32,11 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
     {
     }
 
+    public function getRecordUrl($action = 'show')
+    {
+        return "/countries/" . get_country_by_id($this->country_id)->name . "#" . $this->name;
+    }
+
     public function getResourceId()
     {
         return 'SuperEightFestivals_City';

@@ -1,5 +1,31 @@
 <?php
 
+function get_all_countries($sortByCountryName = false)
+{
+    $results = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
+    if ($sortByCountryName) {
+        usort($results, function ($a, $b) {
+            return get_country_by_id($a['country_id'])->name > get_country_by_id($b['country_id'])->name;
+        });
+    }
+    return $results;
+}
+
+function get_all_cities($sortByCityName = false, $sortByCountryName = false)
+{
+    $results = get_db()->getTable("SuperEightFestivalsCity")->findAll();
+    if ($sortByCityName) {
+        usort($results, function ($a, $b) {
+            return $a['name'] > $b['name'];
+        });
+    }
+    if ($sortByCountryName) {
+        usort($results, function ($a, $b) {
+            return get_country_by_id($a['country_id'])->name > get_country_by_id($b['country_id'])->name;
+        });
+    }
+    return $results;
+}
 
 function get_parent_country_options()
 {

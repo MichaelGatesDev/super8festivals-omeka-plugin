@@ -30,7 +30,7 @@ echo head(array(
         <?php echo $form; ?>
     </div>
 
-    <div class="row">
+    <div class="row mb-5">
         <div class="col">
             <h2>Posters</h2>
             <div style="max-height: 400px; overflow-y: scroll;">
@@ -50,7 +50,7 @@ echo head(array(
     </div>
 
 
-    <div class="row">
+    <div class="row mb-5">
         <div class="col">
             <h2>Photos</h2>
             <div style="max-height: 400px; overflow-y: scroll;">

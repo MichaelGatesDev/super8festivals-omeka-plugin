@@ -1,4 +1,6 @@
 <?php
+queue_css_file("lightbox.min");
+queue_js_file("lightbox.min");
 $head = array(
     'title' => $country->name,
 );
@@ -84,10 +86,14 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
     <!--Posters-->
     <section id="posters" class="d-flex flex-column justify-content-center mt-5 p-4 bg-light">
-        <div class="container">
+        <div class="container pb-4">
             <div class="row">
                 <div class="col">
-                    <h3 class="pt-4 pb-4">Posters</h3>
+                    <h3 class="pt-2 pb-2">Posters</h3>
+                    <span class="text-muted">
+                        Here a collection of posters from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
+                        Click one to enlarge it on your screen.
+                    </span>
                 </div>
             </div>
         </div>
@@ -100,6 +106,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                             <h5 class="card-title"><?= $poster->title; ?></h5>
                             <p class="card-text"><?= $poster->description; ?></p>
                         </div>
+                        <a href="<?= $poster->path; ?>" class="stretched-link" data-lightbox="posters" data-title="<?= $poster->title; ?>"></a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -108,10 +115,14 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
     <!--Photos-->
     <section id="photos" class="container d-flex flex-column justify-content-center mt-5">
-        <div class="container">
+        <div class="container pb-4">
             <div class="row">
                 <div class="col">
-                    <h3 class="pt-4 pb-4">Photos</h3>
+                    <h3 class="pt-2 pb-2">Photos</h3>
+                    <span class="text-muted">
+                        Here a collection of photos from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
+                        Click one to enlarge it on your screen.
+                    </span>
                 </div>
             </div>
         </div>
@@ -124,6 +135,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                             <h5 class="card-title"><?= $photo->title; ?></h5>
                             <p class="card-text"><?= $photo->description; ?></p>
                         </div>
+                        <a href="<?= $photo->path; ?>" class="stretched-link" data-lightbox="photos" data-title="<?= $photo->title; ?>"></a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -132,7 +144,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
     <!--Print Media -->
     <section id="print-media" class="d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="container">
+        <div class="container pb-4">
             <div class="row">
                 <div class="col">
                     <h3 class="pt-4 pb-4">Print Media</h3>
@@ -144,8 +156,8 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                 <div class="col-md-4">
                     <div class="card mb-4 shadow-sm">
                         <img class="img-fluid" src="<?= $media->path; ?>" alt=""/>
-                        <a href="" class="stretched-link"></a>
                     </div>
+                    <a href="<?= $media->path; ?>" class="stretched-link" data-lightbox="print-media" data-title="<?= $media->id; ?>"></a>
                 </div>
             <?php endforeach; ?>
         </div>

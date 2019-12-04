@@ -10,8 +10,7 @@ echo head($head);
 
 
 <?php
-$countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
-sort($countries);
+$countries = get_all_countries(true);
 ?>
 
 <section class="container-fluid" id="countries-list">
@@ -31,8 +30,13 @@ sort($countries);
             <h2>Festival Countries</h2>
             <div class="card-deck d-flex justify-content-center align-items-center text-center">
                 <?php foreach ($countries as $country): ?>
+                    <?php
+                    $banner = get_banner_for_country($country->id);
+                    ?>
                     <div class="card mb-4" style="min-width: 280px; max-width: 240px;">
-                        <img class="card-img-top" src="https://placehold.it/280x140/abc" alt="Card image cap">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <img alt="Card image cap" class="card-img-top embed-responsive-item" src="<?= $banner != null ? $banner->path : "https://placehold.it/280x140/abc" ?>">
+                        </div>
                         <div class="card-body">
                             <h3 class="card-title text-capitalize"><?= $country->name; ?></h3>
                             <p class="card-text"><small class="text-muted">(0) Festivals</small></p>

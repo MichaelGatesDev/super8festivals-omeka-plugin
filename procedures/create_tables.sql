@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
     `filmmaker_id` int(10) unsigned,                         # ID Of the filmmaker
     `title`        varchar(255),
     `url`          varchar(255)     NOT NULL,                # URL to video
-    `embed`        varchar(65535)   NOT NULL,                # HTML to embed video
+    `embed`        TEXT(65535)      NOT NULL,                # HTML to embed video
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_posters`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
 (
-    `id`                INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contributor 
+    `id`                INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contributor
     `first_name`        VARCHAR(255),
     `last_name`         VARCHAR(255),
     `organization_name` VARCHAR(255),
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%contribution_types`
 (
-    `id`   INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution TYPE 
+    `id`   INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution TYPE
     `name` VARCHAR(255),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -147,7 +147,7 @@ VALUES ('film')
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%contributions`
 (
-    `id`             INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution 
+    `id`             INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, # ID OF the contribution
     `type`           INT(10) UNSIGNED NOT NULL,                # Type of contribution
     `contributor_id` INT(10) UNSIGNED NOT NULL,                # ID OF the contributor
     PRIMARY KEY (`id`)

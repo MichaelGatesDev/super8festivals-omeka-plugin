@@ -57,27 +57,27 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         add_country('venezuela');
 
         // add cities
-        add_city('germany', 'berlin', 52.52000, 13.40500);
-        add_city('argentina', 'rosario', -32.95870, -60.69300);
-        add_city('australia', 'sydney', -33.86880, 151.20930);
-        add_city('belgium', 'brussels', 50.85030, 4.35170);
-        add_city('brazil', 'sao paulo', -23.55050, -46.63330);
-        add_city('spain', 'barcelona', 41.38510, 2.17340);
-        add_city('united states', 'chicago', 41.87810, -87.62980);
-        add_city('colombia', 'bogota', 4.71100, -74.07210);
-        add_city('philippines', 'manila', 14.59950, 120.98420);
-        add_city('hong kong', 'hong kong', 22.31930, 114.16940);
-        add_city('iran', 'tehran', 35.68920, 51.38900);
-        add_city('japan', 'tokyo', 35.67620, 139.65030);
-        add_city('japan', 'hiroshima', 34.38530, 132.45531);
-        add_city('mexico', 'mexico city', 19.43260, -99.13320);
-        add_city('italy', 'montecallini', 39.81840, 18.31290);
-        add_city('portugal', 'lisbon', 38.72230, -9.13930);
-        add_city('puerto rico', 'san juan', 18.46550, 66.10570);
-        add_city('canada', 'montreal', 45.50170, -73.56730);
-        add_city('canada', 'toronto', 43.65320, -79.38320);
-        add_city('tunisia', 'kelibia', 36.84620, 11.09950);
-        add_city('venezuela', 'caracas', 10.48060, -66.90360);
+        add_city_by_country_name('germany', 'berlin', 52.52000, 13.40500);
+        add_city_by_country_name('argentina', 'rosario', -32.95870, -60.69300);
+        add_city_by_country_name('australia', 'sydney', -33.86880, 151.20930);
+        add_city_by_country_name('belgium', 'brussels', 50.85030, 4.35170);
+        add_city_by_country_name('brazil', 'sao paulo', -23.55050, -46.63330);
+        add_city_by_country_name('spain', 'barcelona', 41.38510, 2.17340);
+        add_city_by_country_name('united states', 'chicago', 41.87810, -87.62980);
+        add_city_by_country_name('colombia', 'bogota', 4.71100, -74.07210);
+        add_city_by_country_name('philippines', 'manila', 14.59950, 120.98420);
+        add_city_by_country_name('hong kong', 'hong kong', 22.31930, 114.16940);
+        add_city_by_country_name('iran', 'tehran', 35.68920, 51.38900);
+        add_city_by_country_name('japan', 'tokyo', 35.67620, 139.65030);
+        add_city_by_country_name('japan', 'hiroshima', 34.38530, 132.45531);
+        add_city_by_country_name('mexico', 'mexico city', 19.43260, -99.13320);
+        add_city_by_country_name('italy', 'montecallini', 39.81840, 18.31290);
+        add_city_by_country_name('portugal', 'lisbon', 38.72230, -9.13930);
+        add_city_by_country_name('puerto rico', 'san juan', 18.46550, 66.10570);
+        add_city_by_country_name('canada', 'montreal', 45.50170, -73.56730);
+        add_city_by_country_name('canada', 'toronto', 43.65320, -79.38320);
+        add_city_by_country_name('tunisia', 'kelibia', 36.84620, 11.09950);
+        add_city_by_country_name('venezuela', 'caracas', 10.48060, -66.90360);
 
 
         //============================================================================\\
@@ -86,7 +86,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // add banner
         $belgiumBanner = new SuperEightFestivalsCountryBanner();
         $belgiumBanner->country_id = get_country_by_name('belgium')->id;
-        $belgiumBanner->path = "/files/supereightfestivals/belgium/landing.jpg";
+        $belgiumBanner->path = "https://i.imgur.com/w5gYBsF.jpg";
         $belgiumBanner->save();
 
         // add posters
@@ -135,12 +135,37 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $magazine->path = "https://i.imgur.com/IzdVLBe.jpg";
         $magazine->save();
 
+        // add memorabilia
+        $memA = new SuperEightFestivalsFestivalMemorabilia();
+        $memA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $memA->path = "https://i.imgur.com/LRLnf4S.png";
+        $memA->save();
+        $memB = new SuperEightFestivalsFestivalMemorabilia();
+        $memB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $memB->path = "https://i.imgur.com/KtlAYaR.png";
+        $memB->save();
+        $memC = new SuperEightFestivalsFestivalMemorabilia();
+        $memC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $memC->path = "https://i.imgur.com/X5qU1V0.jpg";
+        $memC->save();
+
+        // add films
+        $filmA = new SuperEightFestivalsFestivalFilm();
+        $filmA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmA->title = "My Cool Film";
+        $filmA->url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        $filmA->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        $filmA->save();
+        $filmB = new SuperEightFestivalsFestivalFilm();
+        $filmB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmB->title = "Another Awesome Film";
+        $filmB->url = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
+        $filmB->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/FTQbiNvZqaY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        $filmB->save();
     }
 
     public function hookInitialize()
     {
-        // Create missing tables
-//        $this->databaseHelper->createTables();
     }
 
     function hookUninstall()

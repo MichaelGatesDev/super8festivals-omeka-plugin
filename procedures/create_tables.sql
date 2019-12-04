@@ -62,7 +62,8 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
     `city_id`      int(10) unsigned NOT NULL,                # ID of the festival
     `filmmaker_id` int(10) unsigned,                         # ID Of the filmmaker
     `title`        varchar(255),
-    `url`          varchar(255)     NOT NULL,                # URL to YouTube/Vimeo
+    `url`          varchar(255)     NOT NULL,                # URL to video
+    `embed`        varchar(65535)   NOT NULL,                # HTML to embed video
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8

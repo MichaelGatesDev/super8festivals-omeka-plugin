@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @param bool $sortByCountryName Sort results by country name ascending (A-Z)
+ * @return array Resulting array of countries
+ */
 function get_all_countries($sortByCountryName = false)
 {
     $results = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
@@ -11,6 +15,11 @@ function get_all_countries($sortByCountryName = false)
     return $results;
 }
 
+/**
+ * @param bool $sortByCityName Sort results by city name ascending (A-Z)
+ * @param bool $sortByCountryName Sort results by country name ascending (A-Z)
+ * @return array Resulting array of cities
+ */
 function get_all_cities($sortByCityName = false, $sortByCountryName = false)
 {
     $results = get_db()->getTable("SuperEightFestivalsCity")->findAll();
@@ -91,15 +100,13 @@ function get_city_by_name($countryID, $cityName)
 
 function add_country($countryName)
 {
-    // Save an example page.
     $country = new SuperEightFestivalsCountry();
     $country->name = $countryName;
     $country->save();
 }
 
-function add_city($countryName, $name, $latitude, $longitude)
+function add_city_by_country_name($countryName, $name, $latitude, $longitude)
 {
-    // Save an example page.
     $city = new SuperEightFestivalsCity();
     $city->name = $name;
     $city->latitude = $latitude;
@@ -108,11 +115,40 @@ function add_city($countryName, $name, $latitude, $longitude)
     $city->save();
 }
 
+function add_city_by_country_id($countryID, $name, $latitude, $longitude)
+{
+    $city = new SuperEightFestivalsCity();
+    $city->name = $name;
+    $city->latitude = $latitude;
+    $city->longitude = $longitude;
+    $city->country_id = $countryID;
+    $city->save();
+}
+
 function get_banner_for_country($countryID)
 {
     $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);
     if (count($results) > 0) return $results[0];
     return null;
+}
+
+function add_banner_for_country($countryID, $path)
+{
+    $banner = new SuperEightFestivalsCountryBanner();
+    $banner->country_id = $countryID;
+    $banner->path = $path;
+    $banner->save();
+}
+
+function get_all_records_for_country($countryID, $recordType)
+{
+    $cities = get_all_cities_in_country($countryID);
+    $results = array();
+    foreach ($cities as $city) {
+        $media = get_db()->getTable($recordType)->findBy(array('city_id' => $city->id));
+        $results = array_merge($results, $media);
+    }
+    return $results;
 }
 
 function get_all_posters_for_country($countryID)
@@ -130,13 +166,12 @@ function get_all_print_media_for_country($countryID)
     return get_all_records_for_country($countryID, "SuperEightFestivalsFestivalPrintMedia");
 }
 
-function get_all_records_for_country($countryID, $recordType)
+function get_all_memorabilia_for_country($countryID)
 {
-    $cities = get_all_cities_in_country($countryID);
-    $results = array();
-    foreach ($cities as $city) {
-        $media = get_db()->getTable($recordType)->findBy(array('city_id' => $city->id));
-        $results = array_merge($results, $media);
-    }
-    return $results;
+    return get_all_records_for_country($countryID, "SuperEightFestivalsFestivalMemorabilia");
+}
+
+function get_all_films_for_country($countryID)
+{
+    return get_all_records_for_country($countryID, "SuperEightFestivalsFestivalFilm");
 }

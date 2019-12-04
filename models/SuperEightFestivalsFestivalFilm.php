@@ -6,6 +6,7 @@ class SuperEightFestivalsFestivalFilm extends Omeka_Record_AbstractRecord implem
     public $filmmaker_id;
     public $title;
     public $url;
+    public $embed;
 
     protected function _validate()
     {

@@ -6,6 +6,7 @@ class SuperEightFestivalsFestivalFilmmaker extends Omeka_Record_AbstractRecord i
     public $first_name;
     public $last_name;
     public $organization_name;
+    public $cover_photo_url;
 
     protected function _validate()
     {

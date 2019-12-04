@@ -175,3 +175,8 @@ function get_all_films_for_country($countryID)
 {
     return get_all_records_for_country($countryID, "SuperEightFestivalsFestivalFilm");
 }
+
+function get_all_filmmakers_for_country($countryID)
+{
+    return get_all_records_for_country($countryID, "SuperEightFestivalsFestivalFilmmaker");
+}

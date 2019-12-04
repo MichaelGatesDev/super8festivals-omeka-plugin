@@ -162,6 +162,19 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $filmB->url = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
         $filmB->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/FTQbiNvZqaY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
         $filmB->save();
+
+        // add filmmakers
+        $filmmakerA = new SuperEightFestivalsFestivalFilmmaker();
+        $filmmakerA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmmakerA->first_name = "Jane";
+        $filmmakerA->last_name = "Doe";
+        $filmmakerA->cover_photo_url = "https://i.imgur.com/zzA8Gxw.png";
+        $filmmakerA->save();
+        $filmmakerB = new SuperEightFestivalsFestivalFilmmaker();
+        $filmmakerB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmmakerB->organization_name = "Example Film University";
+        $filmmakerB->cover_photo_url = "https://i.imgur.com/1Lvkt7C.jpg";
+        $filmmakerB->save();
     }
 
     public function hookInitialize()

@@ -45,9 +45,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_filmmakers`
 (
     `id`                int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the filmmaker
     `city_id`           int(10) unsigned NOT NULL,                # ID of the festival
-    `first_name`        VARCHAR(255),
-    `last_name`         VARCHAR(255),
-    `organization_name` VARCHAR(255),
+    `first_name`        VARCHAR(255),                             # first name, or null if none
+    `last_name`         VARCHAR(255),                             # last name, or null if none
+    `organization_name` VARCHAR(255),                             # organization name, or null if none
+    `cover_photo_url`   VARCHAR(255),                             # image URL
     PRIMARY KEY (`id`),
     KEY `first_name` (`first_name`),
     KEY `last_name` (`last_name`),

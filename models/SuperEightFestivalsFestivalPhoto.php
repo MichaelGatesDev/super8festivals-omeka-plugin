@@ -6,6 +6,7 @@ class SuperEightFestivalsFestivalPhoto extends Omeka_Record_AbstractRecord imple
     public $title;
     public $description;
     public $path;
+    public $thumbnail;
 
     protected function _validate()
     {

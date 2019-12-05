@@ -132,14 +132,14 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
         </div>
         <div class="row d-flex flex-row justify-content-center">
             <?php foreach ($photos as $photo): ?>
-                <div class="col-md-4 ">
+                <div class="col-md-4 col-lg-2">
                     <div class="card mb-4 shadow-sm">
-                        <img class="img-fluid" src="<?= $photo->path; ?>" alt="<?= $photo->title; ?>"/>
+                        <img class="img-fluid" src="<?= $photo->thumbnail; ?>" alt="<?= $photo->title; ?>" style="object-fit: contain; width: 100%; height: 350px;"/>
                         <div class="card-body">
                             <h5 class="card-title"><?= $photo->title; ?></h5>
                             <p class="card-text"><?= $photo->description; ?></p>
                         </div>
-                        <a href="<?= $photo->path; ?>" class="stretched-link" data-fancybox="photos" data-title="<?= $photo->title; ?>"></a>
+                        <a href="<?= $photo->path; ?>" class="stretched-link" data-fancybox="posters" data-title="<?= $poster->title; ?>"></a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -157,11 +157,11 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
         </div>
         <div class="row d-flex flex-row justify-content-center">
             <?php foreach ($printMedia as $media): ?>
-                <div class="col-md-4">
+                <div class="col-md-4 col-lg-2">
                     <div class="card mb-4 shadow-sm">
-                        <img class="img-fluid" src="<?= $media->path; ?>" alt=""/>
+                        <img class="img-fluid" src="<?= $media->thumbnail; ?>" alt="<?= $media->title; ?>" style="object-fit: contain; width: 100%; height: 350px;"/>
+                        <a href="<?= $media->path; ?>" class="stretched-link" data-fancybox="print-media" data-title="<?= $media->title; ?>"></a>
                     </div>
-                    <a href="<?= $media->path; ?>" class="stretched-link" data-fancybox="print-media" data-title="<?= $media->id; ?>"></a>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -178,7 +178,8 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
             <?php foreach ($memorabilias as $memorabilia): ?>
                 <div class="col-md-4 ">
                     <div class="card mb-4 shadow-sm">
-                        <img class="img-fluid" src="<?= $memorabilia->path; ?>" alt=""/>
+                        <img class="img-fluid" src="<?= $memorabilia->thumbnail; ?>" alt="" style="object-fit: contain; width: 100%; height: 350px;"/>
+                        <a href="<?= $memorabilia->path; ?>" class="stretched-link" data-fancybox="memorabilia" data-title="<?= $memorabilia->title; ?>"></a>
                     </div>
                 </div>
             <?php endforeach; ?>

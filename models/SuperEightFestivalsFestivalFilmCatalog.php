@@ -4,6 +4,7 @@ class SuperEightFestivalsFestivalFilmCatalog extends Omeka_Record_AbstractRecord
 {
     public $city_id;
     public $path;
+    public $thumbnail;
 
     protected function _validate()
     {

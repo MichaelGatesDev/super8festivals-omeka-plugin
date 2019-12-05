@@ -35,7 +35,7 @@ $countries = get_all_countries(true);
                     ?>
                     <div class="card mb-4" style="min-width: 280px; max-width: 240px;">
                         <div class="embed-responsive embed-responsive-16by9">
-                            <img alt="Card image cap" class="card-img-top embed-responsive-item" src="<?= $banner != null ? $banner->path : "https://placehold.it/280x140/abc" ?>">
+                            <img alt="Card image cap" class="card-img-top embed-responsive-item" src="<?= $banner != null ? $banner->thumbnail : "https://placehold.it/280x140/abc" ?>">
                         </div>
                         <div class="card-body">
                             <h3 class="card-title text-capitalize"><?= $country->name; ?></h3>

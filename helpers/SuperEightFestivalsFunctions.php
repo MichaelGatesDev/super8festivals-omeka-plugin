@@ -153,21 +153,20 @@ function get_banner_for_country($countryID)
     return null;
 }
 
-function add_banner_for_country_by_id($countryID, $path)
+function add_banner_for_country_by_id($countryID, $path, $thumbnail)
 {
     $banner = new SuperEightFestivalsCountryBanner();
-    $banner->path = $path;
     $banner->country_id = $countryID;
+    $banner->path = $path;
+    $banner->thumbnail = $thumbnail;
     $banner->save();
 }
 
-function add_banner_for_country_by_name($countryName, $path)
+function add_banner_for_country_by_name($countryName, $path, $thumbnail)
 {
-    $banner = new SuperEightFestivalsCountryBanner();
-    $banner->path = $path;
-    $banner->country_id = get_country_by_name($countryName)->id;;
-    $banner->save();
+    add_banner_for_country_by_id(get_country_by_name($countryName)->id, $path, $thumbnail);
 }
+
 
 // ============================================================================================================================================================= \\
 
@@ -218,6 +217,30 @@ function add_poster_for_city_by_name_and_country_by_name($countryName, $cityName
 function get_all_photos_for_country($countryID)
 {
     return get_all_records_for_country($countryID, "SuperEightFestivalsFestivalPhoto");
+}
+
+function add_photo_for_city_by_id($cityID, $title, $description, $path, $thumbnail)
+{
+    $poster = new SuperEightFestivalsFestivalPhoto();
+    $poster->city_id = $cityID;
+    $poster->title = $title;
+    $poster->description = $description;
+    $poster->path = $path;
+    $poster->thumbnail = $thumbnail;
+    $poster->save();
+}
+
+function add_photo_for_city_by_name($countryID, $cityName, $title, $description, $path, $thumbnail)
+{
+    $cityID = get_city_by_name($countryID, $cityName)->id;
+    add_photo_for_city_by_id($cityID, $title, $description, $path, $thumbnail);
+}
+
+function add_photo_for_city_by_name_and_country_by_name($countryName, $cityName, $title, $description, $path, $thumbnail)
+{
+    $countryID = get_country_by_name($countryName)->id;
+    $cityID = get_city_by_name($countryID, $cityName)->id;
+    add_photo_for_city_by_id($cityID, $title, $description, $path, $thumbnail);
 }
 
 // ============================================================================================================================================================= \\

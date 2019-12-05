@@ -4,6 +4,7 @@ class SuperEightFestivalsCountryBanner extends Omeka_Record_AbstractRecord imple
 {
     public $country_id;
     public $path;
+    public $thumbnail;
 
     protected function _validate()
     {

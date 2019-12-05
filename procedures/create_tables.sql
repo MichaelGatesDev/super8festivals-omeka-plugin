@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
     `id`         int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the banner
     `country_id` int(10) unsigned NOT NULL,                # ID of the country
     `path`       varchar(255)     NOT NULL,
+    `thumbnail`  varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -33,9 +34,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%cities`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_film_catalogs`
 (
-    `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the film catalog
-    `city_id` int(10) unsigned NOT NULL,                # ID of the festival
-    `path`    varchar(255)     NOT NULL,
+    `id`        int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the film catalog
+    `city_id`   int(10) unsigned NOT NULL,                # ID of the festival
+    `path`      varchar(255)     NOT NULL,
+    `thumbnail` varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -63,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
     `city_id`      int(10) unsigned NOT NULL,                # ID of the festival
     `filmmaker_id` int(10) unsigned,                         # ID Of the filmmaker
     `title`        varchar(255),
+    `thumbnail`    varchar(255),
     `url`          varchar(255)     NOT NULL,                # URL to video
     `embed`        TEXT(65535)      NOT NULL,                # HTML to embed video
     PRIMARY KEY (`id`)
@@ -72,9 +75,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
 (
-    `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the memorabilia
-    `city_id` int(10) unsigned NOT NULL,                # ID of the festival
-    `path`    varchar(255)     NOT NULL,
+    `id`        int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the memorabilia
+    `city_id`   int(10) unsigned NOT NULL,                # ID of the festival
+    `path`      varchar(255)     NOT NULL,
+    `thumbnail` varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -82,9 +86,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_medias` # Newspapers & Magazines
 (
-    `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the print media
-    `city_id` int(10) unsigned NOT NULL,                # ID of the festival
-    `path`    varchar(255)     NOT NULL,
+    `id`        int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the print media
+    `city_id`   int(10) unsigned NOT NULL,                # ID of the festival
+    `path`      varchar(255)     NOT NULL,
+    `thumbnail` varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -97,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photos`
     `title`       varchar(255),
     `description` varchar(255),
     `path`        varchar(255)     NOT NULL,
+    `thumbnail`   varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8

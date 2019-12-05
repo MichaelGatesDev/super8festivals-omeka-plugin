@@ -246,56 +246,61 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             "https://i.imgur.com/IVLbfxj.png"
         );
 
-//        // add print media
-//        $newspaper = new SuperEightFestivalsFestivalPrintMedia();
-//        $newspaper->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $newspaper->path = "https://i.imgur.com/EuYD9Hj.jpg";
-//        $newspaper->save();
-//        $magazine = new SuperEightFestivalsFestivalPrintMedia();
-//        $magazine->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $magazine->path = "https://i.imgur.com/IzdVLBe.jpg";
-//        $magazine->save();
-//
-//        // add memorabilia
-//        $memA = new SuperEightFestivalsFestivalMemorabilia();
-//        $memA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $memA->path = "https://i.imgur.com/LRLnf4S.png";
-//        $memA->save();
-//        $memB = new SuperEightFestivalsFestivalMemorabilia();
-//        $memB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $memB->path = "https://i.imgur.com/KtlAYaR.png";
-//        $memB->save();
-//        $memC = new SuperEightFestivalsFestivalMemorabilia();
-//        $memC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $memC->path = "https://i.imgur.com/X5qU1V0.jpg";
-//        $memC->save();
-//
-//        // add films
-//        $filmA = new SuperEightFestivalsFestivalFilm();
-//        $filmA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $filmA->title = "My Cool Film";
-//        $filmA->url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-//        $filmA->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-//        $filmA->save();
-//        $filmB = new SuperEightFestivalsFestivalFilm();
-//        $filmB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $filmB->title = "Another Awesome Film";
-//        $filmB->url = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
-//        $filmB->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/FTQbiNvZqaY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-//        $filmB->save();
-//
-//        // add filmmakers
-//        $filmmakerA = new SuperEightFestivalsFestivalFilmmaker();
-//        $filmmakerA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $filmmakerA->first_name = "Jane";
-//        $filmmakerA->last_name = "Doe";
-//        $filmmakerA->cover_photo_url = "https://i.imgur.com/zzA8Gxw.png";
-//        $filmmakerA->save();
-//        $filmmakerB = new SuperEightFestivalsFestivalFilmmaker();
-//        $filmmakerB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-//        $filmmakerB->organization_name = "Example Film University";
-//        $filmmakerB->cover_photo_url = "https://i.imgur.com/1Lvkt7C.jpg";
-//        $filmmakerB->save();
+        // add print media
+        $newspaper = new SuperEightFestivalsFestivalPrintMedia();
+        $newspaper->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $newspaper->path = "https://i.imgur.com/EuYD9Hj.jpg";
+        $newspaper->thumbnail = "https://i.imgur.com/EuYD9Hj.jpg";
+        $newspaper->save();
+        $magazine = new SuperEightFestivalsFestivalPrintMedia();
+        $magazine->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $magazine->path = "https://i.imgur.com/IzdVLBe.jpg";
+        $magazine->thumbnail = "https://i.imgur.com/IzdVLBe.jpg";
+        $magazine->save();
+
+        // add memorabilia
+        $memA = new SuperEightFestivalsFestivalMemorabilia();
+        $memA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $memA->path = "https://i.imgur.com/LRLnf4S.png";
+        $memA->thumbnail = "https://i.imgur.com/LRLnf4S.png";
+        $memA->save();
+        $memB = new SuperEightFestivalsFestivalMemorabilia();
+        $memB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $memB->path = "https://i.imgur.com/KtlAYaR.png";
+        $memB->thumbnail = "https://i.imgur.com/KtlAYaR.png";
+        $memB->save();
+        $memC = new SuperEightFestivalsFestivalMemorabilia();
+        $memC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $memC->path = "https://i.imgur.com/X5qU1V0.jpg";
+        $memC->thumbnail = "https://i.imgur.com/X5qU1V0.jpg";
+        $memC->save();
+
+        // add films
+        $filmA = new SuperEightFestivalsFestivalFilm();
+        $filmA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmA->title = "My Cool Film";
+        $filmA->url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        $filmA->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        $filmA->save();
+        $filmB = new SuperEightFestivalsFestivalFilm();
+        $filmB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmB->title = "Another Awesome Film";
+        $filmB->url = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
+        $filmB->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/FTQbiNvZqaY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        $filmB->save();
+
+        // add filmmakers
+        $filmmakerA = new SuperEightFestivalsFestivalFilmmaker();
+        $filmmakerA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmmakerA->first_name = "Jane";
+        $filmmakerA->last_name = "Doe";
+        $filmmakerA->cover_photo_url = "https://i.imgur.com/zzA8Gxw.png";
+        $filmmakerA->save();
+        $filmmakerB = new SuperEightFestivalsFestivalFilmmaker();
+        $filmmakerB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
+        $filmmakerB->organization_name = "Example Film University";
+        $filmmakerB->cover_photo_url = "https://i.imgur.com/1Lvkt7C.jpg";
+        $filmmakerB->save();
     }
 
     public function hookInitialize()

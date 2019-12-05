@@ -265,11 +265,25 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
         <div class="row d-flex flex-row justify-content-center pt-4">
             <div class="col">
                 <?php if (count($filmmakers) > 0): ?>
-                    <div class="card-columns">
+                    <div class="card-group">
                         <?php foreach ($filmmakers as $filmmaker): ?>
                             <div class="card mb-4 shadow-sm display-inline-block">
-                                <img class="img-fluid w-100" src="<?= $filmmaker->thumbnail; ?>" alt=""/>
-                                <a href="<?= $filmmaker->path; ?>" class="stretched-link" data-fancybox="fb-filmmakers" data-title=""></a>
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <?php $cover_photo = $filmmaker->cover_photo_url; ?>
+                                    <img alt="" class="card-img-top embed-responsive-item" style="object-fit: cover;" src="<?= $cover_photo != null ? $cover_photo : "https://placehold.it/280x140/abc" ?>">
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-title text-capitalize">
+                                        <?php if ($filmmaker->organization_name != null): ?>
+                                            <?= $filmmaker->organization_name; ?>
+                                        <?php else: ?>
+                                            <?php echo $filmmaker->first_name; ?>
+                                            <?php echo $filmmaker->last_name; ?>
+                                        <?php endif; ?>
+                                    </p>
+                                    <p class="card-text"></p>
+                                    <a href="<?= $cover_photo; ?>" class="stretched-link" data-fancybox="fb-filmmakers" data-title=""></a>
+                                </div>
                             </div>
                         <?php endforeach; ?>
                     </div>

@@ -100,8 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="input-group mb-3">
                                 <select class="custom-select title" id="materialType" name="materialType" required="required">
                                     <option value="" selected>Select</option>
-                                    <?php foreach (get_db()->getTable("SuperEightFestivalsContributionType")->findAll() as $type): ?>
-                                        <option value="<?= $type->name; ?>"><?= $type->name; ?></option>
+                                    <?php foreach (get_all_contribution_types() as $contribution_type): ?>
+                                        <option value="<?= $contribution_type->name; ?>" class="text-capitalize"><?= $contribution_type->name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

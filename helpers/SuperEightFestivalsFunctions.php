@@ -272,3 +272,8 @@ function get_all_filmmakers_for_country($countryID)
 }
 
 // ============================================================================================================================================================= \\
+
+function get_all_contribution_types()
+{
+    return get_db()->getTable('SuperEightFestivalsContributionType')->findAll();
+}

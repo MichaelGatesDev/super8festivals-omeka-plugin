@@ -99,9 +99,9 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
         </div>
         <div class="row d-flex flex-row justify-content-center">
             <?php foreach ($posters as $poster): ?>
-                <div class="col-md-4 ">
+                <div class="col-md-4 col-lg-2">
                     <div class="card mb-4 shadow-sm">
-                        <img class="img-fluid" src="<?= $poster->path; ?>" alt="<?= $poster->title; ?>"/>
+                        <img class="img-fluid" src="<?= $poster->thumbnail; ?>" alt="<?= $poster->title; ?>" style="object-fit: contain; width: 100%; height: 250px;"/>
                         <div class="card-body">
                             <h5 class="card-title"><?= $poster->title; ?></h5>
                             <p class="card-text"><?= $poster->description; ?></p>

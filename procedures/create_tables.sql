@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
 (
     `id`         int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the banner
     `country_id` int(10) unsigned NOT NULL,                # ID of the country
-    `path`       varchar(255)     NOT NULL,                # file path relative to server root
+    `path`       varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_film_catalogs`
 (
     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the film catalog
     `city_id` int(10) unsigned NOT NULL,                # ID of the festival
-    `path`    varchar(255)     NOT NULL,                # file path relative to server root
+    `path`    varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
 (
     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the memorabilia
     `city_id` int(10) unsigned NOT NULL,                # ID of the festival
-    `path`    varchar(255)     NOT NULL,                # file path relative to server root
+    `path`    varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_medias` # Newspapers & Magazi
 (
     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the print media
     `city_id` int(10) unsigned NOT NULL,                # ID of the festival
-    `path`    varchar(255)     NOT NULL,                # file path relative to server root
+    `path`    varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photos`
     `city_id`     int(10) unsigned NOT NULL,                # ID of the festival
     `title`       varchar(255),
     `description` varchar(255),
-    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    `path`        varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -108,7 +108,8 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_posters`
     `city_id`     int(10) unsigned NOT NULL,                # ID of the festival
     `title`       varchar(255),
     `description` varchar(255),
-    `path`        varchar(255)     NOT NULL,                # file path relative to server root
+    `path`        varchar(255)     NOT NULL,
+    `thumbnail`   varchar(255)     NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8

@@ -6,6 +6,7 @@ class SuperEightFestivalsFestivalPoster extends Omeka_Record_AbstractRecord impl
     public $title;
     public $description;
     public $path;
+    public $thumbnail;
 
     protected function _validate()
     {

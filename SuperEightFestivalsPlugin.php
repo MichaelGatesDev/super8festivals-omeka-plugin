@@ -90,40 +90,134 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $belgiumBanner->save();
 
         // add posters
-        $posterA = new SuperEightFestivalsFestivalPoster();
-        $posterA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterA->path = "https://i.imgur.com/RwgkYuE.jpg";
-        $posterA->title = "Poster A";
-        $posterA->description = "This is the description of Poster A.";
-        $posterA->save();
-        // add posters
-        $posterB = new SuperEightFestivalsFestivalPoster();
-        $posterB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterB->path = "https://i.imgur.com/SUNQTdK.jpg";
-        $posterB->title = "Poster B";
-        $posterB->description = "This is the description of Poster B.";
-        $posterB->save();
-        // add posters
-        $posterC = new SuperEightFestivalsFestivalPoster();
-        $posterC->path = "https://i.imgur.com/w3RP2lB.jpg";
-        $posterC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $posterC->description = "This is the description of Poster C.";
-        $posterC->title = "Poster C";
-        $posterC->save();
-
-        // add photos
-        $photoA = new SuperEightFestivalsFestivalPhoto();
-        $photoA->path = "https://i.imgur.com/QARf3yA.jpg";
-        $photoA->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $photoA->description = "This is the description of Photo A.";
-        $photoA->title = "Photo A";
-        $photoA->save();
-        $photoB = new SuperEightFestivalsFestivalPhoto();
-        $photoB->path = "https://i.imgur.com/IFdIlT1.jpg";
-        $photoB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $photoB->description = "This is the description of Photo B.";
-        $photoB->title = "Photo B";
-        $photoB->save();
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/V67MtfH.jpg",
+            "https://i.imgur.com/4pc1mpm.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/5RNAxom.jpg",
+            "https://i.imgur.com/QCqZWU6.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/iDTqEUl.jpg",
+            "https://i.imgur.com/BVMDc4y.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/lRkRabE.jpg",
+            "https://i.imgur.com/4g0Msba.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/kntJ6e2.jpg",
+            "https://i.imgur.com/MTdxlNY.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/4J4hn6l.jpg",
+            "https://i.imgur.com/RCEiR2Z.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/74a8hJo.jpg",
+            "https://i.imgur.com/Xr9GIlS.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/ZIMCNyX.jpg",
+            "https://i.imgur.com/L5sbfKq.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/MTnevnF.jpg",
+            "https://i.imgur.com/cGr5TGm.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/ov7u63K.jpg",
+            "https://i.imgur.com/ENCVfqe.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/zIxrV0U.jpg",
+            "https://i.imgur.com/ci5dity.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/iV1wAtW.jpg",
+            "https://i.imgur.com/XchGirL.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/vcU1i1Q.jpg",
+            "https://i.imgur.com/jBA8tun.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/Qi21JLp.jpg",
+            "https://i.imgur.com/IhpUOxZ.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/cdHeYrH.jpg",
+            "https://i.imgur.com/Z3VBqSj.jpg"
+        );
+        add_poster_for_city_by_name_and_country_by_name(
+            'belgium',
+            'brussels',
+            "Poster Title",
+            "This is an example description.",
+            "https://i.imgur.com/WyUAsAM.jpg",
+            "https://i.imgur.com/wrjiqiU.jpg"
+        );
 
         // add print media
         $newspaper = new SuperEightFestivalsFestivalPrintMedia();

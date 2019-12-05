@@ -29,19 +29,19 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
     @media (min-width: 768px) {
         .card-columns {
-            column-count: 3;
+            column-count: 2;
         }
     }
 
     @media (min-width: 992px) {
         .card-columns {
-            column-count: 4;
+            column-count: 3;
         }
     }
 
     @media (min-width: 1200px) {
         .card-columns {
-            column-count: 6;
+            column-count: 4;
         }
     }
 </style>

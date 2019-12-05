@@ -113,7 +113,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
 
     <!--Posters-->
-    <section id="posters" class="d-flex flex-column justify-content-center mt-5 p-4 bg-light">
+    <section id="posters" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light">
         <div class="container pb-4">
             <div class="row">
                 <div class="col">
@@ -129,7 +129,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
             <div class="col">
                 <div class="card-columns">
                     <?php foreach ($posters as $poster): ?>
-                        <div class="card mb-4 shadow-sm display-inline-block" style="width: fit-content;">
+                        <div class="card mb-4 shadow-sm display-inline-block">
                             <img class="img-fluid w-100" src="<?= $poster->thumbnail; ?>" alt="<?= $poster->title; ?>"/>
                             <div class="card-body">
                                 <h5 class="card-title"><?= $poster->title; ?></h5>
@@ -144,7 +144,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
     </section>
 
     <!--Photos-->
-    <section id="photos" class="container d-flex flex-column justify-content-center mt-5">
+    <section id="photos" class="container d-flex flex-column justify-content-center mt-5 p-4">
         <div class="container pb-4">
             <div class="row">
                 <div class="col">
@@ -160,13 +160,13 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
             <div class="col">
                 <div class="card-columns">
                     <?php foreach ($photos as $photo): ?>
-                        <div class="card mb-4 shadow-sm display-inline-block" style="width: fit-content;">
+                        <div class="card mb-4 shadow-sm display-inline-block">
                             <img class="img-fluid w-100" src="<?= $photo->thumbnail; ?>" alt="<?= $photo->title; ?>"/>
                             <div class="card-body">
                                 <h5 class="card-title"><?= $photo->title; ?></h5>
                                 <p class="card-text"><?= $photo->description; ?></p>
                             </div>
-                            <a href="<?= $photo->path; ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $poster->title; ?>"></a>
+                            <a href="<?= $photo->path; ?>" class="stretched-link" data-fancybox="fb-photos" data-title="<?= $photo->title; ?>"></a>
                         </div>
                     <?php endforeach; ?>
                 </div>

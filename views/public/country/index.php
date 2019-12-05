@@ -9,6 +9,7 @@ echo head($head);
 ?>
 
 <?php
+$banner = get_banner_for_country($country->id);
 $posters = get_all_posters_for_country($country->id);
 $photos = get_all_photos_for_country($country->id);
 $printMedias = get_all_print_media_for_country($country->id);
@@ -79,7 +80,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
             <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 mb-4 d-flex flex-column justify-content-center align-items-center ">
                 <div class="d-flex flex-column justify-content-center align-items-center bg-dark" style="background-color:#2e2e2e; color: #FFFFFF;">
-                    <img class="img-fluid d-none d-lg-block" src="<?= get_banner_for_country($country->id)->path; ?>" alt="Banner Image"/>
+                    <img class="img-fluid d-none d-lg-block" src="<?= $banner != null ? $banner->path : img("placeholder.svg") ?>" alt="Banner Image"/>
                 </div>
             </div>
 

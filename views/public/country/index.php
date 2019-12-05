@@ -241,9 +241,8 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                 <?php foreach ($films as $film): ?>
                     <div class="col-md-4 ">
                         <div class="card mb-4 shadow-sm">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <?= $film->embed; ?>
-                            </div>
+                            <img alt="" class="card-img-top embed-responsive-item" style="object-fit: cover;" src="<?= $film->thumbnail != null ? $film->thumbnail : "https://placehold.it/280x140/abc" ?>">
+                            <a href="<?= $film->url; ?>" class="stretched-link" data-fancybox="fb-films" data-title=""></a>
                         </div>
                     </div>
                 <?php endforeach; ?>

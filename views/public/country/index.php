@@ -139,7 +139,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                             <h5 class="card-title"><?= $photo->title; ?></h5>
                             <p class="card-text"><?= $photo->description; ?></p>
                         </div>
-                        <a href="<?= $photo->path; ?>" class="stretched-link" data-lightbox="photos" data-title="<?= $photo->title; ?>"></a>
+                        <a href="<?= $photo->path; ?>" class="stretched-link" data-fancybox="photos" data-title="<?= $photo->title; ?>"></a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -161,7 +161,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                     <div class="card mb-4 shadow-sm">
                         <img class="img-fluid" src="<?= $media->path; ?>" alt=""/>
                     </div>
-                    <a href="<?= $media->path; ?>" class="stretched-link" data-lightbox="print-media" data-title="<?= $media->id; ?>"></a>
+                    <a href="<?= $media->path; ?>" class="stretched-link" data-fancybox="print-media" data-title="<?= $media->id; ?>"></a>
                 </div>
             <?php endforeach; ?>
         </div>

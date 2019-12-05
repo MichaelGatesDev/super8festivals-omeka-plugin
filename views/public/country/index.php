@@ -1,6 +1,10 @@
 <?php
-queue_css_file("lightbox.min");
-queue_js_file("lightbox.min");
+
+queue_css_url("//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+queue_js_url("//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js");
+
+//queue_css_file("lightbox.min");
+//queue_js_file("lightbox.min");
 $head = array(
     'title' => $country->name,
 );
@@ -106,7 +110,7 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                             <h5 class="card-title"><?= $poster->title; ?></h5>
                             <p class="card-text"><?= $poster->description; ?></p>
                         </div>
-                        <a href="<?= $poster->path; ?>" class="stretched-link" data-lightbox="posters" data-title="<?= $poster->title; ?>"></a>
+                        <a href="<?= $poster->path; ?>" class="stretched-link" data-fancybox="posters" data-title="<?= $poster->title; ?>"></a>
                     </div>
                 </div>
             <?php endforeach; ?>

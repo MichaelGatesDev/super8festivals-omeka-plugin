@@ -15,7 +15,6 @@ function get_all_countries($sortByCountryName = false)
     return $results;
 }
 
-
 // ============================================================================================================================================================= \\
 
 function get_parent_country_options()
@@ -29,6 +28,39 @@ function get_parent_country_options()
     }
     return $valuePairs;
 }
+
+
+function get_parent_country_id($cityID)
+{
+    $city = get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
+    return $city->country_id;
+}
+
+function get_country_by_id($countryID)
+{
+    return get_db()->getTable('SuperEightFestivalsCountry')->find($countryID);
+}
+
+function get_country_by_name($countryName)
+{
+    $results = get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => $countryName), 1);
+    if (count($results) > 0) return $results[0];
+    return null;
+}
+
+function get_all_countries_by_name_ambiguous($name)
+{
+    return get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => $name), -1);
+}
+
+
+function add_country($countryName)
+{
+    $country = new SuperEightFestivalsCountry();
+    $country->name = $countryName;
+    $country->save();
+}
+
 
 // ============================================================================================================================================================= \\
 
@@ -92,6 +124,19 @@ function get_city_by_name($countryID, $cityName)
     return null;
 }
 
+function get_city_by_name_ambiguous($cityName)
+{
+    $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), 1);
+    if (count($results) > 0) return $results[0];
+    return null;
+}
+
+
+function get_all_cities_by_name_ambiguous($cityName)
+{
+    return get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), -1);
+}
+
 function get_city_by_id($cityID)
 {
     return get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
@@ -115,33 +160,6 @@ function add_city_by_country_id($countryID, $name, $latitude, $longitude)
     $city->longitude = $longitude;
     $city->country_id = $countryID;
     $city->save();
-}
-
-// ============================================================================================================================================================= \\
-
-function get_parent_country_id($cityID)
-{
-    $city = get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
-    return $city->country_id;
-}
-
-function get_country_by_id($countryID)
-{
-    return get_db()->getTable('SuperEightFestivalsCountry')->find($countryID);
-}
-
-function get_country_by_name($countryName)
-{
-    $results = get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => $countryName), 1);
-    if (count($results) > 0) return $results[0];
-    return null;
-}
-
-function add_country($countryName)
-{
-    $country = new SuperEightFestivalsCountry();
-    $country->name = $countryName;
-    $country->save();
 }
 
 // ============================================================================================================================================================= \\

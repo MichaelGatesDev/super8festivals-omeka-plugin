@@ -377,6 +377,9 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
         $router = $args['router'];
 
+        // override search
+        $this->addRoute($router, 'search', 'search', 'search');
+
         $this->addRoute($router, 'about', 'about', 'about');
         $this->addRoute($router, 'contact', 'contact', 'contact');
         $this->addRoute($router, 'submit', 'submit', 'submit');

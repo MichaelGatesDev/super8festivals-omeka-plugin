@@ -11,7 +11,7 @@ echo head($head);
 <?php
 $posters = get_all_posters_for_country($country->id);
 $photos = get_all_photos_for_country($country->id);
-$printMedia = get_all_print_media_for_country($country->id);
+$printMedias = get_all_print_media_for_country($country->id);
 $memorabilias = get_all_memorabilia_for_country($country->id);
 $films = get_all_films_for_country($country->id);
 $filmmakers = get_all_filmmakers_for_country($country->id);
@@ -114,19 +114,17 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
 
     <!--Posters-->
     <section id="posters" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light">
-        <div class="container pb-4">
-            <div class="row">
-                <div class="col">
-                    <h3 class="pt-2 pb-2">Posters</h3>
-                    <span class="text-muted">
-                        Here a collection of posters from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
-                        Click one to enlarge it on your screen.
-                    </span>
-                </div>
+        <div class="row">
+            <div class="col">
+                <h3 class="pt-2 pb-2">Posters</h3>
+                <span class="text-muted">
+                    Here a collection of posters from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
+                    Click one to enlarge it on your screen.
+                </span>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center">
-            <div class="col">
+        <div class="row d-flex flex-row justify-content-center pt-4">
+            <?php if (count($posters) > 0): ?>
                 <div class="card-columns">
                     <?php foreach ($posters as $poster): ?>
                         <div class="card mb-4 shadow-sm display-inline-block">
@@ -139,25 +137,27 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                         </div>
                     <?php endforeach; ?>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="col">
+                    <p>There are no posters available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
     <!--Photos-->
     <section id="photos" class="container d-flex flex-column justify-content-center mt-5 p-4">
-        <div class="container pb-4">
-            <div class="row">
-                <div class="col">
-                    <h3 class="pt-2 pb-2">Photos</h3>
-                    <span class="text-muted">
-                        Here a collection of photos from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
-                        Click one to enlarge it on your screen.
-                    </span>
-                </div>
+        <div class="row">
+            <div class="col">
+                <h3 class="pt-2 pb-2">Photos</h3>
+                <span class="text-muted">
+                    Here a collection of photos from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
+                    Click one to enlarge it on your screen.
+                </span>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center">
-            <div class="col">
+        <div class="row d-flex flex-row justify-content-center pt-4">
+            <?php if (count($photos) > 0): ?>
                 <div class="card-columns">
                     <?php foreach ($photos as $photo): ?>
                         <div class="card mb-4 shadow-sm display-inline-block">
@@ -170,59 +170,73 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                         </div>
                     <?php endforeach; ?>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="col">
+                    <p>There are no photos available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
     <!--Print Media -->
-    <section id="print-media" class="d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="container pb-4">
-            <div class="row">
-                <div class="col">
-                    <h3 class="pt-4 pb-4">Print Media</h3>
-                </div>
+    <section id="print-media" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
+        <div class="row">
+            <div class="col">
+                <h3 class="pt-2 pb-2">Print Media</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center">
-            <?php foreach ($printMedia as $media): ?>
-                <div class="col-md-4 col-lg-2">
-                    <div class="card mb-4 shadow-sm">
-                        <img class="img-fluid" src="<?= $media->thumbnail; ?>" alt="<?= $media->title; ?>" style="object-fit: contain; width: 100%; height: 350px; max-height: 350px;"/>
-                        <a href="<?= $media->path; ?>" class="stretched-link" data-fancybox="fb-print-media" data-title="<?= $media->title; ?>"></a>
-                    </div>
+        <div class="row d-flex flex-row justify-content-center pt-4">
+            <?php if (count($printMedias) > 0): ?>
+                <div class="card-columns">
+                    <?php foreach ($printMedias as $printMedia): ?>
+                        <div class="card mb-4 shadow-sm display-inline-block">
+                            <img class="img-fluid w-100" src="<?= $printMedia->thumbnail; ?>" alt=""/>
+                            <a href="<?= $printMedia->path; ?>" class="stretched-link" data-fancybox="fb-printMedias" data-title=""></a>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col">
+                    <p>There is no print media available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
     <!--Memorabilia-->
-    <section id="photos" class="container d-flex flex-column justify-content-center mt-5 p-4 ">
+    <section id="memorabilia" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
         <div class="row">
             <div class="col">
-                <h3>Memorabilia</h3>
+                <h3 class="pt-2 pb-2">Memorabilia</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center">
-            <?php foreach ($memorabilias as $memorabilia): ?>
-                <div class="col-md-4 ">
-                    <div class="card mb-4 shadow-sm">
-                        <img class="img-fluid" src="<?= $memorabilia->thumbnail; ?>" alt="" style="object-fit: contain; width: 100%; height: 350px; max-height: 350px;"/>
-                        <a href="<?= $memorabilia->path; ?>" class="stretched-link" data-fancybox="fb-memorabilia" data-title="<?= $memorabilia->title; ?>"></a>
-                    </div>
+        <div class="row d-flex flex-row justify-content-center pt-4">
+            <?php if (count($memorabilias) > 0): ?>
+                <div class="card-columns">
+                    <?php foreach ($memorabilias as $memorabilia): ?>
+                        <div class="card mb-4 shadow-sm display-inline-block">
+                            <img class="img-fluid w-100" src="<?= $memorabilia->thumbnail; ?>" alt=""/>
+                            <a href="<?= $memorabilia->path; ?>" class="stretched-link" data-fancybox="fb-memorabilias" data-title=""></a>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
+            <?php else: ?>
+                <div class="col">
+                    <p>There is no memoriabilia available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
     <!--Films-->
-    <section id="photos" class="d-flex flex-column justify-content-center mt-5 p-4 bg-light">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h3>Films</h3>
-                </div>
+    <section id="films" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
+        <div class="row">
+            <div class="col">
+                <h3 class="pt-2 pb-2">Films</h3>
             </div>
-            <div class="row d-flex flex-row justify-content-center">
+        </div>
+        <div class="row d-flex flex-row justify-content-center pt-4">
+            <?php if (count($films) > 0): ?>
                 <?php foreach ($films as $film): ?>
                     <div class="col-md-4 ">
                         <div class="card mb-4 shadow-sm">
@@ -232,44 +246,39 @@ $filmmakers = get_all_filmmakers_for_country($country->id);
                         </div>
                     </div>
                 <?php endforeach; ?>
-            </div>
+            <?php else: ?>
+                <div class="col">
+                    <p>There are no films available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
     <!--Filmmakers-->
-    <section id="filmmakers" class="container d-flex flex-column justify-content-center mt-5 p-4">
+    <section id="filmmakers" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
         <div class="row">
             <div class="col">
-                <h3>Filmmakers</h3>
+                <h3 class="pt-2 pb-2">Filmmakers</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center">
+        <div class="row d-flex flex-row justify-content-center pt-4">
             <div class="col">
-                <div class="card-deck">
-                    <?php foreach ($filmmakers as $filmmaker): ?>
-                        <div class="card mb-4" style="min-width: 280px; max-width: 240px;">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <?php $cover_photo = $filmmaker->cover_photo_url; ?>
-                                <img alt="" class="card-img-top embed-responsive-item" style="object-fit: cover;" src="<?= $cover_photo != null ? $cover_photo : "https://placehold.it/280x140/abc" ?>">
+                <?php if (count($filmmakers) > 0): ?>
+                    <div class="card-columns">
+                        <?php foreach ($filmmakers as $filmmaker): ?>
+                            <div class="card mb-4 shadow-sm display-inline-block">
+                                <img class="img-fluid w-100" src="<?= $filmmaker->thumbnail; ?>" alt=""/>
+                                <a href="<?= $filmmaker->path; ?>" class="stretched-link" data-fancybox="fb-filmmakers" data-title=""></a>
                             </div>
-                            <div class="card-body">
-                                <p class="card-title text-capitalize">
-                                    <?php if ($filmmaker->organization_name != null): ?>
-                                        <?= $filmmaker->organization_name; ?>
-                                    <?php else: ?>
-                                        <?php echo $filmmaker->first_name; ?>
-                                        <?php echo $filmmaker->last_name; ?>
-                                    <?php endif; ?>
-                                </p>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <a href="<?= $this->url('filmmakers/' . $filmmaker->id); ?>" class="stretched-link"></a>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <p>There is no information about filmmakers available.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>
+
 
 </section>
 

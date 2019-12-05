@@ -1,10 +1,8 @@
 <?php
-
+// fancybox
 queue_css_url("//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
 queue_js_url("//cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js");
 
-//queue_css_file("lightbox.min");
-//queue_js_file("lightbox.min");
 $head = array(
     'title' => $country->name,
 );

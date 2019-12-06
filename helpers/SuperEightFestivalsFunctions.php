@@ -77,7 +77,7 @@ function add_country($countryName)
 
 // ============================================================================================================================================================= \\
 
-function get_parent_city_options($countryID)
+function get_parent_city_options()
 {
     $valuePairs = array();
     $potentialParents = get_db()->getTable('SuperEightFestivalsCity')->findPotentialParentCities();

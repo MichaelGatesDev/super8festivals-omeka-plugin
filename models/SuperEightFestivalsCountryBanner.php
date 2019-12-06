@@ -6,6 +6,11 @@ class SuperEightFestivalsCountryBanner extends Omeka_Record_AbstractRecord imple
     public $path;
     public $thumbnail;
 
+    public function getCountry()
+    {
+        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
+    }
+
     protected function _validate()
     {
         if (empty($this->path)) {

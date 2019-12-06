@@ -111,9 +111,9 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                 $banner->setPostData($_POST);
                 if ($banner->save()) {
                     if ($action == 'add') {
-                        $this->_helper->flashMessenger(__('The banner "%s" has been added.', $banner->name), 'success');
+                        $this->_helper->flashMessenger(__('The banner has been added for %s.', $banner->getCountry()->name), 'success');
                     } else if ($action == 'edit') {
-                        $this->_helper->flashMessenger(__('The banner "%s" has been edited.', $banner->name), 'success');
+                        $this->_helper->flashMessenger(__('The banner has been edited for %s.', $banner->getCountry()->name), 'success');
                     }
                     $this->_helper->redirector('index');
                     return;

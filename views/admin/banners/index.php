@@ -6,6 +6,4 @@ echo head(array(
 
 <?php echo flash(); ?>
 
-<p>What is this page?</p>
-
 <?php echo foot(); ?>

@@ -1,11 +1,11 @@
 <?php
 echo head(array(
-    'title' => 'Countries',
+    'title' => 'Add Country',
 ));
 ?>
 
 <?php echo flash(); ?>
 
-<p>What is this page?</p>
+<?php echo $form; ?>
 
 <?php echo foot(); ?>

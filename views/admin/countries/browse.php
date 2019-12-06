@@ -13,29 +13,34 @@ echo head(array(
 <table class="full">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Internal ID</th>
+        <?php echo browse_sort_links(
+            array(
+                "Name" => 'name',
+                "Internal ID" => 'id',
+            ),
+            array('link_tag' => 'th scope="col"', 'list_tag' => ''));
+        ?>
     </tr>
     </thead>
     <tbody>
-    <?php foreach (get_all_countries(true) as $country): ?>
-        <tr>
+    <?php foreach (loop('super_eight_festivals_country') as $country): ?>
+        <tr style="text-transform: capitalize;">
             <td>
-                <span style="text-transform: capitalize;">
-                    <a href="/admin/super-eight-festivals/countries/<?= $country->name; ?>">
-                        <?php echo $country->name ?>
+                <span class="title">
+                    <a href="<?php echo html_escape(record_url('super_eight_festivals_country')); ?>" style="text-transform: capitalize;">
+                        <?php echo metadata('super_eight_festivals_country', 'name'); ?>
                     </a>
                 </span>
                 <ul class="action-links group">
                     <!-- Edit Item-->
                     <li>
-                        <a href="<?php echo "edit/id/$country->id"; ?>">
+                        <a class="edit" href="<?php echo html_escape(record_url('super_eight_festivals_country', 'edit')); ?>">
                             Edit
                         </a>
                     </li>
                     <!-- Delete Item-->
                     <li>
-                        <a href="<?php echo "delete-confirm/id/$country->id"; ?>">
+                        <a class="edit" href="<?php echo html_escape(record_url('super_eight_festivals_country', 'delete-confirm')); ?>">
                             Delete
                         </a>
                     </li>

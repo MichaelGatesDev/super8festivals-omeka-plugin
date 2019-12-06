@@ -7,6 +7,11 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
     public $latitude;
     public $longitude;
 
+    public function getCountry()
+    {
+        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
+    }
+
     protected function _validate()
     {
         if (empty($this->country_id) || !is_numeric($this->country_id)) {
@@ -32,9 +37,18 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
     {
     }
 
+
     public function getRecordUrl($action = 'show')
     {
-        return "/countries/" . get_country_by_id($this->country_id)->name . "#" . $this->name;
+        if ('show' == $action) {
+            return public_url($this->name);
+        }
+        return array(
+            'module' => 'super-eight-festivals',
+            'controller' => 'cities',
+            'action' => $action,
+            'id' => $this->id,
+        );
     }
 
     public function getResourceId()

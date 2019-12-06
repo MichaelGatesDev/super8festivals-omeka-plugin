@@ -19,8 +19,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
     );
     protected $_filters = array(
         'admin_navigation_main', // admin sidebar
-        'public_navigation_main', // main navbar
-        'public_navigation_items', // main navbar items
     );
     protected $_options = array();
 
@@ -322,39 +320,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
-    public function filterPublicNavigationMain($nav)
-    {
-        $nav = array();
-        $nav[] = array(
-            'label' => 'Home',
-            'uri' => url('/')
-        );
-        $nav[] = array(
-            'label' => 'About',
-            'uri' => url('/about')
-        );
-        $nav[] = array(
-            'label' => 'Contact',
-            'uri' => url('/contact')
-        );
-        $nav[] = array(
-            'label' => 'Submit',
-            'uri' => url('/submit')
-        );
-
-        // simple pages
-        $pages = get_db()->getTable('SimplePagesPage')->findAll();
-        foreach ($pages as $page) {
-            if (!$page->is_published) continue; // don't show hidden pages
-            $nav[] = array(
-                'label' => $page->title,
-                'uri' => url($page->slug)
-            );
-        }
-
-        return $nav;
-    }
-
     function addRoute($router, $routeID, $route, $controller, $id = null)
     {
         $router->addRoute(
@@ -397,14 +362,5 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
     }
-
-    function filterPublicNavigationItems($navArray)
-    {
-//        $navArray[] = array('label' => __('My Plugin Items'),
-//            'uri' => url('myplugin/items')
-//        );
-        return $navArray;
-    }
-
 
 }

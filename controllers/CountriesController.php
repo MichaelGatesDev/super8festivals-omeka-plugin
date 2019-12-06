@@ -2,7 +2,6 @@
 
 class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractActionController
 {
-
     public function init()
     {
         // Set the model class so this controller can perform some functions,

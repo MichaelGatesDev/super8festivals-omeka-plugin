@@ -10,46 +10,46 @@ echo head(array(
 <!-- 'Add City' Button -->
 <?php echo $this->partial('__components/button.php', array('url' => 'add', 'text' => 'Add City')); ?>
 
-<?php
-set_loop_records("super_eight_festivals_city", get_records("SuperEightFestivalsCity", array(), -1));
-?>
-
-
 <table class="full">
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Country</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Internal ID</th>
+        <?php echo browse_sort_links(
+            array(
+                "Name" => 'name',
+                "Country" => 'country_id',
+                "Latitude" => 'latitude',
+                "Longitude" => 'longitude',
+                "Internal ID" => 'id',
+            ),
+            array('link_tag' => 'th scope="col"', 'list_tag' => ''));
+        ?>
     </tr>
     </thead>
     <tbody>
-    <?php foreach (get_all_cities(true, true) as $city): ?>
-        <tr>
+    <?php foreach (loop('super_eight_festivals_city') as $city): ?>
+        <tr style="text-transform: capitalize;">
             <td>
                 <span class="title">
-                    <a href="<?php echo record_url($city); ?>">
-                        <?php echo $city->name ?>
+                    <a href="<?php echo html_escape(record_url('super_eight_festivals_city')); ?>">
+                        <?php echo metadata('super_eight_festivals_city', 'name'); ?>
                     </a>
                 </span>
                 <ul class="action-links group">
                     <!-- Edit Item-->
                     <li>
-                        <a href="<?php echo "edit/id/$city->id"; ?>">
+                        <a class="edit" href="<?php echo html_escape(record_url('super_eight_festivals_city', 'edit')); ?>">
                             Edit
                         </a>
                     </li>
                     <!-- Delete Item-->
                     <li>
-                        <a href="<?php echo "delete-confirm/id/$city->id"; ?>">
+                        <a class="edit" href="<?php echo html_escape(record_url('super_eight_festivals_city', 'delete-confirm')); ?>">
                             Delete
                         </a>
                     </li>
                 </ul>
             </td>
-            <td><?= get_country_by_id($city->country_id)->name; ?></td>
+            <td><?= $city->getCountry()->name; ?></td>
             <td><?= $city->latitude; ?></td>
             <td><?= $city->longitude; ?></td>
             <td><?= $city->id; ?></td>

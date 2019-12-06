@@ -21,6 +21,19 @@ class SuperEightFestivalsCountryBanner extends Omeka_Record_AbstractRecord imple
     {
     }
 
+    public function getRecordUrl($action = 'show')
+    {
+        if ('show' == $action) {
+            return public_url($this->name);
+        }
+        return array(
+            'module' => 'super-eight-festivals',
+            'controller' => 'banners',
+            'action' => $action,
+            'id' => $this->id,
+        );
+    }
+
     public function getResourceId()
     {
         return 'SuperEightFestivals_Country_Banner';

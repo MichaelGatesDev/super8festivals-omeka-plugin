@@ -49,8 +49,18 @@ echo head(array(
                 </ul>
             </td>
             <td><?= $banner->getCountry()->name; ?></td>
-            <td style="text-transform: lowercase;"><?= $banner->path; ?></td>
-            <td style="text-transform: lowercase;"><?= $banner->thumbnail; ?></td>
+            <td style="text-transform: lowercase;">
+                <div style=" display: flex; flex-direction: column;">
+                    <?= $banner->path; ?>
+                    <img src="<?= $banner->path; ?>" width="200" style="margin-top: 0.5em;">
+                </div>
+            </td>
+            <td style="text-transform: lowercase;">
+                <div style=" display: flex; flex-direction: column;">
+                    <?= $banner->thumbnail; ?>
+                    <img src="<?= $banner->thumbnail; ?>" width="200" style="margin-top: 0.5em;">
+                </div>
+            </td>
         </tr>
     <?php endforeach; ?>
     </tbody>

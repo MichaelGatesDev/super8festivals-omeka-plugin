@@ -16,6 +16,10 @@ echo head(
         <p style="margin-top: 0;">Browse, add, edit, and delete countries.</p>
         <a href="super-eight-festivals/countries/" class="button green" style="margin: 0;">Countries</a>
     </div>
+    <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
+        <p style="margin-top: 0;">Browse, add, edit, and delete country banners.</p>
+        <a href="super-eight-festivals/banners/" class="button green" style="margin: 0;">Banners</a>
+    </div>
 
     <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
         <p style="margin-top: 0;">Browse, add, edit, and delete cities.</p>

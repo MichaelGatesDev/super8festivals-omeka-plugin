@@ -36,7 +36,7 @@ $banner = get_banner_for_country($country->id);
                 </div>
             <?php else: ?>
                 <p>There is no banner for this country.</p>
-                <button>Upload</button>
+                <a href="<?php echo html_escape(record_url(new SuperEightFestivalsCountryBanner(), 'add')); ?>" class="add button small green">Add Banner</a>
             <?php endif; ?>
         </div>
     </div>

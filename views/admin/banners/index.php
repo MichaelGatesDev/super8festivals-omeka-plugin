@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Countries',
+    'title' => 'Banners',
 ));
 ?>
 

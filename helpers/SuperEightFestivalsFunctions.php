@@ -316,6 +316,11 @@ function get_all_pages()
     return get_db()->getTable('SuperEightFestivalsPage')->findAll();
 }
 
+function get_all_pages_by_title_ambiguous($title)
+{
+    return get_db()->getTable('SuperEightFestivalsPage')->findBy(array('title' => $title), -1);
+}
+
 function get_page_by_url($url)
 {
     $results = get_db()->getTable('SuperEightFestivalsPage')->findBy(array('url' => $url), 1);

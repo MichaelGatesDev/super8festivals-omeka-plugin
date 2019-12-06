@@ -13,8 +13,9 @@ $searchQuery = $_GET["query"];
 
 $foundCountries = get_all_countries_by_name_ambiguous($searchQuery);
 $foundCities = get_all_cities_by_name_ambiguous($searchQuery);
+$foundPages = get_all_pages_by_title_ambiguous($searchQuery);
 
-$resultsCount = count($foundCountries) + count($foundCities);
+$resultsCount = count($foundCountries) + count($foundCities) + count($foundPages);
 ?>
 
 <section class="container">
@@ -30,6 +31,19 @@ $resultsCount = count($foundCountries) + count($foundCities);
             <?php if ($resultsCount == 0): ?>
                 <p>No results found for '<?= $searchQuery; ?>'</p>
             <?php else: ?>
+                <!--PAGES-->
+                <?php if (count($foundPages) > 0): ?>
+                    <h3>Pages:</h3>
+                    <ul>
+                        <?php foreach ($foundPages as $page): ?>
+                            <li class="text-capitalize">
+                                <a href="<?= record_url($page); ?>">
+                                    <?= $page->title; ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
                 <!--COUNTRIES-->
                 <?php if (count($foundCountries) > 0): ?>
                     <h3>Countries:</h3>

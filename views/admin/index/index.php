@@ -46,7 +46,7 @@ echo head(
 
 <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
     <p style="margin-top: 0;">Edit text content on pages</p>
-    <a href="super-eight-festivals/edit-page" class="button blue" style="margin: 0;">Edit Page Contents</a>
+    <a href="super-eight-festivals/pages/" class="button blue" style="margin: 0;">Edit Page Contents</a>
 </div>
 
 

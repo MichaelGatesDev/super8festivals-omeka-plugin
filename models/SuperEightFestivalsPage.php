@@ -6,6 +6,14 @@ class SuperEightFestivalsPage extends Omeka_Record_AbstractRecord implements Zen
     public $url;
     public $content;
 
+
+    protected function beforeSave($args)
+    {
+        $this->title = trim($this->title);
+        $this->url = trim($this->url);
+        $this->content = trim($this->content);
+    }
+
     public function getRecordUrl($action = 'show')
     {
         if ('show' == $action) {

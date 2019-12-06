@@ -322,3 +322,14 @@ function get_page_by_url($url)
     if (count($results) > 0) return $results[0];
     return null;
 }
+
+
+function add_page($title, $url, $content)
+{
+    $page = new SuperEightFestivalsPage();
+    $page->title = $title;
+    $page->url = $url;
+    $page->content = $content;
+    $page->save();
+}
+

@@ -1,6 +1,8 @@
 <?php
+$url = $_SERVER['REQUEST_URI'];
+$page = get_page_by_url($url);
 $head = array(
-    'title' => "Federation",
+    'title' => $page->title,
 );
 echo head($head);
 ?>
@@ -10,7 +12,12 @@ echo head($head);
 <section class="container-fluid">
     <div class="row">
         <div class="col">
-            <h2>Federation</h2>
+            <h2><?= $page->title; ?></h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <?= $page->content; ?>
         </div>
     </div>
 </section>

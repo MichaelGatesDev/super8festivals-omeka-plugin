@@ -34,11 +34,18 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->databaseHelper->createTables();
 
         // add pages
-        $page = new SuperEightFestivalsPage();
-        $page->title = "History";
-        $page->content = "History content goes here.";
-        $page->url = "/history";
-        $page->save();
+        add_page("History", "/history", "Content goes here.");
+        add_page("Federation", "/federation", "Content goes here.");
+        add_page("Filmmakers", "/filmmakers", "Content goes here.");
+        add_page("About", "/about", "
+I am a professor of Spanish and film at the State Univeristy of New York in Plattsburgh. In 2008 I received a Fulbright grant to study the films of Venezuelan avant-garde filmmaker Diego Rísquez. My intention was to examine Rísquez’s work from an author theory perspective. A collection of newspaper clippings in Rísquez’s archive changed my mind. At this point I did not even know what Super 8 was. Yet, I became eager to find out more about the young filmmakers in the newspaper. They had maintained a transnational network, the International Federation of Super 8 Cinema, outside of regional or national institutions.
+<br/><br/>
+Meeting these filmmakers was fascinating but took a long time. It took over ten years as filmmakers lived in over twenty countries and I received little funding for my project. Most funding sources were not interested in Super 8 culture. In some cases, I interviewed people at airports between flights or took side trips after conferences or visiting relatives. The biggest challenge, however, was not locating and meeting people, but writing about the fascinating world I discovered.
+<br/><br/>
+Finding ways to write about people in the twenty countries interacting with each other was challenging. For that, I wrote Small Gauge, Big Dreams, a book that focuses on Super 8 as a technology that allowed the establishment of one of the first de-centralized, transnational, cinematic networks.
+<br/><br/>
+My second challenge was to document my findings. Only in rare instances had local, regional or national archives collect the films, photographs, and catalogs that filmmakers had kept in their attics. This meant that readers could not go to their libraries or a website to view the objects or documents I cite in the book. For that, I created this website.
+");
 
         // add countries
         add_country('argentina');

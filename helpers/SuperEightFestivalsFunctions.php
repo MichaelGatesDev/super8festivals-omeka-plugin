@@ -29,6 +29,19 @@ function get_parent_country_options()
     return $valuePairs;
 }
 
+function get_parent_countries_without_banners_options()
+{
+    $valuePairs = array();
+    $potentialParents = get_db()->getTable('SuperEightFestivalsCountry')->findPotentialParentCountries();
+    foreach ($potentialParents as $potentialParent) {
+        if (get_banner_for_country($potentialParent->id) != null) continue;
+        if (trim($potentialParent->name) != '') {
+            $valuePairs[$potentialParent->id] = $potentialParent->name;
+        }
+    }
+    return $valuePairs;
+}
+
 
 function get_parent_country_id($cityID)
 {

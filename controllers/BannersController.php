@@ -50,7 +50,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                 'id' => 'country_id',
                 'label' => 'Country',
                 'description' => "The country which the banner belongs to (required)",
-                'multiOptions' => get_parent_country_options(),
+                'multiOptions' => get_parent_countries_without_banners_options(),
                 'value' => $banner->country_id,
                 'required' => true
             )

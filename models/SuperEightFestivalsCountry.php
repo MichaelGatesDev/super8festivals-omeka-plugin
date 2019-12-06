@@ -23,7 +23,7 @@ class SuperEightFestivalsCountry extends Omeka_Record_AbstractRecord implements 
     public function getRecordUrl($action = 'show')
     {
         if ('show' == $action) {
-            return public_url($this->name);
+            return public_url("countries/" . $this->name);
         }
         return array(
             'module' => 'super-eight-festivals',

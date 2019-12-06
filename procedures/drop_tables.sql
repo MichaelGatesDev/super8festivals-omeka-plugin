@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `%PREFIX%pages`;
+
 DROP TABLE IF EXISTS `%PREFIX%countries`;
 DROP TABLE IF EXISTS `%PREFIX%country_banners`;
 

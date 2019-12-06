@@ -1,3 +1,15 @@
+CREATE TABLE IF NOT EXISTS `%PREFIX%pages`
+(
+    `id`      int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the page
+    `title`   varchar(255)     NOT NULL,
+    `url`     varchar(255)     NOT NULL,
+    `content` TEXT(65535),
+    PRIMARY KEY (`id`),
+    KEY `name` (`title`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `%PREFIX%countries`
 (
     `id`   int(10) unsigned NOT NULL AUTO_INCREMENT, # ID of the country

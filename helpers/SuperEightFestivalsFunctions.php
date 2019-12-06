@@ -308,3 +308,17 @@ function get_all_contribution_types()
 {
     return get_db()->getTable('SuperEightFestivalsContributionType')->findAll();
 }
+
+// ============================================================================================================================================================= \\
+
+function get_all_pages()
+{
+    return get_db()->getTable('SuperEightFestivalsPage')->findAll();
+}
+
+function get_page_by_url($url)
+{
+    $results = get_db()->getTable('SuperEightFestivalsPage')->findBy(array('url' => $url), 1);
+    if (count($results) > 0) return $results[0];
+    return null;
+}

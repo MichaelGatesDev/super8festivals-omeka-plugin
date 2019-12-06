@@ -33,6 +33,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // Create tables
         $this->databaseHelper->createTables();
 
+        // add pages
+        $page = new SuperEightFestivalsPage();
+        $page->title = "History";
+        $page->content = "History content goes here.";
+        $page->url = "/history";
+        $page->save();
+
         // add countries
         add_country('argentina');
         add_country('australia');

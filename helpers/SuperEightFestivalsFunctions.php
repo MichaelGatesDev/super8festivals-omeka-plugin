@@ -61,8 +61,21 @@ function get_country_by_name($countryName)
     return null;
 }
 
-function get_all_countries_by_name_ambiguous($name)
+function get_all_countries_by_name_ambiguous($name, $partial = false)
 {
+    if ($partial) {
+        $partialResults = array();
+        $allCountries = get_all_countries();
+        $split = explode(" ", $name);
+        foreach ($split as $word) {
+            foreach ($allCountries as $country) {
+                if (strpos($country->name, $word) !== false) {
+                    array_push($partialResults, $country);
+                }
+            }
+        }
+        return $partialResults;
+    }
     return get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => $name), -1);
 }
 
@@ -145,8 +158,21 @@ function get_city_by_name_ambiguous($cityName)
 }
 
 
-function get_all_cities_by_name_ambiguous($cityName)
+function get_all_cities_by_name_ambiguous($cityName, $partial = false)
 {
+    if ($partial) {
+        $partialResults = array();
+        $allCities = get_all_cities();
+        $split = explode(" ", $cityName);
+        foreach ($split as $word) {
+            foreach ($allCities as $city) {
+                if (strpos($city->name, $word) !== false) {
+                    array_push($partialResults, $city);
+                }
+            }
+        }
+        return $partialResults;
+    }
     return get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), -1);
 }
 
@@ -316,8 +342,21 @@ function get_all_pages()
     return get_db()->getTable('SuperEightFestivalsPage')->findAll();
 }
 
-function get_all_pages_by_title_ambiguous($title)
+function get_all_pages_by_title_ambiguous($title, $partial = false)
 {
+    if ($partial) {
+        $partialResults = array();
+        $allPages = get_all_pages();
+        $split = explode(" ", $title);
+        foreach ($split as $word) {
+            foreach ($allPages as $page) {
+                if (strpos(strtolower($page->title), strtolower($word)) !== false) {
+                    array_push($partialResults, $page);
+                }
+            }
+        }
+        return $partialResults;
+    }
     return get_db()->getTable('SuperEightFestivalsPage')->findBy(array('title' => $title), -1);
 }
 

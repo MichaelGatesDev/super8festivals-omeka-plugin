@@ -11,9 +11,9 @@ echo head($head);
 
 $searchQuery = $_GET["query"];
 
-$foundCountries = get_all_countries_by_name_ambiguous($searchQuery);
-$foundCities = get_all_cities_by_name_ambiguous($searchQuery);
-$foundPages = get_all_pages_by_title_ambiguous($searchQuery);
+$foundCountries = get_all_countries_by_name_ambiguous($searchQuery, true);
+$foundCities = get_all_cities_by_name_ambiguous($searchQuery, true);
+$foundPages = get_all_pages_by_title_ambiguous($searchQuery, true);
 
 $resultsCount = count($foundCountries) + count($foundCities) + count($foundPages);
 ?>
@@ -59,7 +59,7 @@ $resultsCount = count($foundCountries) + count($foundCities) + count($foundPages
                 <?php endif; ?>
                 <!--CITIES-->
                 <?php if (count($foundCities) > 0): ?>
-                    <h3>Countries:</h3>
+                    <h3>Cities:</h3>
                     <ul>
                         <?php foreach ($foundCities as $city): ?>
                             <li class="text-capitalize">
@@ -69,7 +69,7 @@ $resultsCount = count($foundCountries) + count($foundCities) + count($foundPages
                                 $cityNameInternal = str_replace(" ", "-", strtolower($city->name));
                                 ?>
                                 <a href="/countries/<?= $countryNameInternal ?>#<?= $cityNameInternal; ?>">
-                                    <?= $city->name; ?>, <?= $country->name; ?>
+                                    <?= $city->name; ?> (<?= $country->name; ?>)
                                 </a>
                             </li>
                         <?php endforeach; ?>

@@ -2,7 +2,7 @@
 
 class DatabaseManager
 {
-    const PREFIX = "omeka_super_eight_festivals_";
+    private $PREFIX = "omeka_super_eight_festivals_";
 
     /**
      * @var string The IP of the server
@@ -31,6 +31,7 @@ class DatabaseManager
     {
         $ini_array = parse_ini_file(__DIR__ . "/../../db.ini", true);
         $db = $ini_array["database"];
+        $this->PREFIX = $db["prefix"] . "super_eight_festivals_";
         $this->serverName = $db["host"];
         $this->username = $db["username"];
         $this->password = $db["password"];
@@ -54,20 +55,20 @@ class DatabaseManager
     public function executeFile($path)
     {
         $commands = file_get_contents($path);
-        $commands = str_replace("%PREFIX%", self::PREFIX, $commands);
+        $commands = str_replace("%PREFIX%", $this->PREFIX, $commands);
         return $this->connection->multi_query($commands);
     }
 
     public function executeSingleQueryFile($path)
     {
         $command = file_get_contents($path);
-        $command = str_replace("%PREFIX%", self::PREFIX, $command);
+        $command = str_replace("%PREFIX%", $this->PREFIX, $command);
         return $this->connection->query($command);
     }
 
     public function query($query)
     {
-        $query = str_replace("%PREFIX%", self::PREFIX, $query);
+        $query = str_replace("%PREFIX%", $this->PREFIX, $query);
         return $this->connection->query($query);
     }
 

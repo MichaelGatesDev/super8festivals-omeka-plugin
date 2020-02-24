@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Cities',
+    'title' => ucwords($city->name),
 ));
 ?>
 
@@ -8,6 +8,19 @@ echo head(array(
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
-Test view
+
+<h2>Festivals</h2>
+
+<!-- 'Add City' Button -->
+<?php echo $this->partial('__components/button.php', array('url' => '/admin/super-eight-festivals/festivals/add', 'text' => 'Add Festival')); ?>
+
+<?=
+$this->partial('__components/tables/FestivalsTable.php',
+    array(
+        'festivalsVar' => get_all_festivals_in_city($city->id),
+    )
+);
+?>
+
 
 <?php echo foot(); ?>

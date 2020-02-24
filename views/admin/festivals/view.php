@@ -1,11 +1,13 @@
 <?php
 echo head(array(
-    'title' => 'Countries',
+    'title' => ucfirst($festival->getDisplayName()),
 ));
 ?>
 
 <?php echo flash(); ?>
 
-<p>What is this page?</p>
+
+<h2>TBD</h2>
+
 
 <?php echo foot(); ?>

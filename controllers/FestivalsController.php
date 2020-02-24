@@ -22,6 +22,7 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $festival = new SuperEightFestivalsFestival();
         $form = $this->_getForm($festival);
         $this->view->form = $form;
+        $this->view->festival = $festival;
         $this->_processForm($festival, $form, 'add');
     }
 
@@ -30,14 +31,17 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $festival = $this->_helper->db->findById();
         $form = $this->_getForm($festival);
         $this->view->form = $form;
+        $this->view->festival = $festival;
         $this->_processForm($festival, $form, 'edit');
     }
 
-    /**
-     * @param SuperEightFestivalsFestival|null $festival
-     * @return Omeka_Form_Admin
-     */
-    protected function _getForm($festival = null)
+    public function viewAction()
+    {
+        $festival = $this->_helper->db->findById();
+        $this->view->festival = $festival;
+    }
+
+    protected function _getForm(SuperEightFestivalsFestival $festival = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_festival'
@@ -49,22 +53,11 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
             'select', 'city_id',
             array(
                 'id' => 'city_id',
-                'label' => 'City ID',
-                'description' => "The ID of the city (required)",
-                'multiOptions' => get_parent_city_options($festival->city_id),
+                'label' => 'City',
+                'description' => "The city in which the festival was held (required)",
+                'multiOptions' => get_parent_city_options(),
                 'value' => $festival->city_id,
                 'required' => true,
-            )
-        );
-
-        $form->addElementToEditGroup(
-            'text', 'name',
-            array(
-                'id' => 'name',
-                'label' => 'Festival',
-                'description' => "The name of the festival (required)",
-                'value' => $festival->name,
-                'required' => true
             )
         );
 
@@ -79,13 +72,27 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
             )
         );
 
-        if (class_exists('Omeka_Form_Element_SessionCsrfToken')) {
-            try {
-                $form->addElement('sessionCsrfToken', 'csrf_token');
-            } catch (Zend_Form_Exception $e) {
-                echo $e;
-            }
-        }
+        $form->addElementToEditGroup(
+            'text', 'title',
+            array(
+                'id' => 'title',
+                'label' => 'Title',
+                'description' => "The title of the festival",
+                'value' => $festival->title,
+                'required' => false
+            )
+        );
+
+        $form->addElementToEditGroup(
+            'text', 'description',
+            array(
+                'id' => 'description',
+                'label' => 'Description',
+                'description' => "The description of the festival",
+                'value' => $festival->description,
+                'required' => false
+            )
+        );
 
         return $form;
     }
@@ -112,13 +119,11 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
             try {
                 $festival->setPostData($_POST);
 
-                $festival->country_id = get_parent_country_id($festival->city_id);
-
                 if ($festival->save()) {
                     if ($action == 'add') {
-                        $this->_helper->flashMessenger(__('The festival "%s" has been added.', $festival->name), 'success');
+                        $this->_helper->flashMessenger(__('The festival "%s" has been added.', $festival->year . " " . $festival->title), 'success');
                     } else if ($action == 'edit') {
-                        $this->_helper->flashMessenger(__('The festival "%s" has been edited.', $festival->name), 'success');
+                        $this->_helper->flashMessenger(__('The festival "%s" has been edited.', $festival->year . " " . $festival->title), 'success');
                     }
                     $this->_helper->redirector('index');
                     return;

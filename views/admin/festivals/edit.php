@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Edit Festival: ' . metadata('super_eight_festivals_festival', 'name'),
+    'title' => 'Edit Festival: ' . ucwords($festival->getDisplayName()),
 ));
 ?>
 

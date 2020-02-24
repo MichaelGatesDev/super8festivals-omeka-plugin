@@ -2,26 +2,9 @@
 
 // ============================================================================================================================================================= \\
 
-function internalize($str)
+function get_all_countries(): array
 {
-    return str_replace($str, " ", "-");
-}
-
-// ============================================================================================================================================================= \\
-
-/**
- * @param bool $sortByCountryName Sort results by country name ascending (A-Z)
- * @return array Resulting array of countries
- */
-function get_all_countries($sortByCountryName = false)
-{
-    $results = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
-    if ($sortByCountryName) {
-        usort($results, function ($a, $b) {
-            return get_country_by_id($a->id)->name > get_country_by_id($b->id)->name;
-        });
-    }
-    return $results;
+    return get_db()->getTable("SuperEightFestivalsCountry")->findAll();
 }
 
 function get_parent_country_options()
@@ -91,67 +74,36 @@ function add_countries_by_names(array $countryNames)
 
 // ============================================================================================================================================================= \\
 
-function get_parent_city_options()
+function get_all_cities(): array
 {
-    $valuePairs = array();
+    return get_db()->getTable("SuperEightFestivalsCity")->findAll();
+}
+
+function get_all_cities_in_country($countryID): array
+{
+    return get_db()->getTable('SuperEightFestivalsCity')->findBy(array('country_id' => $countryID), -1);
+}
+
+function get_parent_city_options(): array
+{
+    $results = array();
     $potentialParents = get_db()->getTable('SuperEightFestivalsCity')->findPotentialParentCities();
     foreach ($potentialParents as $potentialParent) {
         if (trim($potentialParent->name) != '') {
-            $valuePairs[$potentialParent->id] = $potentialParent->name;
+            $results[$potentialParent->id] = $potentialParent->name;
         }
-    }
-    return $valuePairs;
-}
-
-
-/**
- * @param bool $sortByCityName Sort results by city name ascending (A-Z)
- * @param bool $sortByCountryName Sort results by country name ascending (A-Z)
- * @return array Resulting array of cities
- */
-function get_all_cities($sortByCityName = false, $sortByCountryName = false)
-{
-    $results = get_db()->getTable("SuperEightFestivalsCity")->findAll();
-    if ($sortByCityName) {
-        usort($results, function ($a, $b) {
-            return $a['name'] > $b['name'];
-        });
-    }
-    if ($sortByCountryName) {
-        usort($results, function ($a, $b) {
-            return get_country_by_id($a['country_id'])->name > get_country_by_id($b['country_id'])->name;
-        });
     }
     return $results;
 }
 
-/**
- * @param int $countryID ID of the country to fetch cities from
- * @param bool $sortByCityName Sort results by city name ascending (A-Z)
- * @param bool $sortByCountryName Sort results by country name ascending (A-Z)
- * @return array Resulting array of cities
- */
-function get_all_cities_in_country($countryID, $sortByCityName = false, $sortByCountryName = false)
-{
-    $cities = get_all_cities($sortByCityName, $sortByCountryName);
-    return array_filter($cities, function ($city) use ($countryID) {
-        return $city->country_id === $countryID;
-    });
-}
-
-/**
- * @param int $countryID ID of the country to fetch the city from
- * @param string $cityName The name of the city
- * @return SuperEightFestivalsLocation|null Resulting city which matches the country and name, or null if none
- */
-function get_city_by_name($countryID, $cityName)
+function get_city_by_name($countryID, $cityName): SuperEightFestivalsCity
 {
     $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('country_id' => $countryID, 'name' => $cityName), 1);
     if (count($results) > 0) return $results[0];
     return null;
 }
 
-function get_city_by_name_ambiguous($cityName)
+function get_city_by_name_ambiguous($cityName): SuperEightFestivalsCity
 {
     $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), 1);
     if (count($results) > 0) return $results[0];
@@ -159,7 +111,13 @@ function get_city_by_name_ambiguous($cityName)
 }
 
 
-function get_all_cities_by_name_ambiguous($cityName, $partial = false)
+function get_city_by_id($cityID): SuperEightFestivalsCity
+{
+    return get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
+}
+
+
+function get_all_cities_by_name_ambiguous($cityName, $partial = false): array
 {
     if ($partial) {
         $partialResults = array();
@@ -175,11 +133,6 @@ function get_all_cities_by_name_ambiguous($cityName, $partial = false)
         return $partialResults;
     }
     return get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), -1);
-}
-
-function get_city_by_id($cityID)
-{
-    return get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
 }
 
 function add_city_by_country_name($countryName, $name, $latitude, $longitude)
@@ -204,7 +157,35 @@ function add_city_by_country_id($countryID, $name, $latitude, $longitude)
 
 // ============================================================================================================================================================= \\
 
-function get_banner_for_country($countryID)
+function get_all_festivals(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFestival")->findAll();
+}
+
+function get_all_festivals_in_city($cityID): array
+{
+    return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('city_id' => $cityID), -1);
+}
+
+function get_all_festivals_in_year($year): array
+{
+    return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('year' => $year), -1);
+}
+
+function get_all_festivals_in_city_and_year($cityID, $year): array
+{
+    return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('city_id' => $cityID, 'year' => $year), -1);
+}
+
+function get_festival_by_id($id): SuperEightFestivalsFestival
+{
+    return get_db()->getTable('SuperEightFestivalsFestival')->find($id);
+}
+
+
+// ============================================================================================================================================================= \\
+
+function get_banner_for_country($countryID): SuperEightFestivalsCountryBanner
 {
     $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);
     if (count($results) > 0) return $results[0];

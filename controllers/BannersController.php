@@ -50,32 +50,32 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                 'id' => 'country_id',
                 'label' => 'Country',
                 'description' => "The country which the banner belongs to (required)",
-                'multiOptions' => get_parent_countries_without_banners_options(),
+                'multiOptions' => get_all_countries(),
                 'value' => $banner->country_id,
                 'required' => true
             )
         );
 
-        $form->addElementToEditGroup(
-            'text', 'path',
-            array(
-                'id' => 'path',
-                'label' => 'Path',
-                'description' => "The file path or URL to the image (required)",
-                'value' => $banner->path,
-                'required' => true
-            )
-        );
-        $form->addElementToEditGroup(
-            'text', 'thumbnail',
-            array(
-                'id' => 'thumbnail',
-                'label' => 'Thumbnail path',
-                'description' => "The file thumbnail or URL to the thumbnail image (required)",
-                'value' => $banner->thumbnail,
-                'required' => true
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'text', 'path',
+//            array(
+//                'id' => 'path',
+//                'label' => 'Path',
+//                'description' => "The file path or URL to the image (required)",
+//                'value' => $banner->path,
+//                'required' => true
+//            )
+//        );
+//        $form->addElementToEditGroup(
+//            'text', 'thumbnail',
+//            array(
+//                'id' => 'thumbnail',
+//                'label' => 'Thumbnail path',
+//                'description' => "The file thumbnail or URL to the thumbnail image (required)",
+//                'value' => $banner->thumbnail,
+//                'required' => true
+//            )
+//        );
 
         if (class_exists('Omeka_Form_Element_SessionCsrfToken')) {
             try {

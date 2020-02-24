@@ -1,14 +1,16 @@
 <?php
 echo head(array(
-    'title' => 'Browse Countries',
+    'title' => ucfirst($country->name),
 ));
 ?>
 
-<!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
+
+<h2>Cities</h2>
+
 <!-- 'Add City' Button -->
-<?php echo $this->partial('__components/button.php', array('url' => 'add', 'text' => 'Add Country')); ?>
+<?php echo $this->partial('__components/button.php', array('url' => '/admin/super-eight-festivals/cities/add', 'text' => 'Add City')); ?>
 
 <table class="full">
     <thead>
@@ -25,37 +27,35 @@ echo head(array(
     </tr>
     </thead>
     <tbody>
-    <?php foreach (loop('super_eight_festivals_country') as $country): ?>
+    <?php foreach (get_all_cities_in_country($country->id) as $city): ?>
         <tr style="text-transform: capitalize;">
             <td>
                 <span class="title">
-                    <a href="<?php echo html_escape(record_url('super_eight_festivals_country', 'view')); ?>" style="text-transform: capitalize;">
-                        <?php echo metadata('super_eight_festivals_country', 'name'); ?>
+                    <a href="<?php echo html_escape(record_url($city, 'view')); ?>">
+                        <?php echo metadata($city, 'name'); ?>
                     </a>
                 </span>
                 <ul class="action-links group">
                     <!-- Edit Item-->
                     <li>
-                        <a class="edit" href="<?php echo html_escape(record_url('super_eight_festivals_country', 'edit')); ?>">
+                        <a class="edit" href="<?php echo html_escape(record_url($city, 'edit')); ?>">
                             Edit
                         </a>
                     </li>
                     <!-- Delete Item-->
                     <li>
-                        <a class="edit" href="<?php echo html_escape(record_url('super_eight_festivals_country', 'delete-confirm')); ?>">
+                        <a class="edit" href="<?php echo html_escape(record_url($city, 'delete-confirm')); ?>">
                             Delete
                         </a>
                     </li>
                 </ul>
             </td>
-            <td><?= $country->latitude; ?></td>
-            <td><?= $country->longitude ?></td>
-            <td><?= $country->id; ?></td>
+            <td><?= $city->latitude; ?></td>
+            <td><?= $city->longitude; ?></td>
+            <td><?= $city->id; ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>
 </table>
 
-
 <?php echo foot(); ?>
-

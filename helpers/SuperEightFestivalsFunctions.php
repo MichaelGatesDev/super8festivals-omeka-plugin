@@ -1,5 +1,14 @@
 <?php
 
+// ============================================================================================================================================================= \\
+
+function internalize($str)
+{
+    return str_replace($str, " ", "-");
+}
+
+// ============================================================================================================================================================= \\
+
 /**
  * @param bool $sortByCountryName Sort results by country name ascending (A-Z)
  * @return array Resulting array of countries
@@ -15,33 +24,17 @@ function get_all_countries($sortByCountryName = false)
     return $results;
 }
 
-// ============================================================================================================================================================= \\
-
 function get_parent_country_options()
 {
-    $valuePairs = array();
+    $results = array();
     $potentialParents = get_db()->getTable('SuperEightFestivalsCountry')->findPotentialParentCountries();
     foreach ($potentialParents as $potentialParent) {
         if (trim($potentialParent->name) != '') {
-            $valuePairs[$potentialParent->id] = $potentialParent->name;
+            $results[$potentialParent->id] = $potentialParent->name;
         }
     }
-    return $valuePairs;
+    return $results;
 }
-
-function get_parent_countries_without_banners_options()
-{
-    $valuePairs = array();
-    $potentialParents = get_db()->getTable('SuperEightFestivalsCountry')->findPotentialParentCountries();
-    foreach ($potentialParents as $potentialParent) {
-        if (get_banner_for_country($potentialParent->id) != null) continue;
-        if (trim($potentialParent->name) != '') {
-            $valuePairs[$potentialParent->id] = $potentialParent->name;
-        }
-    }
-    return $valuePairs;
-}
-
 
 function get_parent_country_id($cityID)
 {
@@ -80,13 +73,21 @@ function get_all_countries_by_name_ambiguous($name, $partial = false)
 }
 
 
-function add_country($countryName)
+function add_country($countryName, $lat = 0, $long = 0)
 {
     $country = new SuperEightFestivalsCountry();
     $country->name = $countryName;
+    $country->latitude = $lat;
+    $country->longitude = $long;
     $country->save();
 }
 
+function add_countries_by_names(array $countryNames)
+{
+    foreach ($countryNames as $countryName) {
+        add_country($countryName);
+    }
+}
 
 // ============================================================================================================================================================= \\
 
@@ -141,7 +142,7 @@ function get_all_cities_in_country($countryID, $sortByCityName = false, $sortByC
 /**
  * @param int $countryID ID of the country to fetch the city from
  * @param string $cityName The name of the city
- * @return SuperEightFestivalsCity|null Resulting city which matches the country and name, or null if none
+ * @return SuperEightFestivalsLocation|null Resulting city which matches the country and name, or null if none
  */
 function get_city_by_name($countryID, $cityName)
 {

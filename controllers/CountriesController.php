@@ -15,6 +15,13 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
         return;
     }
 
+    public function viewAction()
+    {
+        $country = $this->_helper->db->findById();
+        $this->view->country = $country;
+        return;
+    }
+
     public function addAction()
     {
         // Create new country
@@ -54,14 +61,26 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                 'required' => true
             )
         );
-
-        if (class_exists('Omeka_Form_Element_SessionCsrfToken')) {
-            try {
-                $form->addElement('sessionCsrfToken', 'csrf_token');
-            } catch (Zend_Form_Exception $e) {
-                echo $e;
-            }
-        }
+        $form->addElementToEditGroup(
+            'text', 'latitude',
+            array(
+                'id' => 'latitude',
+                'label' => 'Latitude',
+                'description' => "The latitude of the country (optional)",
+                'value' => $country->latitude,
+                'required' => false
+            )
+        );
+        $form->addElementToEditGroup(
+            'text', 'longitude',
+            array(
+                'id' => 'longitude',
+                'label' => 'Longitude',
+                'description' => "The longitude of the country (optional)",
+                'value' => $country->longitude,
+                'required' => false
+            )
+        );
 
         return $form;
     }

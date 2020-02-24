@@ -1,12 +1,8 @@
 <?php
 
-class SuperEightFestivalsFestivalFilmmaker extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
 {
-    public $city_id;
-    public $first_name;
-    public $last_name;
-    public $organization_name;
-    public $cover_photo_url;
+    public $festival_id;
 
     protected function _validate()
     {

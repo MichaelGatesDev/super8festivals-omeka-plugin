@@ -33,6 +33,12 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         $this->_processForm($city, $form, 'edit');
     }
 
+    public function viewAction()
+    {
+        $city = $this->_helper->db->findById();
+        $this->view->city = $city;
+    }
+
     /**
      * @param SuperEightFestivalsCity|null $city
      * @return Omeka_Form_Admin
@@ -51,8 +57,8 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 'id' => 'country_id',
                 'label' => 'Country ID',
                 'description' => "The ID of the country (required)",
-                'multiOptions' => get_parent_country_options($city),
-                'value' => $city->country_id,
+                'multiOptions' => get_parent_country_options(),
+                'value' => get_country_by_id($city->country_id)->id,
                 'required' => true
             )
         );
@@ -89,14 +95,6 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 'required' => true
             )
         );
-
-        if (class_exists('Omeka_Form_Element_SessionCsrfToken')) {
-            try {
-                $form->addElement('sessionCsrfToken', 'csrf_token');
-            } catch (Zend_Form_Exception $e) {
-                echo $e;
-            }
-        }
 
         return $form;
     }

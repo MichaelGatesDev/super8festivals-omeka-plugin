@@ -33,40 +33,27 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // Create tables
         $this->databaseHelper->createTables();
 
-        // add pages
-        add_page("History", "/history", "Content goes here.");
-        add_page("Federation", "/federation", "Content goes here.");
-        add_page("Filmmakers", "/filmmakers", "Content goes here.");
-        add_page("About", "/about", "
-I am a professor of Spanish and film at the State Univeristy of New York in Plattsburgh. In 2008 I received a Fulbright grant to study the films of Venezuelan avant-garde filmmaker Diego Rísquez. My intention was to examine Rísquez’s work from an author theory perspective. A collection of newspaper clippings in Rísquez’s archive changed my mind. At this point I did not even know what Super 8 was. Yet, I became eager to find out more about the young filmmakers in the newspaper. They had maintained a transnational network, the International Federation of Super 8 Cinema, outside of regional or national institutions.
-<br/><br/>
-Meeting these filmmakers was fascinating but took a long time. It took over ten years as filmmakers lived in over twenty countries and I received little funding for my project. Most funding sources were not interested in Super 8 culture. In some cases, I interviewed people at airports between flights or took side trips after conferences or visiting relatives. The biggest challenge, however, was not locating and meeting people, but writing about the fascinating world I discovered.
-<br/><br/>
-Finding ways to write about people in the twenty countries interacting with each other was challenging. For that, I wrote Small Gauge, Big Dreams, a book that focuses on Super 8 as a technology that allowed the establishment of one of the first de-centralized, transnational, cinematic networks.
-<br/><br/>
-My second challenge was to document my findings. Only in rare instances had local, regional or national archives collect the films, photographs, and catalogs that filmmakers had kept in their attics. This meant that readers could not go to their libraries or a website to view the objects or documents I cite in the book. For that, I created this website.
-");
-
-        // add countries
-        add_country('argentina');
-        add_country('australia');
-        add_country('belgium');
-        add_country('brazil');
-        add_country('canada');
-        add_country('colombia');
-        add_country('germany');
-        add_country('hong kong');
-        add_country('iran');
-        add_country('italy');
-        add_country('japan');
-        add_country('mexico');
-        add_country('philippines');
-        add_country('portugal');
-        add_country('puerto rico');
-        add_country('spain');
-        add_country('tunisia');
-        add_country('united states');
-        add_country('venezuela');
+        add_countries_by_names(array(
+            "argentina",
+            "australia",
+            "belgium",
+            "brazil",
+            "canada",
+            "colombia",
+            "germany",
+            "hong kong",
+            "iran",
+            "italy",
+            "japan",
+            "mexico",
+            "philippines",
+            "portugal",
+            "puerto rico",
+            "spain",
+            "tunisia",
+            "united states",
+            "venezuela"
+        ));
 
         // add cities
         add_city_by_country_name('germany', 'berlin', 52.52000, 13.40500);
@@ -92,6 +79,22 @@ My second challenge was to document my findings. Only in rare instances had loca
         add_city_by_country_name('venezuela', 'caracas', 10.48060, -66.90360);
 
 
+        /*
+        // add pages
+        add_page("History", "/history", "Content goes here.");
+        add_page("Federation", "/federation", "Content goes here.");
+        add_page("Filmmakers", "/filmmakers", "Content goes here.");
+        add_page("About", "/about", "
+I am a professor of Spanish and film at the State Univeristy of New York in Plattsburgh. In 2008 I received a Fulbright grant to study the films of Venezuelan avant-garde filmmaker Diego Rísquez. My intention was to examine Rísquez’s work from an author theory perspective. A collection of newspaper clippings in Rísquez’s archive changed my mind. At this point I did not even know what Super 8 was. Yet, I became eager to find out more about the young filmmakers in the newspaper. They had maintained a transnational network, the International Federation of Super 8 Cinema, outside of regional or national institutions.
+<br/><br/>
+Meeting these filmmakers was fascinating but took a long time. It took over ten years as filmmakers lived in over twenty countries and I received little funding for my project. Most funding sources were not interested in Super 8 culture. In some cases, I interviewed people at airports between flights or took side trips after conferences or visiting relatives. The biggest challenge, however, was not locating and meeting people, but writing about the fascinating world I discovered.
+<br/><br/>
+Finding ways to write about people in the twenty countries interacting with each other was challenging. For that, I wrote Small Gauge, Big Dreams, a book that focuses on Super 8 as a technology that allowed the establishment of one of the first de-centralized, transnational, cinematic networks.
+<br/><br/>
+My second challenge was to document my findings. Only in rare instances had local, regional or national archives collect the films, photographs, and catalogs that filmmakers had kept in their attics. This meant that readers could not go to their libraries or a website to view the objects or documents I cite in the book. For that, I created this website.
+");
+
+
         //============================================================================\\
         //      BELGIUM - THIS IS ONLY TEMPORARY FOR SHOWCASE, WILL BE DYNAMIC SOON
         //============================================================================\\
@@ -111,126 +114,6 @@ My second challenge was to document my findings. Only in rare instances had loca
             "https://i.imgur.com/V67MtfH.jpg",
             "https://i.imgur.com/4pc1mpm.jpg"
         );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/5RNAxom.jpg",
-            "https://i.imgur.com/QCqZWU6.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/iDTqEUl.jpg",
-            "https://i.imgur.com/BVMDc4y.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/lRkRabE.jpg",
-            "https://i.imgur.com/4g0Msba.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/kntJ6e2.jpg",
-            "https://i.imgur.com/MTdxlNY.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/4J4hn6l.jpg",
-            "https://i.imgur.com/RCEiR2Z.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/74a8hJo.jpg",
-            "https://i.imgur.com/Xr9GIlS.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/ZIMCNyX.jpg",
-            "https://i.imgur.com/L5sbfKq.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/MTnevnF.jpg",
-            "https://i.imgur.com/cGr5TGm.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/ov7u63K.jpg",
-            "https://i.imgur.com/ENCVfqe.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/zIxrV0U.jpg",
-            "https://i.imgur.com/ci5dity.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/iV1wAtW.jpg",
-            "https://i.imgur.com/XchGirL.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/vcU1i1Q.jpg",
-            "https://i.imgur.com/jBA8tun.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/Qi21JLp.jpg",
-            "https://i.imgur.com/IhpUOxZ.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/cdHeYrH.jpg",
-            "https://i.imgur.com/Z3VBqSj.jpg"
-        );
-        add_poster_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Poster Title",
-            "This is an example description.",
-            "https://i.imgur.com/WyUAsAM.jpg",
-            "https://i.imgur.com/wrjiqiU.jpg"
-        );
 
         // add photos
         add_photo_for_city_by_name_and_country_by_name(
@@ -241,22 +124,6 @@ My second challenge was to document my findings. Only in rare instances had loca
             "https://i.imgur.com/trj94fF.png",
             "https://i.imgur.com/EGSqRDW.png"
         );
-        add_photo_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Photo Title",
-            "This is an example description.",
-            "https://i.imgur.com/G0Ahebf.png",
-            "https://i.imgur.com/lCgqHO4.png"
-        );
-        add_photo_for_city_by_name_and_country_by_name(
-            'belgium',
-            'brussels',
-            "Photo Title",
-            "This is an example description.",
-            "https://i.imgur.com/RKMrltd.png",
-            "https://i.imgur.com/IVLbfxj.png"
-        );
 
         // add print media
         $newspaper = new SuperEightFestivalsFestivalPrintMedia();
@@ -264,11 +131,6 @@ My second challenge was to document my findings. Only in rare instances had loca
         $newspaper->path = "https://i.imgur.com/EuYD9Hj.jpg";
         $newspaper->thumbnail = "https://i.imgur.com/EuYD9Hj.jpg";
         $newspaper->save();
-        $magazine = new SuperEightFestivalsFestivalPrintMedia();
-        $magazine->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $magazine->path = "https://i.imgur.com/IzdVLBe.jpg";
-        $magazine->thumbnail = "https://i.imgur.com/IzdVLBe.jpg";
-        $magazine->save();
 
         // add memorabilia
         $memA = new SuperEightFestivalsFestivalMemorabilia();
@@ -276,16 +138,7 @@ My second challenge was to document my findings. Only in rare instances had loca
         $memA->path = "https://i.imgur.com/LRLnf4S.png";
         $memA->thumbnail = "https://i.imgur.com/LRLnf4S.png";
         $memA->save();
-        $memB = new SuperEightFestivalsFestivalMemorabilia();
-        $memB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $memB->path = "https://i.imgur.com/KtlAYaR.png";
-        $memB->thumbnail = "https://i.imgur.com/KtlAYaR.png";
-        $memB->save();
-        $memC = new SuperEightFestivalsFestivalMemorabilia();
-        $memC->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $memC->path = "https://i.imgur.com/X5qU1V0.jpg";
-        $memC->thumbnail = "https://i.imgur.com/X5qU1V0.jpg";
-        $memC->save();
+
 
         // add films
         $filmA = new SuperEightFestivalsFestivalFilm();
@@ -294,12 +147,6 @@ My second challenge was to document my findings. Only in rare instances had loca
         $filmA->url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
         $filmA->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
         $filmA->save();
-        $filmB = new SuperEightFestivalsFestivalFilm();
-        $filmB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $filmB->title = "Another Awesome Film";
-        $filmB->url = "https://www.youtube.com/watch?v=FTQbiNvZqaY";
-        $filmB->embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/FTQbiNvZqaY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-        $filmB->save();
 
         // add filmmakers
         $filmmakerA = new SuperEightFestivalsFestivalFilmmaker();
@@ -308,11 +155,7 @@ My second challenge was to document my findings. Only in rare instances had loca
         $filmmakerA->last_name = "Doe";
         $filmmakerA->cover_photo_url = "https://i.imgur.com/zzA8Gxw.png";
         $filmmakerA->save();
-        $filmmakerB = new SuperEightFestivalsFestivalFilmmaker();
-        $filmmakerB->city_id = get_city_by_name(get_country_by_name('belgium')->id, 'brussels')->id;
-        $filmmakerB->organization_name = "Example Film University";
-        $filmmakerB->cover_photo_url = "https://i.imgur.com/1Lvkt7C.jpg";
-        $filmmakerB->save();
+        */
     }
 
     public function hookInitialize()

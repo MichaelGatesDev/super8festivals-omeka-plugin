@@ -1,16 +1,11 @@
 <?php
 
-class SuperEightFestivalsFestivalFilmCatalog extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 {
-    public $city_id;
-    public $path;
-    public $thumbnail;
+    public $festival_id;
 
     protected function _validate()
     {
-        if (empty($this->path)) {
-            $this->addError('path', 'The path must be specified.');
-        }
     }
 
     public function getResourceId()

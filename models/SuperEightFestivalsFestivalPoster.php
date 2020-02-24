@@ -1,12 +1,8 @@
 <?php
 
-class SuperEightFestivalsFestivalPoster extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsFestivalPoster extends SuperEightFestivalsImage
 {
     public $city_id;
-    public $title;
-    public $description;
-    public $path;
-    public $thumbnail;
 
     public function getCity()
     {

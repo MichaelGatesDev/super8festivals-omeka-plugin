@@ -167,6 +167,18 @@ function get_all_festivals_in_city($cityID): array
     return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('city_id' => $cityID), -1);
 }
 
+
+function get_parent_festival_options(): array
+{
+    $results = array();
+    $potentialParents = get_db()->getTable('SuperEightFestivalsFestival')->findPotentialParentFestivals();
+    foreach ($potentialParents as $potentialParent) {
+        $results[$potentialParent->id] = $potentialParent->getDisplayName();
+    }
+    return $results;
+}
+
+
 function get_all_festivals_in_year($year): array
 {
     return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('year' => $year), -1);
@@ -182,6 +194,17 @@ function get_festival_by_id($id): SuperEightFestivalsFestival
     return get_db()->getTable('SuperEightFestivalsFestival')->find($id);
 }
 
+// ============================================================================================================================================================= \\
+
+function get_all_filmmakers(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFestivalFilmmaker")->findAll();
+}
+
+function get_all_filmmakers_for_festival($id): array
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->findBy(array('festival_id' => $id), -1);
+}
 
 // ============================================================================================================================================================= \\
 

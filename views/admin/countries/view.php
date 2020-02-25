@@ -7,7 +7,7 @@ echo head(array(
 <?php echo flash(); ?>
 
 
-<h2>Cities</h2>
+<h2>Cities in <?= ucfirst($country->name); ?></h2>
 
 <!-- 'Add City' Button -->
 <?php echo $this->partial('__components/button.php', array('url' => '/admin/super-eight-festivals/cities/add', 'text' => 'Add City')); ?>

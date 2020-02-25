@@ -9,7 +9,7 @@ echo head(array(
 <?php echo flash(); ?>
 
 
-<h2>Festivals</h2>
+<h2>Festivals in <?= ucwords($city->name); ?> </h2>
 
 <!-- 'Add City' Button -->
 <?php echo $this->partial('__components/button.php', array('url' => '/admin/super-eight-festivals/festivals/add', 'text' => 'Add Festival')); ?>

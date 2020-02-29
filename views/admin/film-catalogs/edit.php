@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Edit Film Catalog: ' . ucwords($catalog->title),
+    'title' => 'Edit Film Catalog: ' . ucwords($film_catalog->title),
 ));
 ?>
 

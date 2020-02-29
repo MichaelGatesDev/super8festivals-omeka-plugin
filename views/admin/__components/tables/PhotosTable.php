@@ -10,8 +10,6 @@
                 "Path (File)" => 'path_file',
                 "Path (Web)" => 'path_web',
                 "Embed Code" => 'embed',
-                "Width" => 'width',
-                "Height" => 'height',
             ),
             array('link_tag' => 'th scope="col"', 'list_tag' => ''));
         ?>

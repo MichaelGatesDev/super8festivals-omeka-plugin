@@ -10,6 +10,7 @@
                 "Path (File)" => 'path_file',
                 "Path (Web)" => 'path_web',
                 "Embed Code" => 'embed',
+                "Internal ID" => 'id',
             ),
             array('link_tag' => 'th scope="col"', 'list_tag' => ''));
         ?>
@@ -40,13 +41,12 @@
                 </ul>
             </td>
             <td><?= $catalog->description; ?></td>
-            <td><?= $catalog->thumbnailPathFile; ?></td>
-            <td><?= $catalog->thumbnailPathWeb; ?></td>
-            <td><?= $catalog->pathFile; ?></td>
-            <td><?= $catalog->pathWeb; ?></td>
-            <td><?= $catalog->embed; ?></td>
-            <td><?= $catalog->width; ?></td>
-            <td><?= $catalog->height; ?></td>
+            <td><?= $catalog->thumbnail_path_file; ?></td>
+            <td><?= $catalog->thumbnail_path_web; ?></td>
+            <td><?= $catalog->path_file; ?></td>
+            <td><?= $catalog->path_web; ?></td>
+            <td><?= html_escape($catalog->embed); ?></td>
+            <td><?= $catalog->id; ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

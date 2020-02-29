@@ -11,7 +11,7 @@ echo head(array(
 <?=
 $this->partial('__components/tables/FilmCatalogsTable.php',
     array(
-        'filmCatalogsVar' => get_all_film_catalogs_for_festival($festival->id),
+        'filmCatalogsVar' => get_all_film_catalogs(),
     )
 );
 ?>

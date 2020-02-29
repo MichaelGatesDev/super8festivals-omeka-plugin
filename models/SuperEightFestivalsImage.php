@@ -9,8 +9,6 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
     public string $thumbnail_path_web = "";
     public string $path_file = "";
     public string $path_web = "";
-    public int $width = -1;
-    public int $height = -1;
 
     public function __construct()
     {

@@ -3,17 +3,15 @@
 #############################################
 CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `country_id`        int(10) unsigned NOT NULL,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `width`             int(10) unsigned,
-    `height`            int(10) unsigned,
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `country_id`          int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -21,17 +19,15 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photos`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `festival_id`       int(10) unsigned NOT NULL,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `width`             int(10) unsigned,
-    `height`            int(10) unsigned,
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `festival_id`         int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -39,17 +35,15 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photos`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_posters`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `festival_id`       int(10) unsigned NOT NULL,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `width`             int(10) unsigned,
-    `height`            int(10) unsigned,
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `festival_id`         int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -60,15 +54,15 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_posters`
 #############################################
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `festival_id`       int(10) unsigned NOT NULL,
-    `filmmaker_id`      int(10) unsigned,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `embed`             TEXT(65535),
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `festival_id`         int(10) unsigned NOT NULL,
+    `filmmaker_id`        int(10) unsigned,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -79,15 +73,15 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
 #############################################
 CREATE TABLE IF NOT EXISTS `%PREFIX%federation_documents`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `embed`             TEXT(65535),
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
+    `embed`               TEXT(65535),
     PRIMARY KEY (`id`),
     KEY `name` (`title`)
 ) ENGINE = InnoDB
@@ -96,16 +90,16 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%federation_documents`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_film_catalogs`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `festival_id`       int(10) unsigned NOT NULL,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `embed`             TEXT(65535),
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `festival_id`         int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
+    `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -113,16 +107,16 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_film_catalogs`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `festival_id`       int(10) unsigned NOT NULL,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `embed`             TEXT(65535),
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `festival_id`         int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
+    `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -130,16 +124,16 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_medias`
 (
-    `id`                int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `festival_id`       int(10) unsigned NOT NULL,
-    `contributor_id`    int(10) unsigned,
-    `title`             varchar(255),
-    `description`       TEXT(65535),
-    `thumbnailPathFile` TEXT(65535),
-    `thumbnailPathWeb`  TEXT(65535),
-    `pathFile`          TEXT(65535),
-    `pathWeb`           TEXT(65535),
-    `embed`             TEXT(65535),
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `festival_id`         int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_path_file` TEXT(65535),
+    `thumbnail_path_web`  TEXT(65535),
+    `path_file`           TEXT(65535),
+    `path_web`            TEXT(65535),
+    `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8

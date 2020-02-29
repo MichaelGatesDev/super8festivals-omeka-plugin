@@ -10,8 +10,6 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
     public string $path_file = "";
     public string $path_web = "";
     public string $embed = "";
-    public int $width = -1;
-    public int $height = -1;
 
     public function __construct()
     {

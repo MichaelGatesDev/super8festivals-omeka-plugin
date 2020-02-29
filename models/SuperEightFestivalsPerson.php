@@ -7,6 +7,11 @@ abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord imp
     public string $organization_name = "";
     public string $email = "";
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     protected function _validate()
     {
         if (empty($this->first_name) && empty($this->last_name) && empty($this->organization_name)) {

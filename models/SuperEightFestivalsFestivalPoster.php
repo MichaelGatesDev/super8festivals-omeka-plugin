@@ -2,16 +2,11 @@
 
 class SuperEightFestivalsFestivalPoster extends SuperEightFestivalsImage
 {
-    public $city_id;
+    public int $festival_id = -1;
 
-    public function getCity()
+    public function __construct()
     {
-        return get_city_by_id($this->city_id);
-    }
-
-    public function getCountry()
-    {
-        return $this->getCity()->getCountry();
+        parent::__construct();
     }
 
     protected function _validate()

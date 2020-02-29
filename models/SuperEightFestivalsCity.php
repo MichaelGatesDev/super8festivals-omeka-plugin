@@ -2,7 +2,12 @@
 
 class SuperEightFestivalsCity extends SuperEightFestivalsLocation
 {
-    public $country_id;
+    public int $country_id = -1;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function getCountry()
     {

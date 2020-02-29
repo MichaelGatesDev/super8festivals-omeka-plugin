@@ -21,7 +21,7 @@ echo head(
     </div>
     <div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
         <p style="margin-top: 0;">Browse, add, edit, and delete festivals.</p>
-        <a href="/admin/super-eight-festivals/festivals" class="button green" style="margin: 0;">Festivals</a>
+        <a href="/admin/super-eight-festivals/filmmakers" class="button green" style="margin: 0;">Filmmakers</a>
     </div>
 </div>
 

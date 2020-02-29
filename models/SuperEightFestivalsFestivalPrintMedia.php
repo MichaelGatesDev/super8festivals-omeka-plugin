@@ -2,7 +2,12 @@
 
 class SuperEightFestivalsFestivalPrintMedia extends SuperEightFestivalsDocument
 {
-    public $festival_id;
+    public int $festival_id = -1;
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     protected function _validate()
     {

@@ -44,7 +44,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
     protected function _getForm(SuperEightFestivalsFestivalFilmmaker $filmmaker = null): Omeka_Form_Admin
     {
         $formOptions = array(
-            'type' => 'super_eight_festivals_festival'
+            'type' => 'super_eight_festivals_festival_filmmaker'
         );
 
         $form = new Omeka_Form_Admin($formOptions);

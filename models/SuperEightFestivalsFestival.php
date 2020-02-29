@@ -2,10 +2,15 @@
 
 class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public $city_id;
+    public int $city_id = -1;
     public int $year = -1;
     public string $title = "";
     public string $description = "";
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     public function getCity()
     {
@@ -47,6 +52,6 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 
     public function getDisplayName()
     {
-        return $this->year . " - " . $this->title;
+        return "$this->title ($this->year)";
     }
 }

@@ -2,17 +2,15 @@
 
 class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
 {
-    public $festival_id;
+    public int $festival_id = -1;
 
-    protected function _validate()
+    public function __construct()
     {
+        parent::__construct();
     }
 
     public function getRecordUrl($action = 'show')
     {
-//        if ('show' == $action) {
-//            return public_url($this->name);
-//        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'filmmakers',

@@ -199,7 +199,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
     `last_name`         VARCHAR(255),
     `organization_name` VARCHAR(255),
     `email`             VARCHAR(255)     NOT NULL,
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    KEY `first_name` (`first_name`),
+    KEY `last_name` (`last_name`),
+    KEY `organization_name` (`organization_name`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;

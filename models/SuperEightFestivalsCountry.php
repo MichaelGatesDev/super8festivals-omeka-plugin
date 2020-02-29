@@ -2,9 +2,9 @@
 
 class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
 {
-    protected function _validate()
+    public function __construct()
     {
-        parent::_validate();
+        parent::__construct();
     }
 
     public function getRecordUrl($action = 'show')

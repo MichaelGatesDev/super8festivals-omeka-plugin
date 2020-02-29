@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Edit Filmmaker: ' . ucwords($filmmaker->email),
+    'title' => 'Add Film Catalog',
 ));
 ?>
 

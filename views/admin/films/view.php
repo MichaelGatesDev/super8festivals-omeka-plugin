@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => ucfirst($festival->getDisplayName()),
+    'title' => ucfirst($film->title),
 ));
 ?>
 

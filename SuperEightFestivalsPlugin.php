@@ -78,6 +78,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         add_city_by_country_name('tunisia', 'kelibia', 36.84620, 11.09950);
         add_city_by_country_name('venezuela', 'caracas', 10.48060, -66.90360);
 
+        // add contributor
+        add_contributor(
+            "michael",
+            "gates",
+            "",
+            "mgate005@plattsburgh.edu"
+        );
 
         /*
         // add pages

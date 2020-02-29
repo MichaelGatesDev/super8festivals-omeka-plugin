@@ -150,28 +150,6 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             )
         );
 
-        $form->addElementToEditGroup(
-            'text', 'width',
-            array(
-                'id' => 'width',
-                'label' => 'Thumbnail Width',
-                'description' => "The catalog's width",
-                'value' => $film_catalog->width,
-                'required' => false,
-            )
-        );
-
-        $form->addElementToEditGroup(
-            'text', 'height',
-            array(
-                'id' => 'height',
-                'label' => 'Thumbnail Path (Web)',
-                'description' => "The catalog's path",
-                'value' => $film_catalog->height,
-                'required' => false,
-            )
-        );
-
         return $form;
     }
 

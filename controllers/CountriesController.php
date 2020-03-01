@@ -117,7 +117,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                 if ($action == 'delete') {
                     $country->delete();
                     $this->_helper->flashMessenger(__('The country "%s" has been deleted.', $country->name), 'success');
-                    $this->_helper->redirector('index');
+                    $this->redirect("/super-eight-festivals/countries/");
                 } else {
                     $country->setPostData($_POST);
                     if ($country->save()) {
@@ -126,7 +126,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                         } else if ($action == 'edit') {
                             $this->_helper->flashMessenger(__('The country "%s" has been edited.', $country->name), 'success');
                         }
-                        $this->_helper->redirector('index');
+                        $this->redirect("/super-eight-festivals/countries/" . $country->name);
                         return;
                     }
                 }

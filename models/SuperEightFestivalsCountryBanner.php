@@ -7,6 +7,7 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
     public function __construct()
     {
         parent::__construct();
+        $this->contributor_id = 0;
     }
 
     public function getCountry()
@@ -20,6 +21,12 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
         if (empty($this->country_id) || !is_numeric($this->country_id)) {
             $this->addError('country_id', 'The country that the city exists in must be specified.');
         }
+    }
+
+    protected function _delete()
+    {
+        parent::_delete();
+        delete_file($this->path_file);
     }
 
     public function getRecordUrl($action = 'show')

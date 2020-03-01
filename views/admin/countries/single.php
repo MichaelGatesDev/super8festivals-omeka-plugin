@@ -43,16 +43,21 @@ $banner = get_banner_for_country($country->id);
     #country-single a:hover {
         color: #e88347;
     }
+
+    #country-banner img {
+        object-fit: contain;
+        width: 100px;
+        height: 100px;
+    }
 </style>
 
 <section id="country-single">
     <h2>Country Banner</h2>
     <?php if ($banner != null): ?>
         <div id="country-banner">
-            <img src="" alt=""/>
+            <img src="<?= get_files_dir(false) . "/" . $banner->path_file; ?>" alt=""/>
         </div>
-        <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/<?= $banner->id; ?>/edit">Edit</a>.
-        <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/<?= $banner->id; ?>/delete">Delete</a>.
+        <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/<?= $banner->id; ?>/delete">Delete</a>
     <?php else: ?>
         <p>
             There is no banner available for this country.

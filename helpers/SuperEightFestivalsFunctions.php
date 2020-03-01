@@ -2,6 +2,23 @@
 
 // ============================================================================================================================================================= \\
 
+function get_root_dir()
+{
+    return $_SERVER['DOCUMENT_ROOT'];
+}
+
+function get_files_dir($fullPath = true)
+{
+    return ($fullPath ? get_root_dir() : "") . "/files/original";
+}
+
+function delete_file($fileName)
+{
+    unlink(get_files_dir() . "/" . $fileName);
+}
+
+// ============================================================================================================================================================= \\
+
 function get_all_countries(): array
 {
     return get_db()->getTable("SuperEightFestivalsCountry")->findAll();

@@ -7,6 +7,11 @@ echo head(array(
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
+<div style="padding-bottom: 1em;">
+    <a href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/edit'>Edit</a>
+    <a href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/delete'>Delete</a>
+</div>
+
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
 <style>
@@ -18,10 +23,6 @@ echo head(array(
         font-size: 15px;
     }
 </style>
-
-<a class='header-element' href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/edit'>Edit</a>
-<a class='header-element' href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/delete'>Delete</a>
-
 
 <p>Content TBD</p>
 

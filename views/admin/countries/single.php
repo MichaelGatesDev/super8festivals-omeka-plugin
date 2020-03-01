@@ -9,15 +9,16 @@ $banner = get_banner_for_country($country->id);
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
+<div style="padding-bottom: 1em;">
+    <a href='/admin/super-eight-festivals/countries/<?= $country->name ?>/edit'>Edit</a>
+    <a href='/admin/super-eight-festivals/countries/<?= $country->name ?>/delete'>Delete</a>
+</div>
+
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
 <style>
     #content-heading {
         text-transform: capitalize;
-    }
-
-    .header-element {
-        font-size: 15px;
     }
 
     .title {
@@ -45,9 +46,6 @@ $banner = get_banner_for_country($country->id);
 </style>
 
 <section id="country-single">
-    <a class='header-element' href='/admin/super-eight-festivals/countries/<?= $country->name ?>/edit'>Edit</a>
-    <a class='header-element' href='/admin/super-eight-festivals/countries/<?= $country->name ?>/delete'>Delete</a>
-
     <h2>Country Banner</h2>
     <?php if ($banner != null): ?>
         <div id="country-banner">

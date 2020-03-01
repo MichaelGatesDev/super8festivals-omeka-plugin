@@ -199,32 +199,78 @@ My second challenge was to document my findings. Only in rare instances had loca
         );
     }
 
+    function addRecordRoute($router, $recordNameSingular, $recordNamePlural, $fullRoute, $parameterName)
+    {
+        $router->addRoute($recordNamePlural, new Zend_Controller_Router_Route(
+                $fullRoute,
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $recordNamePlural,
+                    'action' => "index"
+                ))
+        );
+        $router->addRoute($recordNameSingular . "_single", new Zend_Controller_Router_Route(
+                "$fullRoute/:$parameterName",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $recordNamePlural,
+                    'action' => "single"
+                ))
+        );
+        $router->addRoute($recordNameSingular . "_add", new Zend_Controller_Router_Route(
+                "$fullRoute/add",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $recordNamePlural,
+                    'action' => "add"
+                ))
+        );
+        $router->addRoute($recordNameSingular . "_edit", new Zend_Controller_Router_Route(
+                "$fullRoute/:$parameterName/edit",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $recordNamePlural,
+                    'action' => "edit"
+                ))
+        );
+        $router->addRoute($recordNameSingular . "_delete", new Zend_Controller_Router_Route(
+                "$fullRoute/:$parameterName/delete",
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $recordNamePlural,
+                    'action' => "delete"
+                ))
+        );
+    }
+
     function hookDefineRoutes($args)
     {
-        // Don't add these routes on the admin side to avoid conflicts.
-        if (is_admin_theme()) return;
-
         $router = $args['router'];
 
-        // override search
-        $this->addRoute($router, 'search', 'search', 'search');
+        if (is_admin_theme()) {
+            $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
+            $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
+            $this->addRecordRoute($router, "banner", "banners", ":module/countries/:countryName/banners", "bannerID");
+        } else {
+            // override search
+            $this->addRoute($router, 'search', 'search', 'search');
 
-        $this->addRoute($router, 'about', 'about', 'about');
-        $this->addRoute($router, 'contact', 'contact', 'contact');
-        $this->addRoute($router, 'submit', 'submit', 'submit');
+            $this->addRoute($router, 'about', 'about', 'about');
+            $this->addRoute($router, 'contact', 'contact', 'contact');
+            $this->addRoute($router, 'submit', 'submit', 'submit');
 
-        $this->addRoute($router, 'federation', 'federation', 'federation');
-        $this->addRoute($router, 'history', 'history', 'history');
-        $this->addRoute($router, 'filmmakers', 'filmmakers', 'filmmakers');
+            $this->addRoute($router, 'federation', 'federation', 'federation');
+            $this->addRoute($router, 'history', 'history', 'history');
+            $this->addRoute($router, 'filmmakers', 'filmmakers', 'filmmakers');
 
-        $this->addRoute($router, 'countries', 'countries', 'countries-list');
+            $this->addRoute($router, 'countries', 'countries', 'countries-list');
 
-        // country routes
-        $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
-        foreach ($countries as $country) {
-            $this->addRoute($router, 'super_eight_festivals_country_' . $country->id, "countries/" . str_replace(" ", "-", strtolower($country->name)), 'country', $country->id);
+            // country routes
+            $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
+            foreach ($countries as $country) {
+                $this->addRoute($router, 'super_eight_festivals_country_' . $country->id, "countries/" . str_replace(" ", "-", strtolower($country->name)), 'country', $country->id);
+            }
         }
-
     }
 
 }

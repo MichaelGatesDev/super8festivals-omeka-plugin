@@ -4,7 +4,6 @@ echo head(array(
 ));
 ?>
 
-
 <?php echo flash(); ?>
 
 <?php echo $form; ?>

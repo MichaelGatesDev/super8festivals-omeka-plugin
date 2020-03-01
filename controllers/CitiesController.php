@@ -12,7 +12,27 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
     public function indexAction()
     {
-        $this->_helper->redirector('browse');
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        return;
+    }
+
+    public function singleAction()
+    {
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        $cityName = $request->getParam('cityName');
+        $city = get_city_by_name($country->id, $cityName);
+        $this->view->city = $city;
+
         return;
     }
 
@@ -27,16 +47,36 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
     public function editAction()
     {
-        $city = $this->_helper->db->findById();
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        $cityName = $request->getParam('cityName');
+        $city = get_city_by_name($country->id, $cityName);
+        $this->view->city = $city;
+
         $form = $this->_getForm($city);
         $this->view->form = $form;
         $this->_processForm($city, $form, 'edit');
     }
 
-    public function viewAction()
+    public function deleteAction()
     {
-        $city = $this->_helper->db->findById();
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        $cityName = $request->getParam('cityName');
+        $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
+
+        $form = $this->_getDeleteForm();
+        $this->view->form = $form;
+        $this->_processForm($country, $form, 'delete');
     }
 
     protected function _getForm(SuperEightFestivalsCity $city = null): Omeka_Form_Admin
@@ -95,10 +135,10 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsCity $city, Omeka_Form $form, string $action)
+
+    private function _processForm(SuperEightFestivalsCity $city, $form, $action)
     {
-        // Set the page object to the view.
-        $this->view->super_eight_festivals_city = $city;
+        $this->view->city = $city;
 
         if ($this->getRequest()->isPost()) {
             try {
@@ -110,17 +150,23 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 $this->_helper->flashMessenger($e);
             }
             try {
-                $city->setPostData($_POST);
-                if ($city->save()) {
-                    if ($action == 'add') {
-                        $this->_helper->flashMessenger(__('The city "%s" has been added.', $city->name), 'success');
-                    } else if ($action == 'edit') {
-                        $this->_helper->flashMessenger(__('The city "%s" has been edited.', $city->name), 'success');
+                if ($action == 'delete') {
+                    $city->delete();
+                    $this->_helper->flashMessenger(__('The city "%s" has been deleted.', $city->name), 'success');
+                    $this->redirect("/super-eight-festivals/countries/" . $city->getCountry()->name);
+//                    $this->redirect("/super-eight-festivals/countries/" . $city->getCountry()->name . "/cities/");
+                } else {
+                    $city->setPostData($_POST);
+                    if ($city->save()) {
+                        if ($action == 'add') {
+                            $this->_helper->flashMessenger(__('The city "%s" has been added.', $city->name), 'success');
+                        } else if ($action == 'edit') {
+                            $this->_helper->flashMessenger(__('The city "%s" has been edited.', $city->name), 'success');
+                        }
+                        $this->redirect("/super-eight-festivals/countries/" . $city->getCountry()->name . "/cities/" . $city->name);
+                        return;
                     }
-                    $this->_helper->redirector('index');
-                    return;
                 }
-                // Catch validation errors.
             } catch (Omeka_Validate_Exception $e) {
                 $this->_helper->flashMessenger($e);
             } catch (Omeka_Record_Exception $e) {

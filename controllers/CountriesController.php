@@ -11,14 +11,17 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
 
     public function indexAction()
     {
-        $this->_helper->redirector('browse');
         return;
     }
 
-    public function viewAction()
+    public function singleAction()
     {
-        $country = $this->_helper->db->findById();
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
         $this->view->country = $country;
+
         return;
     }
 
@@ -33,17 +36,29 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
 
     public function editAction()
     {
-        $country = $this->_helper->db->findById();
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
         $form = $this->_getForm($country);
         $this->view->form = $form;
         $this->_processForm($country, $form, 'edit');
     }
 
-    /**
-     * @param SuperEightFestivalsCountry|null $country
-     * @return Omeka_Form_Admin
-     */
-    protected function _getForm($country = null)
+    public function deleteAction()
+    {
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        $form = $this->_getDeleteForm();
+        $this->view->form = $form;
+        $this->_processForm($country, $form, 'delete');
+    }
+
+    protected function _getForm(SuperEightFestivalsCountry $country = null)
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_country'
@@ -85,14 +100,8 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
         return $form;
     }
 
-    /**
-     * @param $country SuperEightFestivalsCountry
-     * @param $form Omeka_Form
-     * @param $action
-     */
-    private function _processForm($country, $form, $action)
+    private function _processForm(SuperEightFestivalsCountry $country, $form, $action)
     {
-        // Set the page object to the view.
         $this->view->country = $country;
 
         if ($this->getRequest()->isPost()) {
@@ -105,17 +114,22 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                 $this->_helper->flashMessenger($e);
             }
             try {
-                $country->setPostData($_POST);
-                if ($country->save()) {
-                    if ($action == 'add') {
-                        $this->_helper->flashMessenger(__('The country "%s" has been added.', $country->name), 'success');
-                    } else if ($action == 'edit') {
-                        $this->_helper->flashMessenger(__('The country "%s" has been edited.', $country->name), 'success');
-                    }
+                if ($action == 'delete') {
+                    $country->delete();
+                    $this->_helper->flashMessenger(__('The country "%s" has been deleted.', $country->name), 'success');
                     $this->_helper->redirector('index');
-                    return;
+                } else {
+                    $country->setPostData($_POST);
+                    if ($country->save()) {
+                        if ($action == 'add') {
+                            $this->_helper->flashMessenger(__('The country "%s" has been added.', $country->name), 'success');
+                        } else if ($action == 'edit') {
+                            $this->_helper->flashMessenger(__('The country "%s" has been edited.', $country->name), 'success');
+                        }
+                        $this->_helper->redirector('index');
+                        return;
+                    }
                 }
-                // Catch validation errors.
             } catch (Omeka_Validate_Exception $e) {
                 $this->_helper->flashMessenger($e);
             } catch (Omeka_Record_Exception $e) {

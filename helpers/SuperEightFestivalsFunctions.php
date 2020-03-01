@@ -7,7 +7,7 @@ function get_all_countries(): array
     return get_db()->getTable("SuperEightFestivalsCountry")->findAll();
 }
 
-function get_parent_country_options()
+function get_parent_country_options(): array
 {
     $results = array();
     $potentialParents = get_db()->getTable('SuperEightFestivalsCountry')->findAll();
@@ -19,25 +19,18 @@ function get_parent_country_options()
     return $results;
 }
 
-function get_parent_country_id($cityID)
-{
-    $city = get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
-    return $city->country_id;
-}
-
-function get_country_by_id($countryID)
+function get_country_by_id($countryID): ?SuperEightFestivalsCountry
 {
     return get_db()->getTable('SuperEightFestivalsCountry')->find($countryID);
 }
 
-function get_country_by_name($countryName)
+function get_country_by_name($countryName): ?SuperEightFestivalsCountry
 {
     $results = get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => $countryName), 1);
-    if (count($results) > 0) return $results[0];
-    return null;
+    return count($results) > 0 ? $results[0] : null;
 }
 
-function get_all_countries_by_name_ambiguous($name, $partial = false)
+function get_all_countries_by_name_ambiguous($name, $partial = false): array
 {
     if ($partial) {
         $partialResults = array();
@@ -56,7 +49,7 @@ function get_all_countries_by_name_ambiguous($name, $partial = false)
 }
 
 
-function add_country($countryName, $lat = 0, $long = 0)
+function add_country($countryName, $lat = 0, $long = 0): void
 {
     $country = new SuperEightFestivalsCountry();
     $country->name = $countryName;
@@ -65,12 +58,31 @@ function add_country($countryName, $lat = 0, $long = 0)
     $country->save();
 }
 
-function add_countries_by_names(array $countryNames)
+function add_countries_by_names(array $countryNames): void
 {
     foreach ($countryNames as $countryName) {
         add_country($countryName);
     }
 }
+
+// ============================================================================================================================================================= \\
+
+function get_all_country_banners(): array
+{
+    return get_db()->getTable("SuperEightFestivalsCountryBanner")->findAll();
+}
+
+function get_banner_for_country($countryID): ?SuperEightFestivalsCountryBanner
+{
+    $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);
+    return count($results) > 0 ? $results[0] : null;
+}
+
+function get_banner_by_id($bannerID): ?SuperEightFestivalsCountryBanner
+{
+    return get_db()->getTable('SuperEightFestivalsCountryBanner')->find($bannerID);
+}
+
 
 // ============================================================================================================================================================= \\
 
@@ -99,15 +111,13 @@ function get_parent_city_options(): array
 function get_city_by_name($countryID, $cityName): SuperEightFestivalsCity
 {
     $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('country_id' => $countryID, 'name' => $cityName), 1);
-    if (count($results) > 0) return $results[0];
-    return null;
+    return count($results) > 0 ? $results[0] : null;
 }
 
 function get_city_by_name_ambiguous($cityName): SuperEightFestivalsCity
 {
     $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), 1);
-    if (count($results) > 0) return $results[0];
-    return null;
+    return count($results) > 0 ? $results[0] : null;
 }
 
 
@@ -387,8 +397,7 @@ function get_all_pages_by_title_ambiguous($title, $partial = false)
 function get_page_by_url($url)
 {
     $results = get_db()->getTable('SuperEightFestivalsPage')->findBy(array('url' => $url), 1);
-    if (count($results) > 0) return $results[0];
-    return null;
+    return count($results) > 0 ? $results[0] : null;
 }
 
 

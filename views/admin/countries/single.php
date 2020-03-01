@@ -9,6 +9,8 @@ $banner = get_banner_for_country($country->id);
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
+<?= $this->partial("__components/breadcrumbs.php"); ?>
+
 <style>
     #content-heading {
         text-transform: capitalize;

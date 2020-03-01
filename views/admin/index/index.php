@@ -8,6 +8,8 @@ echo head(
 
 <?php echo flash(); ?>
 
+<?= $this->partial("__components/breadcrumbs.php"); ?>
+
 <h2>Super 8 Festivals Control Panel</h2>
 
 <style>

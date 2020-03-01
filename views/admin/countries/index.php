@@ -7,6 +7,8 @@ echo head(array(
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
+<?= $this->partial("__components/breadcrumbs.php"); ?>
+
 <style>
     .title {
         text-transform: capitalize;

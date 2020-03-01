@@ -76,7 +76,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($country, $form, 'delete');
+        $this->_processForm($city, $form, 'delete');
     }
 
     protected function _getForm(SuperEightFestivalsCity $city = null): Omeka_Form_Admin

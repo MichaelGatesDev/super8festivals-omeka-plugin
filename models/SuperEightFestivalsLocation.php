@@ -20,7 +20,7 @@ abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord i
 
     protected function beforeSave($args)
     {
-        $this->name = trim($this->name);
+        $this->name = trim(strtolower($this->name));
     }
 
     protected function afterSave($args)

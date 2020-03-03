@@ -22,12 +22,12 @@ abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord imp
         }
     }
 
-
     protected function beforeSave($args)
     {
-        $this->first_name = trim($this->first_name);
-        $this->last_name = trim($this->last_name);
-        $this->organization_name = trim($this->organization_name);
-        $this->email = trim($this->email);
+        $this->first_name = trim(strtolower($this->first_name));
+        $this->last_name = trim(strtolower($this->last_name));
+        $this->organization_name = trim(strtolower($this->organization_name));
+        $this->email = trim(strtolower($this->email));
     }
+
 }

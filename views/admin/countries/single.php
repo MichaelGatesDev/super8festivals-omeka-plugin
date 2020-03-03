@@ -54,6 +54,11 @@ $banner = get_banner_for_country($country->id);
         height: 200px;
     }
 
+    #country-banner a {
+        width: 100%;
+        height: 100%;
+    }
+
     #country-banner img {
         object-fit: cover;
         width: inherit;
@@ -65,7 +70,9 @@ $banner = get_banner_for_country($country->id);
     <h2>Country Banner</h2>
     <?php if ($banner != null): ?>
         <div id="country-banner">
-            <img src="<?= get_relative_path(get_country_dir($country->name) . "/" . $banner->path_file); ?>" alt=""/>
+            <a href="<?= get_relative_path($banner->get_path()); ?>" target="_blank">
+                <img src="<?= get_relative_path($banner->get_thumbnail_path()); ?>" alt=""/>
+            </a>
         </div>
         <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/<?= $banner->id; ?>/delete">Delete</a>
     <?php else: ?>

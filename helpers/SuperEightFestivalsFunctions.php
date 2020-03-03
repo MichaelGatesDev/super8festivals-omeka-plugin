@@ -90,9 +90,9 @@ function get_banner_for_country($countryID): ?SuperEightFestivalsCountryBanner
     return count($results) > 0 ? $results[0] : null;
 }
 
-function get_banner_by_id($bannerID): ?SuperEightFestivalsCountryBanner
+function get_banner_by_id($id): ?SuperEightFestivalsCountryBanner
 {
-    return get_db()->getTable('SuperEightFestivalsCountryBanner')->find($bannerID);
+    return get_db()->getTable('SuperEightFestivalsCountryBanner')->find($id);
 }
 
 
@@ -208,6 +208,29 @@ function add_festival($city_id, $year, $title, $description)
 
 // ============================================================================================================================================================= \\
 
+function get_all_film_catalogs(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFestivalFilmCatalog")->findAll();
+}
+
+function get_all_film_catalogs_for_festival($id): array
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilmCatalog')->findBy(array('festival_id' => $id), -1);
+}
+
+function get_all_film_catalogs_for_city($id): array
+{
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $catalogs = get_all_film_catalogs_for_festival($festival->id);
+        $result = array_merge($result, $catalogs);
+    }
+    return $result;
+}
+
+// ============================================================================================================================================================= \\
+
 function get_all_filmmakers(): array
 {
     return get_db()->getTable("SuperEightFestivalsFestivalFilmmaker")->findAll();
@@ -216,6 +239,17 @@ function get_all_filmmakers(): array
 function get_all_filmmakers_for_festival($id): array
 {
     return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->findBy(array('festival_id' => $id), -1);
+}
+
+function get_all_filmmakers_for_city($id): array
+{
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $filmmakers = get_all_filmmakers_for_festival($festival->id);
+        $result = array_merge($result, $filmmakers);
+    }
+    return $result;
 }
 
 function get_parent_filmmaker_options(): array
@@ -241,16 +275,15 @@ function get_all_films_for_festival($id): array
     return get_db()->getTable('SuperEightFestivalsFestivalFilm')->findBy(array('festival_id' => $id), -1);
 }
 
-// ============================================================================================================================================================= \\
-
-function get_all_film_catalogs(): array
+function get_all_films_for_city($id): array
 {
-    return get_db()->getTable("SuperEightFestivalsFestivalFilmCatalog")->findAll();
-}
-
-function get_all_film_catalogs_for_festival($id): array
-{
-    return get_db()->getTable('SuperEightFestivalsFestivalFilmCatalog')->findBy(array('festival_id' => $id), -1);
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $catalogs = get_all_films_for_festival($festival->id);
+        $result = array_merge($result, $catalogs);
+    }
+    return $result;
 }
 
 // ============================================================================================================================================================= \\
@@ -265,6 +298,18 @@ function get_all_memorabilia_for_festival($id): array
     return get_db()->getTable('SuperEightFestivalsFestivalMemorabilia')->findBy(array('festival_id' => $id), -1);
 }
 
+function get_all_memorabilia_for_city($id): array
+{
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $catalogs = get_all_memorabilia_for_festival($festival->id);
+        $result = array_merge($result, $catalogs);
+    }
+    return $result;
+}
+
+
 // ============================================================================================================================================================= \\
 
 function get_all_print_media(): array
@@ -277,6 +322,18 @@ function get_all_print_media_for_festival($id): array
     return get_db()->getTable('SuperEightFestivalsFestivalPrintMedia')->findBy(array('festival_id' => $id), -1);
 }
 
+function get_all_print_media_for_city($id): array
+{
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $catalogs = get_all_print_media_for_festival($festival->id);
+        $result = array_merge($result, $catalogs);
+    }
+    return $result;
+}
+
+
 // ============================================================================================================================================================= \\
 
 function get_all_photos(): array
@@ -288,6 +345,18 @@ function get_all_photos_for_festival($id): array
 {
     return get_db()->getTable('SuperEightFestivalsFestivalPhoto')->findBy(array('festival_id' => $id), -1);
 }
+
+function get_all_photos_for_city($id): array
+{
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $catalogs = get_all_photos_for_festival($festival->id);
+        $result = array_merge($result, $catalogs);
+    }
+    return $result;
+}
+
 
 function add_photo($festivalID, $contributorID, $title, $description, $thumbnailPathFile, $thumbnailPathWeb, $pathFile, $pathWeb, $width, $height)
 {
@@ -319,6 +388,17 @@ function get_all_posters(): array
 function get_all_posters_for_festival($id): array
 {
     return get_db()->getTable('SuperEightFestivalsFestivalPoster')->findBy(array('festival_id' => $id), -1);
+}
+
+function get_all_posters_for_city($id): array
+{
+    $result = array();
+    $festivals = get_all_festivals_in_city($id);
+    foreach ($festivals as $festival) {
+        $catalogs = get_all_posters_for_festival($festival->id);
+        $result = array_merge($result, $catalogs);
+    }
+    return $result;
 }
 
 function add_poster($festivalID, $contributorID, $title, $description, $thumbnailPathFile, $thumbnailPathWeb, $pathFile, $pathWeb, $width, $height)
@@ -356,6 +436,11 @@ function get_parent_contributor_options(): array
 function get_all_contributors(): array
 {
     return get_db()->getTable("SuperEightFestivalsContributor")->findAll();
+}
+
+function get_contributor_by_id($id): ?SuperEightFestivalsCountryBanner
+{
+    return get_db()->getTable('SuperEightFestivalsContributor')->find($id);
 }
 
 function add_contributor(string $first_name, string $last_name, string $organization_name, string $email)

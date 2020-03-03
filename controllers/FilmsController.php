@@ -113,7 +113,7 @@ class SuperEightFestivals_FilmsController extends Omeka_Controller_AbstractActio
                 'id' => 'thumbnail_path_file',
                 'label' => 'Thumbnail Path (File)',
                 'description' => "The item's thumbnail path (file)",
-                'value' => $film->thumbnail_path_file,
+                'value' => $film->thumbnail_file_name,
                 'required' => false,
             )
         );
@@ -124,7 +124,7 @@ class SuperEightFestivals_FilmsController extends Omeka_Controller_AbstractActio
                 'id' => 'thumbnail_path_web',
                 'label' => 'Thumbnail Path (Web)',
                 'description' => "The item's thumbnail path (web)",
-                'value' => $film->thumbnail_path_web,
+                'value' => $film->thumbnail_url_web,
                 'required' => false,
             )
         );

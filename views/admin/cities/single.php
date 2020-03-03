@@ -24,7 +24,132 @@ echo head(array(
     }
 </style>
 
-<p>Content TBD</p>
+<section id="country-single">
+
+    <h2>Film Catalogs</h2>
+    <?php $film_catalogs = get_all_film_catalogs_for_city($city->id); ?>
+    <?php if (count($film_catalogs) == 0): ?>
+        <p>There are no film catalogs available for this city.</p>
+    <?php else: ?>
+        <ul id="film-catalogs">
+            <?php foreach ($film_catalogs as $catalog): ?>
+                <li>
+                    <p><?= $catalog->title; ?></p>
+                    <p><?= $catalog->description; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2>Filmmakers</h2>
+    <?php $filmmakers = get_all_filmmakers_for_city($city->id); ?>
+    <?php if (count($filmmakers) == 0): ?>
+        <p>There are no filmmakers available for this city.</p>
+    <?php else: ?>
+        <ul id="filmmakers">
+            <?php foreach ($filmmakers as $filmmaker): ?>
+                <li>
+                    <p><?= $filmmaker->first_name; ?></p>
+                    <p><?= $filmmaker->last_name; ?></p>
+                    <p><?= $filmmaker->organization_name; ?></p>
+                    <p><?= $filmmaker->email; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2>Films</h2>
+    <?php $films = get_all_films_for_city($city->id); ?>
+    <?php if (count($films) == 0): ?>
+        <p>There are no films available for this city.</p>
+    <?php else: ?>
+        <ul id="films">
+            <?php foreach ($films as $film): ?>
+                <?php
+                $contributor = $film->get_contributor();
+                ?>
+                <li>
+                    <p><?= $film->title; ?></p>
+                    <p><?= $film->description; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2>Memorabilia</h2>
+    <?php $memorabilia = get_all_memorabilia_for_city($city->id); ?>
+    <?php if (count($memorabilia) == 0): ?>
+        <p>There are no memorabilia available for this city.</p>
+    <?php else: ?>
+        <ul id="memorabilia">
+            <?php foreach ($memorabilia as $mem): ?>
+                <?php
+                $contributor = $mem->get_contributor();
+                ?>
+                <li>
+                    <p><?= $mem->title; ?></p>
+                    <p><?= $mem->description; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2>Print Media</h2>
+    <?php $printMedia = get_all_print_media_for_city($city->id); ?>
+    <?php if (count($printMedia) == 0): ?>
+        <p>There are no print media available for this city.</p>
+    <?php else: ?>
+        <ul id="memorabilia">
+            <?php foreach ($printMedia as $media): ?>
+                <?php
+                $contributor = $media->get_contributor();
+                ?>
+                <li>
+                    <p><?= $media->title; ?></p>
+                    <p><?= $media->description; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2>Photos</h2>
+    <?php $photos = get_all_photos_for_city($city->id); ?>
+    <?php if (count($photos) == 0): ?>
+        <p>There are no photos available for this city.</p>
+    <?php else: ?>
+        <ul id="memorabilia">
+            <?php foreach ($photos as $photo): ?>
+                <?php
+                $contributor = $photo->get_contributor();
+                ?>
+                <li>
+                    <p><?= $photo->title; ?></p>
+                    <p><?= $photo->description; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <h2>Posters</h2>
+    <?php $posters = get_all_posters_for_city($city->id); ?>
+    <?php if (count($posters) == 0): ?>
+        <p>There are no posters available for this city.</p>
+    <?php else: ?>
+        <ul id="memorabilia">
+            <?php foreach ($posters as $poster): ?>
+                <?php
+                $contributor = $poster->get_contributor();
+                ?>
+                <li>
+                    <p><?= $poster->title; ?></p>
+                    <p><?= $poster->description; ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+
+</section>
 
 <?php echo foot(); ?>
 

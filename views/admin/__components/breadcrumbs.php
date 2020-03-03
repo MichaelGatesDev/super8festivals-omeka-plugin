@@ -58,7 +58,7 @@ function constructURLTrail($parts, $part)
     <span>Navigation: </span>
     <ul>
         <?php foreach ($parts = getUrlParts() as $part): ?>
-            <li><a href="<?= constructURLTrail($parts, $part); ?>"><?= $part; ?></a></li>
+            <li><a href="<?= constructURLTrail($parts, $part); ?>"><?= urldecode($part); ?></a></li>
         <?php endforeach; ?>
     </ul>
 </div>

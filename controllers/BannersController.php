@@ -128,7 +128,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                     move_to_dir($temporary_name, $newFileName, get_country_dir($banner->get_country()->name));
 
                     $banner->setPostData($_POST);
-                    $banner->path_file = $newFileName;
+                    $banner->file_name = $newFileName;
                     if ($banner->save()) {
                         if ($action == 'add') {
                             $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been added.", 'success');

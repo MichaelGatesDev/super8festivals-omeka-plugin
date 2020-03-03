@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -24,10 +24,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photos`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -40,10 +40,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_posters`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_films`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
     `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -77,10 +77,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%federation_documents`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     `embed`               TEXT(65535),
     PRIMARY KEY (`id`),
     KEY `name` (`title`)
@@ -95,10 +95,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_film_catalogs`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -112,10 +112,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_memorabilias`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -129,10 +129,10 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%festival_print_medias`
     `contributor_id`      int(10) unsigned,
     `title`               varchar(255),
     `description`         TEXT(65535),
-    `thumbnail_path_file` TEXT(65535),
-    `thumbnail_path_web`  TEXT(65535),
-    `path_file`           TEXT(65535),
-    `path_web`            TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
     `embed`               TEXT(65535),
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

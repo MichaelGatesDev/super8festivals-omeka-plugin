@@ -38,7 +38,7 @@ function get_country_by_id($countryID): ?SuperEightFestivalsCountry
 
 function get_country_by_name($countryName): ?SuperEightFestivalsCountry
 {
-    $results = get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => $countryName), 1);
+    $results = get_db()->getTable('SuperEightFestivalsCountry')->findBy(array('name' => strtolower($countryName)), 1);
     return count($results) > 0 ? $results[0] : null;
 }
 

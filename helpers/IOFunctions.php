@@ -51,8 +51,10 @@ function rrmdir($dir)
 
 function delete_file($filePath)
 {
+    if (is_dir($filePath) || !file_exists($filePath)) return;
     unlink($filePath);
 }
+
 
 // ============================================================================================================================================================= \\
 

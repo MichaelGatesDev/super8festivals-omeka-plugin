@@ -28,6 +28,19 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
         }
     }
 
+    protected function afterSave($args)
+    {
+        parent::afterSave($args);
+        create_city_dir($this->getCountry()->name, $this->name);
+    }
+
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        delete_city_dir($this->getCountry()->name, $this->name);
+    }
+
+
     public function getRecordUrl($action = 'show')
     {
         if ('show' == $action) {

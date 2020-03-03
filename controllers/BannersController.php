@@ -118,24 +118,22 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
             try {
                 if ($action == 'delete') {
                     $banner->delete();
-                    $this->_helper->flashMessenger("The banner for " . $banner->getCountry()->name . " has been deleted.", 'success');
-                    $this->redirect("/super-eight-festivals/countries/" . $banner->getCountry()->name);
+                    $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been deleted.", 'success');
+                    $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
                 } else if ($action == 'add') {
+
                     // do file upload
-                    $tmpFile = $_FILES['file']['tmp_name'];
-                    $tmpFileOriginalName = $_FILES['file']['name'];
-                    $ext = pathinfo($tmpFileOriginalName, PATHINFO_EXTENSION);
-                    $newFileName = uniqid("banner_") . "." . $ext;
-                    $fileDest = get_files_dir() . "/" . $newFileName;
-                    move_uploaded_file($tmpFile, $fileDest);
+                    list($original_name, $temporary_name, $extension) = get_temporary_file("file");
+                    $newFileName = uniqid("banner_") . "." . $extension;
+                    move_to_dir($temporary_name, $newFileName, get_country_dir($banner->get_country()->name));
 
                     $banner->setPostData($_POST);
                     $banner->path_file = $newFileName;
                     if ($banner->save()) {
                         if ($action == 'add') {
-                            $this->_helper->flashMessenger("The banner for " . $banner->getCountry()->name . " has been added.", 'success');
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been added.", 'success');
                         }
-                        $this->redirect("/super-eight-festivals/countries/" . $banner->getCountry()->name . "/");
+                        $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name . "/");
                     }
                 }
             } catch (Omeka_Validate_Exception $e) {

@@ -25,6 +25,10 @@ $banner = get_banner_for_country($country->id);
         text-transform: capitalize;
     }
 
+    #country-single h2 {
+        margin-bottom: 0.25em;
+    }
+
     #country-single #cities {
         margin: 0;
         padding: 0;
@@ -44,10 +48,16 @@ $banner = get_banner_for_country($country->id);
         color: #e88347;
     }
 
+    #country-banner {
+        border: 5px solid #9d5b41;
+        width: 350px;
+        height: 200px;
+    }
+
     #country-banner img {
-        object-fit: contain;
-        width: 100px;
-        height: 100px;
+        object-fit: cover;
+        width: inherit;
+        height: inherit;
     }
 </style>
 
@@ -55,7 +65,7 @@ $banner = get_banner_for_country($country->id);
     <h2>Country Banner</h2>
     <?php if ($banner != null): ?>
         <div id="country-banner">
-            <img src="<?= get_files_dir(false) . "/" . $banner->path_file; ?>" alt=""/>
+            <img src="<?= get_relative_path(get_country_dir($country->name) . "/" . $banner->path_file); ?>" alt=""/>
         </div>
         <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/<?= $banner->id; ?>/delete">Delete</a>
     <?php else: ?>

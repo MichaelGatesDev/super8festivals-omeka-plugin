@@ -49,7 +49,7 @@ echo head(array(
                     </li>
                 </ul>
             </td>
-            <td><?= $banner->getCountry()->name; ?></td>
+            <td><?= $banner->get_country()->name; ?></td>
             <td><?= $banner->getCity()->name; ?></td>
             <td style="text-transform: lowercase;">
                 <div style=" display: flex; flex-direction: column;">

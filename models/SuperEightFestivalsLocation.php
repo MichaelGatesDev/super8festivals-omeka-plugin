@@ -25,6 +25,7 @@ abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord i
 
     protected function afterSave($args)
     {
+        parent::afterSave($args);
     }
 
     public function getResourceId()

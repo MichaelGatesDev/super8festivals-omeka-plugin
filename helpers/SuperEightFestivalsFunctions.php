@@ -2,19 +2,14 @@
 
 // ============================================================================================================================================================= \\
 
-function get_root_dir()
+function replace_dash_with_space($str)
 {
-    return $_SERVER['DOCUMENT_ROOT'];
+    return str_replace("-", " ", $str);
 }
 
-function get_files_dir($fullPath = true)
+function replace_space_with_dash($str)
 {
-    return ($fullPath ? get_root_dir() : "") . "/files/original";
-}
-
-function delete_file($fileName)
-{
-    unlink(get_files_dir() . "/" . $fileName);
+    return str_replace(" ", "-", $str);
 }
 
 // ============================================================================================================================================================= \\

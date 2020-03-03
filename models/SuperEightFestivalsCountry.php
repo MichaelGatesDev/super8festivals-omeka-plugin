@@ -20,6 +20,18 @@ class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
         );
     }
 
+    protected function afterSave($args)
+    {
+        parent::afterSave($args);
+        create_country_dir($this->name);
+    }
+
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        delete_country_dir($this->name);
+    }
+
     public function getResourceId()
     {
         return 'SuperEightFestivals_Country';

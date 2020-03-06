@@ -84,21 +84,24 @@ function get_project_dir()
     return get_root_dir() . "/super-eight-festivals";
 }
 
+// ============================================================================================================================================================= \\
+
 function get_countries_dir()
 {
     return get_project_dir() . "/countries";
 }
 
+// ============================================================================================================================================================= \\
+
 function create_country_dir($countryName)
 {
-    $countryDir = get_countries_dir() . "/" . replace_space_with_dash($countryName);
+    $countryDir = get_country_dir($countryName);
     mkdir($countryDir);
-    mkdir($countryDir . "/cities");
 }
 
 function delete_country_dir($countryName)
 {
-    rrmdir(get_countries_dir() . "/" . replace_space_with_dash($countryName));
+    rrmdir(get_country_dir($countryName));
 }
 
 function get_country_dir($countryName)
@@ -106,25 +109,160 @@ function get_country_dir($countryName)
     return get_countries_dir() . "/" . replace_space_with_dash($countryName);
 }
 
+// ============================================================================================================================================================= \\
+
 function create_city_dir($countryName, $cityName)
 {
-    $cityDir = get_cities_dir($countryName) . "/" . replace_space_with_dash($cityName);
+    $cityDir = get_city_dir($countryName, $cityName);
     mkdir($cityDir);
+    create_film_catalogs_dir($countryName, $cityName);
+    create_filmmakers_dir($countryName, $cityName);
+    create_films_dir($countryName, $cityName);
+    create_memorabilia_dir($countryName, $cityName);
+    create_print_media_dir($countryName, $cityName);
+    create_photos_dir($countryName, $cityName);
+    create_posters_dir($countryName, $cityName);
 }
 
 function delete_city_dir($countryName, $cityName)
 {
-    rrmdir(get_cities_dir($countryName) . "/" . replace_space_with_dash($cityName));
+    rrmdir(get_city_dir($countryName, $cityName));
 }
 
 function get_city_dir($countryName, $cityName)
 {
-    return get_country_dir($countryName) . "/" . replace_space_with_dash($countryName) . "/" . replace_space_with_dash($cityName);
-}
-
-function get_cities_dir($countryName)
-{
-    return get_country_dir($countryName) . "/cities";
+    return get_country_dir($countryName) . "/" . replace_space_with_dash($cityName);
 }
 
 // ============================================================================================================================================================= \\
+
+function get_film_catalogs_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/film-catalogs";
+}
+
+function create_film_catalogs_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_film_catalogs_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_film_catalogs_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_film_catalogs_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_filmmakers_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/filmmakers";
+}
+
+function create_filmmakers_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_filmmakers_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_filmmakers_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_filmmakers_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_films_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/films";
+}
+
+function create_films_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_films_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_films_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_films_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_memorabilia_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/memorabilia";
+}
+
+function create_memorabilia_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_memorabilia_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_memorabilia_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_memorabilia_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_print_media_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/print-media";
+}
+
+function create_print_media_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_print_media_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_print_media_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_print_media_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_photos_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/photos";
+}
+
+function create_photos_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_photos_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_photos_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_photos_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_posters_dir($countryName, $cityName)
+{
+    return get_city_dir($countryName, $cityName) . "/posters";
+}
+
+function create_posters_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_posters_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}
+
+function delete_posters_dir($countryName, $cityName)
+{
+    $filmCatalogsDir = get_posters_dir($countryName, $cityName);
+    mkdir($filmCatalogsDir);
+}

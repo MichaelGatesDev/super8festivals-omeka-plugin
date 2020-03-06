@@ -60,9 +60,10 @@ echo head(array(
 
     #film-catalogs li {
         list-style-type: none;
-        border: 1px dashed red;
+        border: 1px solid black;
         display: inline-block;
         margin-bottom: 1em;
+        padding: 0.5em;
     }
 
     #film-catalogs li p {

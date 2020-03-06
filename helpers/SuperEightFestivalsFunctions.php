@@ -120,24 +120,22 @@ function get_parent_city_options(): array
     return $results;
 }
 
-function get_city_by_name($countryID, $cityName): SuperEightFestivalsCity
+function get_city_by_name($countryID, $cityName): ?SuperEightFestivalsCity
 {
     $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('country_id' => $countryID, 'name' => $cityName), 1);
     return count($results) > 0 ? $results[0] : null;
 }
 
-function get_city_by_name_ambiguous($cityName): SuperEightFestivalsCity
+function get_city_by_name_ambiguous($cityName): ?SuperEightFestivalsCity
 {
     $results = get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), 1);
     return count($results) > 0 ? $results[0] : null;
 }
 
-
-function get_city_by_id($cityID): SuperEightFestivalsCity
+function get_city_by_id($cityID): ?SuperEightFestivalsCity
 {
     return get_db()->getTable('SuperEightFestivalsCity')->find($cityID);
 }
-
 
 function get_all_cities_by_name_ambiguous($cityName, $partial = false): array
 {
@@ -186,6 +184,11 @@ function get_all_festivals_in_city($cityID): array
     return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('city_id' => $cityID), -1);
 }
 
+function get_festival_by_id($festivalID): ?SuperEightFestivalsFestival
+{
+    return get_db()->getTable('SuperEightFestivalsFestival')->find($festivalID);
+}
+
 function get_parent_festival_options(): array
 {
     $results = array();
@@ -227,6 +230,11 @@ function get_all_film_catalogs_for_city($id): array
         $result = array_merge($result, $catalogs);
     }
     return $result;
+}
+
+function get_film_catalog_by_id($cityID): ?SuperEightFestivalsFestivalFilmCatalog
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilmCatalog')->find($cityID);
 }
 
 // ============================================================================================================================================================= \\

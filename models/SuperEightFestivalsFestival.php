@@ -12,14 +12,14 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
         parent::__construct();
     }
 
-    public function getCity()
+    public function get_city()
     {
         return get_city_by_id($this->city_id);
     }
 
-    public function getCountry()
+    public function get_country()
     {
-        return $this->getCity()->getCountry();
+        return $this->get_city()->getCountry();
     }
 
     protected function _validate()

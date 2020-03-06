@@ -13,6 +13,16 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
     {
     }
 
+    public function get_city()
+    {
+        return $this->getTable('SuperEightFestivalsCity')->find(get_festival_by_id($this->festival_id)->get_city()->id);
+    }
+
+    public function get_country()
+    {
+        return $this->getTable('SuperEightFestivalsCountry')->find(get_festival_by_id($this->festival_id)->get_country()->id);
+    }
+
     public function getRecordUrl($action = 'show')
     {
 //        if ('show' == $action) {

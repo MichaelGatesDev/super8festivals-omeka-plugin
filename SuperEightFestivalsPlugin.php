@@ -134,6 +134,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
             $this->addRecordRoute($router, "banner", "banners", ":module/countries/:countryName/banners", "bannerID");
+            $this->addRecordRoute($router, "filmCatalog", "filmCatalogs", ":module/countries/:countryName/cities/:cityName/film-catalogs", "filmCatalogID");
         } else {
             // override search
             $this->addRoute($router, 'search', 'search', 'search');

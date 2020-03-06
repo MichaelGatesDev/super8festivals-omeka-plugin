@@ -52,6 +52,27 @@ echo head(array(
     .anchor-buttons a:hover {
         color: #e88347;
     }
+
+    #film-catalogs {
+        margin: 0;
+        padding: 0;
+    }
+
+    #film-catalogs li {
+        list-style-type: none;
+        border: 1px dashed red;
+        display: inline-block;
+        margin-bottom: 1em;
+    }
+
+    #film-catalogs li p {
+        margin: 0;
+    }
+
+    #film-catalogs li iframe {
+        width: 200px;
+        height: 300px;
+    }
 </style>
 
 <section id="country-single">
@@ -64,9 +85,14 @@ echo head(array(
         <?php else: ?>
             <ul id="film-catalogs">
                 <?php foreach ($film_catalogs as $catalog): ?>
-                    <li>
-                        <p><?= $catalog->title; ?></p>
-                        <p><?= $catalog->description; ?></p>
+                    <li class="film-catalog">
+                        <p class="title"><?= $catalog->title; ?></p>
+                        <p class="description"><?= $catalog->description; ?></p>
+                        <iframe src="<?= get_relative_path(get_film_catalogs_dir($catalog->get_country()->name, $catalog->get_city()->name) . "/" . $catalog->file_name); ?>"></iframe>
+                        <p style="text-align: center">
+                            <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/film-catalogs/<?= $catalog->id; ?>/edit">Edit</a>
+                            <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/film-catalogs/<?= $catalog->id; ?>/delete">Delete</a>
+                        </p>
                     </li>
                 <?php endforeach; ?>
             </ul>

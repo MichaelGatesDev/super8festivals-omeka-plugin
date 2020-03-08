@@ -2,7 +2,6 @@
 
 class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_AbstractActionController
 {
-
     public function init()
     {
         // Set the model class so this controller can perform some functions,
@@ -167,7 +166,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The film catalog file",
-                'required' => $film_catalog->file_name = "" || !file_exists(get_film_catalogs_dir($film_catalog->get_country()->name, $film_catalog->get_city()->name) . "/" . $film_catalog->file_name),
+                'required' => $film_catalog->file_name == "" || !file_exists($film_catalog->get_path()),
             )
         );
 
@@ -253,7 +252,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
     private function upload_file(SuperEightFestivalsFestivalFilmCatalog $film_catalog)
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid("film_catalog_") . "." . $extension;
+        $newFileName = uniqid($film_catalog->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, get_film_catalogs_dir($film_catalog->get_country()->name, $film_catalog->get_city()->name));
         $film_catalog->file_name = $newFileName;
         $film_catalog->save();

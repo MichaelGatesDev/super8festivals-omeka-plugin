@@ -91,6 +91,11 @@ function get_all_country_banners(): array
     return get_db()->getTable("SuperEightFestivalsCountryBanner")->findAll();
 }
 
+function get_country_banners($countryID): array
+{
+    return get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), -1);
+}
+
 function get_banner_for_country($countryID): ?SuperEightFestivalsCountryBanner
 {
     $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);

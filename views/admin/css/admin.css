@@ -1,0 +1,19 @@
+body {
+    /*background-color: red !important;*/
+}
+
+#content-heading {
+    text-transform: capitalize;
+}
+
+.records-section {
+    padding: 1em;
+}
+
+.records-section:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.records-section:nth-child(even) {
+    background-color: #f2f2f2;
+}

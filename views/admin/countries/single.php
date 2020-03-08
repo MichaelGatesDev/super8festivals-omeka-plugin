@@ -1,9 +1,8 @@
 <?php
+queue_css_file("admin");
 echo head(array(
     'title' => $country->name,
 ));
-
-$banner = get_banner_for_country($country->id);
 ?>
 
 <!--Omeka 'flash' message partial -->
@@ -17,10 +16,6 @@ $banner = get_banner_for_country($country->id);
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
 <style>
-    #content-heading {
-        text-transform: capitalize;
-    }
-
     .title {
         text-transform: capitalize;
     }
@@ -39,48 +34,19 @@ $banner = get_banner_for_country($country->id);
         font-size: 18px;
         list-style-type: none;
     }
-
-    #country-single a, a:visited {
-        color: #c76941;
-    }
-
-    #country-single a:hover {
-        color: #e88347;
-    }
-
-    #country-banner {
-        border: 5px solid #9d5b41;
-        width: 350px;
-        height: 200px;
-    }
-
-    #country-banner a {
-        width: 100%;
-        height: 100%;
-    }
-
-    #country-banner img {
-        object-fit: cover;
-        width: inherit;
-        height: inherit;
-    }
 </style>
-
 <section id="country-single">
-    <h2>Country Banner</h2>
-    <?php if ($banner != null): ?>
-        <div id="country-banner">
-            <a href="<?= get_relative_path($banner->get_path()); ?>" target="_blank">
-                <img src="<?= get_relative_path($banner->get_thumbnail_path()); ?>" alt=""/>
-            </a>
-        </div>
-        <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/<?= $banner->id; ?>/delete">Delete</a>
-    <?php else: ?>
-        <p>
-            There is no banner available for this country.
-            <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/add">Add one</a>.
-        </p>
-    <?php endif; ?>
+
+    <div class="records-section">
+        <h2>Country Banners</h2>
+        <?php $country_banners = get_country_banners($country->id); ?>
+        <?php if (count($country_banners) == 0): ?>
+            <p>There are no country banners available for this country.</p>
+        <?php else: ?>
+            <?= $this->partial("__components/records/country-banners.php", array('country_banners' => $country_banners)); ?>
+        <?php endif; ?>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/add">Add Country Banner</a>
+    </div>
 
     <h2>Cities</h2>
     <ul id="cities">

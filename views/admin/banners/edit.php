@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Edit City: ' . $city->name,
+    'title' => 'Edit Banner: ' . $banner->id,
 ));
 ?>
 

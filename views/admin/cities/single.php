@@ -1,4 +1,5 @@
 <?php
+queue_css_file("admin");
 echo head(array(
     'title' => $city->name,
 ));
@@ -15,25 +16,6 @@ echo head(array(
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
 <style>
-    #content-heading {
-        text-transform: capitalize;
-    }
-
-    .header-element {
-        font-size: 15px;
-    }
-
-    .records-section {
-        padding: 1em;
-    }
-
-    .records-section:nth-child(odd) {
-        background-color: #ffffff;
-    }
-
-    .records-section:nth-child(even) {
-        background-color: #f2f2f2;
-    }
 </style>
 
 <section id="country-single">

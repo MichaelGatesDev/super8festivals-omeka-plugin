@@ -17,6 +17,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
         $country = get_country_by_name($countryName);
         $this->view->country = $country;
 
+        $this->redirect("/super-eight-festivals/countries/" . $country->name);
         return;
     }
 
@@ -50,6 +51,24 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
         $this->view->form = $form;
         $this->_processForm($banner, $form, 'add');
     }
+
+    public function editAction()
+    {
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        $bannerID = $request->getParam('bannerID');
+        $banner = get_banner_by_id($bannerID);
+        $this->view->banner = $banner;
+
+        $form = $this->_getForm($banner);
+        $this->view->form = $form;
+        $this->_processForm($banner, $form, 'edit');
+    }
+
 
     public function deleteAction()
     {
@@ -94,7 +113,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The banner image file",
-                'required' => true,
+                'required' => $banner->file_name == "" || !file_exists($banner->get_path()),
             )
         );
 
@@ -112,36 +131,67 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                     $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
                     return;
                 }
+                try {
+                    // delete
+                    if ($action == 'delete') {
+                        $banner->delete();
+                        $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been deleted.", 'success');
+                        $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
+                    } //add
+                    else if ($action == 'add') {
+                        $banner->setPostData($_POST);
+                        if ($banner->save()) {
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been added.", 'success');
+
+                            // do file upload
+                            $this->upload_file($banner);
+                            $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
+                        }
+                    } //edit
+                    else if ($action == 'edit') {
+                        // get the original so that we can use old information which doesn't persist well (e.g. files)
+                        $originalRecord = get_banner_by_id($banner->id);
+                        // set the data of the record according to what was submitted in the form
+                        $banner->setPostData($_POST);
+                        // if there is no pending upload, use the old files
+                        if (!has_temporary_file('file')) {
+                            $banner->file_name = $originalRecord->file_name;
+                            $banner->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        }
+                        if ($banner->save()) {
+                            // display result dialog
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been edited.", 'success');
+
+                            // only change files if there is a file waiting
+                            if (has_temporary_file('file')) {
+                                // delete old files
+                                $originalRecord->delete_files();
+                                // do file upload
+                                $this->upload_file($banner);
+                            }
+
+                            // bring us back to the country page
+                            $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
+                        }
+                    }
+                } catch (Omeka_Validate_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                } catch (Omeka_Record_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                }
             } catch (Zend_Form_Exception $e) {
                 $this->_helper->flashMessenger($e);
             }
-            try {
-                if ($action == 'delete') {
-                    $banner->delete();
-                    $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been deleted.", 'success');
-                    $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
-                } else if ($action == 'add') {
-
-                    // do file upload
-                    list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-                    $newFileName = uniqid("banner_") . "." . $extension;
-                    move_to_dir($temporary_name, $newFileName, get_country_dir($banner->get_country()->name));
-
-                    $banner->setPostData($_POST);
-                    $banner->file_name = $newFileName;
-                    if ($banner->save()) {
-                        if ($action == 'add') {
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been added.", 'success');
-                        }
-                        $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name . "/");
-                    }
-                }
-            } catch (Omeka_Validate_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            } catch (Omeka_Record_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            }
         }
+    }
+
+    private function upload_file(SuperEightFestivalsCountryBanner $country_banner)
+    {
+        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
+        $newFileName = uniqid($country_banner->get_internal_prefix() . "_") . "." . $extension;
+        move_to_dir($temporary_name, $newFileName, get_country_dir($country_banner->get_country()->name));
+        $country_banner->file_name = $newFileName;
+        $country_banner->save();
     }
 
 }

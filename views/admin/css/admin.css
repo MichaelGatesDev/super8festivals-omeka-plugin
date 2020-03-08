@@ -17,3 +17,7 @@ body {
 .records-section:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+.records-section .button {
+    margin-bottom: 0;
+}

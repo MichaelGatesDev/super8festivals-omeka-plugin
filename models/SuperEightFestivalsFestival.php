@@ -19,7 +19,7 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 
     public function get_country()
     {
-        return $this->get_city()->getCountry();
+        return $this->get_city()->get_country();
     }
 
     protected function _validate()

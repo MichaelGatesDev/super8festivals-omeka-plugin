@@ -9,7 +9,7 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
         parent::__construct();
     }
 
-    public function getCountry()
+    public function get_country()
     {
         return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
     }
@@ -31,20 +31,20 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        create_city_dir($this->getCountry()->name, $this->name);
+        create_city_dir($this->get_country()->name, $this->name);
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_city_dir($this->getCountry()->name, $this->name);
+        delete_city_dir($this->get_country()->name, $this->name);
     }
 
 
     public function getRecordUrl($action = 'show')
     {
         if ('show' == $action) {
-            return public_url($this->getCountry()->name . "#" . $this->name);
+            return public_url($this->get_country()->name . "#" . $this->name);
         }
         return array(
             'module' => 'super-eight-festivals',

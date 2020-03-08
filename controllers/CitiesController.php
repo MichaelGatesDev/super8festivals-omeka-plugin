@@ -153,7 +153,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 if ($action == 'delete') {
                     $city->delete();
                     $this->_helper->flashMessenger(__('The city "%s" has been deleted.', $city->name), 'success');
-                    $this->redirect("/super-eight-festivals/countries/" . $city->getCountry()->name);
+                    $this->redirect("/super-eight-festivals/countries/" . $city->get_country()->name);
 //                    $this->redirect("/super-eight-festivals/countries/" . $city->getCountry()->name . "/cities/");
                 } else {
                     $city->setPostData($_POST);
@@ -163,7 +163,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                         } else if ($action == 'edit') {
                             $this->_helper->flashMessenger(__('The city "%s" has been edited.', $city->name), 'success');
                         }
-                        $this->redirect("/super-eight-festivals/countries/" . $city->getCountry()->name . "/cities/" . $city->name);
+                        $this->redirect("/super-eight-festivals/countries/" . $city->get_country()->name . "/cities/" . $city->name);
                         return;
                     }
                 }

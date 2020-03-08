@@ -8,10 +8,8 @@ echo head(array(
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
-<div style="padding-bottom: 1em;">
-    <a href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/edit'>Edit</a>
-    <a href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/delete'>Delete</a>
-</div>
+<a class="button blue" href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/edit'>Edit</a>
+<a class="button red" href='/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/delete'>Delete</a>
 
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 

@@ -52,6 +52,6 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 
     public function getDisplayName()
     {
-        return "$this->title ($this->year)";
+        return "$this->title (id: $this->id)";
     }
 }

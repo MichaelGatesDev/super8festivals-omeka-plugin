@@ -16,6 +16,11 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
         parent::__construct();
     }
 
+    public function get_file_type()
+    {
+        return pathinfo($this->file_name, PATHINFO_EXTENSION);
+    }
+
     protected function beforeSave($args)
     {
         $this->title = trim($this->title);

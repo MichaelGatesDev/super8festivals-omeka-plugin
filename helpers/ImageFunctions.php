@@ -121,3 +121,17 @@ function create_thumbnail($src, $dest, $targetWidth, $targetHeight = null)
         IMAGE_HANDLERS[$type]['quality']
     );
 }
+
+function is_image_extension($ext)
+{
+    $ext = strtolower($ext);
+    return in_array($ext, array(
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "bpm",
+        "tiff",
+        "tif",
+    ));
+}

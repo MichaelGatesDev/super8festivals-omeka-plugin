@@ -2,13 +2,18 @@
 
 // ============================================================================================================================================================= \\
 
+function has_temporary_file($inputName)
+{
+    return $_FILES[$inputName]['name'] != "";
+}
+
 /**
  * @param $inputName
  * @return array Returns an array with the original name, temporary name, and extension of the temporary file.
  */
 function get_temporary_file($inputName): array
 {
-    $tmpFileOriginalName = $_FILES['file']['name'];
+    $tmpFileOriginalName = $_FILES[$inputName]['name'];
     $tmpFileName = $_FILES[$inputName]['tmp_name'];
     $ext = pathinfo($tmpFileOriginalName, PATHINFO_EXTENSION);
     return array(
@@ -151,6 +156,11 @@ function delete_film_catalogs_dir($countryName, $cityName)
 {
     $filmCatalogsDir = get_film_catalogs_dir($countryName, $cityName);
     mkdir($filmCatalogsDir);
+}
+
+function delete_film_catalog($fileName)
+{
+    delete_file(get_film_catalogs_dir() . "/" . $fileName);
 }
 
 // ============================================================================================================================================================= \\

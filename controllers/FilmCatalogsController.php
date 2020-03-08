@@ -22,6 +22,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $city = get_city_by_name(get_country_by_name($countryName)->id, $cityName);
         $this->view->city = $city;
 
+        $this->redirect("/super-eight-festivals/countries/" . $country->name . "/cities/" . $city->name);
         return;
     }
 
@@ -62,6 +63,28 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $this->view->form = $form;
         $this->_processForm($catalog, $form, 'add');
     }
+
+    public function editAction()
+    {
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
+        $cityName = $request->getParam('cityName');
+        $city = get_city_by_name($country->id, $cityName);
+        $this->view->city = $city;
+
+        $filmCatalogID = $request->getParam('filmCatalogID');
+        $film_catalog = get_film_catalog_by_id($filmCatalogID);
+        $this->view->film_catalog = $film_catalog;
+
+        $form = $this->_getForm($film_catalog);
+        $this->view->form = $form;
+        $this->_processForm($film_catalog, $form, 'edit');
+    }
+
 
     public function deleteAction()
     {
@@ -144,7 +167,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The film catalog file",
-                'required' => true,
+                'required' => $film_catalog->file_name = "" || !file_exists(get_film_catalogs_dir($film_catalog->get_country()->name, $film_catalog->get_city()->name) . "/" . $film_catalog->file_name),
             )
         );
 
@@ -162,42 +185,78 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalFilmCatalog $film_catalog, $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalFilmCatalog $film_catalog, Zend_Form $form, $action)
     {
         $this->view->film_catalog = $film_catalog;
 
         if ($this->getRequest()->isPost()) {
-            if (!$form->isValid($_POST)) {
-                $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
+            try {
+                if (!$form->isValid($_POST)) {
+                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
+                    return;
+                }
+                try {
+                    // delete
+                    if ($action == 'delete') {
+                        $film_catalog->delete();
+                        $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been deleted.", 'success');
+                        $this->redirect("/super-eight-festivals/countries/" . $film_catalog->get_country()->name . "/cities/" . $film_catalog->get_city()->name);
+                    } // add
+                    else if ($action == 'add') {
+                        $film_catalog->setPostData($_POST);
+                        if ($film_catalog->save()) {
+                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been added.", 'success');
+
+                            // do file upload
+                            $this->upload_file($film_catalog);
+                            $this->redirect("/super-eight-festivals/countries/" . $film_catalog->get_country()->name . "/cities/" . $film_catalog->get_city()->name);
+                        }
+                    } // edit
+                    else if ($action == 'edit') {
+                        // get the original so that we can use old information which doesn't persist well (e.g. files)
+                        $originalRecord = get_film_catalog_by_id($film_catalog->id);
+                        // set the data of the record according to what was submitted in the form
+                        $film_catalog->setPostData($_POST);
+                        // if there is no pending upload, use the old files
+                        if (!has_temporary_file('file')) {
+                            $film_catalog->file_name = $originalRecord->file_name;
+                            $film_catalog->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        }
+                        if ($film_catalog->save()) {
+                            // display result dialog
+                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been edited.", 'success');
+
+                            // only change files if there is a file waiting
+                            if (has_temporary_file('file')) {
+                                // delete old files
+                                $originalRecord->delete_files();
+                                // do file upload
+                                $this->upload_file($film_catalog);
+                            }
+
+                            // bring us back to the city page
+                            $this->redirect("/super-eight-festivals/countries/" . $film_catalog->get_country()->name . "/cities/" . $film_catalog->get_city()->name);
+                        }
+                    }
+                } catch (Omeka_Validate_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                } catch (Omeka_Record_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                }
+            } catch (Zend_Form_Exception $e) {
+                $this->_helper->flashMessenger($e->getMessage(), 'error');
                 return;
             }
-            try {
-                if ($action == 'delete') {
-                    $film_catalog->delete();
-                    $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been deleted.", 'success');
-                    $this->redirect("/super-eight-festivals/countries/" . $film_catalog->get_country()->name . "/cities/" . $film_catalog->get_city()->name . "/film-catalogs");
-                } else if ($action == 'add') {
-
-                    // do file upload
-                    list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-                    $newFileName = uniqid("film_catalog_") . "." . $extension;
-                    move_to_dir($temporary_name, $newFileName, get_film_catalogs_dir($film_catalog->get_country()->name, $film_catalog->get_city()->name));
-
-                    $film_catalog->setPostData($_POST);
-                    $film_catalog->file_name = $newFileName;
-                    if ($film_catalog->save()) {
-                        if ($action == 'add') {
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been added.", 'success');
-                        }
-                        $this->redirect("/super-eight-festivals/countries/" . $film_catalog->get_country()->name . "/cities/" . $film_catalog->get_city()->name . "/film-catalogs");
-                    }
-                }
-            } catch (Omeka_Validate_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            } catch (Omeka_Record_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            }
         }
+    }
+
+    private function upload_file(SuperEightFestivalsFestivalFilmCatalog $film_catalog)
+    {
+        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
+        $newFileName = uniqid("film_catalog_") . "." . $extension;
+        move_to_dir($temporary_name, $newFileName, get_film_catalogs_dir($film_catalog->get_country()->name, $film_catalog->get_city()->name));
+        $film_catalog->file_name = $newFileName;
+        $film_catalog->save();
     }
 
 }

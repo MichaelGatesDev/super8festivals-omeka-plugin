@@ -39,8 +39,18 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->databaseHelper->createTables();
 
         // add example data
-        add_country("Example Country");
-        add_city_by_country_name("example country", "example city", 0, 0);
+        $this->add_sample_data();
+    }
+
+    function add_sample_data()
+    {
+        // add country
+        $country = add_country("Example Country");
+        // add country banner
+        copy(__DIR__ . "/__res/example-country-banner.jpg", get_country_dir($country->name) . "/banner.jpg");
+        add_country_banner($country->id, "banner.jpg");
+
+        $city = add_city_by_country_name($country->name, "example city", 0, 0);
 
         add_contributor("example", "person", "my cool org", "email@domain.ext");
     }

@@ -61,13 +61,20 @@ function get_all_countries_by_name_ambiguous($name, $partial = false): array
 }
 
 
-function add_country($countryName, $lat = 0, $long = 0): void
+function add_country($countryName, $lat = 0, $long = 0): ?SuperEightFestivalsCountry
 {
     $country = new SuperEightFestivalsCountry();
     $country->name = $countryName;
     $country->latitude = $lat;
     $country->longitude = $long;
-    $country->save();
+    try {
+        $country->save();
+        return $country;
+    } catch (Omeka_Record_Exception $e) {
+        return null;
+    } catch (Omeka_Validate_Exception $e) {
+        return null;
+    }
 }
 
 function add_countries_by_names(array $countryNames): void
@@ -95,6 +102,20 @@ function get_banner_by_id($id): ?SuperEightFestivalsCountryBanner
     return get_db()->getTable('SuperEightFestivalsCountryBanner')->find($id);
 }
 
+function add_country_banner($countryID, $file_name): ?SuperEightFestivalsCountryBanner
+{
+    $banner = new SuperEightFestivalsCountryBanner();
+    $banner->country_id = $countryID;
+    $banner->file_name = $file_name;
+    try {
+        $banner->save();
+        return $banner;
+    } catch (Omeka_Record_Exception $e) {
+        return null;
+    } catch (Omeka_Validate_Exception $e) {
+        return null;
+    }
+}
 
 // ============================================================================================================================================================= \\
 
@@ -165,11 +186,12 @@ function add_city($countryID, $name, $latitude, $longitude)
     $city->save();
 
     add_festival($city->id, -1, "$name default festival", "this is the default festival for $name");
+    return $city;
 }
 
 function add_city_by_country_name($countryName, $name, $latitude, $longitude)
 {
-    add_city(get_country_by_name($countryName)->id, $name, $latitude, $longitude);
+    return add_city(get_country_by_name($countryName)->id, $name, $latitude, $longitude);
 }
 
 // ============================================================================================================================================================= \\
@@ -205,7 +227,7 @@ function get_parent_festival_options(): array
     return $results;
 }
 
-function add_festival($city_id, $year, $title, $description)
+function add_festival($city_id, $year, $title, $description): ?SuperEightFestivalsFestival
 {
     $festival = new SuperEightFestivalsFestival();
     $festival->city_id = $city_id;
@@ -213,6 +235,7 @@ function add_festival($city_id, $year, $title, $description)
     $festival->title = $title;
     $festival->description = $description;
     $festival->save();
+    return $festival;
 }
 
 // ============================================================================================================================================================= \\

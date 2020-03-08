@@ -38,6 +38,7 @@ function create_thumbnail($src, $dest, $targetWidth, $targetHeight = null)
 
     // if no valid type or no handler found -> exit
     if (!$type || !IMAGE_HANDLERS[$type]) {
+        error_log("Error: Failed to create thumbnail. No valid type or handler found!");
         return null;
     }
 
@@ -46,6 +47,7 @@ function create_thumbnail($src, $dest, $targetWidth, $targetHeight = null)
 
     // no image found at supplied location -> exit
     if (!$image) {
+        error_log("Error: Failed to create thumbnail. No image found at supplied location!");
         return null;
     }
 

@@ -68,7 +68,7 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
                 $this->thumbnail_file_name = $name;
                 $this->save();
             } else {
-                error_log("Failed to create thumbnail");
+                error_log("Failed to create thumbnail (original: $this->file_name)");
             }
         }
     }

@@ -40,6 +40,32 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
         // add example data
         $this->add_sample_data();
+        $this->add_default_data();
+    }
+
+    function add_default_data()
+    {
+        $defaultCountriesFile = __DIR__ . "/__res/default-countries.txt";
+        if (file_exists($defaultCountriesFile)) {
+            $fn = fopen($defaultCountriesFile, "r");
+            while (!feof($fn)) {
+                $result = fgets($fn);
+                list($countryName, $lat, $long) = explode(",", $result);
+                add_country($countryName, $lat, $long);
+            }
+            fclose($fn);
+        }
+
+        $defaultCitiesFile = __DIR__ . "/__res/default-cities.txt";
+        if (file_exists($defaultCitiesFile)) {
+            $fn = fopen($defaultCitiesFile, "r");
+            while (!feof($fn)) {
+                $result = fgets($fn);
+                list($countryName, $cityName, $lat, $long) = explode(",", $result);
+                add_city(get_country_by_name($countryName)->id, $cityName, $lat, $long);
+            }
+            fclose($fn);
+        }
     }
 
     function add_sample_data()

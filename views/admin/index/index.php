@@ -29,15 +29,15 @@ echo head(
 </style>
 
 <ul class="buttons">
-    <li><a href="/admin/super-eight-festivals/federation" class="button green big" style="margin: 0;">Federation</a></li>
-    <li><a href="/admin/super-eight-festivals/countries" class="button green big" style="margin: 0;">Countries</a></li>
-    <li><a href="/admin/super-eight-festivals/filmmakers" class="button green big" style="margin: 0;">Filmmakers</a></li>
-    <li><a href="/admin/super-eight-festivals/contributors" class="button green big" style="margin: 0;">Contributors</a></li>
+    <li><a href="/admin/super-eight-festivals/federation" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Federation</a></li>
+    <li><a href="/admin/super-eight-festivals/countries" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Countries</a></li>
+    <li><a href="/admin/super-eight-festivals/filmmakers" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Filmmakers</a></li>
+    <li><a href="/admin/super-eight-festivals/countributors" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Contributors</a></li>
 </ul>
 
-<div style="display: flex; flex-direction: column; background-color: #f2f2f2; padding: 1em; border-radius: 5px; margin: 0.5em;">
-    <a href="/admin/super-eight-festivals/pages" class="button blue big" style="margin: 0;">Edit Page Contents</a>
-</div>
+<hr style="margin-top: 5em">
+
+<a href="/admin/super-eight-festivals/purge" class="button red big">DELETE ALL WEBSITE DATA</a>
 
 
 <?php echo foot(); ?>

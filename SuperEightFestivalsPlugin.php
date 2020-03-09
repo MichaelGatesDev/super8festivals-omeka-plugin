@@ -56,6 +56,17 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize()
     {
+        $countries = get_all_countries();
+        foreach ($countries as $country) {
+            $activeBanner = get_active_country_banner($country->id);
+            if ($activeBanner == null) {
+                $banners = get_country_banners($country->id);
+                if (count($banners) > 0) {
+                    $banners[0]->active = true;
+                    $banners[0]->save();
+                }
+            }
+        }
     }
 
     function hookUninstall()

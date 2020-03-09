@@ -31,7 +31,7 @@ $countries = get_all_countries(true);
             <div class="card-deck d-flex justify-content-center align-items-center text-center">
                 <?php foreach ($countries as $country): ?>
                     <?php
-                    $banner = get_banner_for_country($country->id);
+                    $banner = get_country_banner($country->id);
                     ?>
                     <div class="card mb-4" style="min-width: 280px; max-width: 240px;">
                         <div class="embed-responsive embed-responsive-16by9">

@@ -5,6 +5,7 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
     // ======================================================================================================================== \\
 
     public int $country_id = -1;
+    public bool $active = false;
 
     // ======================================================================================================================== \\
 
@@ -19,6 +20,18 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
         parent::_validate();
         if ($this->country_id <= 0) {
             $this->addError('country_id', 'The country this banner belongs to must be specified.');
+        }
+    }
+
+    protected function beforeSave($args)
+    {
+        parent::beforeSave($args);
+        if ($this->active) {
+            foreach (get_country_banners($this->country_id) as $banner) {
+                if ($banner->id == $this->id) continue;
+                $banner->active = false;
+                $banner->save();
+            }
         }
     }
 

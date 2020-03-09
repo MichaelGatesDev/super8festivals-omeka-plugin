@@ -20,6 +20,10 @@
         margin-bottom: 1em;
     }
 
+    li.country-banner.active {
+        border: 3px solid blue;
+    }
+
     li.country-banner .button {
         margin: 0;
         padding: 0 1.25em;
@@ -45,7 +49,7 @@
 </style>
 <ul id="country-banners">
     <?php foreach ($country_banners as $banner): ?>
-        <li class="country-banner">
+        <li class="country-banner <?= $banner->active ? "active " : "" ?>">
             <a class="content" href="<?= get_relative_path($banner->get_path()); ?>" target="_blank">
                 <img src="<?= get_relative_path($banner->get_thumbnail_path()); ?>" alt="<?= $banner->title; ?>"/>
             </a>

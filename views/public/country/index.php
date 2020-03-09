@@ -9,7 +9,7 @@ echo head($head);
 ?>
 
 <?php
-$banner = get_banner_for_country($country->id);
+$banner = get_country_banner($country->id);
 $posters = get_all_posters_for_country($country->id);
 $photos = get_all_photos_for_country($country->id);
 $printMedias = get_all_print_media_for_country($country->id);

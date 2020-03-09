@@ -96,13 +96,19 @@ function get_country_banners($countryID): array
     return get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), -1);
 }
 
-function get_banner_for_country($countryID): ?SuperEightFestivalsCountryBanner
+function get_country_banner($countryID): ?SuperEightFestivalsCountryBanner
 {
     $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);
     return count($results) > 0 ? $results[0] : null;
 }
 
-function get_banner_by_id($id): ?SuperEightFestivalsCountryBanner
+function get_active_country_banner($countryID): ?SuperEightFestivalsCountryBanner
+{
+    $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID, 'active' => true), 1);
+    return count($results) > 0 ? $results[0] : null;
+}
+
+function get_country_banner_by_id($id): ?SuperEightFestivalsCountryBanner
 {
     return get_db()->getTable('SuperEightFestivalsCountryBanner')->find($id);
 }

@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
     `thumbnail_url_web`   TEXT(65535),
     `file_name`           TEXT(65535),
     `file_url_web`        TEXT(65535),
+    `active`              BOOL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8

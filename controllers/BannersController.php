@@ -30,7 +30,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
         $this->view->country = $country;
 
         $bannerID = $request->getParam('bannerID');
-        $banner = get_banner_by_id($bannerID);
+        $banner = get_country_banner_by_id($bannerID);
         $this->view->banner = $banner;
 
         return;
@@ -61,7 +61,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
         $this->view->country = $country;
 
         $bannerID = $request->getParam('bannerID');
-        $banner = get_banner_by_id($bannerID);
+        $banner = get_country_banner_by_id($bannerID);
         $this->view->banner = $banner;
 
         $form = $this->_getForm($banner);
@@ -79,7 +79,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
         $this->view->country = $country;
 
         $bannerID = $request->getParam('bannerID');
-        $banner = get_banner_by_id($bannerID);
+        $banner = get_country_banner_by_id($bannerID);
         $this->view->banner = $banner;
 
         $form = $this->_getDeleteForm();
@@ -117,6 +117,17 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
             )
         );
 
+        $form->addElementToEditGroup(
+            'checkbox', 'active',
+            array(
+                'id' => 'active',
+//                    'disabled' => get_active_country_banner($banner->get_country()->id) == null,
+                'label' => 'Active',
+                'description' => "Make this the active banner?",
+                'value' => $banner->active,
+            )
+        );
+
         return $form;
     }
 
@@ -150,7 +161,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                     } //edit
                     else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_banner_by_id($banner->id);
+                        $originalRecord = get_country_banner_by_id($banner->id);
                         // set the data of the record according to what was submitted in the form
                         $banner->setPostData($_POST);
                         // if there is no pending upload, use the old files

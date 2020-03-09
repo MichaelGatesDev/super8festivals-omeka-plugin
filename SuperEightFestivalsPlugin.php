@@ -45,11 +45,20 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
     function add_sample_data()
     {
         // add country
-        $country = add_country("Example Country");
+        $country_a = add_country("Example Country");
         // add country banner
-        copy(__DIR__ . "/__res/example-country-banner.jpg", get_country_dir($country->name) . "/banner_default.jpg");
-        add_country_banner($country->id, "banner_default.jpg");
-        $city = add_city_by_country_name($country->name, "example city", 0, 0);
+        copy(__DIR__ . "/__res/example-country-banner.jpg", get_country_dir($country_a->name) . "/banner_default.jpg");
+        add_country_banner($country_a->id, "banner_default.jpg");
+        $city = add_city_by_country_name($country_a->name, "Lorem Ipsum", 0, 0);
+        $city = add_city_by_country_name($country_a->name, "Dolor Sit Amet", 0, 0);
+
+        // add country2
+        $country_b = add_country("Another Country");
+        // add country banner
+        copy(__DIR__ . "/__res/example-country-banner.jpg", get_country_dir($country_b->name) . "/banner_default.jpg");
+        add_country_banner($country_b->id, "banner_default.jpg");
+        $city = add_city_by_country_name($country_b->name, "oofish doofish", 0, 0);
+        $city = add_city_by_country_name($country_b->name, "mini city", 0, 0);
 
         add_contributor("example", "person", "my cool org", "email@domain.ext");
     }

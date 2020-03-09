@@ -72,7 +72,7 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($countryName, $cityName);
+        $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
     }
 }

@@ -2,10 +2,14 @@
 
 abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
+    // ======================================================================================================================== \\
+
     public string $first_name = "";
     public string $last_name = "";
     public string $organization_name = "";
     public string $email = "";
+
+    // ======================================================================================================================== \\
 
     public function __construct()
     {
@@ -30,4 +34,5 @@ abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord imp
         $this->email = trim(strtolower($this->email));
     }
 
+    // ======================================================================================================================== \\
 }

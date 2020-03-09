@@ -2,16 +2,15 @@
 
 class SuperEightFestivalsCity extends SuperEightFestivalsLocation
 {
+    // ======================================================================================================================== \\
+
     public int $country_id = -1;
+
+    // ======================================================================================================================== \\
 
     public function __construct()
     {
         parent::__construct();
-    }
-
-    public function get_country()
-    {
-        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
     }
 
     protected function _validate()
@@ -58,4 +57,13 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
     {
         return 'SuperEightFestivals_City';
     }
+
+    // ======================================================================================================================== \\
+
+    public function get_country()
+    {
+        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
+    }
+
+    // ======================================================================================================================== \\
 }

@@ -2,6 +2,8 @@
 
 class SuperEightFestivalsContributor extends SuperEightFestivalsPerson
 {
+    // ======================================================================================================================== \\
+
     public function __construct()
     {
         parent::__construct();
@@ -21,4 +23,6 @@ class SuperEightFestivalsContributor extends SuperEightFestivalsPerson
     {
         return 'SuperEightFestivals_Contributor';
     }
+
+    // ======================================================================================================================== \\
 }

@@ -192,12 +192,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_public_static_route($router, "country", "countries/:countryName", "country");
             $this->add_public_static_route($router, "cities", "countries/:countryName/cities", "cities");
             $this->add_public_static_route($router, "city", "countries/:countryName/cities/:cityName", "city");
-
-//             country routes
-//            $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
-//            foreach ($countries as $country) {
-//                $this->addRoute($router, 'super_eight_festivals_country_' . $country->id, "countries/" . str_replace(" ", "-", strtolower($country->name)), 'country', $country->id);
-//            }
         }
     }
 

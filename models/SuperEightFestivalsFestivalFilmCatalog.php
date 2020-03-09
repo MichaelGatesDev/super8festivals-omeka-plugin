@@ -59,12 +59,12 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 
     public function get_city()
     {
-        return $this->getTable('SuperEightFestivalsCity')->find($this->get_festival()->get_city()->id);
+        return $this->get_festival()->get_city()->id;
     }
 
     public function get_country()
     {
-        return $this->getTable('SuperEightFestivalsCountry')->find($this->get_festival()->get_country()->id);
+        return $this->get_festival()->get_country();
     }
 
     public function get_dir(): string
@@ -74,12 +74,12 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 
     public function get_path(): string
     {
-        return get_film_catalogs_dir($this->get_country()->name, $this->get_city()->name) . "/" . $this->file_name;
+        return $this->get_dir() . "/" . $this->file_name;
     }
 
     public function get_thumbnail_path(): string
     {
-        return get_film_catalogs_dir($this->get_country()->name, $this->get_city()->name) . "/" . $this->thumbnail_file_name;
+        return $this->get_dir() . "/" . $this->thumbnail_file_name;
     }
 
     // ======================================================================================================================== \\

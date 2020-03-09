@@ -56,14 +56,14 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
 
     // ======================================================================================================================== \\
 
-    public function get_country()
-    {
-        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
-    }
-
     public function get_internal_prefix(): string
     {
         return "banner";
+    }
+
+    public function get_country()
+    {
+        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
     }
 
     public function get_dir(): string
@@ -73,12 +73,12 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
 
     public function get_path(): string
     {
-        return get_country_dir($this->get_country()->name) . "/" . $this->file_name;
+        return $this->get_dir() . "/" . $this->file_name;
     }
 
     public function get_thumbnail_path(): string
     {
-        return get_country_dir($this->get_country()->name) . "/" . $this->thumbnail_file_name;
+        return $this->get_dir() . "/" . $this->thumbnail_file_name;
     }
 
     // ======================================================================================================================== \\

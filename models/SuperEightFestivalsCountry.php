@@ -2,6 +2,8 @@
 
 class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
 {
+    // ======================================================================================================================== \\
+
     public function __construct()
     {
         parent::__construct();
@@ -36,4 +38,6 @@ class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
     {
         return 'SuperEightFestivals_Country';
     }
+
+    // ======================================================================================================================== \\
 }

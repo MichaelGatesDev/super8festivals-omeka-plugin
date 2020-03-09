@@ -2,6 +2,8 @@
 
 abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
+    // ======================================================================================================================== \\
+
     public int $contributor_id = -1;
     public string $title = "";
     public string $description = "";
@@ -10,6 +12,8 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
     public string $file_name = "";
     public string $file_url_web = "";
     public string $embed = "";
+
+    // ======================================================================================================================== \\
 
     public function __construct()
     {

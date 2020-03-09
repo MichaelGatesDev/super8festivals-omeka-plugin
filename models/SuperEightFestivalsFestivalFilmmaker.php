@@ -2,7 +2,11 @@
 
 class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
 {
+    // ======================================================================================================================== \\
+
     public int $festival_id = -1;
+
+    // ======================================================================================================================== \\
 
     public function __construct()
     {
@@ -23,4 +27,6 @@ class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
     {
         return 'SuperEightFestivals_Festival_Filmmaker';
     }
+
+    // ======================================================================================================================== \\
 }

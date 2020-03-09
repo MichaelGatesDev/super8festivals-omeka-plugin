@@ -1,4 +1,5 @@
 <?php
+queue_css_file("admin");
 echo head(array(
     'title' => 'Countries',
 ));
@@ -10,37 +11,18 @@ echo head(array(
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
 <style>
-    .title {
-        text-transform: capitalize;
-    }
-
-    #countries {
-        margin: 0;
-        padding: 0;
-        display: block;
-    }
-
-    .country {
-        font-size: 18px;
-        list-style-type: none;
-    }
-
-    .country a, .country a:visited {
-        color: #c76941;
-    }
-
-    .country a:hover {
-        color: #e88347;
-    }
 </style>
 
-<a class="button" href="/admin/super-eight-festivals/countries/add">Add Country</a>
 
-<ul id="countries">
-    <?php foreach (get_all_countries() as $country): ?>
-        <li class="country title"><a href="/admin/super-eight-festivals/countries/<?= $country->name; ?>"><?= $country->name ?></a></li>
-    <?php endforeach; ?>
-</ul>
+<div class="records-section">
+    <?php $countries = get_all_countries(); ?>
+    <?php if (count($countries) == 0): ?>
+        <p>There are no countries available.</p>
+    <?php else: ?>
+        <?= $this->partial("__components/records/countries.php", array('countries' => $countries)); ?>
+    <?php endif; ?>
+    <a class="button green" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/add">Add Country</a>
+</div>
 
 
 <?php echo foot(); ?>

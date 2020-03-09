@@ -212,6 +212,17 @@ function get_all_festivals(): array
     return get_db()->getTable("SuperEightFestivalsFestival")->findAll();
 }
 
+function get_all_festivals_in_country($countryID): array
+{
+    $results = array();
+    $cities = get_all_cities_in_country($countryID);
+    foreach ($cities as $city) {
+        $festivals = get_all_festivals_in_city($city->id);
+        $results = array_merge($results, $festivals);
+    }
+    return $results;
+}
+
 function get_all_festivals_in_city($cityID): array
 {
     return get_db()->getTable('SuperEightFestivalsFestival')->findBy(array('city_id' => $cityID), -1);

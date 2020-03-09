@@ -104,7 +104,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     function addRecordRoute($router, $recordNameSingular, $recordNamePlural, $fullRoute, $parameterName)
     {
-        $router->addRoute($recordNamePlural, new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $recordNamePlural, new Zend_Controller_Router_Route(
                 $fullRoute,
                 array(
                     'module' => 'super-eight-festivals',
@@ -112,7 +112,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                     'action' => "index"
                 ))
         );
-        $router->addRoute($recordNameSingular . "_single", new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_single", new Zend_Controller_Router_Route(
                 "$fullRoute/:$parameterName",
                 array(
                     'module' => 'super-eight-festivals',
@@ -120,7 +120,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                     'action' => "single"
                 ))
         );
-        $router->addRoute($recordNameSingular . "_add", new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_add", new Zend_Controller_Router_Route(
                 "$fullRoute/add",
                 array(
                     'module' => 'super-eight-festivals',
@@ -128,7 +128,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                     'action' => "add"
                 ))
         );
-        $router->addRoute($recordNameSingular . "_edit", new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_edit", new Zend_Controller_Router_Route(
                 "$fullRoute/:$parameterName/edit",
                 array(
                     'module' => 'super-eight-festivals',
@@ -136,13 +136,28 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                     'action' => "edit"
                 ))
         );
-        $router->addRoute($recordNameSingular . "_delete", new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_delete", new Zend_Controller_Router_Route(
                 "$fullRoute/:$parameterName/delete",
                 array(
                     'module' => 'super-eight-festivals',
                     'controller' => $recordNamePlural,
                     'action' => "delete"
                 ))
+        );
+    }
+
+    function add_public_static_route($router, $id, $fullRoute, $action)
+    {
+        $router->addRoute(
+            $id,
+            new Zend_Controller_Router_Route(
+                $fullRoute,
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => "public",
+                    "action" => $action,
+                )
+            )
         );
     }
 
@@ -156,24 +171,24 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addRecordRoute($router, "banner", "banners", ":module/countries/:countryName/banners", "bannerID");
             $this->addRecordRoute($router, "filmCatalog", "filmCatalogs", ":module/countries/:countryName/cities/:cityName/film-catalogs", "filmCatalogID");
         } else {
-            // override search
-            $this->addRoute($router, 'search', 'search', 'search');
+//            $this->add_public_static_route($router, "index", "", "index");
+            $this->add_public_static_route($router, "search", "search", "search");
+            $this->add_public_static_route($router, "about", "about", "about");
+            $this->add_public_static_route($router, "contact", "contact", "contact");
+            $this->add_public_static_route($router, "submit", "submit", "submit");
+            $this->add_public_static_route($router, "federation", "federation", "federation");
+            $this->add_public_static_route($router, "history", "history", "history");
+            $this->add_public_static_route($router, "filmmakers", "filmmakers", "filmmakers");
+            $this->add_public_static_route($router, "countries", "countries", "countries");
+            $this->add_public_static_route($router, "country", "countries/:countryName", "country");
+            $this->add_public_static_route($router, "cities", "countries/:countryName/cities", "cities");
+            $this->add_public_static_route($router, "city", "countries/:countryName/cities/:cityName", "city");
 
-            $this->addRoute($router, 'about', 'about', 'about');
-            $this->addRoute($router, 'contact', 'contact', 'contact');
-            $this->addRoute($router, 'submit', 'submit', 'submit');
-
-            $this->addRoute($router, 'federation', 'federation', 'federation');
-            $this->addRoute($router, 'history', 'history', 'history');
-            $this->addRoute($router, 'filmmakers', 'filmmakers', 'filmmakers');
-
-            $this->addRoute($router, 'countries', 'countries', 'countries-list');
-
-            // country routes
-            $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
-            foreach ($countries as $country) {
-                $this->addRoute($router, 'super_eight_festivals_country_' . $country->id, "countries/" . str_replace(" ", "-", strtolower($country->name)), 'country', $country->id);
-            }
+//             country routes
+//            $countries = get_db()->getTable("SuperEightFestivalsCountry")->findAll();
+//            foreach ($countries as $country) {
+//                $this->addRoute($router, 'super_eight_festivals_country_' . $country->id, "countries/" . str_replace(" ", "-", strtolower($country->name)), 'country', $country->id);
+//            }
         }
     }
 

@@ -47,7 +47,7 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
 
         <div class="row">
             <div class="col d-flex justify-content-center">
-                <h2 class="text-capitalize text-center size-2 pt-2 pb-2"><?= $country->name; ?></h2>
+                <h2 class="text-capitalize text-center size-2 pt-2 pb-2"><?= $city->name; ?></h2>
             </div>
         </div>
 

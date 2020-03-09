@@ -45,7 +45,7 @@ $countries = get_all_countries();
                                     <p class="card-text text-left mb-1"><small class="text-muted"><?= count($cities); ?> Festivals</small></p>
                                 </div>
                             </div>
-                            <a href="/countries/<?= $country->name; ?>" class="stretched-link"></a>
+                            <a href="/countries/<?= urlencode($country->name); ?>" class="stretched-link"></a>
                         </div>
                     </div>
                 </div>

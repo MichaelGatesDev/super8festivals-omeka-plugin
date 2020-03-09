@@ -4,8 +4,14 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
 {
     // ======================================================================================================================== \\
 
-    public int $country_id = -1;
-    public bool $active = false;
+    /**
+     * @var int
+     */
+    public $country_id = -1;
+    /**
+     * @var bool
+     */
+    public $active = false;
 
     // ======================================================================================================================== \\
 

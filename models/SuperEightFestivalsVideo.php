@@ -2,12 +2,30 @@
 
 abstract class SuperEightFestivalsVideo extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public int $contributor_id = -1;
-    public string $title = "";
-    public string $description = "";
-    public string $thumbnail_file_name = "";
-    public string $thumbnail_url_web = "";
-    public string $embed = "";
+    /**
+     * @var int
+     */
+    public $contributor_id = -1;
+    /**
+     * @var string
+     */
+    public $title = "";
+    /**
+     * @var string
+     */
+    public $description = "";
+    /**
+     * @var string
+     */
+    public $thumbnail_file_name = "";
+    /**
+     * @var string
+     */
+    public $thumbnail_url_web = "";
+    /**
+     * @var string
+     */
+    public $embed = "";
 
     public function __construct()
     {

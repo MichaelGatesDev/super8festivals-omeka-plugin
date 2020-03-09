@@ -4,10 +4,22 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 {
     // ======================================================================================================================== \\
 
-    public int $city_id = -1;
-    public int $year = -1;
-    public string $title = "";
-    public string $description = "";
+    /**
+     * @var int
+     */
+    public $city_id = -1;
+    /**
+     * @var int
+     */
+    public $year = -1;
+    /**
+     * @var string
+     */
+    public $title = "";
+    /**
+     * @var string
+     */
+    public $description = "";
 
     // ======================================================================================================================== \\
 

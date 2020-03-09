@@ -2,9 +2,18 @@
 
 class SuperEightFestivalsPage extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public string $title = "";
-    public string $url = "";
-    public string $content = "";
+    /**
+     * @var string
+     */
+    public $title = "";
+    /**
+     * @var string
+     */
+    public $url = "";
+    /**
+     * @var string
+     */
+    public $content = "";
 
     public function __construct()
     {

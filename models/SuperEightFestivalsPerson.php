@@ -4,10 +4,22 @@ abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord imp
 {
     // ======================================================================================================================== \\
 
-    public string $first_name = "";
-    public string $last_name = "";
-    public string $organization_name = "";
-    public string $email = "";
+    /**
+     * @var string
+     */
+    public $first_name = "";
+    /**
+     * @var string
+     */
+    public $last_name = "";
+    /**
+     * @var string
+     */
+    public $organization_name = "";
+    /**
+     * @var string
+     */
+    public $email = "";
 
     // ======================================================================================================================== \\
 

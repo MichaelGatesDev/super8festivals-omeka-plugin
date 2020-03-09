@@ -4,13 +4,34 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
 {
     // ======================================================================================================================== \\
 
-    public int $contributor_id = -1;
-    public string $title = "";
-    public string $description = "";
-    public string $thumbnail_file_name = "";
-    public string $thumbnail_url_web = "";
-    public string $file_name = "";
-    public string $file_url_web = "";
+    /**
+     * @var int
+     */
+    public $contributor_id = -1;
+    /**
+     * @var string
+     */
+    public $title = "";
+    /**
+     * @var string
+     */
+    public $description = "";
+    /**
+     * @var string
+     */
+    public $thumbnail_file_name = "";
+    /**
+     * @var string
+     */
+    public $thumbnail_url_web = "";
+    /**
+     * @var string
+     */
+    public $file_name = "";
+    /**
+     * @var string
+     */
+    public $file_url_web = "";
 
     // ======================================================================================================================== \\
 

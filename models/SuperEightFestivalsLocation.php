@@ -2,9 +2,18 @@
 
 abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
-    public string $name = "";
-    public float $latitude = -1;
-    public float $longitude = -1;
+    /**
+     * @var string
+     */
+    public $name = "";
+    /**
+     * @var float
+     */
+    public $latitude = -1;
+    /**
+     * @var float
+     */
+    public $longitude = -1;
 
     public function __construct()
     {

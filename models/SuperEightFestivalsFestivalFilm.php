@@ -4,8 +4,14 @@ class SuperEightFestivalsFestivalFilm extends SuperEightFestivalsVideo
 {
     // ======================================================================================================================== \\
 
-    public int $festival_id = -1;
-    public int $filmmaker_id = -1;
+    /**
+     * @var int
+     */
+    public $festival_id = -1;
+    /**
+     * @var int
+     */
+    public $filmmaker_id = -1;
 
     // ======================================================================================================================== \\
 

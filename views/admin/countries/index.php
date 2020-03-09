@@ -21,7 +21,7 @@ echo head(array(
     <?php else: ?>
         <?= $this->partial("__components/records/countries.php", array('countries' => $countries)); ?>
     <?php endif; ?>
-    <a class="button green" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/add">Add Country</a>
+    <a class="button green" href="/admin/super-eight-festivals/countries/add">Add Country</a>
 </div>
 
 

@@ -8,6 +8,10 @@
         text-transform: capitalize;
     }
 
+    td {
+        vertical-align: middle;
+    }
+
     td .button {
         margin: 0;
     }

@@ -36,17 +36,19 @@ $cities = get_all_cities_in_country($country->id);
                     </div>
                 </div>
                 <div class="row">
-                    <?php foreach ($cities as $city): ?>
-                        <?php
-                        $festivals = get_all_festivals_in_country($city->id);
-                        ?>
-                        <li class="city">
-                            <a class="title" href="/countries/<?= $country->name; ?>/cities/<?= $city->name; ?>"><?= $city->name; ?></a>
-                            <div class="content">
-                                <p><?= count($festivals); ?> Festival(s)</p>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
+                    <ul>
+                        <?php foreach ($cities as $city): ?>
+                            <?php
+                            $festivals = get_all_festivals_in_country($city->id);
+                            ?>
+                            <li class="city pb-0">
+                                <a class="title" href="/countries/<?= $country->name; ?>/cities/<?= $city->name; ?>"><?= $city->name; ?></a>
+                                <div class="content">
+                                    <p><?= count($festivals); ?> Festival(s)</p>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
             </div>
         </div>

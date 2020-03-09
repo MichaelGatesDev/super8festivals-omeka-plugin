@@ -1,1 +1,5 @@
-Custom search here
+<?php
+echo "Search query: $query";
+?>
+
+

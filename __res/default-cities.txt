@@ -1,21 +1,21 @@
-germany,berlin,52.52000,13.40500);
-argentina,rosario,-32.95870,-60.69300);
-australia,sydney,-33.86880,151.20930);
-belgium,brussels,50.85030,4.35170);
-brazil,sao paulo,-23.55050,-46.63330);
-spain,barcelona,41.38510,2.17340);
-united states,chicago,41.87810,-87.62980);
-colombia,bogota,4.71100,-74.07210);
-philippines,manila,14.59950,120.98420);
-hong kong,hong kong,22.31930,114.16940);
-iran,tehran,35.68920,51.38900);
-japan,tokyo,35.67620,139.65030);
-japan,hiroshima,34.38530,132.45531);
-mexico,mexico city,19.43260,-99.13320);
-italy,montecallini,39.81840,18.31290);
-portugal,lisbon,38.72230,-9.13930);
-puerto rico,san juan,18.46550,66.10570);
-canada,montreal,45.50170,-73.56730);
-canada,toronto,43.65320,-79.38320);
-tunisia,kelibia,36.84620,11.09950);
-venezuela,caracas,10.48060,-66.90360);
+germany,berlin,52.52000,13.40500
+argentina,rosario,-32.95870,-60.69300
+australia,sydney,-33.86880,151.20930
+belgium,brussels,50.85030,4.35170
+brazil,sao paulo,-23.55050,-46.63330
+spain,barcelona,41.38510,2.17340
+united states,chicago,41.87810,-87.62980
+colombia,bogota,4.71100,-74.07210
+philippines,manila,14.59950,120.98420
+hong kong,hong kong,22.31930,114.16940
+iran,tehran,35.68920,51.38900
+japan,tokyo,35.67620,139.65030
+japan,hiroshima,34.38530,132.45531
+mexico,mexico city,19.43260,-99.13320
+italy,montecallini,39.81840,18.31290
+portugal,lisbon,38.72230,-9.13930
+puerto rico,san juan,18.46550,66.10570
+canada,montreal,45.50170,-73.56730
+canada,toronto,43.65320,-79.38320
+tunisia,kelibia,36.84620,11.09950
+venezuela,caracas,10.48060,-66.90360

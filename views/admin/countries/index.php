@@ -12,10 +12,14 @@ echo head(array(
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
 <style>
+    #add-country-button {
+        margin-bottom: 1em;
+    }
 </style>
 
 
 <div class="records-section">
+    <a id="add-country-button" class="button green" href="/admin/super-eight-festivals/countries/add">Add Country</a>
     <?php
     $countries = get_all_countries();
     sort($countries);
@@ -25,7 +29,6 @@ echo head(array(
     <?php else: ?>
         <?= $this->partial("__components/records/countries.php", array('countries' => $countries)); ?>
     <?php endif; ?>
-    <a class="button green" href="/admin/super-eight-festivals/countries/add">Add Country</a>
 </div>
 
 

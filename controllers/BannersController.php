@@ -117,7 +117,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
     }
 
 
-    private function _processForm(SuperEightFestivalsCountryBanner $banner, $form, $action)
+    private function _processForm(SuperEightFestivalsCountryBanner $banner, Zend_Form $form, $action)
     {
         $this->view->banner = $banner;
 

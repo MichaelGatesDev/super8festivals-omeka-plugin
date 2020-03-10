@@ -8,8 +8,8 @@ echo head(array(
 <!--Omeka 'flash' message partial -->
 <?php echo flash(); ?>
 
-<a class="button blue" href='/admin/super-eight-festivals/countries/<?= $country->name ?>/edit'>Edit</a>
-<a class="button red" href='/admin/super-eight-festivals/countries/<?= $country->name ?>/delete'>Delete</a>
+<a class="button blue" href='/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/edit'>Edit</a>
+<a class="button red" href='/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/delete'>Delete</a>
 
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
@@ -25,7 +25,7 @@ echo head(array(
         <?php else: ?>
             <?= $this->partial("__components/records/country-banners.php", array('country_banners' => $country_banners)); ?>
         <?php endif; ?>
-        <a class="button green" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/add">Add Country Banner</a>
+        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/banners/add">Add Country Banner</a>
     </div>
 
     <div class="records-section">
@@ -36,7 +36,7 @@ echo head(array(
         <?php else: ?>
             <?= $this->partial("__components/records/cities.php", array('cities' => $cities)); ?>
         <?php endif; ?>
-        <a class="button green" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/banners/add">Add City</a>
+        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/banners/add">Add City</a>
     </div>
 </section>
 

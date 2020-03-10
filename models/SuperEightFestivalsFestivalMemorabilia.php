@@ -59,7 +59,7 @@ class SuperEightFestivalsFestivalMemorabilia extends SuperEightFestivalsDocument
 
     public function get_dir(): string
     {
-        return $this->get_city()->get_memorabilia_dir();
+        return $this->get_festival()->get_memorabilia_dir();
     }
 
     public function get_path(): string

@@ -100,7 +100,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsCountry $country, $form, $action)
+    private function _processForm(SuperEightFestivalsCountry $country, Zend_Form $form, $action)
     {
         $this->view->country = $country;
 
@@ -110,29 +110,28 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                     $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
                     return;
                 }
-            } catch (Zend_Form_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            }
-            try {
-                if ($action == 'delete') {
-                    $country->delete();
-                    $this->_helper->flashMessenger(__('The country "%s" has been deleted.', $country->name), 'success');
-                    $this->redirect("/super-eight-festivals/countries/");
-                } else {
-                    $country->setPostData($_POST);
-                    if ($country->save()) {
-                        if ($action == 'add') {
-                            $this->_helper->flashMessenger(__('The country "%s" has been added.', $country->name), 'success');
-                        } else if ($action == 'edit') {
-                            $this->_helper->flashMessenger(__('The country "%s" has been edited.', $country->name), 'success');
+                try {
+                    if ($action == 'delete') {
+                        $country->delete();
+                        $this->_helper->flashMessenger('The country "%s" has been deleted.', $country->name, 'success');
+                    } else {
+                        $country->setPostData($_POST);
+                        if ($country->save()) {
+                            if ($action == 'add') {
+                                $this->_helper->flashMessenger('The country "%s" has been added.', $country->name, 'success');
+                            } else if ($action == 'edit') {
+                                $this->_helper->flashMessenger('The country "%s" has been edited.', $country->name, 'success');
+                            }
                         }
-                        $this->redirect("/super-eight-festivals/countries/" . $country->name);
-                        return;
                     }
+
+                    $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name));
+                } catch (Omeka_Validate_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                } catch (Omeka_Record_Exception $e) {
+                    $this->_helper->flashMessenger($e);
                 }
-            } catch (Omeka_Validate_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            } catch (Omeka_Record_Exception $e) {
+            } catch (Zend_Form_Exception $e) {
                 $this->_helper->flashMessenger($e);
             }
         }

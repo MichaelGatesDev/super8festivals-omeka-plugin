@@ -59,7 +59,7 @@ class SuperEightFestivalsFestivalPhoto extends SuperEightFestivalsImage
 
     public function get_dir(): string
     {
-        return $this->get_city()->get_photos_dir();
+        return $this->get_festival()->get_photos_dir();
     }
 
     public function get_path(): string

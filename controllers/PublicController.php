@@ -60,7 +60,7 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
     {
         $request = $this->getRequest();
         $countryName = $request->getParam('countryName');
-        $this->redirect("/countries/" . $countryName);
+        $this->redirect("/countries/" . urlencode($countryName));
     }
 
     public function cityAction()

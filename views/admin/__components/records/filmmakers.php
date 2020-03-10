@@ -37,8 +37,8 @@
             <p>Last: <?= $filmmaker->last_name; ?></p>
             <p>Organization: <?= $filmmaker->organization_name; ?></p>
             <p style="text-align: center">
-                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= $filmmaker->get_country()->name ?>/cities/<?= $filmmaker->get_city()->name; ?>/filmmakers/<?= $filmmaker->id; ?>/edit">Edit</a>
-                <a class="button red" href="/admin/super-eight-festivals/countries/<?= $filmmaker->get_country()->name ?>/cities/<?= $filmmaker->get_city()->name; ?>/filmmakers/<?= $filmmaker->id; ?>/delete">Delete</a>
+                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= $filmmaker->get_country()->name ?>/cities/<?= $filmmaker->get_city()->name; ?>/festivals/<?= $filmmaker->festival_id; ?>/filmmakers/<?= $filmmaker->id; ?>/edit">Edit</a>
+                <a class="button red" href="/admin/super-eight-festivals/countries/<?= $filmmaker->get_country()->name ?>/cities/<?= $filmmaker->get_city()->name; ?>/festivals/<?= $filmmaker->festival_id; ?>/filmmakers/<?= $filmmaker->id; ?>/delete">Delete</a>
             </p>
         </li>
     <?php endforeach; ?>

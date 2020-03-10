@@ -69,7 +69,7 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 
     public function get_dir(): string
     {
-        return $this->get_city()->get_film_catalogs_dir();
+        return $this->get_festival()->get_film_catalogs_dir();
     }
 
     public function get_path(): string

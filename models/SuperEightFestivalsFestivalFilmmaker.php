@@ -69,7 +69,7 @@ class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
 
     public function get_dir(): string
     {
-        return $this->get_city()->get_filmmakers_dir() . "/" . $this->id;
+        return $this->get_festival()->get_filmmakers_dir() . "/" . $this->id;
     }
 
     private function create_files()

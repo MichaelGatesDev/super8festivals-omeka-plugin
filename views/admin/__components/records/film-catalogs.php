@@ -58,8 +58,8 @@
                 <?php endif; ?>
             </a>
             <p style="text-align: center">
-                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= $catalog->get_country()->name ?>/cities/<?= $catalog->get_city()->name; ?>/film-catalogs/<?= $catalog->id; ?>/edit">Edit</a>
-                <a class="button red" href="/admin/super-eight-festivals/countries/<?= $catalog->get_country()->name ?>/cities/<?= $catalog->get_city()->name; ?>/film-catalogs/<?= $catalog->id; ?>/delete">Delete</a>
+                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= $catalog->get_country()->name ?>/cities/<?= $catalog->get_city()->name; ?>/festivals/<?= $catalog->festival_id; ?>/film-catalogs/<?= $catalog->id; ?>/edit">Edit</a>
+                <a class="button red" href="/admin/super-eight-festivals/countries/<?= $catalog->get_country()->name ?>/cities/<?= $catalog->get_city()->name; ?>/festivals/<?= $catalog->festival_id; ?>/film-catalogs/<?= $catalog->id; ?>/delete">Delete</a>
             </p>
         </li>
     <?php endforeach; ?>

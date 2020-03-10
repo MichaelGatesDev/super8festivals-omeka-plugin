@@ -2,6 +2,8 @@
 
 abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
+    // ======================================================================================================================== \\
+
     /**
      * @var string
      */
@@ -14,6 +16,8 @@ abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord i
      * @var float
      */
     public $longitude = -1;
+
+    // ======================================================================================================================== \\
 
     public function __construct()
     {
@@ -41,4 +45,6 @@ abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord i
     {
         return 'SuperEightFestivals_Location';
     }
+
+    // ======================================================================================================================== \\
 }

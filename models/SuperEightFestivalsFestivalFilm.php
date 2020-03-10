@@ -43,7 +43,7 @@ class SuperEightFestivalsFestivalFilm extends SuperEightFestivalsVideo
 
     function get_filmmaker()
     {
-        return $this->get_filmmaker_by_id($this->filmmaker_id);
+        return get_filmmaker_by_id($this->filmmaker_id);
     }
 
     // ======================================================================================================================== \\

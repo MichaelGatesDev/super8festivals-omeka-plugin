@@ -21,7 +21,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
         $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
 
-        $this->redirect("/super-eight-festivals/countries/" . $country->name . "/cities/" . $city->name);
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($filmmaker->get_country()->name) . "/cities/" . urlencode($filmmaker->get_city()->name) . "/festivals/" . $filmmaker->festival_id);
         return;
     }
 
@@ -172,38 +172,41 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalFilmmaker $filmmaker, $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalFilmmaker $filmmaker, Zend_Form $form, $action)
     {
         // Set the page object to the view.
         $this->view->filmmaker = $filmmaker;
 
         if ($this->getRequest()->isPost()) {
-            if (!$form->isValid($_POST)) {
-                $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
-                return;
-            }
-
             try {
-                if ($action == 'delete') {
-                    $filmmaker->delete();
-                    $this->_helper->flashMessenger('The filmmaker "%s" has been deleted.', $filmmaker->email, 'success');
-                } else if ($action == 'add') {
-                    $filmmaker->setPostData($_POST);
-                    if ($filmmaker->save()) {
-                        $this->_helper->flashMessenger('The filmmaker "%s" has been added.', $filmmaker->email, 'success');
-                    }
-                } else if ($action == 'edit') {
-                    $filmmaker->setPostData($_POST);
-                    if ($filmmaker->save()) {
-                        $this->_helper->flashMessenger('The filmmaker "%s" has been edited.', $filmmaker->email, 'success');
-                    }
+                if (!$form->isValid($_POST)) {
+                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
+                    return;
                 }
+                try {
+                    if ($action == 'delete') {
+                        $filmmaker->delete();
+                        $this->_helper->flashMessenger('The filmmaker "%s" has been deleted.', $filmmaker->email, 'success');
+                    } else if ($action == 'add') {
+                        $filmmaker->setPostData($_POST);
+                        if ($filmmaker->save()) {
+                            $this->_helper->flashMessenger('The filmmaker "%s" has been added.', $filmmaker->email, 'success');
+                        }
+                    } else if ($action == 'edit') {
+                        $filmmaker->setPostData($_POST);
+                        if ($filmmaker->save()) {
+                            $this->_helper->flashMessenger('The filmmaker "%s" has been edited.', $filmmaker->email, 'success');
+                        }
+                    }
 
-                // bring us back to the city page
-                $this->redirect("/super-eight-festivals/countries/" . urlencode($filmmaker->get_country()->name) . "/cities/" . urlencode($filmmaker->get_city()->name));
-            } catch (Omeka_Validate_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            } catch (Omeka_Record_Exception $e) {
+                    // bring us back to the city page
+                    $this->redirect("/super-eight-festivals/countries/" . urlencode($filmmaker->get_country()->name) . "/cities/" . urlencode($filmmaker->get_city()->name) . "/festivals/" . $filmmaker->festival_id);
+                } catch (Omeka_Validate_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                } catch (Omeka_Record_Exception $e) {
+                    $this->_helper->flashMessenger($e);
+                }
+            } catch (Zend_Form_Exception $e) {
                 $this->_helper->flashMessenger($e);
             }
         }

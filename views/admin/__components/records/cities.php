@@ -28,9 +28,9 @@
 <table id="cities">
     <?php foreach ($cities as $city): ?>
         <tr>
-            <td><a class="title" href="/admin/super-eight-festivals/countries/<?= $city->get_country()->name; ?>/cities/<?= $city->name; ?>"><?= $city->name ?></a></td>
-            <td><a class="button blue" href="/admin/super-eight-festivals/countries/<?= $city->get_country()->name; ?>/cities/<?= $city->name; ?>/edit">Edit</a></td>
-            <td><a class="button red" href="/admin/super-eight-festivals/countries/<?= $city->get_country()->name; ?>/cities/<?= $city->name; ?>/delete">Delete</a></td>
+            <td><a class="title" href="/admin/super-eight-festivals/countries/<?= urlencode($city->get_country()->name); ?>/cities/<?= urlencode($city->name); ?>"><?= $city->name ?></a></td>
+            <td><a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($city->get_country()->name); ?>/cities/<?= urlencode($city->name); ?>/edit">Edit</a></td>
+            <td><a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($city->get_country()->name); ?>/cities/<?= urlencode($city->name); ?>/delete">Delete</a></td>
         </tr>
     <?php endforeach; ?>
 </table>

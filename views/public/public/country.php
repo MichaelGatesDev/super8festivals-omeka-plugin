@@ -40,7 +40,7 @@ $cities = get_all_cities_in_country($country->id);
                     <ul>
                         <?php foreach ($cities as $city): ?>
                             <?php
-                            $festivals = get_all_festivals_in_country($city->id);
+                            $festivals = get_all_festivals_in_city($city->id);
                             ?>
                             <li class="city pb-0">
                                 <a class="title" href="/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>"><?= $city->name; ?></a>

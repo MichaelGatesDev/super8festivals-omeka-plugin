@@ -18,6 +18,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         $country = get_country_by_name($countryName);
         $this->view->country = $country;
 
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name));
         return;
     }
 

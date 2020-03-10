@@ -1,34 +1,32 @@
 <style>
-    #countries {
-        margin-bottom: 1em;
-        padding: 0;
-    }
-
-    a.title {
-        color: #c76941;
-    }
-
-    a.title:hover {
-        color: #e88347;
+    thead tr {
+        background-color: #e0e0e0;
     }
 
     thead td {
         font-weight: bold;
+        padding: 0.25em;
+    }
+
+    tbody tr:hover {
+        background-color: #f0f0f0;
     }
 
     td {
         vertical-align: middle;
+        padding: 0;
     }
 
-    td .button {
-        margin: 0;
+    td a {
+        display: block;
+        padding: 0.5em;
     }
 
-    table {
-        margin-bottom: 5em;
+    td a.title {
+        color: #c76941;
     }
-
 </style>
+
 <table id="countries">
     <thead>
     <tr>

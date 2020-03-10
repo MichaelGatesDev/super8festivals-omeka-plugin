@@ -20,7 +20,10 @@ echo head(array(
 
     <div class="records-section">
         <h2>Festivals</h2>
-        <?php $festivals = get_all_festivals_in_city($city->id); ?>
+        <?php
+        $festivals = get_all_festivals_in_city($city->id);
+        sort($festivals);
+        ?>
         <?php if (count($festivals) == 0): ?>
             <p>There are no festivals available for this city.</p>
         <?php else: ?>

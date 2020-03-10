@@ -107,6 +107,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterAdminNavigationMain($nav)
     {
+        $nav = array_filter($nav, function ($k) {
+            $itemLabel = $k['label'];
+            return !in_array(strtolower($itemLabel), array(
+                "items",
+                "collections",
+                "item types",
+                "items",
+                "tags",
+            ));
+        });
         $nav[] = array(
             'label' => __('Super 8 Festivals'),
             'uri' => url('super-eight-festivals'),

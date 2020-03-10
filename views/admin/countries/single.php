@@ -30,7 +30,10 @@ echo head(array(
 
     <div class="records-section">
         <h2>Cities</h2>
-        <?php $cities = get_all_cities_in_country($country->id); ?>
+        <?php
+        $cities = get_all_cities_in_country($country->id);
+        sort($cities);
+        ?>
         <?php if (count($cities) == 0): ?>
             <p>There are no cities available for this country.</p>
         <?php else: ?>

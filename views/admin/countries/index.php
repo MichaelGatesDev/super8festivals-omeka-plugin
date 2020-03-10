@@ -15,7 +15,10 @@ echo head(array(
 
 
 <div class="records-section">
-    <?php $countries = get_all_countries(); ?>
+    <?php
+    $countries = get_all_countries();
+    sort($countries);
+    ?>
     <?php if (count($countries) == 0): ?>
         <p>There are no countries available.</p>
     <?php else: ?>

@@ -13,6 +13,10 @@ body {
 
 /*--------------------------------------------------------------------------------*/
 
+.title {
+    text-transform: capitalize;
+}
+
 .records-section {
     padding: 1em;
 }

@@ -4,8 +4,12 @@
         padding: 0;
     }
 
-    .title {
-        text-transform: capitalize;
+    a.title {
+        color: #c76941;
+    }
+
+    a.title:hover {
+        color: #e88347;
     }
 
     thead td {
@@ -32,12 +36,12 @@
 <table id="cities">
     <thead>
     <tr>
-        <td>ID</td>
-        <td>Year</td>
+        <td style="width: 1px;">ID</td>
+        <td style="width: 1px;">Year</td>
         <td>Title</td>
         <td>Description</td>
-        <td></td>
-        <td></td>
+        <td style="width: 1px;"></td>
+        <td style="width: 1px;"></td>
     </tr>
     </thead>
     <?php foreach ($festivals as $festival): ?>

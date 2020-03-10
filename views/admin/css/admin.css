@@ -2,9 +2,16 @@ body {
     /*background-color: red !important;*/
 }
 
+/*--------------------------------------------------------------------------------*/
 #content-heading {
     text-transform: capitalize;
 }
+
+#content-nav .navigation li {
+    font-size: 1.15em;
+}
+
+/*--------------------------------------------------------------------------------*/
 
 .records-section {
     padding: 1em;
@@ -21,3 +28,5 @@ body {
 .records-section .button {
     margin-bottom: 0;
 }
+
+/*--------------------------------------------------------------------------------*/

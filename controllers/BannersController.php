@@ -183,7 +183,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($country_banner->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_country_dir($country_banner->get_country()->name));
+        move_to_dir($temporary_name, $newFileName, $country_banner->get_country()->get_dir());
         $country_banner->file_name = $newFileName;
         $country_banner->save();
     }

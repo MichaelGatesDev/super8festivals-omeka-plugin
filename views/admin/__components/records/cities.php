@@ -8,6 +8,14 @@
         text-transform: capitalize;
     }
 
+    a.title {
+        color: #c76941;
+    }
+
+    a.title:hover {
+        color: #e88347;
+    }
+
     td {
         vertical-align: middle;
     }

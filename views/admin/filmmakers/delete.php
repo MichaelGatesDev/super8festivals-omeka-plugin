@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Edit Filmmaker: ' . ucwords($filmmaker->get_display_name()),
+    'title' => 'Delete Filmmaker: ' . ucwords($filmmaker->get_display_name()),
 ));
 ?>
 
@@ -8,6 +8,7 @@ echo head(array(
 
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
+<h2>Are you sure?</h2>
 <?php echo $form; ?>
 
 <?php echo foot(); ?>

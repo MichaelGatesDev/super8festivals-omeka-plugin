@@ -244,7 +244,7 @@ function get_parent_festival_options(): array
     $results = array();
     $potentialParents = get_db()->getTable('SuperEightFestivalsFestival')->findAll();
     foreach ($potentialParents as $potentialParent) {
-        $results[$potentialParent->id] = $potentialParent->getDisplayName();
+        $results[$potentialParent->id] = $potentialParent->title;
     }
     return $results;
 }
@@ -319,6 +319,11 @@ function get_parent_filmmaker_options(): array
         $results[$potentialParent->id] = $potentialParent->email;
     }
     return $results;
+}
+
+function get_filmmaker_by_id($id): ?SuperEightFestivalsFestivalFilmmaker
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->find($id);
 }
 
 

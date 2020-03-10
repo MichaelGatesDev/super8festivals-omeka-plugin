@@ -35,22 +35,9 @@ echo head(array(
         <?php if (count($filmmakers) == 0): ?>
             <p>There are no filmmakers available for this city.</p>
         <?php else: ?>
-            <ul id="filmmakers">
-                <?php foreach ($filmmakers as $filmmaker): ?>
-                    <li>
-                        <p><?= $filmmaker->first_name; ?></p>
-                        <p><?= $filmmaker->last_name; ?></p>
-                        <p><?= $filmmaker->organization_name; ?></p>
-                        <p><?= $filmmaker->email; ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?= $this->partial("__components/records/filmmakers.php", array('filmmakers' => $filmmakers)); ?>
         <?php endif; ?>
-        <ul class="anchor-buttons">
-            <li>
-                <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/filmmakers/add">Add Filmmaker</a>
-            </li>
-        </ul>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/filmmakers/add">Add Filmmaker</a>
     </div>
 
     <div class="records-section">
@@ -71,11 +58,7 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <ul class="anchor-buttons">
-            <li>
-                <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/films/add">Add Film</a>
-            </li>
-        </ul>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/films/add">Add Film</a>
     </div>
 
     <div class="records-section">
@@ -96,11 +79,7 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <ul class="anchor-buttons">
-            <li>
-                <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/memorabilia/add">Add Memorabilia</a>
-            </li>
-        </ul>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/memorabilia/add">Add Memorabilia</a>
     </div>
 
     <div class="records-section">
@@ -121,11 +100,7 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <ul class="anchor-buttons">
-            <li>
-                <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/print-media/add">Add Print Media</a>
-            </li>
-        </ul>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/print-media/add">Add Print Media</a>
     </div>
 
     <div class="records-section">
@@ -146,11 +121,7 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <ul class="anchor-buttons">
-            <li>
-                <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/photos/add">Add Photo</a>
-            </li>
-        </ul>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/photos/add">Add Photo</a>
     </div>
 
     <div class="records-section">
@@ -171,11 +142,7 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <ul class="anchor-buttons">
-            <li>
-                <a href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/posters/add">Add Poster</a>
-            </li>
-        </ul>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= $country->name ?>/cities/<?= $city->name; ?>/posters/add">Add Poster</a>
     </div>
 
 </section>

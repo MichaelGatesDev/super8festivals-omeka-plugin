@@ -17,22 +17,7 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
         $country = get_country_by_name($countryName);
         $this->view->country = $country;
 
-        $this->redirect("/super-eight-festivals/countries/" . $country->name);
-        return;
-    }
-
-    public function singleAction()
-    {
-        $request = $this->getRequest();
-
-        $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
-        $this->view->country = $country;
-
-        $bannerID = $request->getParam('bannerID');
-        $banner = get_country_banner_by_id($bannerID);
-        $this->view->banner = $banner;
-
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name));
         return;
     }
 
@@ -147,7 +132,6 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                     if ($action == 'delete') {
                         $banner->delete();
                         $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been deleted.", 'success');
-                        $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
                     } //add
                     else if ($action == 'add') {
                         $banner->setPostData($_POST);
@@ -156,7 +140,6 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
 
                             // do file upload
                             $this->upload_file($banner);
-                            $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
                         }
                     } //edit
                     else if ($action == 'edit') {
@@ -180,11 +163,11 @@ class SuperEightFestivals_BannersController extends Omeka_Controller_AbstractAct
                                 // do file upload
                                 $this->upload_file($banner);
                             }
-
-                            // bring us back to the country page
-                            $this->redirect("/super-eight-festivals/countries/" . $banner->get_country()->name);
                         }
                     }
+
+                    // bring us back to the country page
+                    $this->redirect("/super-eight-festivals/countries/" . urlencode($banner->get_country()->name));
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);
                 } catch (Omeka_Record_Exception $e) {

@@ -78,14 +78,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $city = add_city_by_country_name($country_a->name, "Lorem Ipsum", 0, 0);
         $city = add_city_by_country_name($country_a->name, "Dolor Sit Amet", 0, 0);
 
-        // add country2
-        $country_b = add_country("Another Country");
-        // add country banner
-        copy(__DIR__ . "/__res/example-country-banner.jpg", get_country_dir($country_b->name) . "/banner_default.jpg");
-        add_country_banner($country_b->id, "banner_default.jpg");
-        $city = add_city_by_country_name($country_b->name, "oofish doofish", 0, 0);
-        $city = add_city_by_country_name($country_b->name, "mini city", 0, 0);
-
         add_contributor("example", "person", "my cool org", "email@domain.ext");
     }
 
@@ -205,8 +197,14 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
             $this->addRecordRoute($router, "banner", "banners", ":module/countries/:countryName/banners", "bannerID");
             $this->addRecordRoute($router, "filmCatalog", "filmCatalogs", ":module/countries/:countryName/cities/:cityName/film-catalogs", "filmCatalogID");
+            $this->addRecordRoute($router, "filmmaker", "filmmakers", ":module/countries/:countryName/cities/:cityName/filmmakers", "filmmakerID");
+            $this->addRecordRoute($router, "film", "films", ":module/countries/:countryName/cities/:cityName/films", "filmID");
+            $this->addRecordRoute($router, "memorabilia", "memorabilia", ":module/countries/:countryName/cities/:cityName/memorabilia", "memorabiliaID");
+            $this->addRecordRoute($router, "printMedia", "printMedia", ":module/countries/:countryName/cities/:cityName/print-media", "printMediaID");
+            $this->addRecordRoute($router, "photo", "photos", ":module/countries/:countryName/cities/:cityName/photos", "photoID");
+            $this->addRecordRoute($router, "poster", "posters", ":module/countries/:countryName/cities/:cityName/posters", "posterID");
         } else {
-//            $this->add_public_static_route($router, "index", "", "index");
+//            $this->add_public_static_route($router, "index", "", "index"); // commented out because the theme should handle the index
             $this->add_public_static_route($router, "search", "search", "search");
             $this->add_public_static_route($router, "about", "about", "about");
             $this->add_public_static_route($router, "contact", "contact", "contact");

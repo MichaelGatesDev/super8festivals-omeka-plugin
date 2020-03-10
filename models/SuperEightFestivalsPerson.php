@@ -47,4 +47,13 @@ abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord imp
     }
 
     // ======================================================================================================================== \\
+
+    public function get_display_name()
+    {
+        if ($this->first_name != "") return $this->first_name . " " . $this->last_name;
+        if ($this->organization_name != "") return $this->organization_name;
+        return $this->email;
+    }
+
+    // ======================================================================================================================== \\
 }

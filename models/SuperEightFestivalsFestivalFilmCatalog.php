@@ -62,7 +62,7 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 
     public function get_city()
     {
-        return $this->get_festival()->get_city()->id;
+        return $this->get_festival()->get_city();
     }
 
     public function get_country()

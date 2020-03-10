@@ -54,10 +54,24 @@ function rrmdir($dir)
     }
 }
 
+/**
+ * Deletes a file
+ * @param $filePath
+ */
 function delete_file($filePath)
 {
-    if (is_dir($filePath) || !file_exists($filePath)) return;
+    if (!file_exists($filePath) || is_dir($filePath)) return;
     unlink($filePath);
+}
+
+/**
+ * Deletes directory and all of its contents
+ * @param $dirPath
+ */
+function delete_dir($dirPath)
+{
+    if (!file_exists($dirPath) || !is_dir($dirPath)) return;
+    rrmdir($dirPath);
 }
 
 
@@ -65,13 +79,19 @@ function delete_file($filePath)
 
 function create_plugin_directories()
 {
-    mkdir(get_project_dir(), 0777, true);
-    mkdir(get_countries_dir(), 0777, true);
+    if (!file_exists(get_project_dir())) {
+        mkdir(get_project_dir(), 0777, true);
+    }
+    if (!file_exists(get_countries_dir())) {
+        mkdir(get_countries_dir(), 0777, true);
+    }
 }
 
 function delete_plugin_directories()
 {
-    rrmdir(get_project_dir());
+    if (file_exists(get_project_dir())) {
+        rrmdir(get_project_dir());
+    }
 }
 
 function get_relative_path($dir)

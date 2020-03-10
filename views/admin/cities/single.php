@@ -23,7 +23,9 @@ echo head(array(
         <h2>Festivals</h2>
         <?php
         $festivals = get_all_festivals_in_city($city->id);
-        sort($festivals);
+        usort($festivals, function ($value, $compareTo) {
+            return $value['year'] >= $compareTo['year'];
+        });
         ?>
         <?php if (count($festivals) == 0): ?>
             <p>There are no festivals available for this city.</p>

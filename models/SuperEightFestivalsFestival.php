@@ -33,9 +33,15 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
         if (empty($this->city_id) || !is_numeric($this->city_id)) {
             $this->addError('city_id', 'The city in which the festival was held must be specified.');
         }
-        if (empty($this->year) || !is_numeric($this->year)) {
-            $this->addError('year', 'The year in which the festival was held must be specified.');
-        }
+//        if (empty($this->year) || !is_numeric($this->year)) {
+//            $this->addError('year', 'The year in which the festival was held must be specified.');
+//        }
+    }
+
+    protected function beforeSave($args)
+    {
+        parent::beforeSave($args);
+        if ($this->year == "") $this->year = -1;
     }
 
     protected function afterSave($args)

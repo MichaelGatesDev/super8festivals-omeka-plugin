@@ -1,4 +1,6 @@
 <?php
+queue_css_file("admin");
+queue_js_file("jquery.min");
 echo head(array(
     'title' => 'Edit Country: ' . $country->name,
 ));

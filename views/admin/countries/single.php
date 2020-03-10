@@ -36,7 +36,7 @@ echo head(array(
         <?php else: ?>
             <?= $this->partial("__components/records/cities.php", array('cities' => $cities)); ?>
         <?php endif; ?>
-        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/banners/add">Add City</a>
+        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/add">Add City</a>
     </div>
 </section>
 

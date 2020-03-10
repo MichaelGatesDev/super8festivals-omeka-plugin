@@ -32,9 +32,6 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 
     public function getRecordUrl($action = 'show')
     {
-//        if ('show' == $action) {
-//            return public_url($this->name);
-//        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'film-catalogs',
@@ -72,7 +69,7 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
 
     public function get_dir(): string
     {
-        return get_film_catalogs_dir($this->get_country()->name, $this->get_city()->name);
+        return $this->get_city()->get_film_catalogs_dir();
     }
 
     public function get_path(): string

@@ -43,10 +43,6 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
 
     public function getRecordUrl($action = 'show')
     {
-        //TODO implement getRecordUrl
-//        if ('show' == $action) {
-//            return public_url($this->id);
-//        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'banners',
@@ -74,7 +70,7 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
 
     public function get_dir(): string
     {
-        return get_country_dir($this->get_country()->name);
+        return $this->get_country()->get_dir();
     }
 
     public function get_path(): string

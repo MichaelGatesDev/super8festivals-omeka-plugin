@@ -22,9 +22,6 @@ class SuperEightFestivalsFestivalPhoto extends SuperEightFestivalsImage
 
     public function getRecordUrl($action = 'show')
     {
-//        if ('show' == $action) {
-//            return public_url($this->id);
-//        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'photos',
@@ -52,7 +49,7 @@ class SuperEightFestivalsFestivalPhoto extends SuperEightFestivalsImage
 
     public function get_city()
     {
-        return $this->get_festival()->get_city()->id;
+        return $this->get_festival()->get_city();
     }
 
     public function get_country()
@@ -62,7 +59,7 @@ class SuperEightFestivalsFestivalPhoto extends SuperEightFestivalsImage
 
     public function get_dir(): string
     {
-        return get_photos_dir($this->get_country()->name, $this->get_city()->name);
+        return $this->get_city()->get_photos_dir();
     }
 
     public function get_path(): string

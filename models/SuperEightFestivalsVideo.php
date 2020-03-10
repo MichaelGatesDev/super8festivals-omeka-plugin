@@ -2,6 +2,8 @@
 
 abstract class SuperEightFestivalsVideo extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
+    // ======================================================================================================================== \\
+
     /**
      * @var int
      */
@@ -27,14 +29,11 @@ abstract class SuperEightFestivalsVideo extends Omeka_Record_AbstractRecord impl
      */
     public $embed = "";
 
+    // ======================================================================================================================== \\
+
     public function __construct()
     {
         parent::__construct();
-    }
-
-    function get_contributor()
-    {
-        return get_contributor_by_id($this->contributor_id);
     }
 
     protected function beforeSave($args)
@@ -42,4 +41,13 @@ abstract class SuperEightFestivalsVideo extends Omeka_Record_AbstractRecord impl
         $this->title = trim($this->title);
         $this->description = trim($this->description);
     }
+
+    // ======================================================================================================================== \\
+
+    function get_contributor()
+    {
+        return get_contributor_by_id($this->contributor_id);
+    }
+
+    // ======================================================================================================================== \\
 }

@@ -2,6 +2,8 @@
 
 class SuperEightFestivalsPage extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
+    // ======================================================================================================================== \\
+
     /**
      * @var string
      */
@@ -14,6 +16,8 @@ class SuperEightFestivalsPage extends Omeka_Record_AbstractRecord implements Zen
      * @var string
      */
     public $content = "";
+
+    // ======================================================================================================================== \\
 
     public function __construct()
     {
@@ -44,4 +48,6 @@ class SuperEightFestivalsPage extends Omeka_Record_AbstractRecord implements Zen
     {
         return 'SuperEightFestivals_Page';
     }
+
+    // ======================================================================================================================== \\
 }

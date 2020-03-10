@@ -73,7 +73,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // add country
         $country_a = add_country("Example Country");
         // add country banner
-        copy(__DIR__ . "/__res/example-country-banner.jpg", get_country_dir($country_a->name) . "/banner_default.jpg");
+        copy(__DIR__ . "/__res/example-country-banner.jpg", $country_a->get_dir() . "/banner_default.jpg");
         add_country_banner($country_a->id, "banner_default.jpg");
         $city = add_city_by_country_name($country_a->name, "Lorem Ipsum", 0, 0);
         $city = add_city_by_country_name($country_a->name, "Dolor Sit Amet", 0, 0);

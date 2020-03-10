@@ -47,7 +47,7 @@
     <?php foreach ($film_catalogs as $catalog): ?>
         <?php
         $isImage = is_image_extension($catalog->get_file_type());
-        $webPath = get_relative_path(get_film_catalogs_dir($catalog->get_country()->name, $catalog->get_city()->name) . "/" . $catalog->file_name);;
+        $webPath = get_relative_path($catalog->get_path());
         ?>
         <li class="film-catalog">
             <a class="content" href="<?= $webPath; ?>" target="_blank">

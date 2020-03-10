@@ -40,11 +40,6 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
         parent::__construct();
     }
 
-    public function get_file_type()
-    {
-        return pathinfo($this->file_name, PATHINFO_EXTENSION);
-    }
-
     protected function beforeSave($args)
     {
         $this->title = trim($this->title);
@@ -92,6 +87,11 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
                 error_log("Failed to create thumbnail (original: $this->file_name)");
             }
         }
+    }
+
+    public function get_file_type()
+    {
+        return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
     // ======================================================================================================================== \\

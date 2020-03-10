@@ -39,7 +39,7 @@ class SuperEightFestivalsFestivalPrintMedia extends SuperEightFestivalsDocument
 
     public function get_city()
     {
-        return $this->get_festival()->get_city()->id;
+        return $this->get_festival()->get_city();
     }
 
     public function get_country()
@@ -49,7 +49,7 @@ class SuperEightFestivalsFestivalPrintMedia extends SuperEightFestivalsDocument
 
     public function get_dir(): string
     {
-        return get_film_catalogs_dir($this->get_country()->name, $this->get_city()->name);
+        return $this->get_city()->get_print_media_dir();
     }
 
     public function get_path(): string

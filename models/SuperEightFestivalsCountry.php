@@ -11,9 +11,6 @@ class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
 
     public function getRecordUrl($action = 'show')
     {
-        if ('show' == $action) {
-            return public_url("countries/" . $this->name);
-        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'countries',
@@ -25,18 +22,39 @@ class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        create_country_dir($this->name);
+        $this->create_files();
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_country_dir($this->name);
+        $this->delete_files();
     }
 
     public function getResourceId()
     {
         return 'SuperEightFestivals_Country';
+    }
+
+    // ======================================================================================================================== \\
+
+    function get_dir()
+    {
+        return get_countries_dir() . "/" . $this->name;
+    }
+
+    private function create_files()
+    {
+        if (!file_exists($this->get_dir())) {
+            mkdir($this->get_dir());
+        }
+    }
+
+    public function delete_files()
+    {
+        if (file_exists($this->get_dir())) {
+            rrmdir($this->get_dir());
+        }
     }
 
     // ======================================================================================================================== \\

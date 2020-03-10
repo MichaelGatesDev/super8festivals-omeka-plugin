@@ -59,8 +59,7 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_file($this->get_thumbnail_path());
-        delete_file($this->get_path());
+        $this->delete_files();
     }
 
     // ======================================================================================================================== \\
@@ -80,8 +79,12 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
 
     public function delete_files()
     {
-        delete_file($this->get_path());
-        delete_file($this->get_thumbnail_path());
+        if (file_exists($this->get_path())) {
+            delete_file($this->get_path());
+        }
+        if (file_exists($this->get_thumbnail_path())) {
+            delete_file($this->get_thumbnail_path());
+        }
     }
 
     // ======================================================================================================================== \\

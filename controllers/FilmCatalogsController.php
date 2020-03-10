@@ -240,7 +240,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($film_catalog->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_film_catalogs_dir($film_catalog->get_country()->name, $film_catalog->get_city()->name));
+        move_to_dir($temporary_name, $newFileName, $film_catalog->get_city()->get_film_catalogs_dir());
         $film_catalog->file_name = $newFileName;
         $film_catalog->save();
     }

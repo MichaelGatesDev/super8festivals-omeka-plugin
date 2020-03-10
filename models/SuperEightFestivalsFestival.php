@@ -28,16 +28,6 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
         parent::__construct();
     }
 
-    public function get_city()
-    {
-        return get_city_by_id($this->city_id);
-    }
-
-    public function get_country()
-    {
-        return $this->get_city()->get_country();
-    }
-
     protected function _validate()
     {
         if (empty($this->city_id) || !is_numeric($this->city_id)) {
@@ -50,9 +40,6 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 
     public function getRecordUrl($action = 'show')
     {
-//        if ('show' == $action) {
-//            return public_url($this->name);
-//        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'festivals',
@@ -64,6 +51,18 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
     public function getResourceId()
     {
         return 'SuperEightFestivals_Festival';
+    }
+
+    // ======================================================================================================================== \\
+
+    public function get_city()
+    {
+        return get_city_by_id($this->city_id);
+    }
+
+    public function get_country()
+    {
+        return $this->get_city()->get_country();
     }
 
     // ======================================================================================================================== \\

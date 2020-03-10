@@ -26,9 +26,6 @@ class SuperEightFestivalsFestivalFilm extends SuperEightFestivalsVideo
 
     public function getRecordUrl($action = 'show')
     {
-//        if ('show' == $action) {
-//            return public_url($this->id);
-//        }
         return array(
             'module' => 'super-eight-festivals',
             'controller' => 'films',

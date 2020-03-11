@@ -21,49 +21,40 @@ echo head(array(
 
     <div class="records-section">
         <h2>Film Catalogs</h2>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/film-catalogs/add">Add Film Catalog</a>
         <?php $film_catalogs = get_all_film_catalogs_for_festival($festival->id); ?>
         <?php if (count($film_catalogs) == 0): ?>
             <p>There are no film catalogs available for this festival.</p>
         <?php else: ?>
             <?= $this->partial("__components/records/film-catalogs.php", array('film_catalogs' => $film_catalogs)); ?>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/film-catalogs/add">Add Film Catalog</a>
     </div>
 
     <div class="records-section">
         <h2>Filmmakers</h2>
         <?php $filmmakers = get_all_filmmakers_for_festival($festival->id); ?>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/filmmakers/add">Add Filmmaker</a>
         <?php if (count($filmmakers) == 0): ?>
             <p>There are no filmmakers available for this festival.</p>
         <?php else: ?>
             <?= $this->partial("__components/records/filmmakers.php", array('filmmakers' => $filmmakers)); ?>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/filmmakers/add">Add Filmmaker</a>
     </div>
 
     <div class="records-section">
         <h2>Films</h2>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/films/add">Add Film</a>
         <?php $films = get_all_films_for_festival($festival->id); ?>
         <?php if (count($films) == 0): ?>
             <p>There are no films available for this festival.</p>
         <?php else: ?>
-            <ul id="films">
-                <?php foreach ($films as $film): ?>
-                    <?php
-                    $contributor = $film->get_contributor();
-                    ?>
-                    <li>
-                        <p><?= $film->title; ?></p>
-                        <p><?= $film->description; ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?= $this->partial("__components/records/films.php", array('films' => $films)); ?>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/films/add">Add Film</a>
     </div>
 
     <div class="records-section">
         <h2>Memorabilia</h2>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/memorabilia/add">Add Memorabilia</a>
         <?php $memorabilia = get_all_memorabilia_for_festival($festival->id); ?>
         <?php if (count($memorabilia) == 0): ?>
             <p>There are no memorabilia available for this festival.</p>
@@ -80,11 +71,11 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/memorabilia/add">Add Memorabilia</a>
     </div>
 
     <div class="records-section">
         <h2>Print Media</h2>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/print-media/add">Add Print Media</a>
         <?php $printMedia = get_all_print_media_for_festival($festival->id); ?>
         <?php if (count($printMedia) == 0): ?>
             <p>There are no print media available for this festival.</p>
@@ -101,11 +92,11 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/print-media/add">Add Print Media</a>
     </div>
 
     <div class="records-section">
         <h2>Photos</h2>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/photos/add">Add Photo</a>
         <?php $photos = get_all_photos_for_festival($festival->id); ?>
         <?php if (count($photos) == 0): ?>
             <p>There are no photos available for this festival.</p>
@@ -122,11 +113,11 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/photos/add">Add Photo</a>
     </div>
 
     <div class="records-section">
         <h2>Posters</h2>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/posters/add">Add Poster</a>
         <?php $posters = get_all_posters_for_festival($festival->id); ?>
         <?php if (count($posters) == 0): ?>
             <p>There are no posters available for this festival.</p>
@@ -143,7 +134,6 @@ echo head(array(
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/posters/add">Add Poster</a>
     </div>
 
 </section>

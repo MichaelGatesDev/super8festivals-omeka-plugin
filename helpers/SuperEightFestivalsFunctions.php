@@ -350,6 +350,12 @@ function get_all_films_for_city($id): array
     return $result;
 }
 
+function get_film_by_id($id): ?SuperEightFestivalsFestivalFilm
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilm')->find($id);
+}
+
+
 // ============================================================================================================================================================= \\
 
 function get_all_memorabilia(): array

@@ -38,8 +38,9 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // Create tables
         $this->databaseHelper->createTables();
 
-        // add example data
-        $this->add_sample_data();
+        // sample data
+//        $this->add_sample_data();
+        // all defaults used in the website
         $this->add_default_data();
     }
 
@@ -124,21 +125,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
-    function addRoute($router, $routeID, $route, $controller, $id = null)
-    {
-        $router->addRoute(
-            $routeID,
-            new Zend_Controller_Router_Route(
-                $route,
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $controller,
-                    'id' => $id,
-                )
-            )
-        );
-    }
-
     function addRecordRoute($router, $recordNameSingular, $recordNamePlural, $fullRoute, $parameterName)
     {
         $router->addRoute("super_eight_festivals_" . $recordNamePlural, new Zend_Controller_Router_Route(
@@ -203,6 +189,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $router = $args['router'];
 
         if (is_admin_theme()) {
+            $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
             $this->addRecordRoute($router, "banner", "banners", ":module/countries/:countryName/banners", "bannerID");

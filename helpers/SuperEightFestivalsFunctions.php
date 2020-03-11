@@ -512,7 +512,7 @@ function get_all_contributors(): array
     return get_db()->getTable("SuperEightFestivalsContributor")->findAll();
 }
 
-function get_contributor_by_id($id): ?SuperEightFestivalsCountryBanner
+function get_contributor_by_id($id): ?SuperEightFestivalsContributor
 {
     return get_db()->getTable('SuperEightFestivalsContributor')->find($id);
 }

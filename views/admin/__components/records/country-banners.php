@@ -54,8 +54,8 @@
                 <img src="<?= get_relative_path($banner->get_thumbnail_path()); ?>" alt="<?= $banner->title; ?>"/>
             </a>
             <p style="text-align: center">
-                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= $banner->get_country()->name ?>/banners/<?= $banner->id; ?>/edit">Edit</a>
-                <a class="button red" href="/admin/super-eight-festivals/countries/<?= $banner->get_country()->name ?>/banners/<?= $banner->id; ?>/delete">Delete</a>
+                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($banner->get_country()->name); ?>/banners/<?= $banner->id; ?>/edit">Edit</a>
+                <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($banner->get_country()->name); ?>/banners/<?= $banner->id; ?>/delete">Delete</a>
             </p>
         </li>
     <?php endforeach; ?>

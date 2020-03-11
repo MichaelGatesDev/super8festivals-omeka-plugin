@@ -355,7 +355,6 @@ function get_film_by_id($id): ?SuperEightFestivalsFestivalFilm
     return get_db()->getTable('SuperEightFestivalsFestivalFilm')->find($id);
 }
 
-
 // ============================================================================================================================================================= \\
 
 function get_all_memorabilia(): array
@@ -377,6 +376,11 @@ function get_all_memorabilia_for_city($id): array
         $result = array_merge($result, $catalogs);
     }
     return $result;
+}
+
+function get_memorabilia_by_id($id): ?SuperEightFestivalsFestivalMemorabilia
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalMemorabilia')->find($id);
 }
 
 

@@ -43,7 +43,7 @@
         padding: 0;
     }
 
-    iframe {
+    li.film iframe {
         width: 300px;
         height: 200px;
     }

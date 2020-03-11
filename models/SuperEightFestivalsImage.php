@@ -56,6 +56,11 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
 
     // ======================================================================================================================== \\
 
+    function get_contributor()
+    {
+        return get_contributor_by_id($this->contributor_id);
+    }
+
     public abstract function get_internal_prefix(): string;
 
     public abstract function get_dir(): string;

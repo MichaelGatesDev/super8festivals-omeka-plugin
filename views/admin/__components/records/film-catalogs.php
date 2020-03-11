@@ -4,7 +4,7 @@
         padding: 1em 0;
         /*border: 1px dashed red;*/
         overflow-x: scroll;
-        height: 380px;
+        height: 500px;
     }
 
     li.film-catalog:not(:last-child) {
@@ -31,10 +31,7 @@
         height: 300px;
     }
 
-    li.film-catalog .content {
-    }
-
-    li.film-catalog .content img {
+    li.film-catalog embed {
         object-fit: cover;
     }
 
@@ -51,12 +48,10 @@
         ?>
         <li class="film-catalog">
             <a class="content" href="<?= $webPath; ?>" target="_blank">
-                <?php if ($isImage): ?>
-                    <img src="<?= $webPath; ?>" alt="<?= $catalog->title; ?>"/>
-                <?php else: ?>
-                    <p>This item can not be displayed because it is not a valid image format.</p>
-                <?php endif; ?>
+                <embed src="<?= $webPath; ?>" alt="<?= $catalog->title; ?>"/>
             </a>
+            <p class=""><span style="font-weight: bold;">Title: </span><?= $catalog->title != "" ? $catalog->title : "N/A"; ?></p>
+            <p class=""><span style="font-weight: bold;">Description: </span><?= $catalog->description != "" ? $catalog->description : "N/A"; ?></p>
             <p style="text-align: center">
                 <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($catalog->get_country()->name); ?>/cities/<?= urlencode($catalog->get_city()->name); ?>/festivals/<?= $catalog->festival_id; ?>/film-catalogs/<?= $catalog->id; ?>/edit">Edit</a>
                 <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($catalog->get_country()->name); ?>/cities/<?= urlencode($catalog->get_city()->name); ?>/festivals/<?= $catalog->festival_id; ?>/film-catalogs/<?= $catalog->id; ?>/delete">Delete</a>

@@ -59,17 +59,7 @@ echo head(array(
         <?php if (count($memorabilia) == 0): ?>
             <p>There are no memorabilia available for this festival.</p>
         <?php else: ?>
-            <ul id="memorabilia">
-                <?php foreach ($memorabilia as $mem): ?>
-                    <?php
-                    $contributor = $mem->get_contributor();
-                    ?>
-                    <li>
-                        <p><?= $mem->title; ?></p>
-                        <p><?= $mem->description; ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?= $this->partial("__components/records/memorabilia.php", array('memorabilia' => $memorabilia)); ?>
         <?php endif; ?>
     </div>
 

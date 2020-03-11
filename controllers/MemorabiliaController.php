@@ -1,12 +1,12 @@
 <?php
 
-class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {
         // Set the model class so this controller can perform some functions,
         // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFestivalFilmCatalog');
+        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFestivalMemorabilia');
     }
 
     public function indexAction()
@@ -18,16 +18,16 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = get_city_by_name(get_country_by_name($countryName)->id, $cityName);
         $this->view->city = $city;
 
         $festivalID = $request->getParam('festivalID');
         $festival = get_festival_by_id($festivalID);
         $this->view->festival = $festival;
 
-        $filmCatalogID = $request->getParam('filmCatalogID');
-        $film_catalog = get_film_catalog_by_id($filmCatalogID);
-        $this->view->film_catalog = $film_catalog;
+        $memorabiliaID = $request->getParam('memorabiliaID');
+        $memorabilia = get_memorabilia_by_id($memorabiliaID);
+        $this->view->memorabilia = $memorabilia;
 
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id);
         return;
@@ -49,11 +49,11 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $festival = get_festival_by_id($festivalID);
         $this->view->festival = $festival;
 
-        $catalog = new SuperEightFestivalsFestivalFilmCatalog();
-        $catalog->festival_id = $festival->id;
-        $form = $this->_getForm($catalog);
+        $memorabilia = new SuperEightFestivalsFestivalMemorabilia();
+        $memorabilia->festival_id = $festival->id;
+        $form = $this->_getForm($memorabilia);
         $this->view->form = $form;
-        $this->_processForm($catalog, $form, 'add');
+        $this->_processForm($memorabilia, $form, 'add');
     }
 
     public function editAction()
@@ -72,13 +72,13 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $festival = get_festival_by_id($festivalID);
         $this->view->festival = $festival;
 
-        $filmCatalogID = $request->getParam('filmCatalogID');
-        $film_catalog = get_film_catalog_by_id($filmCatalogID);
-        $this->view->film_catalog = $film_catalog;
+        $memorabiliaID = $request->getParam('memorabiliaID');
+        $memorabilia = get_memorabilia_by_id($memorabiliaID);
+        $this->view->memorabilia = $memorabilia;
 
-        $form = $this->_getForm($film_catalog);
+        $form = $this->_getForm($memorabilia);
         $this->view->form = $form;
-        $this->_processForm($film_catalog, $form, 'edit');
+        $this->_processForm($memorabilia, $form, 'edit');
     }
 
     public function deleteAction()
@@ -90,26 +90,26 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = get_city_by_name(get_country_by_name($countryName)->id, $cityName);
         $this->view->city = $city;
 
         $festivalID = $request->getParam('festivalID');
         $festival = get_festival_by_id($festivalID);
         $this->view->festival = $festival;
 
-        $filmCatalogID = $request->getParam('filmCatalogID');
-        $film_catalog = get_film_catalog_by_id($filmCatalogID);
-        $this->view->film_catalog = $film_catalog;
+        $memorabiliaID = $request->getParam('memorabiliaID');
+        $memorabilia = get_memorabilia_by_id($memorabiliaID);
+        $this->view->memorabilia = $memorabilia;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($film_catalog, $form, 'delete');
+        $this->_processForm($memorabilia, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalFilmCatalog $film_catalog = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalMemorabilia $memorabilia = null): Omeka_Form_Admin
     {
         $formOptions = array(
-            'type' => 'super_eight_festivals_festival_film_catalog'
+            'type' => 'super_eight_festivals_festival_memorabilia'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
@@ -119,9 +119,9 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'festival_id',
                 'label' => 'Festival',
-                'description' => "The festival which the catalog was a member of (required)",
+                'description' => "The festival which the memorabilia was a member of (required)",
                 'multiOptions' => array_merge(array("Select..."), get_parent_festival_options()),
-                'value' => $film_catalog->festival_id,
+                'value' => $memorabilia->festival_id,
                 'required' => true,
             )
         );
@@ -133,7 +133,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => array_merge(array("Select..."), get_parent_contributor_options()),
-                'value' => $film_catalog->contributor_id,
+                'value' => $memorabilia->contributor_id,
                 'required' => false,
             )
         );
@@ -143,8 +143,8 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'title',
                 'label' => 'Title',
-                'description' => "The catalog's title",
-                'value' => $film_catalog->title,
+                'description' => "The memorabilia's title",
+                'value' => $memorabilia->title,
                 'required' => false,
             )
         );
@@ -154,8 +154,8 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'description',
                 'label' => 'Description',
-                'description' => "The catalog's description",
-                'value' => $film_catalog->description,
+                'description' => "The memorabilia's description",
+                'value' => $memorabilia->description,
                 'required' => false,
             )
         );
@@ -165,8 +165,8 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'file',
                 'label' => 'File',
-                'description' => "The film catalog file",
-                'required' => $film_catalog->file_name == "" || !file_exists($film_catalog->get_path()),
+                'description' => "The memorabilia file",
+                'required' => $memorabilia->file_name == "" || !file_exists($memorabilia->get_path()),
             )
         );
 
@@ -175,8 +175,8 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'embed',
                 'label' => 'Embed Code',
-                'description' => "The catalog's embed code",
-                'value' => $film_catalog->embed,
+                'description' => "The memorabilia's embed code",
+                'value' => $memorabilia->embed,
                 'required' => false,
             )
         );
@@ -184,9 +184,9 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalFilmCatalog $film_catalog, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalMemorabilia $memorabilia, Zend_Form $form, $action)
     {
-        $this->view->film_catalog = $film_catalog;
+        $this->view->memorabilia = $memorabilia;
 
         if ($this->getRequest()->isPost()) {
             try {
@@ -197,42 +197,42 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
 
                 try {
                     if ($action == 'delete') {
-                        $film_catalog->delete();
-                        $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been deleted.", 'success');
+                        $memorabilia->delete();
+                        $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been deleted.", 'success');
                     } else if ($action == 'add') {
-                        $film_catalog->setPostData($_POST);
-                        if ($film_catalog->save()) {
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been added.", 'success');
+                        $memorabilia->setPostData($_POST);
+                        if ($memorabilia->save()) {
+                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been added.", 'success');
 
                             // do file upload
-                            $this->upload_file($film_catalog);
+                            $this->upload_file($memorabilia);
                         }
                     } else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_film_catalog_by_id($film_catalog->id);
+                        $originalRecord = get_memorabilia_by_id($memorabilia->id);
                         // set the data of the record according to what was submitted in the form
-                        $film_catalog->setPostData($_POST);
+                        $memorabilia->setPostData($_POST);
                         // if there is no pending upload, use the old files
                         if (!has_temporary_file('file')) {
-                            $film_catalog->file_name = $originalRecord->file_name;
-                            $film_catalog->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                            $memorabilia->file_name = $originalRecord->file_name;
+                            $memorabilia->thumbnail_file_name = $originalRecord->thumbnail_file_name;
                         }
-                        if ($film_catalog->save()) {
+                        if ($memorabilia->save()) {
                             // display result dialog
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been edited.", 'success');
+                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been edited.", 'success');
 
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
                                 $originalRecord->delete_files();
                                 // do file upload
-                                $this->upload_file($film_catalog);
+                                $this->upload_file($memorabilia);
                             }
                         }
                     }
 
                     // bring us back to the city page
-                    $this->redirect("/super-eight-festivals/countries/" . urlencode($film_catalog->get_country()->name) . "/cities/" . urlencode($film_catalog->get_city()->name) . "/festivals/" . $film_catalog->festival_id);
+                    $this->redirect("/super-eight-festivals/countries/" . urlencode($memorabilia->get_country()->name) . "/cities/" . urlencode($memorabilia->get_city()->name) . "/festivals/" . $memorabilia->festival_id);
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);
                 } catch (Omeka_Record_Exception $e) {
@@ -244,13 +244,13 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         }
     }
 
-    private function upload_file(SuperEightFestivalsFestivalFilmCatalog $film_catalog)
+    private function upload_file(SuperEightFestivalsFestivalMemorabilia $memorabilia)
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($film_catalog->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, $film_catalog->get_festival()->get_film_catalogs_dir());
-        $film_catalog->file_name = $newFileName;
-        $film_catalog->save();
+        $newFileName = uniqid($memorabilia->get_internal_prefix() . "_") . "." . $extension;
+        move_to_dir($temporary_name, $newFileName, $memorabilia->get_festival()->get_memorabilia_dir());
+        $memorabilia->file_name = $newFileName;
+        $memorabilia->save();
     }
 
 }

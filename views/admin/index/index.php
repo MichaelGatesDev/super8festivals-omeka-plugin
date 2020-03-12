@@ -33,7 +33,6 @@ echo head(
 <ul class="buttons">
     <li><a href="/admin/super-eight-festivals/federation" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Federation</a></li>
     <li><a href="/admin/super-eight-festivals/countries" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Countries</a></li>
-    <li><a href="/admin/super-eight-festivals/filmmakers" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Filmmakers</a></li>
     <li><a href="/admin/super-eight-festivals/countributors" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Contributors</a></li>
 </ul>
 

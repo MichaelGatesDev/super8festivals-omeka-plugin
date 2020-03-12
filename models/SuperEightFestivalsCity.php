@@ -42,16 +42,6 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
         $this->delete_files();
     }
 
-    public function getRecordUrl($action = 'show')
-    {
-        return array(
-            'module' => 'super-eight-festivals',
-            'controller' => 'cities',
-            'action' => $action,
-            'id' => $this->id,
-        );
-    }
-
     public function getResourceId()
     {
         return 'SuperEightFestivals_City';

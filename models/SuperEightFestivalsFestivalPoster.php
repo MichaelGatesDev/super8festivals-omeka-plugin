@@ -20,16 +20,6 @@ class SuperEightFestivalsFestivalPoster extends SuperEightFestivalsImage
     {
     }
 
-    public function getRecordUrl($action = 'show')
-    {
-        return array(
-            'module' => 'super-eight-festivals',
-            'controller' => 'posters',
-            'action' => $action,
-            'id' => $this->id,
-        );
-    }
-
     public function getResourceId()
     {
         return 'SuperEightFestivals_Festival_Poster';

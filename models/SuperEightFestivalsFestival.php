@@ -56,16 +56,6 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
         $this->delete_files();
     }
 
-    public function getRecordUrl($action = 'show')
-    {
-        return array(
-            'module' => 'super-eight-festivals',
-            'controller' => 'festivals',
-            'action' => $action,
-            'id' => $this->id,
-        );
-    }
-
     public function getResourceId()
     {
         return 'SuperEightFestivals_Festival';

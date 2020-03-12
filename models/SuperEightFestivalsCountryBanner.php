@@ -41,16 +41,6 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
         }
     }
 
-    public function getRecordUrl($action = 'show')
-    {
-        return array(
-            'module' => 'super-eight-festivals',
-            'controller' => 'banners',
-            'action' => $action,
-            'id' => $this->id,
-        );
-    }
-
     public function getResourceId()
     {
         return 'SuperEightFestivals_Country_Banner';

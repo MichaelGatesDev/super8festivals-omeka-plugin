@@ -30,16 +30,6 @@ class SuperEightFestivalsFestivalMemorabilia extends SuperEightFestivalsDocument
         $this->delete_files();
     }
 
-    public function getRecordUrl($action = 'show')
-    {
-        return array(
-            'module' => 'super-eight-festivals',
-            'controller' => 'film-catalogs',
-            'action' => $action,
-            'id' => $this->id,
-        );
-    }
-
     public function getResourceId()
     {
         return 'SuperEightFestivals_Festival_Memorabilia';

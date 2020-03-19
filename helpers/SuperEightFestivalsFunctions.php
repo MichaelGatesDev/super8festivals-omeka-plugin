@@ -437,6 +437,12 @@ function get_all_photos_for_city($id): array
 }
 
 
+function get_photo_by_id($id): ?SuperEightFestivalsFestivalPhoto
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalPhoto')->find($id);
+}
+
+
 function add_photo($festivalID, $contributorID, $title, $description, $thumbnailPathFile, $thumbnailPathWeb, $pathFile, $pathWeb, $width, $height)
 {
     try {

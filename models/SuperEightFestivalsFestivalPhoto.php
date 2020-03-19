@@ -29,7 +29,7 @@ class SuperEightFestivalsFestivalPhoto extends SuperEightFestivalsImage
 
     public function get_internal_prefix(): string
     {
-        return "banner";
+        return "photo";
     }
 
     public function get_festival()

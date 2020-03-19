@@ -76,22 +76,12 @@ echo head(array(
 
     <div class="records-section">
         <h2>Photos</h2>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/photos/add">Add Photo</a>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/photos/add">Add Print Media</a>
         <?php $photos = get_all_photos_for_festival($festival->id); ?>
         <?php if (count($photos) == 0): ?>
-            <p>There are no photos available for this festival.</p>
+            <p>There are no memorabilia available for this festival.</p>
         <?php else: ?>
-            <ul id="memorabilia">
-                <?php foreach ($photos as $photo): ?>
-                    <?php
-                    $contributor = $photo->get_contributor();
-                    ?>
-                    <li>
-                        <p><?= $photo->title; ?></p>
-                        <p><?= $photo->description; ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?= $this->partial("__components/records/photos.php", array('photos' => $photos)); ?>
         <?php endif; ?>
     </div>
 

@@ -407,6 +407,11 @@ function get_all_print_media_for_city($id): array
     return $result;
 }
 
+function get_print_media_by_id($id): ?SuperEightFestivalsFestivalPrintMedia
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalPrintMedia')->find($id);
+}
+
 
 // ============================================================================================================================================================= \\
 

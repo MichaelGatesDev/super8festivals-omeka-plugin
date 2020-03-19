@@ -66,21 +66,11 @@ echo head(array(
     <div class="records-section">
         <h2>Print Media</h2>
         <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/print-media/add">Add Print Media</a>
-        <?php $printMedia = get_all_print_media_for_festival($festival->id); ?>
-        <?php if (count($printMedia) == 0): ?>
-            <p>There are no print media available for this festival.</p>
+        <?php $print_medias = get_all_print_media_for_festival($festival->id); ?>
+        <?php if (count($print_medias) == 0): ?>
+            <p>There are no memorabilia available for this festival.</p>
         <?php else: ?>
-            <ul id="memorabilia">
-                <?php foreach ($printMedia as $media): ?>
-                    <?php
-                    $contributor = $media->get_contributor();
-                    ?>
-                    <li>
-                        <p><?= $media->title; ?></p>
-                        <p><?= $media->description; ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?= $this->partial("__components/records/print-media.php", array('printMediaVar' => $print_medias)); ?>
         <?php endif; ?>
     </div>
 

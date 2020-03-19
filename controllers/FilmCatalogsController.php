@@ -25,10 +25,6 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $festival = get_festival_by_id($festivalID);
         $this->view->festival = $festival;
 
-        $filmCatalogID = $request->getParam('filmCatalogID');
-        $film_catalog = get_film_catalog_by_id($filmCatalogID);
-        $this->view->film_catalog = $film_catalog;
-
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id);
         return;
     }

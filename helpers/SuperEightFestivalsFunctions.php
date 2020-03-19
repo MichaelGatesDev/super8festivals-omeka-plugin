@@ -436,7 +436,6 @@ function get_all_photos_for_city($id): array
     return $result;
 }
 
-
 function get_photo_by_id($id): ?SuperEightFestivalsFestivalPhoto
 {
     return get_db()->getTable('SuperEightFestivalsFestivalPhoto')->find($id);
@@ -484,6 +483,11 @@ function get_all_posters_for_city($id): array
         $result = array_merge($result, $catalogs);
     }
     return $result;
+}
+
+function get_poster_by_id($id): ?SuperEightFestivalsFestivalPoster
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalPoster')->find($id);
 }
 
 function add_poster($festivalID, $contributorID, $title, $description, $thumbnailPathFile, $thumbnailPathWeb, $pathFile, $pathWeb, $width, $height)

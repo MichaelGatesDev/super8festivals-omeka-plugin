@@ -68,7 +68,7 @@ echo head(array(
         <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/print-media/add">Add Print Media</a>
         <?php $print_medias = get_all_print_media_for_festival($festival->id); ?>
         <?php if (count($print_medias) == 0): ?>
-            <p>There are no memorabilia available for this festival.</p>
+            <p>There is no print media available for this festival.</p>
         <?php else: ?>
             <?= $this->partial("__components/records/print-media.php", array('printMediaVar' => $print_medias)); ?>
         <?php endif; ?>
@@ -76,10 +76,10 @@ echo head(array(
 
     <div class="records-section">
         <h2>Photos</h2>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/photos/add">Add Print Media</a>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/photos/add">Add Photo</a>
         <?php $photos = get_all_photos_for_festival($festival->id); ?>
         <?php if (count($photos) == 0): ?>
-            <p>There are no memorabilia available for this festival.</p>
+            <p>There are no photos available for this festival.</p>
         <?php else: ?>
             <?= $this->partial("__components/records/photos.php", array('photos' => $photos)); ?>
         <?php endif; ?>
@@ -87,22 +87,12 @@ echo head(array(
 
     <div class="records-section">
         <h2>Posters</h2>
-        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/posters/add">Add Poster</a>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/posters/add">Add Posters</a>
         <?php $posters = get_all_posters_for_festival($festival->id); ?>
         <?php if (count($posters) == 0): ?>
             <p>There are no posters available for this festival.</p>
         <?php else: ?>
-            <ul id="memorabilia">
-                <?php foreach ($posters as $poster): ?>
-                    <?php
-                    $contributor = $poster->get_contributor();
-                    ?>
-                    <li>
-                        <p><?= $poster->title; ?></p>
-                        <p><?= $poster->description; ?></p>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?= $this->partial("__components/records/posters.php", array('posters' => $posters)); ?>
         <?php endif; ?>
     </div>
 

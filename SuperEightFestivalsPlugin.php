@@ -169,7 +169,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         );
     }
 
-    function add_public_static_route($router, $id, $fullRoute, $action)
+    function add_static_route($router, $id, $fullRoute, $action, $adminOnly)
     {
         $router->addRoute(
             $id,
@@ -177,7 +177,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 $fullRoute,
                 array(
                     'module' => 'super-eight-festivals',
-                    'controller' => "public",
+                    'controller' => $adminOnly ? "admin" : "public",
                     "action" => $action,
                 )
             )
@@ -189,6 +189,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $router = $args['router'];
 
         if (is_admin_theme()) {
+            $this->add_static_route($router, "federation", ":module/federation", "federation", true);
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
@@ -203,17 +204,17 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addRecordRoute($router, "poster", "posters", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/posters", "posterID");
         } else {
 //            $this->add_public_static_route($router, "index", "", "index"); // commented out because the theme should handle the index
-            $this->add_public_static_route($router, "search", "search", "search");
-            $this->add_public_static_route($router, "about", "about", "about");
-            $this->add_public_static_route($router, "contact", "contact", "contact");
-            $this->add_public_static_route($router, "submit", "submit", "submit");
-            $this->add_public_static_route($router, "federation", "federation", "federation");
-            $this->add_public_static_route($router, "history", "history", "history");
-            $this->add_public_static_route($router, "filmmakers", "filmmakers", "filmmakers");
-            $this->add_public_static_route($router, "countries", "countries", "countries");
-            $this->add_public_static_route($router, "country", "countries/:countryName", "country");
-            $this->add_public_static_route($router, "cities", "countries/:countryName/cities", "cities");
-            $this->add_public_static_route($router, "city", "countries/:countryName/cities/:cityName", "city");
+            $this->add_static_route($router, "search", "search", "search", false);
+            $this->add_static_route($router, "about", "about", "about", false);
+            $this->add_static_route($router, "contact", "contact", "contact", false);
+            $this->add_static_route($router, "submit", "submit", "submit", false);
+            $this->add_static_route($router, "federation", "federation", "federation", false);
+            $this->add_static_route($router, "history", "history", "history", false);
+            $this->add_static_route($router, "filmmakers", "filmmakers", "filmmakers", false);
+            $this->add_static_route($router, "countries", "countries", "countries", false);
+            $this->add_static_route($router, "country", "countries/:countryName", "country", false);
+            $this->add_static_route($router, "cities", "countries/:countryName/cities", "cities", false);
+            $this->add_static_route($router, "city", "countries/:countryName/cities/:cityName", "city", false);
         }
     }
 

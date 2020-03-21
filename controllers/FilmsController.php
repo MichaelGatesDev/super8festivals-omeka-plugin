@@ -21,7 +21,11 @@ class SuperEightFestivals_FilmsController extends Omeka_Controller_AbstractActio
         $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
 
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/");
+        $festivalID = $request->getParam('festivalID');
+        $festival = get_festival_by_id($festivalID);
+        $this->view->festival = $festival;
+
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id);
         return;
     }
 

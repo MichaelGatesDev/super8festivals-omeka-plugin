@@ -49,6 +49,7 @@ class SuperEightFestivals_PostersController extends Omeka_Controller_AbstractAct
         $poster->festival_id = $festival->id;
         $form = $this->_getForm($poster);
         $this->view->form = $form;
+        $this->view->poster = $poster;
         $this->_processForm($poster, $form, 'add');
     }
 

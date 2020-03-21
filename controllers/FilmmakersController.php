@@ -21,7 +21,11 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
         $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
 
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/");
+        $festivalID = $request->getParam('festivalID');
+        $festival = get_festival_by_id($festivalID);
+        $this->view->festival = $festival;
+
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id);
         return;
     }
 
@@ -56,7 +60,12 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
         $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
 
+        $festivalID = $request->getParam('festivalID');
+        $festival = get_festival_by_id($festivalID);
+        $this->view->festival = $festival;
+
         $filmmaker = new SuperEightFestivalsFestivalFilmmaker();
+        $filmmaker->festival_id = $festival->id;
         $form = $this->_getForm($filmmaker);
         $this->view->form = $form;
         $this->view->filmmaker = $filmmaker;

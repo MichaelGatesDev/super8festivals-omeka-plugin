@@ -53,6 +53,7 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
         $memorabilia->festival_id = $festival->id;
         $form = $this->_getForm($memorabilia);
         $this->view->form = $form;
+        $this->view->memorabilia = $memorabilia;
         $this->_processForm($memorabilia, $form, 'add');
     }
 

@@ -49,6 +49,7 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
         $photo->festival_id = $festival->id;
         $form = $this->_getForm($photo);
         $this->view->form = $form;
+        $this->view->photo = $photo;
         $this->_processForm($photo, $form, 'add');
     }
 

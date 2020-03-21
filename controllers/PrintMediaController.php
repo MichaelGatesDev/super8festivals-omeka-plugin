@@ -49,6 +49,7 @@ class SuperEightFestivals_PrintMediaController extends Omeka_Controller_Abstract
         $media->festival_id = $festival->id;
         $form = $this->_getForm($media);
         $this->view->form = $form;
+        $this->view->media = $media;
         $this->_processForm($media, $form, 'add');
     }
 

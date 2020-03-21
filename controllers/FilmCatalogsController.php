@@ -49,6 +49,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $catalog->festival_id = $festival->id;
         $form = $this->_getForm($catalog);
         $this->view->form = $form;
+        $this->view->catalog = $catalog;
         $this->_processForm($catalog, $form, 'add');
     }
 

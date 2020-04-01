@@ -125,45 +125,45 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
-    function addRecordRoute($router, $recordNameSingular, $recordNamePlural, $fullRoute, $parameterName)
+    function addRecordRoute($router, $routeID, $controllerName, $fullRoute, $urlParam)
     {
-        $router->addRoute("super_eight_festivals_" . $recordNamePlural, new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $controllerName, new Zend_Controller_Router_Route(
                 $fullRoute,
                 array(
                     'module' => 'super-eight-festivals',
-                    'controller' => $recordNamePlural,
+                    'controller' => $controllerName,
                     'action' => "index"
                 ))
         );
-        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_single", new Zend_Controller_Router_Route(
-                "$fullRoute/:$parameterName",
+        $router->addRoute("super_eight_festivals_" . $routeID . "_single", new Zend_Controller_Router_Route(
+                "$fullRoute/:$urlParam",
                 array(
                     'module' => 'super-eight-festivals',
-                    'controller' => $recordNamePlural,
+                    'controller' => $controllerName,
                     'action' => "single"
                 ))
         );
-        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_add", new Zend_Controller_Router_Route(
+        $router->addRoute("super_eight_festivals_" . $routeID . "_add", new Zend_Controller_Router_Route(
                 "$fullRoute/add",
                 array(
                     'module' => 'super-eight-festivals',
-                    'controller' => $recordNamePlural,
+                    'controller' => $controllerName,
                     'action' => "add"
                 ))
         );
-        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_edit", new Zend_Controller_Router_Route(
-                "$fullRoute/:$parameterName/edit",
+        $router->addRoute("super_eight_festivals_" . $routeID . "_edit", new Zend_Controller_Router_Route(
+                "$fullRoute/:$urlParam/edit",
                 array(
                     'module' => 'super-eight-festivals',
-                    'controller' => $recordNamePlural,
+                    'controller' => $controllerName,
                     'action' => "edit"
                 ))
         );
-        $router->addRoute("super_eight_festivals_" . $recordNameSingular . "_delete", new Zend_Controller_Router_Route(
-                "$fullRoute/:$parameterName/delete",
+        $router->addRoute("super_eight_festivals_" . $routeID . "_delete", new Zend_Controller_Router_Route(
+                "$fullRoute/:$urlParam/delete",
                 array(
                     'module' => 'super-eight-festivals',
-                    'controller' => $recordNamePlural,
+                    'controller' => $controllerName,
                     'action' => "delete"
                 ))
         );

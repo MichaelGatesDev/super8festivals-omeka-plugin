@@ -39,10 +39,10 @@ $countries = get_all_countries();
                             <h3 class="card-title text-capitalize"><?= $country->name; ?></h3>
                             <div class="row">
                                 <div class="col">
-                                    <p class="card-text text-left mb-1"><small class="text-muted"><?= count($cities); ?> Cities</small></p>
+                                    <p class="card-text text-left mb-1"><small class="text-muted title"><?= count($cities) . " " . ngettext("city", "cities", count($cities)) ?></small></p>
                                 </div>
                                 <div class="col">
-                                    <p class="card-text text-left mb-1"><small class="text-muted"><?= count($cities); ?> Festivals</small></p>
+                                    <p class="card-text text-left mb-1"><small class="text-muted title"><?= count($festivals) . " " . ngettext("festival", "festivals", count($festivals)) ?></small></p>
                                 </div>
                             </div>
                             <a href="/countries/<?= urlencode($country->name); ?>" class="stretched-link"></a>

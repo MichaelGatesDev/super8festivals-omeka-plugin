@@ -96,12 +96,6 @@ function get_country_banners($countryID): array
     return get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), -1);
 }
 
-function get_country_banner($countryID): ?SuperEightFestivalsCountryBanner
-{
-    $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), 1);
-    return count($results) > 0 ? $results[0] : null;
-}
-
 function get_active_country_banner($countryID): ?SuperEightFestivalsCountryBanner
 {
     $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID, 'active' => true), 1);
@@ -117,6 +111,45 @@ function add_country_banner($countryID, $file_name): ?SuperEightFestivalsCountry
 {
     $banner = new SuperEightFestivalsCountryBanner();
     $banner->country_id = $countryID;
+    $banner->file_name = $file_name;
+    try {
+        $banner->save();
+        return $banner;
+    } catch (Omeka_Record_Exception $e) {
+        return null;
+    } catch (Omeka_Validate_Exception $e) {
+        return null;
+    }
+}
+
+// ============================================================================================================================================================= \\
+
+function get_all_city_banners(): array
+{
+    return get_db()->getTable("SuperEightFestivalsCityBanner")->findAll();
+}
+
+function get_city_banners($cityID): array
+{
+    return get_db()->getTable('SuperEightFestivalsCityBanner')->findBy(array('city_id' => $cityID), -1);
+}
+
+function get_active_city_banner($cityID): ?SuperEightFestivalsCityBanner
+{
+    $results = get_db()->getTable('SuperEightFestivalsCityBanner')->findBy(array('city_id' => $cityID, 'active' => true), 1);
+    return count($results) > 0 ? $results[0] : null;
+}
+
+function get_city_banner_by_id($id): ?SuperEightFestivalsCityBanner
+{
+    return get_db()->getTable('SuperEightFestivalsCityBanner')->find($id);
+}
+
+function add_city_banner($countryID, $cityID, $file_name): ?SuperEightFestivalsCityBanner
+{
+    $banner = new SuperEightFestivalsCityBanner();
+    $banner->country_id = $countryID;
+    $banner->city_id = $cityID;
     $banner->file_name = $file_name;
     try {
         $banner->save();

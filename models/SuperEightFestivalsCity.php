@@ -49,7 +49,7 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
 
     // ======================================================================================================================== \\
 
-    public function get_country()
+    public function get_country(): ?SuperEightFestivalsCountry
     {
         return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
     }

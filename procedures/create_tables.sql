@@ -17,6 +17,22 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
   COLLATE = utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS `%PREFIX%city_banners`
+(
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `city_id`             int(10) unsigned NOT NULL,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
+    `active`              BOOL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `%PREFIX%festival_photos`
 (

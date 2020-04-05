@@ -14,7 +14,7 @@ japan,hiroshima,34.38530,132.45531
 mexico,mexico city,19.43260,-99.13320
 italy,montecallini,39.81840,18.31290
 portugal,lisbon,38.72230,-9.13930
-puerto rico,san juan,18.46550,66.10570
+puerto rico,san juan,18.46550,-66.10570
 canada,montreal,45.50170,-73.56730
 canada,toronto,43.65320,-79.38320
 tunisia,kelibia,36.84620,11.09950

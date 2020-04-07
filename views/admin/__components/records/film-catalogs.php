@@ -4,7 +4,7 @@
         padding: 1em 0;
         /*border: 1px dashed red;*/
         overflow-x: scroll;
-        height: 500px;
+        /*height: 500px;*/
     }
 
     li.film-catalog:not(:last-child) {

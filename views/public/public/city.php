@@ -2,16 +2,14 @@
 $head = array(
     'title' => ucwords($city->name),
 );
+
+queue_css_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js");
+
 echo head($head);
 
+$banner = get_active_city_banner($city->id);
 $festivals = get_all_festivals_in_city($city->id);
-$banner = get_active_country_banner($country->id);
-$posters = get_all_posters_for_city($city->id);
-$photos = get_all_photos_for_city($city->id);
-$printMedias = get_all_print_media_for_city($city->id);
-$memorabilias = get_all_memorabilia_for_city($city->id);
-$films = get_all_films_for_city($city->id);
-$filmmakers = get_all_filmmakers_for_city($city->id);
 ?>
 
 <style>
@@ -112,30 +110,36 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
             <div class="col">
                 <h3 class="pt-2 pb-2">Posters</h3>
                 <span class="text-muted">
-                    Here a collection of posters from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
+                    Here a collection of posters from festivals held in <span class="text-capitalize"><?= $city->name; ?></span>.
                     Click one to enlarge it on your screen.
                 </span>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center pt-4">
-            <?php if (count($posters) > 0): ?>
-                <div class="card-columns">
-                    <?php foreach ($posters as $poster): ?>
-                        <div class="card mb-4 shadow-sm display-inline-block">
-                            <img class="img-fluid w-100" src="<?= $poster->thumbnail; ?>" alt="<?= $poster->title; ?>"/>
-                            <div class="card-body">
-                                <h5 class="card-title"><?= $poster->title; ?></h5>
-                                <p class="card-text"><?= $poster->description; ?></p>
+        <div class="row pt-4">
+            <div class="col">
+                <?php if (count(get_all_posters_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $posters = get_all_posters_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($posters as $poster): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($poster->get_thumbnail_path()); ?>" alt="<?= $poster->title; ?>"/>
+                                            <a href="<?= get_relative_path($poster->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $poster->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
-                            <a href="<?= $poster->path; ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $poster->title; ?>"></a>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <div class="col">
-                    <p>There are no posters available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <p>There are no posters available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -150,25 +154,31 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
                 </span>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center pt-4">
-            <?php if (count($photos) > 0): ?>
-                <div class="card-columns">
-                    <?php foreach ($photos as $photo): ?>
-                        <div class="card mb-4 shadow-sm display-inline-block">
-                            <img class="img-fluid w-100" src="<?= $photo->thumbnail; ?>" alt="<?= $photo->title; ?>"/>
-                            <div class="card-body">
-                                <h5 class="card-title"><?= $photo->title; ?></h5>
-                                <p class="card-text"><?= $photo->description; ?></p>
+        <div class="row pt-4">
+            <div class="col">
+                <?php if (count(get_all_photos_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $photos = get_all_posters_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($photos as $photo): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($photo->get_thumbnail_path()); ?>" alt="<?= $photo->title; ?>"/>
+                                            <a href="<?= get_relative_path($photo->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $photo->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
                             </div>
-                            <a href="<?= $photo->path; ?>" class="stretched-link" data-fancybox="fb-photos" data-title="<?= $photo->title; ?>"></a>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <div class="col">
-                    <p>There are no photos available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <p>There are no photos available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -179,21 +189,35 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
                 <h3 class="pt-2 pb-2">Print Media</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center pt-4">
-            <?php if (count($printMedias) > 0): ?>
-                <div class="card-columns">
-                    <?php foreach ($printMedias as $printMedia): ?>
-                        <div class="card mb-4 shadow-sm display-inline-block">
-                            <img class="img-fluid w-100" src="<?= $printMedia->thumbnail; ?>" alt=""/>
-                            <a href="<?= $printMedia->path; ?>" class="stretched-link" data-fancybox="fb-printMedias" data-title=""></a>
+        <div class="row pt-4">
+            <div class="col">
+                <?php if (count(get_all_print_media_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $printMedia = get_all_print_media_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($printMedia as $media): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($media->get_thumbnail_path()); ?>" alt="<?= $media->title; ?>"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?= $media->title; ?>></h5>
+                                                <p class="card-text"><?= $media->description; ?></p>
+                                            </div>
+                                            <a href="<?= get_relative_path($media->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $media->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <div class="col">
-                    <p>There is no print media available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <p>There is no print media available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -204,21 +228,35 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
                 <h3 class="pt-2 pb-2">Memorabilia</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center pt-4">
-            <?php if (count($memorabilias) > 0): ?>
-                <div class="card-columns">
-                    <?php foreach ($memorabilias as $memorabilia): ?>
-                        <div class="card mb-4 shadow-sm display-inline-block">
-                            <img class="img-fluid w-100" src="<?= $memorabilia->thumbnail; ?>" alt=""/>
-                            <a href="<?= $memorabilia->path; ?>" class="stretched-link" data-fancybox="fb-memorabilias" data-title=""></a>
+        <div class="row pt-4">
+            <div class="col">
+                <?php if (count(get_all_memorabilia_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $memorabilia = get_all_memorabilia_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($memorabilia as $filmmaker): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($filmmaker->get_thumbnail_path()); ?>" alt="<?= $filmmaker->title; ?>"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?= $filmmaker->title; ?>></h5>
+                                                <p class="card-text"><?= $filmmaker->description; ?></p>
+                                            </div>
+                                            <a href="<?= get_relative_path($filmmaker->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $filmmaker->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php else: ?>
-                <div class="col">
-                    <p>There is no memoriabilia available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <p>There are no memorabilia available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -229,21 +267,35 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
                 <h3 class="pt-2 pb-2">Films</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center pt-4">
-            <?php if (count($films) > 0): ?>
-                <?php foreach ($films as $film): ?>
-                    <div class="col-md-4 ">
-                        <div class="card mb-4 shadow-sm">
-                            <img alt="" class="card-img-top embed-responsive-item" style="object-fit: cover;" src="<?= $film->thumbnail != null ? $film->thumbnail : "https://placehold.it/280x140/abc" ?>">
-                            <a href="<?= $film->url; ?>" class="stretched-link" data-fancybox="fb-films" data-title=""></a>
+        <div class="row pt-4">
+            <div class="col">
+                <?php if (count(get_all_films_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $films = get_all_films_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($films as $filmmaker): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($filmmaker->get_thumbnail_path()); ?>" alt="<?= $filmmaker->title; ?>"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?= $filmmaker->title; ?>></h5>
+                                                <p class="card-text"><?= $filmmaker->description; ?></p>
+                                            </div>
+                                            <a href="<?= get_relative_path($filmmaker->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $filmmaker->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="col">
-                    <p>There are no films available for this country. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                </div>
-            <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>There are no films available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
@@ -254,33 +306,33 @@ $filmmakers = get_all_filmmakers_for_city($city->id);
                 <h3 class="pt-2 pb-2">Filmmakers</h3>
             </div>
         </div>
-        <div class="row d-flex flex-row justify-content-center pt-4">
+        <div class="row pt-4">
             <div class="col">
-                <?php if (count($filmmakers) > 0): ?>
-                    <div class="card-group">
-                        <?php foreach ($filmmakers as $filmmaker): ?>
-                            <div class="card mb-4 shadow-sm display-inline-block">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <?php $cover_photo = $filmmaker->cover_photo_url; ?>
-                                    <img alt="" class="card-img-top embed-responsive-item" style="object-fit: cover;" src="<?= $cover_photo != null ? $cover_photo : "https://placehold.it/280x140/abc" ?>">
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-title text-capitalize">
-                                        <?php if ($filmmaker->organization_name != null): ?>
-                                            <?= $filmmaker->organization_name; ?>
-                                        <?php else: ?>
-                                            <?php echo $filmmaker->first_name; ?>
-                                            <?php echo $filmmaker->last_name; ?>
-                                        <?php endif; ?>
-                                    </p>
-                                    <p class="card-text"></p>
-                                    <a href="<?= $cover_photo; ?>" class="stretched-link" data-fancybox="fb-filmmakers" data-title=""></a>
+                <?php if (count(get_all_filmmakers_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $filmmakers = get_all_filmmakers_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($filmmakers as $filmmaker): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($filmmaker->get_thumbnail_path()); ?>" alt="<?= $filmmaker->title; ?>"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?= $filmmaker->title; ?>></h5>
+                                                <p class="card-text"><?= $filmmaker->description; ?></p>
+                                            </div>
+                                            <a href="<?= get_relative_path($filmmaker->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $filmmaker->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                        </div>
+                    <?php endforeach; ?>
                 <?php else: ?>
-                    <p>There is no information about filmmakers available.</p>
+                    <p>There are no filmmakers available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
                 <?php endif; ?>
             </div>
         </div>

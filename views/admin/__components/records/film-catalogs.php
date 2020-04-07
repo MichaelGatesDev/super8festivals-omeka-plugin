@@ -42,14 +42,7 @@
 </style>
 <ul id="film-catalogs">
     <?php foreach ($film_catalogs as $catalog): ?>
-        <?php
-        $isImage = is_image_extension($catalog->get_file_type());
-        $webPath = get_relative_path($catalog->get_path());
-        ?>
         <li class="film-catalog">
-            <a class="content" href="<?= $webPath; ?>" target="_blank">
-                <embed src="<?= $webPath; ?>" alt="<?= $catalog->title; ?>"/>
-            </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $catalog->title != "" ? $catalog->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $catalog->description != "" ? $catalog->description : "N/A"; ?></p>
             <p style="text-align: center">
@@ -59,3 +52,8 @@
         </li>
     <?php endforeach; ?>
 </ul>
+
+<script>
+    $(".pdf-preview").each((index, elem) => {
+    });
+</script>

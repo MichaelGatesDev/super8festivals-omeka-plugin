@@ -1,9 +1,15 @@
 <?php
+$head = array(
+    'title' => $festival->title,
+);
+
 queue_css_file("admin");
 queue_js_file("jquery.min");
-echo head(array(
-    'title' => $festival->title,
-));
+
+queue_css_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js");
+
+echo head($head);
 ?>
 
 <!--Omeka 'flash' message partial -->

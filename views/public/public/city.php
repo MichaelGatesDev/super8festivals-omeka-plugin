@@ -338,8 +338,8 @@ $festivals = get_all_festivals_in_city($city->id);
         </div>
     </section>
 
-    <!--Filmmakers-->
-    <section id="filmmakers" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
+    <!--Film Catalogs-->
+    <section id="film-catalogs" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
         <div class="row">
             <div class="col">
                 <h3 class="pt-2 pb-2">Film Catalogs</h3>
@@ -354,18 +354,26 @@ $festivals = get_all_festivals_in_city($city->id);
                         ?>
                         <div class="row">
                             <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($film_catalogs as $film_catalog): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $film_catalog->title; ?></h5>
-                                                <p class="card-text"><?= $film_catalog->description; ?></p>
+                                <h4 class="title">
+                                    <?php
+                                    ?>
+                                    <?= $festival->title; ?>
+                                </h4>
+                                <?php if (count($film_catalogs) > 0): ?>
+                                    <div class="card-columns">
+                                        <?php foreach ($film_catalogs as $film_catalog): ?>
+                                            <div class="card mb-4 shadow-sm display-inline-block">
+                                                <div class="card-body">
+                                                    <p class="card-title mb-0"><?= $film_catalog->title; ?></p>
+                                                    <p class="card-text"><?= $film_catalog->description; ?></p>
+                                                </div>
+                                                <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
                                             </div>
-                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php else: ?>
+                                    <p>There are no film catalogs available for this year.</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>

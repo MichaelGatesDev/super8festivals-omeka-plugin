@@ -1,5 +1,43 @@
 <?php
 
+interface Super8FestivalsRecordType
+{
+    const City = 0;
+    const CityBanner = 1;
+    const Contributor = 2;
+    const Country = 3;
+    const CountryBanner = 4;
+    const Festival = 5;
+    const FestivalFilm = 6;
+    const FestivalFilmCatalog = 7;
+    const FestivalFilmmaker = 8;
+    const FestivalMemorabilia = 9;
+    const FestivalPhoto = 10;
+    const FestivalPoster = 11;
+    const FestivalPrintMedia = 12;
+    const Page = 13;
+}
+
+function get_festival_records_by_type($festivalID, $recordType)
+{
+    switch ($recordType) {
+        case Super8FestivalsRecordType::FestivalFilm:
+            return get_all_films_for_festival($festivalID);
+        case Super8FestivalsRecordType::FestivalFilmCatalog:
+            return get_all_film_catalogs_for_festival($festivalID);
+        case Super8FestivalsRecordType::FestivalFilmmaker:
+            return get_all_filmmakers_for_festival($festivalID);
+        case Super8FestivalsRecordType::FestivalMemorabilia:
+            return get_all_memorabilia_for_festival($festivalID);
+        case Super8FestivalsRecordType::FestivalPhoto:
+            return get_all_photos_for_festival($festivalID);
+        case Super8FestivalsRecordType::FestivalPoster:
+            return get_all_posters_for_festival($festivalID);
+        case Super8FestivalsRecordType::FestivalPrintMedia:
+            return get_all_print_media_for_festival($festivalID);
+    }
+}
+
 // ============================================================================================================================================================= \\
 
 function replace_dash_with_space($str)

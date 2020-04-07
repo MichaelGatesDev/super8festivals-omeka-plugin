@@ -38,7 +38,7 @@ $festivals = get_all_festivals_in_city($city->id);
     }
 </style>
 
-<section class="container-fluid px-0 overflow-hidden">
+<div class="container-fluid px-0 overflow-hidden">
 
     <!--Header & Buttons-->
     <section id="top2" class="pl-4 pr-4" style="height: 690px;">
@@ -105,287 +105,84 @@ $festivals = get_all_festivals_in_city($city->id);
 
 
     <!--Posters-->
-    <section id="posters" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Posters</h3>
-                <span class="text-muted">
-                    Here a collection of posters from festivals held in <span class="text-capitalize"><?= $city->name; ?></span>.
-                    Click one to enlarge it on your screen.
-                </span>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_posters_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $posters = get_all_posters_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($posters as $poster): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($poster->get_thumbnail_path()); ?>" alt="<?= $poster->title; ?>"/>
-                                            <a href="<?= get_relative_path($poster->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $poster->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There are no posters available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-image.php", array(
+        "records_name" => "posters",
+        "section_id" => "posters",
+        "section_title" => "Posters",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalPoster,
+    )); ?>
 
     <!--Photos-->
-    <section id="photos" class="container d-flex flex-column justify-content-center mt-5 p-4">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Photos</h3>
-                <span class="text-muted">
-                    Here a collection of photos from festivals held in <span class="text-capitalize"><?= $country->name; ?></span>.
-                    Click one to enlarge it on your screen.
-                </span>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_photos_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $photos = get_all_posters_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($photos as $photo): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($photo->get_thumbnail_path()); ?>" alt="<?= $photo->title; ?>"/>
-                                            <a href="<?= get_relative_path($photo->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $photo->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There are no photos available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-image.php", array(
+        "records_name" => "photos",
+        "section_id" => "photos",
+        "section_title" => "Photos",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalPhoto,
+    )); ?>
 
     <!--Print Media -->
-    <section id="print-media" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Print Media</h3>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_print_media_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $printMedia = get_all_print_media_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($printMedia as $media): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($media->get_thumbnail_path()); ?>" alt="<?= $media->title; ?>"/>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $media->title; ?>></h5>
-                                                <p class="card-text"><?= $media->description; ?></p>
-                                            </div>
-                                            <a href="<?= get_relative_path($media->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $media->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There is no print media available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-document.php", array(
+        "records_name" => "print media",
+        "section_id" => "print-media",
+        "section_title" => "Print Media",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalPrintMedia,
+    )); ?>
 
     <!--Memorabilia-->
-    <section id="memorabilia" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Memorabilia</h3>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_memorabilia_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $memorabilia = get_all_memorabilia_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($memorabilia as $film_catalog): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
-                                                <p class="card-text"><?= $film_catalog->description; ?></p>
-                                            </div>
-                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There are no memorabilia available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-document.php", array(
+        "records_name" => "memorabilia",
+        "section_id" => "memorabilia",
+        "section_title" => "Memorabilia",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalMemorabilia,
+    )); ?>
 
     <!--Films-->
-    <section id="films" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Films</h3>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_films_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $films = get_all_films_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($films as $film_catalog): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
-                                                <p class="card-text"><?= $film_catalog->description; ?></p>
-                                            </div>
-                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There are no films available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-video.php", array(
+        "records_name" => "films",
+        "section_id" => "films",
+        "section_title" => "Films",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalFilm,
+    )); ?>
 
     <!--Filmmakers-->
-    <section id="filmmakers" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Filmmakers</h3>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_filmmakers_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $filmmakers = get_all_filmmakers_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
-                                <div class="card-columns">
-                                    <?php foreach ($filmmakers as $film_catalog): ?>
-                                        <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
-                                            <div class="card-body">
-                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
-                                                <p class="card-text"><?= $film_catalog->description; ?></p>
-                                            </div>
-                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There are no filmmakers available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-person.php", array(
+        "records_name" => "filmmakers",
+        "section_id" => "filmmakers",
+        "section_title" => "Filmmakers",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalFilmmaker,
+    )); ?>
 
     <!--Film Catalogs-->
-    <section id="film-catalogs" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
-        <div class="row">
-            <div class="col">
-                <h3 class="pt-2 pb-2">Film Catalogs</h3>
-            </div>
-        </div>
-        <div class="row pt-4">
-            <div class="col">
-                <?php if (count(get_all_film_catalogs_for_city($city->id)) > 0): ?>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $film_catalogs = get_all_film_catalogs_for_festival($festival->id);
-                        ?>
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="title">
-                                    <?php
-                                    ?>
-                                    <?= $festival->title; ?>
-                                </h4>
-                                <?php if (count($film_catalogs) > 0): ?>
-                                    <div class="card-columns">
-                                        <?php foreach ($film_catalogs as $film_catalog): ?>
-                                            <div class="card mb-4 shadow-sm display-inline-block">
-                                                <div class="card-body">
-                                                    <p class="card-title mb-0"><?= $film_catalog->title; ?></p>
-                                                    <p class="card-text"><?= $film_catalog->description; ?></p>
-                                                </div>
-                                                <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                <?php else: ?>
-                                    <p>There are no film catalogs available for this year.</p>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>There are no filmmakers available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
+    <?= $this->partial("__components/records-section-document.php", array(
+        "records_name" => "film catalogs",
+        "section_id" => "film-catalogs",
+        "section_title" => "Film Catalogs",
+        "section_description" => "Here is a collection of {records_name} from festivals held in {city_name}.",
+        "section_no_records_msg" => "There are no {records_name} available for {city_name}. If you have any you would like to submit, please <a href='submit'>click here</a>.",
+        "city" => $city,
+        "record_type" => Super8FestivalsRecordType::FestivalFilmCatalog,
+    )); ?>
 
 
-</section>
+</div>
 
 
 <?php echo foot(); ?>

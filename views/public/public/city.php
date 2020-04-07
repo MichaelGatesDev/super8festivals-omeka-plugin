@@ -239,14 +239,14 @@ $festivals = get_all_festivals_in_city($city->id);
                             <div class="col">
                                 <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
                                 <div class="card-columns">
-                                    <?php foreach ($memorabilia as $filmmaker): ?>
+                                    <?php foreach ($memorabilia as $film_catalog): ?>
                                         <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($filmmaker->get_thumbnail_path()); ?>" alt="<?= $filmmaker->title; ?>"/>
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
                                             <div class="card-body">
-                                                <h5 class="card-title"><?= $filmmaker->title; ?>></h5>
-                                                <p class="card-text"><?= $filmmaker->description; ?></p>
+                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
+                                                <p class="card-text"><?= $film_catalog->description; ?></p>
                                             </div>
-                                            <a href="<?= get_relative_path($filmmaker->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $filmmaker->title; ?>"></a>
+                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -278,14 +278,14 @@ $festivals = get_all_festivals_in_city($city->id);
                             <div class="col">
                                 <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
                                 <div class="card-columns">
-                                    <?php foreach ($films as $filmmaker): ?>
+                                    <?php foreach ($films as $film_catalog): ?>
                                         <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($filmmaker->get_thumbnail_path()); ?>" alt="<?= $filmmaker->title; ?>"/>
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
                                             <div class="card-body">
-                                                <h5 class="card-title"><?= $filmmaker->title; ?>></h5>
-                                                <p class="card-text"><?= $filmmaker->description; ?></p>
+                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
+                                                <p class="card-text"><?= $film_catalog->description; ?></p>
                                             </div>
-                                            <a href="<?= get_relative_path($filmmaker->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $filmmaker->title; ?>"></a>
+                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -317,14 +317,53 @@ $festivals = get_all_festivals_in_city($city->id);
                             <div class="col">
                                 <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
                                 <div class="card-columns">
-                                    <?php foreach ($filmmakers as $filmmaker): ?>
+                                    <?php foreach ($filmmakers as $film_catalog): ?>
                                         <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($filmmaker->get_thumbnail_path()); ?>" alt="<?= $filmmaker->title; ?>"/>
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
                                             <div class="card-body">
-                                                <h5 class="card-title"><?= $filmmaker->title; ?>></h5>
-                                                <p class="card-text"><?= $filmmaker->description; ?></p>
+                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
+                                                <p class="card-text"><?= $film_catalog->description; ?></p>
                                             </div>
-                                            <a href="<?= get_relative_path($filmmaker->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $filmmaker->title; ?>"></a>
+                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>There are no filmmakers available for this city. If you have any you would like to submit, please <a href="/submit">click here</a>.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
+    <!--Filmmakers-->
+    <section id="filmmakers" class="container d-flex flex-column justify-content-center mt-5 p-4 bg-light ">
+        <div class="row">
+            <div class="col">
+                <h3 class="pt-2 pb-2">Film Catalogs</h3>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col">
+                <?php if (count(get_all_film_catalogs_for_city($city->id)) > 0): ?>
+                    <?php foreach ($festivals as $festival): ?>
+                        <?php
+                        $film_catalogs = get_all_film_catalogs_for_festival($festival->id);
+                        ?>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <div class="card-columns">
+                                    <?php foreach ($film_catalogs as $film_catalog): ?>
+                                        <div class="card mb-4 shadow-sm display-inline-block">
+                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
+                                                <p class="card-text"><?= $film_catalog->description; ?></p>
+                                            </div>
+                                            <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>

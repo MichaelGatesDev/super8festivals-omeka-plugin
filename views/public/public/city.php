@@ -358,9 +358,8 @@ $festivals = get_all_festivals_in_city($city->id);
                                 <div class="card-columns">
                                     <?php foreach ($film_catalogs as $film_catalog): ?>
                                         <div class="card mb-4 shadow-sm display-inline-block">
-                                            <img class="img-fluid w-100" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
                                             <div class="card-body">
-                                                <h5 class="card-title"><?= $film_catalog->title; ?>></h5>
+                                                <h5 class="card-title"><?= $film_catalog->title; ?></h5>
                                                 <p class="card-text"><?= $film_catalog->description; ?></p>
                                             </div>
                                             <a href="<?= get_relative_path($film_catalog->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $film_catalog->title; ?>"></a>

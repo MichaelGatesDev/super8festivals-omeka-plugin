@@ -198,10 +198,15 @@ class SuperEightFestivals_PostersController extends Omeka_Controller_AbstractAct
                         $originalRecord = get_poster_by_id($poster->id);
                         // set the data of the record according to what was submitted in the form
                         $poster->setPostData($_POST);
+                        // temporarily set file name to uploaded file name
+                        $poster->file_name = get_temporary_file("file")[0];
                         // if there is no pending upload, use the old files
                         if (!has_temporary_file('file')) {
                             $poster->file_name = $originalRecord->file_name;
                             $poster->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        } else {
+                            // temporarily set file name to uploaded file name
+                            $poster->file_name = get_temporary_file("file")[0];
                         }
                         if ($poster->save()) {
                             // display result dialog

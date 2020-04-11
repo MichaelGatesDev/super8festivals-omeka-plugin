@@ -8,6 +8,14 @@
             <span style="font-weight: bold">Description:</span>
             <span><?= strlen($document->description) > 0 ? $document->description : "N/A"; ?></span>
         </p>
-        <a href="<?= get_relative_path($document->get_path()); ?>" class="stretched-link"></a>
+        <?php if (strlen($document->file_url_web) > 0): ?>
+            <a href="<?= $document->file_url_web; ?>" class="stretched-link" target="_blank"></a>
+        <?php else: ?>
+            <?php if (is_localhost()): ?>
+                <a href="<?= get_relative_path($document->get_path()); ?>" class="stretched-link"></a>
+            <?php else: ?>
+                <a target="_blank" href="https://docs.google.com/viewerng/viewer?url=<?= base_url(true) . get_relative_path($document->get_path()); ?>" class="stretched-link"></a>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>

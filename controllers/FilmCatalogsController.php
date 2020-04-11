@@ -168,15 +168,26 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         );
 
         $form->addElementToEditGroup(
-            'textarea', 'embed',
+            'text', 'file_url_web',
             array(
-                'id' => 'embed',
-                'label' => 'Embed Code',
-                'description' => "The catalog's embed code",
-                'value' => $film_catalog->embed,
+                'id' => 'file_url_web',
+                'label' => 'URL',
+                'description' => "The URL (link) to the record",
+                'value' => $film_catalog->file_url_web,
                 'required' => false,
             )
         );
+
+//        $form->addElementToEditGroup(
+//            'textarea', 'embed',
+//            array(
+//                'id' => 'embed',
+//                'label' => 'Embed Code',
+//                'description' => "The catalog's embed code",
+//                'value' => $film_catalog->embed,
+//                'required' => false,
+//            )
+//        );
 
         return $form;
     }

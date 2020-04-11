@@ -198,10 +198,15 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
                         $originalRecord = get_photo_by_id($photo->id);
                         // set the data of the record according to what was submitted in the form
                         $photo->setPostData($_POST);
+                        // temporarily set file name to uploaded file name
+                        $photo->file_name = get_temporary_file("file")[0];
                         // if there is no pending upload, use the old files
                         if (!has_temporary_file('file')) {
                             $photo->file_name = $originalRecord->file_name;
                             $photo->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        } else {
+                            // temporarily set file name to uploaded file name
+                            $photo->file_name = get_temporary_file("file")[0];
                         }
                         if ($photo->save()) {
                             // display result dialog

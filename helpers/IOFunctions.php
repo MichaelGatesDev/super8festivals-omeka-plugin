@@ -1,5 +1,15 @@
 <?php
 
+function is_image($path)
+{
+    $ext = pathinfo($path, PATHINFO_EXTENSION);
+    return in_array($ext, array(
+        "jpg",
+        "png",
+        "jpeg",
+    ));
+}
+
 // ============================================================================================================================================================= \\
 
 function has_temporary_file($inputName)

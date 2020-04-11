@@ -42,6 +42,8 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
 
     protected function beforeSave($args)
     {
+        parent::beforeSave($args);
+        if (!parent::isValid()) return;
         $this->title = trim($this->title);
         $this->description = trim($this->description);
         $this->create_thumbnail();
@@ -80,7 +82,7 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
         delete_file($this->get_thumbnail_path());
     }
 
-    function create_thumbnail()
+    private function create_thumbnail()
     {
         if (!$this->has_thumbnail()) {
             $name = str_replace($this->get_internal_prefix() . "_", $this->get_internal_prefix() . "_thumb_", $this->file_name);

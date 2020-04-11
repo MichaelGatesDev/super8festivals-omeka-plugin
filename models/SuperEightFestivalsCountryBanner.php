@@ -27,6 +27,9 @@ class SuperEightFestivalsCountryBanner extends SuperEightFestivalsImage
         if ($this->country_id <= 0) {
             $this->addError('country_id', 'The country this banner belongs to must be specified.');
         }
+        if (!is_image($this->file_name)) {
+            $this->addError('file', 'The banner must be a valid image file!');
+        }
     }
 
     protected function beforeSave($args)

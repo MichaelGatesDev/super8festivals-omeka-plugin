@@ -38,8 +38,8 @@ $cities = get_all_cities_in_country($country->id);
                             <p class="card-text">
                                 Festivals: <?= count($festivals); ?>
                             </p>
-                            <a href="/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>" class="btn btn-primary w-100">Explore</a>
                         </div>
+                        <a href="/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>" class="stretched-link"></a>
                     </div>
                 </div>
             <?php endforeach; ?>

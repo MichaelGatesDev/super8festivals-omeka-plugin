@@ -36,9 +36,13 @@ $festivals = get_all_festivals_in_city($city->id);
             column-count: 4;
         }
     }
+
+    #short-nav-nav ul li {
+        margin: 0 0.75em;
+    }
 </style>
 
-<nav id="short-nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom justify-content-center text-center">
+<nav id="short-nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom justify-content-center text-center" style="display: none">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#short-nav-nav" aria-controls="short-nav-nav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

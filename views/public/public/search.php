@@ -17,8 +17,6 @@ function search_records($records, $property, $query, &$arr)
 }
 
 $query = trim($query); // trim blank
-$query = html_escape($query);
-$query = urldecode($query);
 ?>
 
 

@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `%PREFIX%contributors`
     `first_name`        VARCHAR(255),
     `last_name`         VARCHAR(255),
     `organization_name` VARCHAR(255),
-    `email`             VARCHAR(255)     NOT NULL,
+    `email`             VARCHAR(255),
     PRIMARY KEY (`id`),
     KEY `first_name` (`first_name`),
     KEY `last_name` (`last_name`),

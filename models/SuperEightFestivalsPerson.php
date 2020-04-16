@@ -30,12 +30,12 @@ abstract class SuperEightFestivalsPerson extends Omeka_Record_AbstractRecord imp
 
     protected function _validate()
     {
-        if (empty($this->first_name) && empty($this->last_name) && empty($this->organization_name)) {
-            $this->addError('firstName', 'Either a name or organization name must be specified.');
-        }
-        if (empty($this->email) || !filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $this->addError('email', 'A valid email must be specified');
-        }
+//        if (empty($this->first_name) && empty($this->last_name) && empty($this->organization_name)) {
+//            $this->addError('firstName', 'Either a name or organization name must be specified.');
+//        }
+//        if (empty($this->email) || !filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+//            $this->addError('email', 'A valid email must be specified');
+//        }
     }
 
     protected function beforeSave($args)

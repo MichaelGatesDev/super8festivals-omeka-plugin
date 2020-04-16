@@ -71,9 +71,9 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'email',
                 'label' => 'Email',
-                'description' => "The contributor's email (required)",
+                'description' => "The contributor's email",
                 'value' => $contributor->email,
-                'required' => true
+                'required' => false
             )
         );
 
@@ -82,7 +82,7 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'first_name',
                 'label' => 'First Name',
-                'description' => "The contributor's first name (if any)",
+                'description' => "The contributor's first name",
                 'value' => $contributor->first_name,
                 'required' => false
             )
@@ -93,7 +93,7 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'last_name',
                 'label' => 'Last Name',
-                'description' => "The contributor's last name (if any)",
+                'description' => "The contributor's last name",
                 'value' => $contributor->last_name,
                 'required' => false
             )
@@ -104,7 +104,7 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
             array(
                 'id' => 'organization_name',
                 'label' => 'Organization Name',
-                'description' => "The name of the contributor's organization (if any)",
+                'description' => "The name of the contributor's organization",
                 'value' => $contributor->organization_name,
                 'required' => false
             )

@@ -157,6 +157,14 @@ function add_countries_by_names(array $countryNames): void
     }
 }
 
+function delete_country($country_id)
+{
+    $cities = get_all_cities_in_country($country_id);
+    foreach ($cities as $city) {
+        delete_city($city);
+    }
+}
+
 // ============================================================================================================================================================= \\
 
 function get_all_country_banners(): array
@@ -321,6 +329,14 @@ function add_city($countryID, $name, $latitude, $longitude)
 function add_city_by_country_name($countryName, $name, $latitude, $longitude)
 {
     return add_city(get_country_by_name($countryName)->id, $name, $latitude, $longitude);
+}
+
+function delete_city($city_id)
+{
+    $festivals = get_all_festivals_in_city($city_id);
+    foreach ($festivals as $festival) {
+        delete_festival($festival);
+    }
 }
 
 // ============================================================================================================================================================= \\

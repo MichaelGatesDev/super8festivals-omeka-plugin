@@ -38,7 +38,7 @@ echo head(
 
 <hr style="margin-top: 5em">
 
-<a href="/admin/super-eight-festivals/purge" class="button red big">DELETE ALL WEBSITE DATA</a>
+<a href="/admin/super-eight-festivals/debug" class="button red big">Debug Tools</a>
 
 
 <?php echo foot(); ?>

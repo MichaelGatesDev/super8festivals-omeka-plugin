@@ -19,6 +19,7 @@ class SuperEightFestivalsCountry extends SuperEightFestivalsLocation
     {
         parent::afterDelete();
         $this->delete_files();
+        delete_country($this->id);
     }
 
     public function getResourceId()

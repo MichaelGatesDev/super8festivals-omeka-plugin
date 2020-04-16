@@ -40,6 +40,7 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
     {
         parent::afterDelete();
         $this->delete_files();
+        delete_city($this->id);
     }
 
     public function getResourceId()

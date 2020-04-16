@@ -138,27 +138,27 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
             )
         );
 
-        $form->addElementToEditGroup(
-            'text', 'title',
-            array(
-                'id' => 'title',
-                'label' => 'Title',
-                'description' => "The title of the festival",
-                'value' => $festival->title,
-                'required' => false
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'text', 'title',
+//            array(
+//                'id' => 'title',
+//                'label' => 'Title',
+//                'description' => "The title of the festival",
+//                'value' => $festival->title,
+//                'required' => false
+//            )
+//        );
 
-        $form->addElementToEditGroup(
-            'text', 'description',
-            array(
-                'id' => 'description',
-                'label' => 'Description',
-                'description' => "The description of the festival",
-                'value' => $festival->description,
-                'required' => false
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'text', 'description',
+//            array(
+//                'id' => 'description',
+//                'label' => 'Description',
+//                'description' => "The description of the festival",
+//                'value' => $festival->description,
+//                'required' => false
+//            )
+//        );
 
         return $form;
     }

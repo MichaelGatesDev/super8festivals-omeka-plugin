@@ -95,6 +95,21 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 }
             }
         }
+
+        $cities = get_all_cities();
+        foreach ($cities as $city) {
+            $activeBanner = get_active_city_banner($city->id);
+            if ($activeBanner == null) {
+                $banners = get_city_banners($city->id);
+                if (count($banners) > 0) {
+                    $banners[0]->active = true;
+                    $banners[0]->save();
+                }
+            }
+        }
+
+        // Create tables
+        $this->databaseHelper->createTables();
     }
 
     function hookUninstall()

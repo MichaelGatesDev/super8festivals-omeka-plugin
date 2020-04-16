@@ -114,6 +114,7 @@ class SuperEightFestivals_CountriesController extends Omeka_Controller_AbstractA
                     if ($action == 'delete') {
                         $country->delete();
                         $this->_helper->flashMessenger('The country "%s" has been deleted.', $country->name, 'success');
+                        $this->redirect("/super-eight-festivals/countries/");
                     } else {
                         $country->setPostData($_POST);
                         if ($country->save()) {

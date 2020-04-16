@@ -171,8 +171,20 @@ function get_country_banners($countryID): array
 
 function get_active_country_banner($countryID): ?SuperEightFestivalsCountryBanner
 {
+
     $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID, 'active' => true), 1);
-    return count($results) > 0 ? $results[0] : null;
+    if (count($results) > 0) {
+        return $results[0];
+    } else {
+//        $cities = get_all_cities_in_country($countryID);
+//        foreach ($cities as $city) {
+//            $banners = get_city_banners($city->id);
+//            foreach ($banners as $banner) {
+//                if ($banner->active) return $banner;
+//            }
+//        }
+        return null;
+    }
 }
 
 function get_country_banner_by_id($id): ?SuperEightFestivalsCountryBanner
@@ -364,6 +376,24 @@ function add_festival($city_id, $year, $title, $description): ?SuperEightFestiva
     $festival->description = $description;
     $festival->save();
     return $festival;
+}
+
+function delete_festival($festival_id)
+{
+    $films = get_all_films_for_festival($festival_id);
+    foreach ($films as $record) $record->delete();
+    $film_catalogs = get_all_film_catalogs_for_festival($festival_id);
+    foreach ($film_catalogs as $record) $record->delete();
+    $filmmakers = get_all_filmmakers_for_festival($festival_id);
+    foreach ($filmmakers as $record) $record->delete();
+    $memorabilia = get_all_memorabilia_for_festival($festival_id);
+    foreach ($memorabilia as $record) $record->delete();
+    $photos = get_all_photos_for_festival($festival_id);
+    foreach ($photos as $record) $record->delete();
+    $posters = get_all_posters_for_festival($festival_id);
+    foreach ($posters as $record) $record->delete();
+    $print_media = get_all_print_media_for_festival($festival_id);
+    foreach ($print_media as $record) $record->delete();
 }
 
 // ============================================================================================================================================================= \\

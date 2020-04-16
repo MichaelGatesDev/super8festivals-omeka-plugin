@@ -54,6 +54,7 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
     {
         parent::afterDelete();
         $this->delete_files();
+        delete_festival($this->id);
     }
 
     public function getResourceId()

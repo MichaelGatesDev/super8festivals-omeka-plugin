@@ -140,7 +140,7 @@ class SuperEightFestivals_FilmsController extends Omeka_Controller_AbstractActio
                 'id' => 'festival_id',
                 'label' => 'Festival',
                 'description' => "The festival which the film was a member of (required)",
-                'multiOptions' => array_merge(array("Select..."), get_parent_festival_options()),
+                'multiOptions' => get_parent_festival_options(),
                 'value' => $film->festival_id,
                 'required' => true,
             )
@@ -152,7 +152,7 @@ class SuperEightFestivals_FilmsController extends Omeka_Controller_AbstractActio
                 'id' => 'filmmaker_id',
                 'label' => 'Filmmaker',
                 'description' => "The person or organization who made the film",
-                'multiOptions' => array_merge(array("Select..."), get_parent_filmmaker_options()),
+                'multiOptions' => get_parent_filmmaker_options(),
                 'value' => $film->filmmaker_id,
                 'required' => false,
             )
@@ -164,7 +164,7 @@ class SuperEightFestivals_FilmsController extends Omeka_Controller_AbstractActio
                 'id' => 'contributor_id',
                 'label' => 'Contributor',
                 'description' => "The person or organization who contributed the film",
-                'multiOptions' => array_merge(array("Select..."), get_parent_contributor_options()),
+                'multiOptions' => get_parent_contributor_options(),
                 'value' => $film->contributor_id,
                 'required' => false,
             )

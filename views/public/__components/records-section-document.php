@@ -45,7 +45,7 @@ switch ($record_type) {
                     <?php if (count($records = get_festival_records_by_type($festival->id, $record_type)) > 0): ?>
                         <div class="row">
                             <div class="col">
-                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->title; ?></h4>
+                                <h4 class="title"><?= strpos($festival->title, "default festival") ? "uncategorized" : $festival->get_title(); ?></h4>
                                 <div class="card-columns">
                                     <?php foreach ($records as $record): ?>
                                         <?= $this->partial("__components/cards/document-card.php", array("document" => $record)); ?>

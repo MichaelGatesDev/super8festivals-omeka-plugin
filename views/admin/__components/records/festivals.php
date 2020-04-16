@@ -40,7 +40,7 @@
             <td><a class="title" href="/admin/super-eight-festivals/countries/<?= urlencode($festival->get_country()->name); ?>/cities/<?= urlencode($festival->get_city()->name); ?>/festivals/<?= $festival->id; ?>"><?= $festival->id; ?></a></td>
             <td>
                 <a class="title" href="/admin/super-eight-festivals/countries/<?= urlencode($festival->get_country()->name); ?>/cities/<?= urlencode($festival->get_city()->name); ?>/festivals/<?= $festival->id; ?>">
-                    <?= $festival->year != -1 ? $festival->year . " " . $festival->get_city()->name : $festival->title; ?>
+                    <?= $festival->get_title(); ?>
                 </a>
             </td>
             <td><a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($festival->get_country()->name); ?>/cities/<?= urlencode($festival->get_city()->name); ?>/festivals/<?= $festival->id; ?>/edit">Edit</a></td>

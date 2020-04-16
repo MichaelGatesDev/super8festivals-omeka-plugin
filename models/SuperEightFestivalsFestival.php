@@ -74,6 +74,11 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
         return $this->get_city()->get_country();
     }
 
+    public function get_title()
+    {
+        return $this->year != -1 ? $this->year . " " . $this->get_city()->name : $this->title;
+    }
+
     function get_dir()
     {
         return $this->get_city()->get_festivals_dir() . "/" . $this->id;

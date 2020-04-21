@@ -39,6 +39,12 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
     public function addAction()
     {
+        $request = $this->getRequest();
+
+        $countryName = $request->getParam('countryName');
+        $country = get_country_by_name($countryName);
+        $this->view->country = $country;
+
         // Create new city
         $city = new SuperEightFestivalsCity();
         $form = $this->_getForm($city);
@@ -88,17 +94,17 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $form->addElementToEditGroup(
-            'select', 'country_id',
-            array(
-                'id' => 'country_id',
-                'label' => 'Country ID',
-                'description' => "The ID of the country (required)",
-                'multiOptions' => get_parent_country_options(),
-                'value' => $city->country_id,
-                'required' => true
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'select', 'country_id',
+//            array(
+//                'id' => 'country_id',
+//                'label' => 'Country ID',
+//                'description' => "The ID of the country (required)",
+//                'multiOptions' => get_parent_country_options(),
+//                'value' => $city->country_id,
+//                'required' => true
+//            )
+//        );
 
         $form->addElementToEditGroup(
             'text', 'name',
@@ -150,14 +156,14 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 try {
                     if ($action == 'delete') {
                         $city->delete();
-                        $this->_helper->flashMessenger('The city "%s" has been deleted.', $city->name, 'success');
+                        $this->_helper->flashMessenger('The city ' . $city->name . ' has been deleted.', 'success');
                     } else {
                         $city->setPostData($_POST);
                         if ($city->save()) {
                             if ($action == 'add') {
-                                $this->_helper->flashMessenger('The city "%s" has been added.', $city->name, 'success');
+                                $this->_helper->flashMessenger('The city ' . $city->name . ' has been added.', 'success');
                             } else if ($action == 'edit') {
-                                $this->_helper->flashMessenger('The city "%s" has been edited.', $city->name, 'success');
+                                $this->_helper->flashMessenger('The city ' . $city->name . ' has been edited.', 'success');
                             }
                         }
                     }

@@ -2,7 +2,7 @@
 queue_css_file("admin");
 queue_js_file("jquery.min");
 echo head(array(
-    'title' => 'Edit Photo: ' . ucwords($photo->title),
+    'title' => 'Edit Photo: ' . (strlen($photo->title) > 0 ? ucwords($photo->title) : "Untitled"),
 ));
 ?>
 

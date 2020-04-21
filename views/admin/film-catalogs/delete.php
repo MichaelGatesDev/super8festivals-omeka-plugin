@@ -3,7 +3,7 @@ queue_css_file("admin");
 queue_js_file("jquery.min");
 queue_js_file("admin");
 echo head(array(
-    'title' => 'Delete Film Catalog: ' . ucwords($film_catalog->title),
+    'title' => 'Delete Film Catalog: ' . (strlen($film_catalog->title) > 0 ? ucwords($film_catalog->title) : "Untitled"),
 ));
 ?>
 

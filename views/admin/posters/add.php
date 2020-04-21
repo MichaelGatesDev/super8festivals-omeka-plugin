@@ -3,7 +3,7 @@ queue_css_file("admin");
 queue_js_file("jquery.min");
 queue_js_file("admin");
 echo head(array(
-    'title' => 'Add Poster',
+    'title' => 'Add Poster for ' . $festival->get_title(),
 ));
 ?>
 

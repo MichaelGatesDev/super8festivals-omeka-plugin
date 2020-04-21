@@ -95,11 +95,12 @@ function get_all_countries(): array
 function get_parent_country_options(): array
 {
     $results = array();
+    $results[-1] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsCountry')->findAll();
     foreach ($potentialParents as $potentialParent) {
         $results[$potentialParent->id] = $potentialParent->name;
     }
-    return array_merge(array(-1 => "Select..."), $results);
+    return $results;
 }
 
 function get_country_by_id($countryID): ?SuperEightFestivalsCountry
@@ -267,11 +268,12 @@ function get_all_cities_in_country($countryID): array
 function get_parent_city_options(): array
 {
     $results = array();
+    $results[-1] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsCity')->findAll();
     foreach ($potentialParents as $potentialParent) {
         $results[$potentialParent->id] = $potentialParent->name;
     }
-    return array_merge(array(-1 => "Select..."), $results);
+    return $results;
 }
 
 function get_city_by_name($countryID, $cityName): ?SuperEightFestivalsCity
@@ -372,11 +374,12 @@ function get_festival_by_id($festivalID): ?SuperEightFestivalsFestival
 function get_parent_festival_options(): array
 {
     $results = array();
+    $results[-1] = "Select...";
     $festivals = get_all_festivals();
     foreach ($festivals as $festival) {
         $results[$festival->id] = $festival->get_title();
     }
-    return array_merge(array(-1 => "Select..."), $results);
+    return $results;
 }
 
 function add_festival($city_id, $year, $title, $description): ?SuperEightFestivalsFestival
@@ -462,11 +465,12 @@ function get_all_filmmakers_for_city($id): array
 function get_parent_filmmaker_options(): array
 {
     $results = array();
+    $results[-1] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->findAll();
     foreach ($potentialParents as $potentialParent) {
         $results[$potentialParent->id] = $potentialParent->get_display_name();
     }
-    return array_merge(array(-1 => "Select..."), $results);
+    return $results;
 }
 
 function get_filmmaker_by_id($id): ?SuperEightFestivalsFestivalFilmmaker
@@ -663,11 +667,12 @@ function add_poster($festivalID, $contributorID, $title, $description, $thumbnai
 function get_parent_contributor_options(): array
 {
     $results = array();
+    $results[-1] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsContributor')->findAll();
     foreach ($potentialParents as $potentialParent) {
         $results[$potentialParent->id] = $potentialParent->get_display_name();
     }
-    return array_merge(array(-1 => "Select..."), $results);
+    return $results;
 }
 
 function get_all_contributors(): array

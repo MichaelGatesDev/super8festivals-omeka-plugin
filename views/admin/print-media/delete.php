@@ -3,7 +3,7 @@ queue_css_file("admin");
 queue_js_file("jquery.min");
 queue_js_file("admin");
 echo head(array(
-    'title' => 'Delete Print Media: ' . ucwords($print_media->title),
+    'title' => 'Delete Print Media: ' . (strlen($print_media->title) > 0 ? ucwords($print_media->title) : "Untitled"),
 ));
 ?>
 

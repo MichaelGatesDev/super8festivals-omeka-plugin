@@ -2,7 +2,7 @@
 queue_css_file("admin");
 queue_js_file("jquery.min");
 echo head(array(
-    'title' => 'Edit Film Catalog: ' . ucwords($film_catalog->title),
+    'title' => 'Edit Film Catalog: ' . (strlen($film_catalog->title) > 0 ? ucwords($film_catalog->title) : "Untitled"),
 ));
 ?>
 

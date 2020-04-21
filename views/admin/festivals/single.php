@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => $festival->title,
+    'title' => $festival->get_title(),
 );
 
 queue_css_file("admin");

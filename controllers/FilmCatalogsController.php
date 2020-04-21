@@ -111,17 +111,17 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $form->addElementToEditGroup(
-            'select', 'festival_id',
-            array(
-                'id' => 'festival_id',
-                'label' => 'Festival',
-                'description' => "The festival which the catalog was a member of (required)",
-                'multiOptions' => get_parent_festival_options(),
-                'value' => $film_catalog->festival_id,
-                'required' => true,
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'select', 'festival_id',
+//            array(
+//                'id' => 'festival_id',
+//                'label' => 'Festival',
+//                'description' => "The festival which the catalog was a member of (required)",
+//                'multiOptions' => get_parent_festival_options(),
+//                'value' => $film_catalog->festival_id,
+//                'required' => true,
+//            )
+//        );
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',

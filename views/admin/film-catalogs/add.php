@@ -2,7 +2,7 @@
 queue_css_file("admin");
 queue_js_file("jquery.min");
 echo head(array(
-    'title' => 'Add Film Catalog',
+    'title' => 'Add Film Catalog for ' . $festival->get_title(),
 ));
 ?>
 

@@ -80,17 +80,17 @@ class SuperEightFestivals_CountryBannersController extends Omeka_Controller_Abst
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $form->addElementToEditGroup(
-            'select', 'country_id',
-            array(
-                'id' => 'country_id',
-                'label' => 'Country',
-                'description' => "The country which the banner belongs to (required)",
-                'multiOptions' => get_parent_country_options(),
-                'value' => $banner->country_id,
-                'required' => true
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'select', 'country_id',
+//            array(
+//                'id' => 'country_id',
+//                'label' => 'Country',
+//                'description' => "The country which the banner belongs to (required)",
+//                'multiOptions' => get_parent_country_options(),
+//                'value' => $banner->country_id,
+//                'required' => true
+//            )
+//        );
 
         $form->addElementToEditGroup(
             'file', 'file',

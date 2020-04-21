@@ -126,14 +126,14 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
                 try {
                     if ($action == 'delete') {
                         $contributor->delete();
-                        $this->_helper->flashMessenger("The contributor \"{$contributor->get_display_name()}\" has been deleted.", 'success');
+                        $this->_helper->flashMessenger("The contributor " . $contributor->get_display_name() . " has been deleted.", 'success');
                     } else {
                         $contributor->setPostData($_POST);
                         if ($contributor->save()) {
                             if ($action == 'add') {
-                                $this->_helper->flashMessenger("The contributor \"{$contributor->get_display_name()}\" has been added.", 'success');
+                                $this->_helper->flashMessenger("The contributor " . $contributor->get_display_name() . " has been added.", 'success');
                             } else if ($action == 'edit') {
-                                $this->_helper->flashMessenger("The contributor \"{$contributor->get_display_name()}\" has been edited.", 'success');
+                                $this->_helper->flashMessenger("The contributor " . $contributor->get_display_name() . " has been edited.", 'success');
                             }
                         }
                     }

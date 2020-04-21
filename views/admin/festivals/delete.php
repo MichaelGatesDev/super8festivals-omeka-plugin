@@ -2,7 +2,7 @@
 queue_css_file("admin");
 queue_js_file("jquery.min");
 echo head(array(
-    'title' => 'Delete Festival: ' . $festival->id,
+    'title' => 'Delete Festival: ' . $festival->get_title(),
 ));
 ?>
 

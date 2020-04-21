@@ -98,17 +98,17 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $form->addElementToEditGroup(
-            'select', 'city_id',
-            array(
-                'id' => 'city_id',
-                'label' => 'City',
-                'description' => "The city which the banner belongs to (required)",
-                'multiOptions' => get_parent_city_options(),
-                'value' => $banner->city_id,
-                'required' => true
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'select', 'city_id',
+//            array(
+//                'id' => 'city_id',
+//                'label' => 'City',
+//                'description' => "The city which the banner belongs to (required)",
+//                'multiOptions' => get_parent_city_options(),
+//                'value' => $banner->city_id,
+//                'required' => true
+//            )
+//        );
 
         $form->addElementToEditGroup(
             'file', 'file',

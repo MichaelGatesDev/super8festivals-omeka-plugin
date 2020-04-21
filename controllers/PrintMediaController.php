@@ -111,17 +111,17 @@ class SuperEightFestivals_PrintMediaController extends Omeka_Controller_Abstract
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $form->addElementToEditGroup(
-            'select', 'festival_id',
-            array(
-                'id' => 'festival_id',
-                'label' => 'Festival',
-                'description' => "The festival which the media was an item of (required)",
-                'multiOptions' => array_merge(array("Select..."), get_parent_festival_options()),
-                'value' => $print_media->festival_id,
-                'required' => true,
-            )
-        );
+//        $form->addElementToEditGroup(
+//            'select', 'festival_id',
+//            array(
+//                'id' => 'festival_id',
+//                'label' => 'Festival',
+//                'description' => "The festival which the media was an item of (required)",
+//                'multiOptions' => array_merge(array("Select..."), get_parent_festival_options()),
+//                'value' => $print_media->festival_id,
+//                'required' => true,
+//            )
+//        );
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',

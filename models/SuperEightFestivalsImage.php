@@ -7,7 +7,7 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
     /**
      * @var int
      */
-    public $contributor_id = -1;
+    public $contributor_id = 0;
     /**
      * @var string
      */

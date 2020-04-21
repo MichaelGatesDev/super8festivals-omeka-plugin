@@ -7,7 +7,7 @@ class SuperEightFestivalsFestivalPrintMedia extends SuperEightFestivalsDocument
     /**
      * @var int
      */
-    public $festival_id = -1;
+    public $festival_id = 0;
 
     // ======================================================================================================================== \\
 

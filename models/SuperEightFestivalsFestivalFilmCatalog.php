@@ -7,7 +7,7 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
     /**
      * @var int
      */
-    public $festival_id = -1;
+    public $festival_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -19,9 +19,6 @@ class SuperEightFestivalsFestivalFilmCatalog extends SuperEightFestivalsDocument
     protected function _validate()
     {
         parent::_validate();
-        if ($this->festival_id <= 0) {
-            $this->addError('festival_id', 'You must select a valid festival!');
-        }
     }
 
     protected function afterDelete()

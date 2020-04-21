@@ -7,7 +7,7 @@ class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
     /**
      * @var int
      */
-    public $festival_id = -1;
+    public $festival_id = 0;
 
     // ======================================================================================================================== \\
 

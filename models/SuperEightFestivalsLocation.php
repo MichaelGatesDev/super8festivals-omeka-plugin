@@ -11,11 +11,11 @@ abstract class SuperEightFestivalsLocation extends Omeka_Record_AbstractRecord i
     /**
      * @var float
      */
-    public $latitude = -1;
+    public $latitude = 0;
     /**
      * @var float
      */
-    public $longitude = -1;
+    public $longitude = 0;
 
     // ======================================================================================================================== \\
 

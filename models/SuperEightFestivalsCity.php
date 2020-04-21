@@ -7,7 +7,7 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
     /**
      * @var int
      */
-    public $country_id = -1;
+    public $country_id = 0;
 
     // ======================================================================================================================== \\
 

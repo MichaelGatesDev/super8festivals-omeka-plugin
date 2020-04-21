@@ -7,11 +7,11 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
     /**
      * @var int
      */
-    public $city_id = -1;
+    public $city_id = 0;
     /**
      * @var int
      */
-    public $year = -1;
+    public $year = 0;
     /**
      * @var string
      */
@@ -41,7 +41,7 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
     protected function beforeSave($args)
     {
         parent::beforeSave($args);
-        if ($this->year == "") $this->year = -1;
+        if ($this->year == "") $this->year = 0;
     }
 
     protected function afterSave($args)
@@ -76,7 +76,7 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 
     public function get_title()
     {
-        return $this->year != -1 ? $this->year . " " . $this->get_city()->name : $this->title;
+        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->title;
     }
 
     function get_dir()

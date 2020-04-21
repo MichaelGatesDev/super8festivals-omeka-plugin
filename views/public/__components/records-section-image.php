@@ -1,5 +1,8 @@
 <?php
 $festivals = get_all_festivals_in_city($city->id);
+usort($festivals, function ($a, $b) {
+    return $a->year > $b->year;
+});
 $all_city_records = array();
 switch ($record_type) {
     case Super8FestivalsRecordType::FestivalFilm:

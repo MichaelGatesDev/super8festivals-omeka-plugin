@@ -33,6 +33,7 @@ echo head(
 <ul class="buttons">
     <li><a href="/admin/super-eight-festivals/debug/purge/unused" class="button red" style="margin: 0; padding: 0.5em 1.5em;">Purge unused</a></li>
     <!--    <li><a href="/admin/super-eight-festivals/debug/purge/all" class="button red" style="margin: 0; padding: 0.5em 1.5em;">Purge All</a></li>-->
+    <li><a href="/admin/super-eight-festivals/debug/create-tables" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Create DB Tables</a></li>
 </ul>
 
 

@@ -8,11 +8,6 @@ require_once dirname(__FILE__) . '/helpers/ImageFunctions.php';
 
 class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 {
-    /**
-     * @var DatabaseManager|null For all operations related to the database
-     */
-    private $databaseHelper = null;
-
     protected $_hooks = array(
         'install', // when the plugin is installed
         'uninstall', // when the plugin is uninstalled
@@ -27,7 +22,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function __construct()
     {
-        $this->databaseHelper = new DatabaseHelper(new DatabaseManager());
     }
 
     public function hookInstall()
@@ -36,7 +30,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         create_plugin_directories();
 
         // Create tables
-        $this->databaseHelper->createTables();
+        create_tables();
 
         // sample data
 //        $this->add_sample_data();
@@ -109,13 +103,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         // Create tables
-        $this->databaseHelper->createTables();
+        create_tables();
     }
 
     function hookUninstall()
     {
         // Drop tables
-        $this->databaseHelper->dropTables();
+        drop_tables();
 
         // delete files
         delete_plugin_directories();
@@ -208,6 +202,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "debug", ":module/debug", "debug", true);
             $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
             $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
+            $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");

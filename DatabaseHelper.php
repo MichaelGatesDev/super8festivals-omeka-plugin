@@ -13,12 +13,12 @@ class DatabaseHelper
     }
 
 
-    public function createTables()
+    public function create_tables()
     {
         $this->databaseManager->executeFile(__DIR__ . "/procedures/create_tables.sql");
     }
 
-    public function dropTables()
+    public function drop_tables()
     {
         $this->databaseManager->executeFile(__DIR__ . "/procedures/drop_tables.sql");
     }

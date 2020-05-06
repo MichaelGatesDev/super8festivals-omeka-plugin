@@ -32,4 +32,9 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
             }
         }
     }
+
+    public function debugCreateTablesAction()
+    {
+        create_tables();
+    }
 }

@@ -1,6 +1,21 @@
 #############################################
 ###                 IMAGES                ###
 #############################################
+CREATE TABLE IF NOT EXISTS `%PREFIX%federation_photos`
+(
+    `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `contributor_id`      int(10) unsigned,
+    `title`               varchar(255),
+    `description`         TEXT(65535),
+    `thumbnail_file_name` TEXT(65535),
+    `thumbnail_url_web`   TEXT(65535),
+    `file_name`           TEXT(65535),
+    `file_url_web`        TEXT(65535),
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  COLLATE = utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `%PREFIX%country_banners`
 (
     `id`                  int(10) unsigned NOT NULL AUTO_INCREMENT,

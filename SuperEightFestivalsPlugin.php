@@ -199,10 +199,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
         if (is_admin_theme()) {
             $this->add_static_route($router, "federation", ":module/federation", "federation", true);
+            $this->addRecordRoute($router, "federation_document", "federation-documents", ":module/federation/documents", "documentID");
+            $this->addRecordRoute($router, "federation_photo", "federation-photos", ":module/federation/photos", "photoID");
             $this->add_static_route($router, "debug", ":module/debug", "debug", true);
             $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
             $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
             $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);
+            $this->add_static_route($router, "debug_create_directories", ":module/debug/create-directories", "debug-create-directories", true);
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");

@@ -95,6 +95,9 @@ function create_plugin_directories()
     if (!file_exists(get_countries_dir())) {
         mkdir(get_countries_dir(), 0777, true);
     }
+    if (!file_exists(get_federation_dir())) {
+        mkdir(get_federation_dir(), 0777, true);
+    }
 }
 
 function delete_plugin_directories()
@@ -122,6 +125,11 @@ function get_project_dir()
 function get_countries_dir()
 {
     return get_project_dir() . "/countries";
+}
+
+function get_federation_dir()
+{
+    return get_project_dir() . "/federation";
 }
 
 // ============================================================================================================================================================= \\

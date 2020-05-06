@@ -1,6 +1,7 @@
 #############################################
 ###                 IMAGES                ###
 #############################################
+DROP TABLE IF EXISTS `%PREFIX%federation_photos`;
 DROP TABLE IF EXISTS `%PREFIX%country_banners`;
 DROP TABLE IF EXISTS `%PREFIX%city_banners`;
 DROP TABLE IF EXISTS `%PREFIX%festival_photos`;

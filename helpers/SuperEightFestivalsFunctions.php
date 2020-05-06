@@ -101,6 +101,26 @@ function replace_space_with_dash($str)
 
 // ============================================================================================================================================================= \\
 
+function get_all_federation_documents(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFederationDocument")->findAll();
+}
+
+function get_federation_document_by_id($documentID): ?SuperEightFestivalsFederationDocument
+{
+    return get_db()->getTable('SuperEightFestivalsFederationDocument')->find($documentID);
+}
+
+function get_all_federation_photos(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFederationPhoto")->findAll();
+}
+
+function get_federation_photo_by_id($photoID): ?SuperEightFestivalsFederationPhoto
+{
+    return get_db()->getTable('SuperEightFestivalsFederationPhoto')->find($photoID);
+}
+
 function get_all_countries(): array
 {
     return get_db()->getTable("SuperEightFestivalsCountry")->findAll();

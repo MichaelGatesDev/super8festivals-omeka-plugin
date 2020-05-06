@@ -18,6 +18,8 @@ echo head(array(
 </style>
 <section id="country-single">
 
+    <?php
+    /*
     <div class="records-section">
         <h2>Country Banners</h2>
         <?php $country_banners = get_country_banners($country->id); ?>
@@ -28,6 +30,8 @@ echo head(array(
         <?php endif; ?>
         <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/banners/add">Add Country Banner</a>
     </div>
+    */
+    ?>
 
     <div class="records-section">
         <h2>Cities</h2>

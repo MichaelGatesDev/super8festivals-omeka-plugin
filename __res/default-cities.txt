@@ -12,7 +12,7 @@ iran,tehran,35.68920,51.38900
 japan,tokyo,35.67620,139.65030
 japan,hiroshima,34.38530,132.45531
 mexico,mexico city,19.43260,-99.13320
-italy,montecallini,39.81840,18.31290
+italy,montecatini,39.81840,18.31290
 portugal,lisbon,38.72230,-9.13930
 puerto rico,san juan,18.46550,-66.10570
 canada,montreal,45.50170,-73.56730

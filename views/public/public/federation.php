@@ -2,8 +2,11 @@
 $head = array(
     'title' => "Federation",
 );
-echo head($head);
 
+queue_css_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js");
+
+echo head($head);
 
 ?>
 

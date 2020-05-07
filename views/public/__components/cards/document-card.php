@@ -3,7 +3,7 @@
         <div class="card-image mb-2" style="background-color: lightgray; height: 200px;">
             <img class="card-img-top img-fluid w-100" src="<?= get_relative_path($document->get_thumbnail_path()); ?>" alt="No preview available" style="object-fit: cover; width: 100%; height: 100%;  display: flex; justify-content: center; align-items: center; text-align: center; "/>
         </div>
-        <a href="<?= get_relative_path($document->get_path()); ?>" class="stretched-link" data-fancybox="fb-posters" data-title="<?= $document->title; ?>"></a>
+        <a href="<?= get_relative_path($document->get_path()); ?>" class="stretched-link"></a>
 
         <p class="card-title mb-2">
             <span style="font-weight: bold">Title:</span>

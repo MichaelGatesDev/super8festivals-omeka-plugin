@@ -30,6 +30,10 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
     {
     }
 
+    public function filmmakersFunction()
+    {
+    }
+
     public function historyAction()
     {
     }

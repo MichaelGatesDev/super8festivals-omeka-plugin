@@ -13,10 +13,16 @@ echo head($head);
 <section class="container-fluid" id="countries-list">
 
     <div class="container py-2">
+        <div class="row" id="history">
+            <div class="col">
+                <h2 class="mb-4">History</h2>
+                <p>TBD</p>
+            </div>
+        </div>
         <div class="row">
             <!--Documents-->
             <div class="col">
-                <h2>Documents</h2>
+                <h2 class="mb-4">Documents</h2>
                 <?php if (count($records = get_all_federation_documents()) > 0): ?>
                     <div class="row">
                         <div class="col">
@@ -31,7 +37,7 @@ echo head($head);
             </div>
             <!--Photos-->
             <div class="col">
-                <h2>Photos</h2>
+                <h2 class="mb-4">Photos</h2>
                 <?php if (count($records = get_all_federation_photos()) > 0): ?>
                     <div class="row">
                         <div class="col">

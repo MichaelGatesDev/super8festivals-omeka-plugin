@@ -226,7 +226,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "contact", "contact", "contact", false);
             $this->add_static_route($router, "submit", "submit", "submit", false);
             $this->add_static_route($router, "federation", "federation", "federation", false);
-            $this->add_static_route($router, "history", "history", "history", false);
             $this->add_static_route($router, "filmmakers", "filmmakers", "filmmakers", false);
             $this->add_static_route($router, "cities", "cities", "cities", false);
             $this->add_static_route($router, "city", "cities/:cityName", "city", false);

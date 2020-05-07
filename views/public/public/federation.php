@@ -36,6 +36,8 @@ echo head($head);
                             </div>
                         </div>
                     </div>
+                <?php else: ?>
+                    <p>There are no documents here yet.</p>
                 <?php endif; ?>
             </div>
             <!--Photos-->
@@ -51,6 +53,8 @@ echo head($head);
                             </div>
                         </div>
                     </div>
+                <?php else: ?>
+                    <p>There are no photos here yet.</p>
                 <?php endif; ?>
             </div>
         </div>

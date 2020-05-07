@@ -44,16 +44,13 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
         parent::__construct();
     }
 
-    public function get_file_type()
-    {
-        return pathinfo($this->file_name, PATHINFO_EXTENSION);
-    }
-
     protected function beforeSave($args)
     {
+        parent::beforeSave($args);
+        if (!parent::isValid()) return;
         $this->title = trim($this->title);
         $this->description = trim($this->description);
-//        $this->create_thumbnail();
+        $this->create_thumbnail();
     }
 
     protected function afterDelete()
@@ -82,6 +79,26 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
         return file_exists($this->get_thumbnail_path()) && !is_dir($this->get_thumbnail_path());
     }
 
+    private function create_thumbnail()
+    {
+//        if (is_dir($this->get_path())) return; // path is a directory
+//        if ($this->has_thumbnail()) return; // already has thumbnail
+//        try {
+//            $name = str_replace($this->get_internal_prefix() . "_", $this->get_internal_prefix() . "_thumb_", $this->file_name);
+//            error_log("Creating thumbnail for: " . $this->get_path() . " (" . $this->file_name . ") as (" . $name . ")");
+//
+//            $imagick = new Imagick();
+//            $imagick->readImage($this->get_path() . "[0]");
+//            $imagick = $imagick->flattenImages();
+//            $imagick->setImageFormat("jpg");
+//            $imagick->writeImage($name);
+//            error_log("Thumbnail creation complete!");
+//        } catch (ImagickException $e) {
+//            error_log("Failed to create thumbnail (original: $this->file_name)");
+//            error_log($e);
+//        }
+    }
+
     public function delete_files()
     {
         if (file_exists($this->get_path())) {
@@ -93,4 +110,5 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
     }
 
     // ======================================================================================================================== \\
+
 }

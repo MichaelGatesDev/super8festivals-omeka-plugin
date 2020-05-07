@@ -52,8 +52,7 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_file($this->get_thumbnail_path());
-        delete_file($this->get_path());
+        $this->delete_files();
     }
 
     // ======================================================================================================================== \\
@@ -76,12 +75,6 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
         return file_exists($this->get_thumbnail_path()) && !is_dir($this->get_thumbnail_path());
     }
 
-    public function delete_files()
-    {
-        delete_file($this->get_path());
-        delete_file($this->get_thumbnail_path());
-    }
-
     private function create_thumbnail()
     {
         if (!$this->has_thumbnail()) {
@@ -94,6 +87,12 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
                 error_log("Failed to create thumbnail (original: $this->file_name)");
             }
         }
+    }
+
+    public function delete_files()
+    {
+        delete_file($this->get_path());
+        delete_file($this->get_thumbnail_path());
     }
 
     public function get_file_type()

@@ -22,8 +22,8 @@ echo head($head);
                 <p>TBD</p>
             </div>
         </div>
+        <!--Documents-->
         <div class="row">
-            <!--Documents-->
             <div class="col">
                 <h2 class="mb-4">Documents</h2>
                 <?php if (count($records = get_all_federation_documents()) > 0): ?>
@@ -40,7 +40,9 @@ echo head($head);
                     <p>There are no documents here yet.</p>
                 <?php endif; ?>
             </div>
-            <!--Photos-->
+        </div>
+        <!--Photos-->
+        <div class="row">
             <div class="col">
                 <h2 class="mb-4">Photos</h2>
                 <?php if (count($records = get_all_federation_photos()) > 0): ?>

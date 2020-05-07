@@ -44,7 +44,7 @@ function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
         if (isset($base_url['path'])) if ($base_url['path'] == '/') $base_url['path'] = '';
     }
 
-    return $base_url;
+    return substr($base_url, 0, strlen($base_url) - 1);
 }
 
 // ============================================================================================================================================================= \\

@@ -2,25 +2,25 @@
 
 class DatabaseManager
 {
-    private $PREFIX = "omeka_super_eight_festivals_";
+    private $PREFIX;
 
     /**
      * @var string The IP of the server
      */
-    private $serverName = "localhost";
+    private $serverName;
     /**
      * @var string The username to connect with
      */
-    private $username = "username";
+    private $username;
     /**
      * @var string The password to connect with
      */
-    private $password = "password";
+    private $password;
 
     /**
      * @var string The name of the database to use
      */
-    private $databaseName = "example_db";
+    private $databaseName;
 
     /**
      * @var mysqli|null The connection to the database

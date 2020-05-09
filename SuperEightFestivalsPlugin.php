@@ -30,6 +30,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         create_plugin_directories();
 
         // Create tables
+        drop_tables();
         create_tables();
 
         // sample data
@@ -45,7 +46,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $fn = fopen($defaultCountriesFile, "r");
             while (!feof($fn)) {
                 $result = fgets($fn);
-                list($countryName, $lat, $long) = explode(",", $result);
+                list($countryName, $lat, $long) = explode(",", trim($result));
                 add_country($countryName, $lat, $long);
             }
             fclose($fn);
@@ -56,7 +57,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $fn = fopen($defaultCitiesFile, "r");
             while (!feof($fn)) {
                 $result = fgets($fn);
-                list($countryName, $cityName, $lat, $long) = explode(",", $result);
+                list($countryName, $cityName, $lat, $long) = explode(",", trim($result));
                 add_city(get_country_by_name($countryName)->id, $cityName, $lat, $long);
             }
             fclose($fn);

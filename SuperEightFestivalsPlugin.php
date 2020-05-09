@@ -1,10 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/DatabaseManager.php';
-require_once dirname(__FILE__) . '/DatabaseHelper.php';
 require_once dirname(__FILE__) . '/helpers/IOFunctions.php';
 require_once dirname(__FILE__) . '/helpers/SuperEightFestivalsFunctions.php';
-require_once dirname(__FILE__) . '/helpers/ImageFunctions.php';
+require_once dirname(__FILE__) . '/helpers/DBFunctions.php';
 
 class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 {
@@ -29,9 +27,9 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // create directories
         create_plugin_directories();
 
-        // Create tables
-        drop_tables();
-        create_tables();
+        // Setup database
+        drop_tables(); // out with the old tables
+        create_tables(); // in with the new tables
 
         // sample data
 //        $this->add_sample_data();
@@ -66,32 +64,42 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize()
     {
-        $countries = get_all_countries();
-        foreach ($countries as $country) {
-            $activeBanner = get_active_country_banner($country->id);
-            if ($activeBanner == null) {
-                $banners = get_country_banners($country->id);
-                if (count($banners) > 0) {
-                    $banners[0]->active = true;
-                    $banners[0]->save();
+        try {
+            $countries = get_all_countries();
+            foreach ($countries as $country) {
+                $activeBanner = get_active_country_banner($country->id);
+                if ($activeBanner == null) {
+                    $banners = get_country_banners($country->id);
+                    if (count($banners) > 0) {
+                        $banners[0]->active = true;
+                        $banners[0]->save();
+                    }
                 }
             }
+        } catch (Exception $e) {
+            error_log("Failed to make a default active banner!");
+            error_log($e);
         }
 
-        $cities = get_all_cities();
-        foreach ($cities as $city) {
-            $activeBanner = get_active_city_banner($city->id);
-            if ($activeBanner == null) {
-                $banners = get_city_banners($city->id);
-                if (count($banners) > 0) {
-                    $banners[0]->active = true;
-                    $banners[0]->save();
+        try {
+            $cities = get_all_cities();
+            foreach ($cities as $city) {
+                $activeBanner = get_active_city_banner($city->id);
+                if ($activeBanner == null) {
+                    $banners = get_city_banners($city->id);
+                    if (count($banners) > 0) {
+                        $banners[0]->active = true;
+                        $banners[0]->save();
+                    }
                 }
             }
+        } catch (Exception $e) {
+            error_log("Failed to make a default active banner!");
+            error_log($e);
         }
 
         // Create tables
-        create_tables();
+//        create_tables();
     }
 
     function hookUninstall()

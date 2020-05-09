@@ -18,11 +18,8 @@ class SuperEightFestivalsCityBanner extends SuperEightFestivalsImage
     protected function _validate()
     {
         parent::_validate();
-        if ($this->city_id <= 0) {
-            $this->addError('city_id', 'The city this banner belongs to must be specified.');
-        }
-        if (!is_image($this->file_name)) {
-            $this->addError('file', 'The banner must be a valid image file!');
+        if (empty($this->city_id) || !is_numeric($this->city_id)) {
+            $this->addError('country_id', 'The country that the city exists in must be specified.');
         }
     }
 

@@ -42,13 +42,9 @@
 </style>
 <ul id="film-catalogs">
     <?php foreach ($printMediaVar as $print_media): ?>
-        <?php
-        $isImage = is_image_extension($print_media->get_file_type());
-        $webPath = get_relative_path($print_media->get_path());
-        ?>
         <li class="film-catalog">
-            <a class="content" href="<?= $webPath; ?>" target="_blank">
-                <embed src="<?= $webPath; ?>" alt="<?= $print_media->title; ?>"/>
+            <a class="content" href="<?= get_relative_path($print_media->get_thumbnail_path()); ?>" target="_blank">
+                <img src="<?= get_relative_path($print_media->get_thumbnail_path()); ?>" alt="<?= $print_media->title; ?>"/>
             </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $print_media->title != "" ? $print_media->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $print_media->description != "" ? $print_media->description : "N/A"; ?></p>

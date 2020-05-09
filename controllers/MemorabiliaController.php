@@ -115,18 +115,6 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'festival_id',
-//            array(
-//                'id' => 'festival_id',
-//                'label' => 'Festival',
-//                'description' => "The festival which the memorabilia was a member of (required)",
-//                'multiOptions' => array_merge(array("Select..."), get_parent_festival_options()),
-//                'value' => $memorabilia->festival_id,
-//                'required' => true,
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'select', 'contributor_id',
             array(
@@ -171,17 +159,6 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
             )
         );
 
-        $form->addElementToEditGroup(
-            'textarea', 'embed',
-            array(
-                'id' => 'embed',
-                'label' => 'Embed Code',
-                'description' => "The memorabilia's embed code",
-                'value' => $memorabilia->embed,
-                'required' => false,
-            )
-        );
-
         return $form;
     }
 
@@ -203,10 +180,9 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
                     } else if ($action == 'add') {
                         $memorabilia->setPostData($_POST);
                         if ($memorabilia->save()) {
-                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been added.", 'success');
-
                             // do file upload
                             $this->upload_file($memorabilia);
+                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been added.", 'success');
                         }
                     } else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
@@ -217,11 +193,11 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
                         if (!has_temporary_file('file')) {
                             $memorabilia->file_name = $originalRecord->file_name;
                             $memorabilia->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        } else {
+                            // temporarily set file name to uploaded file name
+                            $memorabilia->file_name = get_temporary_file("file")[0];
                         }
                         if ($memorabilia->save()) {
-                            // display result dialog
-                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been edited.", 'success');
-
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
@@ -229,6 +205,8 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
                                 // do file upload
                                 $this->upload_file($memorabilia);
                             }
+                            // display result dialog
+                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been edited.", 'success');
                         }
                     }
 
@@ -251,6 +229,7 @@ class SuperEightFestivals_MemorabiliaController extends Omeka_Controller_Abstrac
         $newFileName = uniqid($memorabilia->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, $memorabilia->get_festival()->get_memorabilia_dir());
         $memorabilia->file_name = $newFileName;
+        $memorabilia->create_thumbnail();
         $memorabilia->save();
     }
 

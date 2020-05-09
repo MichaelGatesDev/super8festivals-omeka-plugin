@@ -111,18 +111,6 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'festival_id',
-//            array(
-//                'id' => 'festival_id',
-//                'label' => 'Festival',
-//                'description' => "The festival which the catalog was a member of (required)",
-//                'multiOptions' => get_parent_festival_options(),
-//                'value' => $film_catalog->festival_id,
-//                'required' => true,
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'select', 'contributor_id',
             array(
@@ -167,28 +155,6 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
             )
         );
 
-        $form->addElementToEditGroup(
-            'text', 'file_url_web',
-            array(
-                'id' => 'file_url_web',
-                'label' => 'URL',
-                'description' => "The URL (link) to the record",
-                'value' => $film_catalog->file_url_web,
-                'required' => false,
-            )
-        );
-
-//        $form->addElementToEditGroup(
-//            'textarea', 'embed',
-//            array(
-//                'id' => 'embed',
-//                'label' => 'Embed Code',
-//                'description' => "The catalog's embed code",
-//                'value' => $film_catalog->embed,
-//                'required' => false,
-//            )
-//        );
-
         return $form;
     }
 
@@ -202,18 +168,17 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
                     $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
                     return;
                 }
-
                 try {
+                    // delete
                     if ($action == 'delete') {
                         $film_catalog->delete();
                         $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been deleted.", 'success');
                     } else if ($action == 'add') {
                         $film_catalog->setPostData($_POST);
                         if ($film_catalog->save()) {
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been added.", 'success');
-
                             // do file upload
                             $this->upload_file($film_catalog);
+                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been added.", 'success');
                         }
                     } else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
@@ -224,11 +189,11 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
                         if (!has_temporary_file('file')) {
                             $film_catalog->file_name = $originalRecord->file_name;
                             $film_catalog->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        } else {
+                            // temporarily set file name to uploaded file name
+                            $film_catalog->file_name = get_temporary_file("file")[0];
                         }
                         if ($film_catalog->save()) {
-                            // display result dialog
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been edited.", 'success');
-
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
@@ -236,6 +201,8 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
                                 // do file upload
                                 $this->upload_file($film_catalog);
                             }
+                            // display result dialog
+                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been edited.", 'success');
                         }
                     }
 
@@ -258,6 +225,7 @@ class SuperEightFestivals_FilmCatalogsController extends Omeka_Controller_Abstra
         $newFileName = uniqid($film_catalog->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, $film_catalog->get_festival()->get_film_catalogs_dir());
         $film_catalog->file_name = $newFileName;
+        $film_catalog->create_thumbnail();
         $film_catalog->save();
     }
 

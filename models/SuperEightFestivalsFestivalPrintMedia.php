@@ -18,6 +18,10 @@ class SuperEightFestivalsFestivalPrintMedia extends SuperEightFestivalsDocument
 
     protected function _validate()
     {
+        parent::_validate();
+        if (empty($this->festival_id) || !is_numeric($this->festival_id)) {
+            $this->addError('festival_id', 'You must select a valid festival!');
+        }
     }
 
     public function getResourceId()
@@ -29,7 +33,7 @@ class SuperEightFestivalsFestivalPrintMedia extends SuperEightFestivalsDocument
 
     public function get_internal_prefix(): string
     {
-        return "film_catalog";
+        return "print_media";
     }
 
     public function get_festival()

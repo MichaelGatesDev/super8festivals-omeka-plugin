@@ -98,18 +98,6 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'city_id',
-//            array(
-//                'id' => 'city_id',
-//                'label' => 'City',
-//                'description' => "The city which the banner belongs to (required)",
-//                'multiOptions' => get_parent_city_options(),
-//                'value' => $banner->city_id,
-//                'required' => true
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'file', 'file',
             array(
@@ -153,13 +141,10 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                     } //add
                     else if ($action == 'add') {
                         $banner->setPostData($_POST);
-                        // temporarily set banner file name to uploaded file name
-                        $banner->file_name = get_temporary_file("file")[0];
                         if ($banner->save()) {
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been added.", 'success');
-
                             // do file upload
                             $this->upload_file($banner);
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been added.", 'success');
                         }
                     } //edit
                     else if ($action == 'edit') {
@@ -176,9 +161,6 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                             $banner->file_name = get_temporary_file("file")[0];
                         }
                         if ($banner->save()) {
-                            // display result dialog
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been edited.", 'success');
-
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
@@ -186,6 +168,8 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                                 // do file upload
                                 $this->upload_file($banner);
                             }
+                            // display result dialog
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been edited.", 'success');
                         }
                     }
 
@@ -208,6 +192,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $newFileName = uniqid($city_banner->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, $city_banner->get_city()->get_dir());
         $city_banner->file_name = $newFileName;
+        $city_banner->create_thumbnail();
         $city_banner->save();
     }
 

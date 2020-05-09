@@ -80,18 +80,6 @@ class SuperEightFestivals_CountryBannersController extends Omeka_Controller_Abst
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'country_id',
-//            array(
-//                'id' => 'country_id',
-//                'label' => 'Country',
-//                'description' => "The country which the banner belongs to (required)",
-//                'multiOptions' => get_parent_country_options(),
-//                'value' => $banner->country_id,
-//                'required' => true
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'file', 'file',
             array(
@@ -135,12 +123,10 @@ class SuperEightFestivals_CountryBannersController extends Omeka_Controller_Abst
                     } //add
                     else if ($action == 'add') {
                         $banner->setPostData($_POST);
-                        // temporarily set banner file name to uploaded file name
-                        $banner->file_name = get_temporary_file("file")[0];
                         if ($banner->save()) {
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been added.", 'success');
                             // do file upload
                             $this->upload_file($banner);
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been added.", 'success');
                         }
                     } //edit
                     else if ($action == 'edit') {
@@ -157,9 +143,6 @@ class SuperEightFestivals_CountryBannersController extends Omeka_Controller_Abst
                             $banner->file_name = get_temporary_file("file")[0];
                         }
                         if ($banner->save()) {
-                            // display result dialog
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been edited.", 'success');
-
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
@@ -167,6 +150,8 @@ class SuperEightFestivals_CountryBannersController extends Omeka_Controller_Abst
                                 // do file upload
                                 $this->upload_file($banner);
                             }
+                            // display result dialog
+                            $this->_helper->flashMessenger("The banner for " . $banner->get_country()->name . " has been edited.", 'success');
                         }
                     }
 
@@ -189,6 +174,7 @@ class SuperEightFestivals_CountryBannersController extends Omeka_Controller_Abst
         $newFileName = uniqid($country_banner->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, $country_banner->get_country()->get_dir());
         $country_banner->file_name = $newFileName;
+        $country_banner->create_thumbnail();
         $country_banner->save();
     }
 

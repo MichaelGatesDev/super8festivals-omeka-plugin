@@ -115,18 +115,6 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'city_id',
-//            array(
-//                'id' => 'city_id',
-//                'label' => 'City',
-//                'description' => "The city which the festival was held in (required)",
-//                'multiOptions' => get_parent_city_options(),
-//                'value' => $festival->city_id,
-//                'required' => true
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'text', 'year',
             array(
@@ -149,16 +137,16 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
 //            )
 //        );
 
-//        $form->addElementToEditGroup(
-//            'text', 'description',
-//            array(
-//                'id' => 'description',
-//                'label' => 'Description',
-//                'description' => "The description of the festival",
-//                'value' => $festival->description,
-//                'required' => false
-//            )
-//        );
+        $form->addElementToEditGroup(
+            'text', 'description',
+            array(
+                'id' => 'description',
+                'label' => 'Description',
+                'description' => "The description of the festival",
+                'value' => $festival->description,
+                'required' => false
+            )
+        );
 
         return $form;
     }

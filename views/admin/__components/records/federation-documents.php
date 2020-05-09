@@ -43,6 +43,9 @@
 <ul id="federation-documents">
     <?php foreach ($federation_documents as $document): ?>
         <li class="federation-document">
+            <a class="content" href="<?= get_relative_path($document->get_thumbnail_path()); ?>" target="_blank">
+                <img src="<?= get_relative_path($document->get_thumbnail_path()); ?>" alt="<?= $document->title; ?>"/>
+            </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $document->title != "" ? $document->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $document->description != "" ? $document->description : "N/A"; ?></p>
             <p style="text-align: center">

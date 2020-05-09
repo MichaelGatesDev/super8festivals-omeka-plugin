@@ -2,20 +2,6 @@
 
 // ============================================================================================================================================================= \\
 
-function create_tables()
-{
-    $databaseHelper = new DatabaseHelper(new DatabaseManager());
-    $databaseHelper->create_tables();
-}
-
-function drop_tables()
-{
-    $databaseHelper = new DatabaseHelper(new DatabaseManager());
-    $databaseHelper->drop_tables();
-}
-
-// ============================================================================================================================================================= \\
-
 function is_localhost()
 {
     return (in_array($_SERVER['REMOTE_ADDR'], array(

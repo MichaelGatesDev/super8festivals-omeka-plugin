@@ -43,6 +43,9 @@
 <ul id="film-catalogs">
     <?php foreach ($film_catalogs as $catalog): ?>
         <li class="film-catalog">
+            <a class="content" href="<?= get_relative_path($catalog->get_thumbnail_path()); ?>" target="_blank">
+                <img src="<?= get_relative_path($catalog->get_thumbnail_path()); ?>" alt="<?= $catalog->title; ?>"/>
+            </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $catalog->title != "" ? $catalog->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $catalog->description != "" ? $catalog->description : "N/A"; ?></p>
             <p style="text-align: center">

@@ -122,18 +122,6 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'festival_id',
-//            array(
-//                'id' => 'festival_id',
-//                'label' => 'Festival',
-//                'description' => "The festival which the filmmaker was a member of (required)",
-//                'multiOptions' => get_parent_festival_options(),
-//                'value' => $filmmaker->festival_id,
-//                'required' => true,
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'text', 'email',
             array(

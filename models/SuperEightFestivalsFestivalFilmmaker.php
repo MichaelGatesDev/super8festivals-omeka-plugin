@@ -19,7 +19,7 @@ class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
     protected function _validate()
     {
         parent::_validate();
-        if ($this->festival_id <= 0) {
+        if (empty($this->festival_id) || !is_numeric($this->festival_id)) {
             $this->addError('festival_id', 'You must select a valid festival!');
         }
     }

@@ -111,18 +111,6 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
 
         $form = new Omeka_Form_Admin($formOptions);
 
-//        $form->addElementToEditGroup(
-//            'select', 'festival_id',
-//            array(
-//                'id' => 'festival_id',
-//                'label' => 'Festival',
-//                'description' => "The festival which the catalog was a member of (required)",
-//                'multiOptions' => array_merge(array("Select..."), get_parent_festival_options()),
-//                'value' => $photo->festival_id,
-//                'required' => true,
-//            )
-//        );
-
         $form->addElementToEditGroup(
             'select', 'contributor_id',
             array(
@@ -182,18 +170,20 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
                 }
 
                 try {
+                    // delete
                     if ($action == 'delete') {
                         $photo->delete();
                         $this->_helper->flashMessenger("The photo has been deleted.", 'success');
-                    } else if ($action == 'add') {
+                    } // add
+                    else if ($action == 'add') {
                         $photo->setPostData($_POST);
                         if ($photo->save()) {
-                            $this->_helper->flashMessenger("The photo has been added.", 'success');
-
                             // do file upload
                             $this->upload_file($photo);
+                            $this->_helper->flashMessenger("The photo has been added.", 'success');
                         }
-                    } else if ($action == 'edit') {
+                    } // edit
+                    else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
                         $originalRecord = get_photo_by_id($photo->id);
                         // set the data of the record according to what was submitted in the form
@@ -209,9 +199,6 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
                             $photo->file_name = get_temporary_file("file")[0];
                         }
                         if ($photo->save()) {
-                            // display result dialog
-                            $this->_helper->flashMessenger("The photo has been edited.", 'success');
-
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
@@ -219,6 +206,8 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
                                 // do file upload
                                 $this->upload_file($photo);
                             }
+                            // display result dialog
+                            $this->_helper->flashMessenger("The photo has been edited.", 'success');
                         }
                     }
 
@@ -241,6 +230,7 @@ class SuperEightFestivals_PhotosController extends Omeka_Controller_AbstractActi
         $newFileName = uniqid($photo->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, $photo->get_dir());
         $photo->file_name = $newFileName;
+        $photo->create_thumbnail();
         $photo->save();
     }
 }

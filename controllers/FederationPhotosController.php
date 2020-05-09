@@ -106,28 +106,6 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
             )
         );
 
-//        $form->addElementToEditGroup(
-//            'text', 'file_url_web',
-//            array(
-//                'id' => 'file_url_web',
-//                'label' => 'URL',
-//                'description' => "The URL (link) to the record",
-//                'value' => $federation_photo->file_url_web,
-//                'required' => false,
-//            )
-//        );
-
-//        $form->addElementToEditGroup(
-//            'textarea', 'embed',
-//            array(
-//                'id' => 'embed',
-//                'label' => 'Embed Code',
-//                'description' => "The federation photo's embed code",
-//                'value' => $federation_photo->embed,
-//                'required' => false,
-//            )
-//        );
-
         return $form;
     }
 
@@ -141,18 +119,17 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
                     $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
                     return;
                 }
-
                 try {
+                    // delete
                     if ($action == 'delete') {
                         $federation_photo->delete();
                         $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been deleted.", 'success');
                     } else if ($action == 'add') {
                         $federation_photo->setPostData($_POST);
                         if ($federation_photo->save()) {
-                            $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been added.", 'success');
-
                             // do file upload
                             $this->upload_file($federation_photo);
+                            $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been added.", 'success');
                         }
                     } else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
@@ -163,11 +140,11 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
                         if (!has_temporary_file('file')) {
                             $federation_photo->file_name = $originalRecord->file_name;
                             $federation_photo->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                        } else {
+                            // temporarily set file name to uploaded file name
+                            $federation_photo->file_name = get_temporary_file("file")[0];
                         }
                         if ($federation_photo->save()) {
-                            // display result dialog
-                            $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been edited.", 'success');
-
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
@@ -175,6 +152,8 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
                                 // do file upload
                                 $this->upload_file($federation_photo);
                             }
+                            // display result dialog
+                            $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been edited.", 'success');
                         }
                     }
 
@@ -197,6 +176,7 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
         $newFileName = uniqid($federation_photo->get_internal_prefix() . "_") . "." . $extension;
         move_to_dir($temporary_name, $newFileName, $federation_photo->get_dir());
         $federation_photo->file_name = $newFileName;
+        $federation_photo->create_thumbnail();
         $federation_photo->save();
     }
 

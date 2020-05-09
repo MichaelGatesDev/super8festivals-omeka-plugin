@@ -23,10 +23,6 @@ abstract class SuperEightFestivalsVideo extends Omeka_Record_AbstractRecord impl
     /**
      * @var string
      */
-    public $thumbnail_url_web = "";
-    /**
-     * @var string
-     */
     public $embed = "";
 
     // ======================================================================================================================== \\

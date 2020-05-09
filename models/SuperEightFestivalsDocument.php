@@ -23,19 +23,7 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
     /**
      * @var string
      */
-    public $thumbnail_url_web = "";
-    /**
-     * @var string
-     */
     public $file_name = "";
-    /**
-     * @var string
-     */
-    public $file_url_web = "";
-    /**
-     * @var string
-     */
-    public $embed = "";
 
     // ======================================================================================================================== \\
 
@@ -50,7 +38,6 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
         if (!parent::isValid()) return;
         $this->title = trim($this->title);
         $this->description = trim($this->description);
-        $this->create_thumbnail();
     }
 
     protected function afterDelete()
@@ -79,20 +66,25 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
         return file_exists($this->get_thumbnail_path()) && !is_dir($this->get_thumbnail_path());
     }
 
-    private function create_thumbnail()
+    public function create_thumbnail()
     {
-        if (is_dir($this->get_path())) return; // path is a directory
-        if ($this->has_thumbnail()) return; // already has thumbnail
+        // no file to create a thumbnail from
+        if ($this->file_name === null || $this->file_name === "" || is_dir($this->get_path()) || !file_exists($this->get_path())) {
+            error_log("Failed to create thumbnail: file does not exist or is a directory!");
+            return;
+        }
+        if ($this->has_thumbnail()) {
+            error_log("Failed to create thumbnail: a thumbnail already exists!");
+            return;
+        }
         try {
-            $name = str_replace($this->get_internal_prefix() . "_", $this->get_internal_prefix() . "_thumb_", $this->file_name);
-            error_log("Creating thumbnail for: " . $this->get_path() . " (" . $this->file_name . ") as (" . $name . ")");
-
-            $imagick = new Imagick();
-            $imagick->readImage($this->get_path() . "[0]");
+            $name = pathinfo($this->file_name, PATHINFO_FILENAME) . "_thumb.jpg";
+            $this->thumbnail_file_name = $name;
+            $imagick = new Imagick($this->get_path());
             $imagick = $imagick->flattenImages();
+            $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
-            $imagick->writeImage($name);
-            error_log("Thumbnail creation complete!");
+            $imagick->writeImage($this->get_thumbnail_path());
         } catch (ImagickException $e) {
             error_log("Failed to create thumbnail (original: $this->file_name)");
             error_log($e);

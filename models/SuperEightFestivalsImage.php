@@ -58,9 +58,15 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
 
     public abstract function get_dir(): string;
 
-    public abstract function get_path(): string;
+    public function get_path(): string
+    {
+        return strlen($this->file_name) != 0 ? $this->get_dir() . "/" . $this->file_name : "";
+    }
 
-    public abstract function get_thumbnail_path(): string;
+    public function get_thumbnail_path(): string
+    {
+        return strlen($this->thumbnail_file_name) != 0 ? $this->get_dir() . "/" . $this->thumbnail_file_name : "";
+    }
 
     public function has_thumbnail(): bool
     {
@@ -72,11 +78,11 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
         // no file to create a thumbnail from
         if ($this->file_name === null || $this->file_name === "" || is_dir($this->get_path()) || !file_exists($this->get_path())) {
             error_log("Failed to create thumbnail: file does not exist or is a directory!");
-            return;
+            return false;
         }
         if ($this->has_thumbnail()) {
             error_log("Failed to create thumbnail: a thumbnail already exists!");
-            return;
+            return false;
         }
         try {
             $name = pathinfo($this->file_name, PATHINFO_FILENAME) . "_thumb.jpg";
@@ -86,9 +92,11 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
             $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
             $imagick->writeImage($this->get_thumbnail_path());
+            return true;
         } catch (ImagickException $e) {
             error_log("Failed to create thumbnail (original: $this->file_name)");
             error_log($e);
+            return false;
         }
     }
 

@@ -56,15 +56,5 @@ class SuperEightFestivalsFestivalPoster extends SuperEightFestivalsImage
         return $this->get_festival()->get_posters_dir();
     }
 
-    public function get_path(): string
-    {
-        return $this->get_dir() . "/" . $this->file_name;
-    }
-
-    public function get_thumbnail_path(): string
-    {
-        return $this->get_dir() . "/" . $this->thumbnail_file_name;
-    }
-
     // ======================================================================================================================== \\
 }

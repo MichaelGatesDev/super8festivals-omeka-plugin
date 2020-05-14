@@ -75,18 +75,6 @@ function get_festival_records_by_type($festivalID, $recordType)
 
 // ============================================================================================================================================================= \\
 
-function replace_dash_with_space($str)
-{
-    return str_replace("-", " ", $str);
-}
-
-function replace_space_with_dash($str)
-{
-    return str_replace(" ", "-", $str);
-}
-
-// ============================================================================================================================================================= \\
-
 function get_all_federation_documents(): array
 {
     return get_db()->getTable("SuperEightFestivalsFederationDocument")->findAll();

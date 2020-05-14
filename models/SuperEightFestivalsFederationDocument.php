@@ -49,16 +49,6 @@ class SuperEightFestivalsFederationDocument extends SuperEightFestivalsDocument
         return get_federation_dir() . "/documents";
     }
 
-    public function get_path(): string
-    {
-        return $this->get_dir() . "/" . $this->file_name;
-    }
-
-    public function get_thumbnail_path(): string
-    {
-        return $this->get_dir() . "/" . $this->thumbnail_file_name;
-    }
-
     private function create_files()
     {
         if (!file_exists($this->get_dir())) {

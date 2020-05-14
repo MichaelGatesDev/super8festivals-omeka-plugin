@@ -202,6 +202,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
             $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);
             $this->add_static_route($router, "debug_create_directories", ":module/debug/create-directories", "debug-create-directories", true);
+            $this->add_static_route($router, "debug_generate_missing_thumbnails", ":module/debug/generate-missing-thumbnails", "debug-generate-missing-thumbnails", true);
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");

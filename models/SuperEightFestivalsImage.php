@@ -75,8 +75,10 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
 
     public function create_thumbnail()
     {
+        ini_set('max_execution_time', 0);
+
         // no file to create a thumbnail from
-        if ($this->file_name === null || $this->file_name === "" || is_dir($this->get_path()) || !file_exists($this->get_path())) {
+        if ($this->file_name === null || $this->file_name === "" || $this->get_path() === "" || is_dir($this->get_path()) || !file_exists($this->get_path())) {
             error_log("Failed to create thumbnail: file does not exist or is a directory!");
             return false;
         }

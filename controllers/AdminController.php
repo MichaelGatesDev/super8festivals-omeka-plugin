@@ -16,21 +16,16 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
 
     public function debugPurgeUnusedAction()
     {
-        $countries = get_all_countries();
-
-        $cities = get_all_cities();
-        foreach ($cities as $city) {
-            if ($city->get_country() === null) {
-                $city->delete();
-            }
-        }
-
-        $festivals = get_all_festivals();
-        foreach ($festivals as $festival) {
-            if ($festival->get_city() === null) {
-                $festival->delete();
-            }
-        }
+        foreach (get_all_festivals() as $record) if ($record->get_city() === null) $record->delete();
+        foreach (get_all_cities() as $record) if ($record->get_country() === null) $record->delete();
+        foreach (get_all_city_banners() as $record) if ($record->get_city() === null) $record->delete();
+        foreach (get_all_country_banners() as $record) if ($record->get_country() === null) $record->delete();
+        foreach (get_all_film_catalogs() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (get_all_filmmakers() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (get_all_memorabilia() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (get_all_photos() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (get_all_posters() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (get_all_print_media() as $record) if ($record->get_festival() === null) $record->delete();
     }
 
     public function debugCreateTablesAction()

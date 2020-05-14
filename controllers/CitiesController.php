@@ -47,6 +47,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
 
         // Create new city
         $city = new SuperEightFestivalsCity();
+        $city->country_id = $country->id;
         $form = $this->_getForm($city);
         $this->view->form = $form;
         $this->_processForm($city, $form, 'add');
@@ -93,18 +94,6 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         );
 
         $form = new Omeka_Form_Admin($formOptions);
-
-//        $form->addElementToEditGroup(
-//            'select', 'country_id',
-//            array(
-//                'id' => 'country_id',
-//                'label' => 'Country ID',
-//                'description' => "The ID of the country (required)",
-//                'multiOptions' => get_parent_country_options(),
-//                'value' => $city->country_id,
-//                'required' => true
-//            )
-//        );
 
         $form->addElementToEditGroup(
             'text', 'name',

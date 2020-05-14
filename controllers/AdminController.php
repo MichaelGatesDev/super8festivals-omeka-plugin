@@ -42,4 +42,13 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
     {
         generate_missing_thumbnails();
     }
+
+    public function debugFixFestivalsAction()
+    {
+        foreach (get_all_festivals() as $festival) {
+            if ($festival->id === -1) $festival->id = 0;
+            if ($festival->year === -1) $festival->year = 0;
+            $festival->save();
+        }
+    }
 }

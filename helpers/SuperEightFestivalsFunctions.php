@@ -328,7 +328,7 @@ function add_city($countryID, $name, $latitude, $longitude)
     $city->country_id = $countryID;
     $city->save();
 
-    add_festival($city->id, -1, "$name default festival", "this is the default festival for $name");
+    add_festival($city->id, 0, "$name default festival", "this is the default festival for $name");
     return $city;
 }
 

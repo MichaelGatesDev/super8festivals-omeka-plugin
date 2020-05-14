@@ -121,7 +121,7 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
                 'id' => 'year',
                 'label' => 'Year',
                 'description' => "The year in which the festival was held",
-                'value' => $festival->year == -1 ? "" : $festival->year,
+                'value' => $festival->year == 0 ? "" : $festival->year,
                 'required' => false,
             )
         );

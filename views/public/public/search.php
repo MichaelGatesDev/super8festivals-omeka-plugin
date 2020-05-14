@@ -155,7 +155,7 @@ $query = trim($query); // trim blank
                 <?php foreach ($matching_festivals as $festival): ?>
                     <li>
                         <a href="/cities/<?= urlencode($festival->get_city()->name); ?>" class="title">
-                            <?php if ($festival->year !== -1): ?>
+                            <?php if ($festival->year !== -0): ?>
                                 (<?= $festival->year; ?>)&nbsp;
                             <?php endif; ?>
                             <?= $festival->title; ?>

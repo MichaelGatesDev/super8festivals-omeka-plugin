@@ -89,7 +89,9 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
             $name = pathinfo($this->file_name, PATHINFO_FILENAME) . "_thumb.jpg";
             $this->thumbnail_file_name = $name;
             $imagick = new Imagick($this->get_path());
-            $imagick = $imagick->flattenImages();
+//            $imagick = $imagick->mergeImageLayers(Imagick::LAYERMETHOD_FLATTEN);
+            $imagick->setFirstIterator();
+//            $imagick->setBackgroundColor("white");
             $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
             $imagick->writeImage($this->get_thumbnail_path());

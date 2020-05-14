@@ -93,12 +93,22 @@ abstract class SuperEightFestivalsDocument extends Omeka_Record_AbstractRecord i
             $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
             $imagick->writeImage($this->get_thumbnail_path());
+            $this->save();
             return true;
         } catch (ImagickException $e) {
             error_log("Failed to create thumbnail (original: $this->file_name)");
             error_log($e);
             return false;
         }
+    }
+
+    public function delete_thumbnail()
+    {
+        if ($this->has_thumbnail()) {
+            delete_file($this->get_thumbnail_path());
+        }
+        $this->thumbnail_file_name = "";
+        $this->save();
     }
 
     public function delete_files()

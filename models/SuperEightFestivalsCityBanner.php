@@ -44,7 +44,7 @@ class SuperEightFestivalsCityBanner extends SuperEightFestivalsImage
 
     public function get_internal_prefix(): string
     {
-        return "banner";
+        return "city_banner";
     }
 
     public function get_country(): ?SuperEightFestivalsCountry

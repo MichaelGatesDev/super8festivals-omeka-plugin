@@ -43,6 +43,21 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
         generate_missing_thumbnails();
     }
 
+    public function debugRegenerateAllThumbnailsAction()
+    {
+        regenerate_all_thumbnails();
+    }
+
+    public function debugGenerateAllThumbnailsAction()
+    {
+        generate_all_thumbnails();
+    }
+
+    public function debugDeleteAllThumbnailsAction()
+    {
+        delete_all_thumbnails();
+    }
+
     public function debugFixFestivalsAction()
     {
         foreach (get_all_festivals() as $festival) {

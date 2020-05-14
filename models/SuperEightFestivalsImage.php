@@ -38,7 +38,6 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
         if (!parent::isValid()) return;
         $this->title = trim($this->title);
         $this->description = trim($this->description);
-        $this->create_thumbnail();
     }
 
     protected function afterDelete()
@@ -60,12 +59,12 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
 
     public function get_path(): string
     {
-        return strlen($this->file_name) != 0 ? $this->get_dir() . "/" . $this->file_name : "";
+        return $this->file_name != "" ? $this->get_dir() . "/" . $this->file_name : "";
     }
 
     public function get_thumbnail_path(): string
     {
-        return strlen($this->thumbnail_file_name) != 0 ? $this->get_dir() . "/" . $this->thumbnail_file_name : "";
+        return $this->thumbnail_file_name != "" ? $this->get_dir() . "/" . $this->thumbnail_file_name : "";
     }
 
     public function has_thumbnail(): bool
@@ -94,6 +93,7 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
             $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
             $imagick->writeImage($this->get_thumbnail_path());
+            $this->save();
             return true;
         } catch (ImagickException $e) {
             error_log("Failed to create thumbnail (original: $this->file_name)");
@@ -102,15 +102,19 @@ abstract class SuperEightFestivalsImage extends Omeka_Record_AbstractRecord impl
         }
     }
 
+    public function delete_thumbnail()
+    {
+        if ($this->has_thumbnail()) {
+            delete_file($this->get_thumbnail_path());
+        }
+        $this->thumbnail_file_name = "";
+        $this->save();
+    }
+
     public function delete_files()
     {
         delete_file($this->get_path());
         delete_file($this->get_thumbnail_path());
-    }
-
-    public function get_file_type()
-    {
-        return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
     // ======================================================================================================================== \\

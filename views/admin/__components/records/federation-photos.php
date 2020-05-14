@@ -44,7 +44,7 @@
     <?php foreach ($federation_photos as $photo): ?>
         <li class="photo">
             <a class="content" href="<?= get_relative_path($photo->get_path()); ?>" target="_blank">
-                <img src="<?= get_relative_path($photo->get_thumbnail_path()); ?>" alt="<?= $photo->title; ?>"/>
+                <img src="<?= get_relative_path($photo->get_thumbnail_path()); ?>" alt="<?= $photo->title; ?>" style="object-fit: contain"/>
             </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $photo->title != "" ? $photo->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $photo->description != "" ? $photo->description : "N/A"; ?></p>

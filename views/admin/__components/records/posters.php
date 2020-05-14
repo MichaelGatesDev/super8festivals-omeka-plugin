@@ -44,7 +44,7 @@
     <?php foreach ($posters as $poster): ?>
         <li class="poster">
             <a class="content" href="<?= get_relative_path($poster->get_path()); ?>" target="_blank">
-                <img src="<?= get_relative_path($poster->get_thumbnail_path()); ?>" alt="<?= $poster->title; ?>"/>
+                <img src="<?= get_relative_path($poster->get_thumbnail_path()); ?>" alt="<?= $poster->title; ?>" style="object-fit: contain"/>
             </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $poster->title != "" ? $poster->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $poster->description != "" ? $poster->description : "N/A"; ?></p>

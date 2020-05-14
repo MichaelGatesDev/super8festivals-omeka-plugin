@@ -44,7 +44,7 @@
     <?php foreach ($printMediaVar as $print_media): ?>
         <li class="film-catalog">
             <a class="content" href="<?= get_relative_path($print_media->get_thumbnail_path()); ?>" target="_blank">
-                <img src="<?= get_relative_path($print_media->get_thumbnail_path()); ?>" alt="<?= $print_media->title; ?>"/>
+                <img src="<?= get_relative_path($print_media->get_thumbnail_path()); ?>" alt="<?= $print_media->title; ?>" style="object-fit: contain"/>
             </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $print_media->title != "" ? $print_media->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $print_media->description != "" ? $print_media->description : "N/A"; ?></p>

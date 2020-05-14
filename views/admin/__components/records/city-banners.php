@@ -51,7 +51,7 @@
     <?php foreach ($city_banners as $banner): ?>
         <li class="city-banner <?= $banner->active ? "active " : "" ?>">
             <a class="content" href="<?= get_relative_path($banner->get_path()); ?>" target="_blank">
-                <img src="<?= get_relative_path($banner->get_thumbnail_path()); ?>" alt="<?= $banner->title; ?>"/>
+                <img src="<?= get_relative_path($banner->get_thumbnail_path()); ?>" alt="<?= $banner->title; ?>" style="object-fit: contain"/>
             </a>
             <p style="text-align: center">
                 <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($banner->get_country()->name); ?>/cities/<?= urlencode($banner->get_city()->name); ?>/banners/<?= $banner->id; ?>/edit">Edit</a>

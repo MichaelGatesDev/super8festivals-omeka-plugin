@@ -43,7 +43,7 @@
     <?php foreach ($memorabilia as $memorabilium): ?>
         <li class="memorabilia">
             <a class="content" href="<?= get_relative_path($memorabilium->get_thumbnail_path()); ?>" target="_blank">
-                <img src="<?= get_relative_path($memorabilium->get_thumbnail_path()); ?>" alt="<?= $memorabilium->title; ?>"/>
+                <img src="<?= get_relative_path($memorabilium->get_thumbnail_path()); ?>" alt="<?= $memorabilium->title; ?>" style="object-fit: contain"/>
             </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $memorabilium->title != "" ? $memorabilium->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $memorabilium->description != "" ? $memorabilium->description : "N/A"; ?></p>

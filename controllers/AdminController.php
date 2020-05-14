@@ -42,4 +42,9 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
     {
         create_plugin_directories();
     }
+
+    public function debugGenerateMissingThumbnailsAction()
+    {
+        generate_missing_thumbnails();
+    }
 }

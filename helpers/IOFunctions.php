@@ -132,4 +132,25 @@ function get_federation_dir()
     return get_project_dir() . "/federation";
 }
 
+function generate_missing_thumbnails()
+{
+    generate_missing_thumbnails_for_all(get_all_city_banners());
+    generate_missing_thumbnails_for_all(get_all_federation_documents());
+    generate_missing_thumbnails_for_all(get_all_federation_photos());
+    generate_missing_thumbnails_for_all(get_all_film_catalogs());
+    generate_missing_thumbnails_for_all(get_all_memorabilia());
+    generate_missing_thumbnails_for_all(get_all_photos());
+    generate_missing_thumbnails_for_all(get_all_posters());
+    generate_missing_thumbnails_for_all(get_all_print_media());
+}
+
+function generate_missing_thumbnails_for_all($records)
+{
+    foreach ($records as $record) {
+        if ($record->thumbnail_file_name !== "") continue;
+        if (!$record->create_thumbnail()) continue;
+        $record->save();
+    }
+}
+
 // ============================================================================================================================================================= \\

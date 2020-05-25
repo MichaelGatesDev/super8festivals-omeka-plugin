@@ -1,5 +1,7 @@
 <?php
 
+ini_set('max_execution_time', 0);
+
 require_once dirname(__FILE__) . '/helpers/IOFunctions.php';
 require_once dirname(__FILE__) . '/helpers/SuperEightFestivalsFunctions.php';
 require_once dirname(__FILE__) . '/helpers/DBFunctions.php';
@@ -64,42 +66,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function hookInitialize()
     {
-        try {
-            $countries = get_all_countries();
-            foreach ($countries as $country) {
-                $activeBanner = get_active_country_banner($country->id);
-                if ($activeBanner == null) {
-                    $banners = get_country_banners($country->id);
-                    if (count($banners) > 0) {
-                        $banners[0]->active = true;
-                        $banners[0]->save();
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            error_log("Failed to make a default active banner!");
-            error_log($e);
-        }
-
-        try {
-            $cities = get_all_cities();
-            foreach ($cities as $city) {
-                $activeBanner = get_active_city_banner($city->id);
-                if ($activeBanner == null) {
-                    $banners = get_city_banners($city->id);
-                    if (count($banners) > 0) {
-                        $banners[0]->active = true;
-                        $banners[0]->save();
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            error_log("Failed to make a default active banner!");
-            error_log($e);
-        }
-
-        // Create tables
-//        create_tables();
     }
 
     function hookUninstall()

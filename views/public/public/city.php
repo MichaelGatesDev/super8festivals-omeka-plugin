@@ -8,7 +8,7 @@ queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.f
 
 echo head($head);
 
-$banner = get_active_city_banner($city->id);
+$banner = get_city_banner($city->id);
 $festivals = get_all_festivals_in_city($city->id);
 ?>
 

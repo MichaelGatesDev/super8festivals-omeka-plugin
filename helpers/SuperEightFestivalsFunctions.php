@@ -174,91 +174,15 @@ function delete_country($country_id)
 
 // ============================================================================================================================================================= \\
 
-function get_all_country_banners(): array
-{
-    return get_db()->getTable("SuperEightFestivalsCountryBanner")->findAll();
-}
-
-function get_country_banners($countryID): array
-{
-    return get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID), -1);
-}
-
-function get_active_country_banner($countryID): ?SuperEightFestivalsCountryBanner
-{
-
-    $results = get_db()->getTable('SuperEightFestivalsCountryBanner')->findBy(array('country_id' => $countryID, 'active' => true), 1);
-    if (count($results) > 0) {
-        return $results[0];
-    } else {
-//        $cities = get_all_cities_in_country($countryID);
-//        foreach ($cities as $city) {
-//            $banners = get_city_banners($city->id);
-//            foreach ($banners as $banner) {
-//                if ($banner->active) return $banner;
-//            }
-//        }
-        return null;
-    }
-}
-
-function get_country_banner_by_id($id): ?SuperEightFestivalsCountryBanner
-{
-    return get_db()->getTable('SuperEightFestivalsCountryBanner')->find($id);
-}
-
-function add_country_banner($countryID, $file_name): ?SuperEightFestivalsCountryBanner
-{
-    $banner = new SuperEightFestivalsCountryBanner();
-    $banner->country_id = $countryID;
-    $banner->file_name = $file_name;
-    try {
-        $banner->save();
-        return $banner;
-    } catch (Omeka_Record_Exception $e) {
-        return null;
-    } catch (Omeka_Validate_Exception $e) {
-        return null;
-    }
-}
-
-// ============================================================================================================================================================= \\
-
 function get_all_city_banners(): array
 {
     return get_db()->getTable("SuperEightFestivalsCityBanner")->findAll();
 }
 
-function get_city_banners($cityID): array
+function get_city_banner($cityID): ?SuperEightFestivalsCityBanner
 {
-    return get_db()->getTable('SuperEightFestivalsCityBanner')->findBy(array('city_id' => $cityID), -1);
-}
-
-function get_active_city_banner($cityID): ?SuperEightFestivalsCityBanner
-{
-    $results = get_db()->getTable('SuperEightFestivalsCityBanner')->findBy(array('city_id' => $cityID, 'active' => true), 1);
+    $results = get_db()->getTable('SuperEightFestivalsCityBanner')->findBy(array('city_id' => $cityID), 1);
     return count($results) > 0 ? $results[0] : null;
-}
-
-function get_city_banner_by_id($id): ?SuperEightFestivalsCityBanner
-{
-    return get_db()->getTable('SuperEightFestivalsCityBanner')->find($id);
-}
-
-function add_city_banner($countryID, $cityID, $file_name): ?SuperEightFestivalsCityBanner
-{
-    $banner = new SuperEightFestivalsCityBanner();
-    $banner->country_id = $countryID;
-    $banner->city_id = $cityID;
-    $banner->file_name = $file_name;
-    try {
-        $banner->save();
-        return $banner;
-    } catch (Omeka_Record_Exception $e) {
-        return null;
-    } catch (Omeka_Validate_Exception $e) {
-        return null;
-    }
 }
 
 // ============================================================================================================================================================= \\
@@ -701,6 +625,25 @@ function add_contributor(string $first_name, string $last_name, string $organiza
     $contributor->organization_name = $organization_name;
     $contributor->email = $email;
     $contributor->save();
+}
+
+function get_all_contribution_types()
+{
+    return array(
+        array("name" => "Festival Film", "value" => Super8FestivalsRecordType::FestivalFilm),
+        array("name" => "Festival Film Catalog", "value" => Super8FestivalsRecordType::FestivalFilmCatalog),
+        array("name" => "Festival Filmmaker", "value" => Super8FestivalsRecordType::FestivalFilmmaker),
+        array("name" => "Festival Memorabilia", "value" => Super8FestivalsRecordType::FestivalMemorabilia),
+        array("name" => "Festival Photo", "value" => Super8FestivalsRecordType::FestivalPhoto),
+        array("name" => "Festival Poster", "value" => Super8FestivalsRecordType::FestivalPoster),
+        array("name" => "Festival Print Media", "value" => Super8FestivalsRecordType::FestivalPrintMedia),
+    );
+}
+
+function get_contribution_type($value)
+{
+    $vars = get_object_vars(Super8FestivalsRecordType::class);
+
 }
 
 // ============================================================================================================================================================= \\

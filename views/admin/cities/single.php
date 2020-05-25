@@ -20,14 +20,14 @@ echo head(array(
 <section id="city-single">
 
     <div class="records-section">
-        <h2>City Banners</h2>
-        <?php $city_banners = get_city_banners($city->id); ?>
-        <?php if (count($city_banners) == 0): ?>
-            <p>There are no banners available for this city.</p>
+        <h2>City Banner</h2>
+        <?php $city_banner = get_city_banner($city->id); ?>
+        <?php if ($city_banner == null): ?>
+            <p>There is no banner available for this city.</p>
+            <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name) ?>/banners/add">Add City Banner</a>
         <?php else: ?>
-            <?= $this->partial("__components/records/city-banners.php", array('city_banners' => $city_banners)); ?>
+            <?= $this->partial("__components/records/city-banner.php", array('city_banner' => $city_banner)); ?>
         <?php endif; ?>
-        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name) ?>/banners/add">Add City Banner</a>
     </div>
 
     <div class="records-section">

@@ -1,37 +1,20 @@
 <?php
 
-class SuperEightFestivalsCityBanner extends SuperEightFestivalsImage
+class SuperEightFestivalsCityBanner extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     // ======================================================================================================================== \\
 
+    use S8FPreviewable;
+
     public $city_id = 0;
-    public $active = false;
 
     // ======================================================================================================================== \\
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->contributor_id = 0;
-    }
 
     protected function _validate()
     {
         parent::_validate();
         if (empty($this->city_id) || !is_numeric($this->city_id)) {
             $this->addError('country_id', 'The country that the city exists in must be specified.');
-        }
-    }
-
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        if ($this->active) {
-            foreach (get_city_banners($this->city_id) as $banner) {
-                if ($banner->id == $this->id) continue;
-                $banner->active = false;
-                $banner->save();
-            }
         }
     }
 

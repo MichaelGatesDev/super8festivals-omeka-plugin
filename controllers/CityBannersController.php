@@ -58,9 +58,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
 
-
-        $bannerID = $request->getParam('bannerID');
-        $banner = get_city_banner_by_id($bannerID);
+        $banner = get_city_banner($city->id);
         $this->view->banner = $banner;
 
         $form = $this->_getForm($banner);
@@ -81,8 +79,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $city = get_city_by_name($country->id, $cityName);
         $this->view->city = $city;
 
-        $bannerID = $request->getParam('bannerID');
-        $banner = get_city_banner_by_id($bannerID);
+        $banner = get_city_banner($city->id);
         $this->view->banner = $banner;
 
         $form = $this->_getDeleteForm();
@@ -104,18 +101,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The banner image file",
-                'required' => $banner->file_name == "" || !file_exists($banner->get_path()),
-            )
-        );
-
-        $form->addElementToEditGroup(
-            'checkbox', 'active',
-            array(
-                'id' => 'active',
-//                    'disabled' => get_active_city_banner($banner->get_country()->id) == null,
-                'label' => 'Active',
-                'description' => "Make this the active banner?",
-                'value' => $banner->active,
+                'required' => $banner == null || $banner->file_name == "" || !file_exists($banner->get_path()),
             )
         );
 
@@ -149,7 +135,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                     } //edit
                     else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_city_banner_by_id($banner->id);
+                        $originalRecord = get_city_banner($banner->id);
                         // set the data of the record according to what was submitted in the form
                         $banner->setPostData($_POST);
                         // if there is no pending upload, use the old files

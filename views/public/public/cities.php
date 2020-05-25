@@ -22,7 +22,7 @@ $cities = get_all_cities();
         <div class="row">
             <?php foreach ($cities as $city): ?>
                 <?php
-                $banner = get_active_city_banner($city->id);
+                $banner = get_city_banner($city->id);
                 $festivals = get_all_festivals_in_city($city->id);
                 ?>
                 <div class="col">

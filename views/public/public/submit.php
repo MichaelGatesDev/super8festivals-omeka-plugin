@@ -33,8 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $name = $_POST['name']; // required
     $email = $_POST['email']; // required
+    $subject = "Super8Festivals.org -- contribution received"; // required
     $materialType = $_POST['materialType']; // required
     $message = $_POST['optionalMessage']; // required
+
+    $to = is_localhost() ? 'mgate005@plattsburgh.edu' : "super8festivals@gmail.com";
+    $headers = array(
+        'From' => $email,
+        'Reply-To' => $email,
+        'X-Mailer' => 'PHP/' . phpversion()
+    );
+    mail($to, $subject, $message, $headers);
 }
 ?>
 
@@ -101,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <select class="custom-select title" id="materialType" name="materialType" required="required">
                                     <option value="" selected>Select</option>
                                     <?php foreach (get_all_contribution_types() as $contribution_type): ?>
-                                        <option value="<?= $contribution_type->name; ?>" class="text-capitalize"><?= $contribution_type->name; ?></option>
+                                        <option value="<?= $contribution_type["value"]; ?>" class="text-capitalize"><?= $contribution_type["name"]; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

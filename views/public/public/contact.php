@@ -36,54 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $subject = $_POST['subject']; // required
     $message = $_POST['message']; // required
 
-//    $error_message = "";
-//
-//    // name
-//    $string_exp = "/^[A-Za-z .'-]+$/";
-//    if (!preg_match($string_exp, $name)) {
-//        $error_message .= 'The name you entered does not appear to be valid.<br />';
-//    }
-//
-//    // email
-//    $email_exp = '/^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
-//    if (!preg_match($email_exp, $email)) {
-//        $error_message .= 'The email address you entered does not appear to be valid.<br />';
-//    }
-//
-//    // subject
-//    if (strlen($subject) <= 0) {
-//        $error_message .= 'The subject you entered appears to be empty.<br />';
-//    }
-//
-//    // message
-//    if (strlen($message) <= 0) {
-//        $error_message .= 'The message you entered appears to be empty.<br />';
-//    }
-//
-//    // handle errors
-//    if (strlen($error_message) > 0) {
-//        died($error_message);
-//    }
-//
-//    $config = array(
-//        'ssl' => 'tls',
-//        'port' => 587,
-//        'auth' => 'login',
-//        'username' => 'our.email@gmail.com',
-//        'password' => 'password123'
-//    );
-//    $transport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $config);
-//    $mail = new Zend_Mail();
-//    try {
-//        $mail
-//            ->setFrom($email, $name)
-//            ->setSubject($subject)
-//            ->addTo('our.email@gmail.com')
-//            ->setBodyText($message)
-//            ->send($transport);
-//    } catch (Zend_Mail_Exception $e) {
-//        died($e);
-//    }
+    $to = is_localhost() ? 'mgate005@plattsburgh.edu' : "super8festivals@gmail.com";
+    $headers = array(
+        'From' => $email,
+        'Reply-To' => $email,
+        'X-Mailer' => 'PHP/' . phpversion()
+    );
+    mail($to, "Super8Festivals.org message received: " . $subject, $message, $headers);
 }
 ?>
 

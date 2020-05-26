@@ -5,6 +5,9 @@ $head = array(
 echo head($head);
 
 $cities = get_all_cities();
+usort($cities, function ($a, $b) {
+    return $a['name'] > $b['name'];
+});
 ?>
 
 <style>

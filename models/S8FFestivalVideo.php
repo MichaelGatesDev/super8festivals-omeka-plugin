@@ -1,10 +1,10 @@
 <?php
 
-trait S8FFestivalImage
+trait S8FFestivalVideo
 {
     // ======================================================================================================================== \\
 
-    use S8FImage;
+    use S8FVideo;
     use S8FContributable;
 
     public $festival_id = 0;

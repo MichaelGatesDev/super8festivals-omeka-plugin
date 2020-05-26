@@ -5,6 +5,7 @@ trait S8FFestivalDocument
     // ======================================================================================================================== \\
 
     use S8FDocument;
+    use S8FContributable;
 
     public $festival_id = 0;
 

@@ -8,27 +8,43 @@ class SuperEightFestivalsFederationDocument extends Omeka_Record_AbstractRecord 
 
     // ======================================================================================================================== \\
 
-
     protected function beforeSave($args)
     {
         parent::beforeSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Adding federation document ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updating federation document ({$this->id})");
+        }
     }
 
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        $this->create_files();
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Added federation document ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updated federation document ({$this->id})");
+        }
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_files();
+        logger_log(LogLevel::Info, "Deleted federation document ({$this->id})");
     }
+
 
     public function getResourceId()
     {
-        return 'SuperEightFestivals_Festival_Federation_Document';
+        return 'SuperEightFestivals_Federation_Document';
     }
 
     // ======================================================================================================================== \\
@@ -38,16 +54,10 @@ class SuperEightFestivalsFederationDocument extends Omeka_Record_AbstractRecord 
         return "federation_document";
     }
 
-    public function get_dir(): string
+    public function get_dir(): ?string
     {
+        if (get_federation_dir() == null) return null;
         return get_federation_dir() . "/documents";
-    }
-
-    private function create_files()
-    {
-        if (!file_exists($this->get_dir())) {
-            mkdir($this->get_dir());
-        }
     }
 
     // ======================================================================================================================== \\

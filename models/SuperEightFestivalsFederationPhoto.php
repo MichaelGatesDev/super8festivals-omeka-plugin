@@ -1,36 +1,46 @@
 <?php
 
-class SuperEightFestivalsFederationPhoto extends SuperEightFestivalsImage
+class SuperEightFestivalsFederationPhoto extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     // ======================================================================================================================== \\
 
+    use S8FFederationImage;
+
     // ======================================================================================================================== \\
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    protected function _validate()
-    {
-    }
 
     protected function beforeSave($args)
     {
         parent::beforeSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Adding federation photo ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updating federation photo ({$this->id})");
+        }
     }
 
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        $this->create_files();
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Added federation photo ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updated federation photo ({$this->id})");
+        }
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_files();
+        logger_log(LogLevel::Info, "Deleted federation photo ({$this->id})");
     }
+
 
     public function getResourceId()
     {
@@ -41,19 +51,13 @@ class SuperEightFestivalsFederationPhoto extends SuperEightFestivalsImage
 
     public function get_internal_prefix(): string
     {
-        return "photo";
+        return "federation_photo";
     }
 
-    public function get_dir(): string
+    public function get_dir(): ?string
     {
+        if (get_federation_dir() == null) return null;
         return get_federation_dir() . "/photos";
-    }
-
-    private function create_files()
-    {
-        if (!file_exists($this->get_dir())) {
-            mkdir($this->get_dir());
-        }
     }
 
     // ======================================================================================================================== \\

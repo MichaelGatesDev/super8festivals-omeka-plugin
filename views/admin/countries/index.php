@@ -22,7 +22,9 @@ echo head(array(
     <a id="add-country-button" class="button green" href="/admin/super-eight-festivals/countries/add">Add Country</a>
     <?php
     $countries = get_all_countries();
-    sort($countries);
+    usort($countries, function ($a, $b) {
+        return $a['name'] > $b['name'];
+    });
     ?>
     <?php if (count($countries) == 0): ?>
         <p>There are no countries available.</p>

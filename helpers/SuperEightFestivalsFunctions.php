@@ -164,11 +164,12 @@ function add_countries_by_names(array $countryNames): void
     }
 }
 
-function delete_country($country_id)
+function delete_country_records($country_id)
 {
     $cities = get_all_cities_in_country($country_id);
     foreach ($cities as $city) {
-        delete_city($city);
+        delete_city_records($city);
+        $city->delete();
     }
 }
 
@@ -261,11 +262,17 @@ function add_city_by_country_name($countryName, $name, $latitude, $longitude)
     return add_city(get_country_by_name($countryName)->id, $name, $latitude, $longitude);
 }
 
-function delete_city($city_id)
+function delete_city_records($city_id)
 {
+    // banner
+    $banner = get_city_banner($city_id);
+    if ($banner != null) $banner->delete();
+
+    // festivals
     $festivals = get_all_festivals_in_city($city_id);
     foreach ($festivals as $festival) {
-        delete_festival($festival);
+        delete_festival_records($festival);
+        $festival->delete();
     }
 }
 
@@ -314,7 +321,7 @@ function get_parent_festival_options(): array
     return $results;
 }
 
-function add_festival($city_id, $year, $title, $description): ?SuperEightFestivalsFestival
+function add_festival($city_id, $year, $title = null, $description = null): ?SuperEightFestivalsFestival
 {
     $festival = new SuperEightFestivalsFestival();
     $festival->city_id = $city_id;
@@ -325,7 +332,7 @@ function add_festival($city_id, $year, $title, $description): ?SuperEightFestiva
     return $festival;
 }
 
-function delete_festival($festival_id)
+function delete_festival_records($festival_id)
 {
     $films = get_all_films_for_festival($festival_id);
     foreach ($films as $record) $record->delete();

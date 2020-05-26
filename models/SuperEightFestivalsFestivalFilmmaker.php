@@ -1,19 +1,48 @@
 <?php
 
-class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
+class SuperEightFestivalsFestivalFilmmaker extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     // ======================================================================================================================== \\
 
-    /**
-     * @var int
-     */
+    use S8FPerson;
+
     public $festival_id = 0;
 
     // ======================================================================================================================== \\
 
-    public function __construct()
+    protected function beforeSave($args)
     {
-        parent::__construct();
+        parent::beforeSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Adding festival filmmaker for {$this->get_festival()->get_title()} ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updating festival filmmaker for {$this->get_festival()->get_title()} ({$this->id})");
+        }
+    }
+
+    protected function afterSave($args)
+    {
+        parent::afterSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Added festival filmmaker for {$this->get_festival()->get_title()} ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updated festival filmmaker for {$this->get_festival()->get_title()} ({$this->id})");
+        }
+
+        $this->create_files();
+    }
+
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        $this->delete_files();
+        logger_log(LogLevel::Info, "Deleted festival filmmaker for festival {$this->id}");
     }
 
     protected function _validate()
@@ -24,16 +53,6 @@ class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
         }
     }
 
-    protected function afterSave($args)
-    {
-        $this->create_files();
-    }
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        $this->delete_files();
-    }
 
     public function getResourceId()
     {
@@ -57,8 +76,9 @@ class SuperEightFestivalsFestivalFilmmaker extends SuperEightFestivalsPerson
         return $this->get_festival()->get_country();
     }
 
-    public function get_dir(): string
+    public function get_dir(): ?string
     {
+        if ($this->get_festival() == null) return null;
         return $this->get_festival()->get_filmmakers_dir() . "/" . $this->id;
     }
 

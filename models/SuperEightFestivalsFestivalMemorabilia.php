@@ -1,19 +1,44 @@
 <?php
 
-class SuperEightFestivalsFestivalMemorabilia extends SuperEightFestivalsDocument
+class SuperEightFestivalsFestivalMemorabilia extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     // ======================================================================================================================== \\
 
-    /**
-     * @var int
-     */
-    public $festival_id = 0;
+    use S8FFestivalDocument;
 
     // ======================================================================================================================== \\
 
-    public function __construct()
+    protected function beforeSave($args)
     {
-        parent::__construct();
+        parent::beforeSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Adding festival memorabilia for {$this->get_festival()->get_title()} ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updating festival memorabilia for {$this->get_festival()->get_title()} ({$this->id})");
+        }
+    }
+
+    protected function afterSave($args)
+    {
+        parent::afterSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Added festival memorabilia for {$this->get_festival()->get_title()} ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updated festival memorabilia for {$this->get_festival()->get_title()} ({$this->id})");
+        }
+    }
+
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        $this->delete_files();
+        logger_log(LogLevel::Info, "Deleted festival memorabilia for festival {$this->id}");
     }
 
     protected function _validate()
@@ -22,12 +47,6 @@ class SuperEightFestivalsFestivalMemorabilia extends SuperEightFestivalsDocument
         if (empty($this->festival_id) || !is_numeric($this->festival_id)) {
             $this->addError('festival_id', 'You must select a valid festival!');
         }
-    }
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        $this->delete_files();
     }
 
     public function getResourceId()
@@ -39,26 +58,12 @@ class SuperEightFestivalsFestivalMemorabilia extends SuperEightFestivalsDocument
 
     public function get_internal_prefix(): string
     {
-        return "memorabilia";
+        return "festival_memorabilia";
     }
 
-    public function get_festival()
+    public function get_dir(): ?string
     {
-        return get_festival_by_id($this->festival_id);
-    }
-
-    public function get_city()
-    {
-        return $this->get_festival()->get_city();
-    }
-
-    public function get_country()
-    {
-        return $this->get_festival()->get_country();
-    }
-
-    public function get_dir(): string
-    {
+        if ($this->get_festival() == null) return null;
         return $this->get_festival()->get_memorabilia_dir();
     }
 

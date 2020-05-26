@@ -2,6 +2,7 @@
 
 ini_set('max_execution_time', 0);
 
+require_once dirname(__FILE__) . '/helpers/S8FLogger.php';
 require_once dirname(__FILE__) . '/helpers/IOFunctions.php';
 require_once dirname(__FILE__) . '/helpers/SuperEightFestivalsFunctions.php';
 require_once dirname(__FILE__) . '/helpers/DBFunctions.php';

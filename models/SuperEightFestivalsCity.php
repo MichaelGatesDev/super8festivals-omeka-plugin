@@ -1,46 +1,50 @@
 <?php
 
-class SuperEightFestivalsCity extends SuperEightFestivalsLocation
+class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     // ======================================================================================================================== \\
 
-    /**
-     * @var int
-     */
+    use S8FLocation;
+
     public $country_id = 0;
 
     // ======================================================================================================================== \\
 
-    public function __construct()
+    protected function beforeSave($args)
     {
-        parent::__construct();
-    }
+        parent::beforeSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
 
-    protected function _validate()
-    {
-        parent::_validate();
-        if (empty($this->country_id) || !is_numeric($this->country_id)) {
-            $this->addError('country_id', 'The country that the city exists in must be specified.');
-        }
-        if (!is_float(floatval($this->latitude))) {
-            $this->addError('latitude', 'The latitude must be a floating point value.');
-        }
-        if (!is_float(floatval($this->longitude))) {
-            $this->addError('longitude', 'The longitude must be a floating point value.');
+        if ($insert) {
+            logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
+        } else {
+            logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
         }
     }
 
     protected function afterSave($args)
     {
         parent::afterSave($args);
+        $record = $args['record'];
+        $insert = $args['insert'];
+
+        if ($insert) {
+            logger_log(LogLevel::Info, "Added city: {$this->name} ({$this->id})");
+            add_festival($this->id, 0, "{$this->name} default festival", "this is the default festival for {$this->name}");
+        } else {
+            logger_log(LogLevel::Info, "Updated city: {$this->name} ({$this->id})");
+        }
+
         $this->create_files();
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
+        delete_city_records($this->id);
         $this->delete_files();
-        delete_city($this->id);
+        logger_log(LogLevel::Info, "Deleted city: {$this->name} ({$this->id})");
     }
 
     public function getResourceId()
@@ -55,30 +59,43 @@ class SuperEightFestivalsCity extends SuperEightFestivalsLocation
         return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
     }
 
-    function get_dir()
+    public function get_dir(): ?string
     {
+        if ($this->get_country() == null) return null;
         return $this->get_country()->get_dir() . "/" . $this->name;
     }
 
-    function get_festivals_dir()
+    function get_festivals_dir(): ?string
     {
+        if ($this->get_dir() == null) return null;
         return $this->get_dir() . "/festivals";
     }
 
     private function create_files()
     {
-        if (!file_exists($this->get_dir())) {
-            mkdir($this->get_dir());
+        if ($this->get_dir() == null) {
+            logger_log(LogLevel::Error, "Root directory is null for city: {$this->name} ({$this->id})");
+            return;
         }
-        if (!file_exists($this->get_festivals_dir())) {
-            mkdir($this->get_festivals_dir());
+
+        if ($this->get_dir() != null) {
+            if (!file_exists($this->get_dir())) {
+                mkdir($this->get_dir());
+            }
+        }
+        if ($this->get_festivals_dir() != null) {
+            if (!file_exists($this->get_festivals_dir())) {
+                mkdir($this->get_festivals_dir());
+            }
         }
     }
 
     public function delete_files()
     {
-        if (file_exists($this->get_dir())) {
-            rrmdir($this->get_dir());
+        if ($this->get_dir() != null) {
+            if (file_exists($this->get_dir())) {
+                rrmdir($this->get_dir());
+            }
         }
     }
 

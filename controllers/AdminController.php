@@ -19,7 +19,6 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
         foreach (get_all_festivals() as $record) if ($record->get_city() === null) $record->delete();
         foreach (get_all_cities() as $record) if ($record->get_country() === null) $record->delete();
         foreach (get_all_city_banners() as $record) if ($record->get_city() === null) $record->delete();
-        foreach (get_all_country_banners() as $record) if ($record->get_country() === null) $record->delete();
         foreach (get_all_film_catalogs() as $record) if ($record->get_festival() === null) $record->delete();
         foreach (get_all_filmmakers() as $record) if ($record->get_festival() === null) $record->delete();
         foreach (get_all_memorabilia() as $record) if ($record->get_festival() === null) $record->delete();

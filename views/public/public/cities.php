@@ -25,7 +25,7 @@ $cities = get_all_cities();
                 $banner = get_city_banner($city->id);
                 $festivals = get_all_festivals_in_city($city->id);
                 ?>
-                <div class="col">
+                <div class="col" style="flex-grow: 0;">
                     <div class="card mb-4" style="width: 250px;">
                         <img src="<?= $banner != null ? get_relative_path($banner->get_thumbnail_path()) : "https://placehold.it/280x140/abc" ?>" class="card-img-top" alt="...">
                         <div class="card-body">

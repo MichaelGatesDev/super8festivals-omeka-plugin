@@ -4,16 +4,10 @@ class SuperEightFestivalsFederationDocument extends Omeka_Record_AbstractRecord 
 {
     // ======================================================================================================================== \\
 
+    use S8FFederationDocument;
+
     // ======================================================================================================================== \\
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    protected function _validate()
-    {
-    }
 
     protected function beforeSave($args)
     {
@@ -41,7 +35,7 @@ class SuperEightFestivalsFederationDocument extends Omeka_Record_AbstractRecord 
 
     public function get_internal_prefix(): string
     {
-        return "document";
+        return "federation_document";
     }
 
     public function get_dir(): string

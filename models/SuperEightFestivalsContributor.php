@@ -1,13 +1,12 @@
 <?php
 
-class SuperEightFestivalsContributor extends SuperEightFestivalsPerson
+class SuperEightFestivalsContributor extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
     // ======================================================================================================================== \\
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    use S8FPerson;
+
+    // ======================================================================================================================== \\
 
     public function getResourceId()
     {

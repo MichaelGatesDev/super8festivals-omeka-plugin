@@ -122,20 +122,36 @@ echo head($head);
         </div>
 
         <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 mb-4 d-flex flex-column">
-            <div id="carouselExampleIndicators" class="carousel slide container" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                </ol>
+            <div id="carouselIndicators" class="carousel slide container" data-ride="carousel">
+                <?php if (count($records = get_all_federation_photos()) > 0): ?>
+                    <ol class="carousel-indicators">
+                        <?php foreach ($records as $index => $record): ?>
+                            <li data-target="#carouselIndicators" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? "active " : "" ?>"></li>
+                        <?php endforeach; ?>
+                    </ol>
+                <?php endif; ?>
                 <div class="carousel-inner">
-                    <div class="carousel-item active" style="background-image: url(http://placehold.it/400x400);">
-                        <img class="d-block w-100" src="http://placehold.it/400x400" alt="First slide">
-                    </div>
+                    <?php if (count($records = get_all_federation_photos()) == 0): ?>
+                        <div class="carousel-item active" style="background-image: url(http://placehold.it/400x400);">
+                            <img class="d-block w-100" src="http://placehold.it/400x400" alt="First slide">
+                        </div>
+                    <?php else: ?>
+                        <?php foreach ($records as $index => $record): ?>
+                            <div class="carousel-item <?= $index == 0 ? "active " : "" ?>" style="background-image: url(<?= get_relative_path($record->get_path()); ?>);">
+                                <img class="d-block w-100" src="<?= get_relative_path($record->get_path()); ?>" alt="<?= $record->title; ?>">
+                                <div class="carousel-caption d-none d-md-block" style="background: rgba(0,0,0,0.5);">
+                                    <h5><?= $record->get_meta_title() ?></h5>
+                                    <p><?= $record->description; ?></p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>

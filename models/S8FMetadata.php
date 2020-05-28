@@ -17,5 +17,11 @@ trait S8FMetadata
         );
     }
 
+    public function get_meta_title()
+    {
+        if ($this->title == null || trim($this->title) == "") return "untitled";
+        return $this->title;
+    }
+
     // ======================================================================================================================== \\
 }

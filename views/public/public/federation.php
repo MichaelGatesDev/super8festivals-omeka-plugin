@@ -47,6 +47,10 @@ echo head($head);
         height: 500px;
         object-fit: cover;
     }
+
+    .records-row {
+        margin: 4em 0;
+    }
 </style>
 
 <nav id="short-nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom justify-content-center text-center" style="display: none">
@@ -158,7 +162,7 @@ echo head($head);
     <div class="container py-2">
 
         <!--Newsletters-->
-        <div class="row" id="newsletters">
+        <div class="row records-row" id="newsletters">
             <div class="col">
                 <h2 class="mb-4">Newsletters</h2>
                 <?php if (count($records = get_all_federation_newsletters()) > 0): ?>
@@ -178,7 +182,7 @@ echo head($head);
         </div>
 
         <!--Photos-->
-        <div class="row" id="photos">
+        <div class="row records-row" id="photos">
             <div class="col">
                 <h2 class="mb-4">Photos</h2>
                 <?php if (count($records = get_all_federation_photos()) > 0): ?>
@@ -198,7 +202,7 @@ echo head($head);
         </div>
 
         <!--Magazines-->
-        <div class="row" id="magazines">
+        <div class="row records-row" id="magazines">
             <div class="col">
                 <h2 class="mb-4">Magazines</h2>
                 <?php if (count($records = get_all_federation_magazines()) > 0): ?>
@@ -218,7 +222,7 @@ echo head($head);
         </div>
 
         <!--By-Laws-->
-        <div class="row" id="by-laws">
+        <div class="row records-row" id="by-laws">
             <div class="col">
                 <h2 class="mb-4">By-Laws</h2>
                 <?php if (count($records = get_all_federation_bylaws()) > 0): ?>

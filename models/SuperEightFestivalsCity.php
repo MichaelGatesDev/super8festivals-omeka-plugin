@@ -1,14 +1,36 @@
 <?php
 
-class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsCity extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
+    public $country_id = 0;
+    public $description = "";
     use S8FLocation;
 
-    public $country_id = 0;
-
     // ======================================================================================================================== \\
+
+    public function get_clazz()
+    {
+        return self::class;
+    }
+
+    public function get_db_columns()
+    {
+        return array_merge(
+            array(
+                "`id`           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`country_id`   INT(10) UNSIGNED NOT NULL",
+                "`description`  TEXT(65535)",
+            ),
+            S8FLocation::get_db_columns()
+        );
+    }
+
+    public function get_db_pk()
+    {
+        return "id";
+    }
 
     protected function beforeSave($args)
     {
@@ -31,7 +53,7 @@ class SuperEightFestivalsCity extends Omeka_Record_AbstractRecord implements Zen
 
         if ($insert) {
             logger_log(LogLevel::Info, "Added city: {$this->name} ({$this->id})");
-            add_festival($this->id, 0, "{$this->name} default festival", "this is the default festival for {$this->name}");
+            add_festival($this->id, 0);
         } else {
             logger_log(LogLevel::Info, "Updated city: {$this->name} ({$this->id})");
         }

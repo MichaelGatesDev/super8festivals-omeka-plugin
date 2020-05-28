@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsFestival extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
@@ -10,6 +10,28 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
     public $year = 0;
 
     // ======================================================================================================================== \\
+
+    public function get_clazz()
+    {
+        return self::class;
+    }
+
+    public function get_db_columns()
+    {
+        return array_merge(
+            array(
+                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`city_id`      INT(10) UNSIGNED NOT NULL",
+                "`year`         INT(4)           NOT NULL",
+            ),
+            S8FMetadata::get_db_columns()
+        );
+    }
+
+    public function get_db_pk()
+    {
+        return "id";
+    }
 
     protected function beforeSave($args)
     {
@@ -66,7 +88,7 @@ class SuperEightFestivalsFestival extends Omeka_Record_AbstractRecord implements
 
     public function get_title()
     {
-        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->title;
+        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->get_city()->name . " default festival";
     }
 
     public function get_dir(): ?string

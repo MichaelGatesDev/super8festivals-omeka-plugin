@@ -252,8 +252,6 @@ function add_city($countryID, $name, $latitude, $longitude)
     $city->longitude = $longitude;
     $city->country_id = $countryID;
     $city->save();
-
-    add_festival($city->id, 0, "$name default festival", "this is the default festival for $name");
     return $city;
 }
 
@@ -647,24 +645,7 @@ function get_all_contribution_types()
     );
 }
 
-function get_contribution_type($value)
-{
-    $vars = get_object_vars(Super8FestivalsRecordType::class);
-
-}
-
 // ============================================================================================================================================================= \\
-
-function get_all_records_for_country($countryID, $recordType)
-{
-    $cities = get_all_cities_in_country($countryID);
-    $results = array();
-    foreach ($cities as $city) {
-        $media = get_db()->getTable($recordType)->findBy(array('city_id' => $city->id));
-        $results = array_merge($results, $media);
-    }
-    return $results;
-}
 
 // ============================================================================================================================================================= \\
 
@@ -696,14 +677,3 @@ function get_page_by_url($url)
     $results = get_db()->getTable('SuperEightFestivalsPage')->findBy(array('url' => $url), 1);
     return count($results) > 0 ? $results[0] : null;
 }
-
-
-function add_page($title, $url, $content)
-{
-    $page = new SuperEightFestivalsPage();
-    $page->title = $title;
-    $page->url = $url;
-    $page->content = $content;
-    $page->save();
-}
-

@@ -107,13 +107,22 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
         );
 
         $form->addElementToEditGroup(
+            'textarea', 'description',
+            array(
+                'id' => 'description',
+                'label' => 'Description',
+                'description' => "Information about the city",
+                'value' => $city->description,
+            )
+        );
+
+        $form->addElementToEditGroup(
             'text', 'latitude',
             array(
                 'id' => 'latitude',
                 'label' => 'Latitude',
                 'description' => "The latitudinal position of the capital or center of mass (required)",
                 'value' => $city->latitude,
-                'required' => true
             )
         );
 
@@ -124,7 +133,6 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                 'label' => 'Longitude',
                 'description' => "The longitudinal position of the capital or center of mass (required)",
                 'value' => $city->longitude,
-                'required' => true
             )
         );
 

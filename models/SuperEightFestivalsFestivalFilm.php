@@ -1,16 +1,36 @@
 <?php
 
-class SuperEightFestivalsFestivalFilm extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
     use S8FFestivalVideo;
-//    use S8FPreviewable;
 
-    public $festival_id = 0;
+//    use S8FPreviewable;
     public $filmmaker_id = 0;
 
     // ======================================================================================================================== \\
+
+    public function get_clazz()
+    {
+        return self::class;
+    }
+
+    public function get_db_columns()
+    {
+        return array_merge(
+            array(
+                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`filmmaker_id`   INT(10) UNSIGNED NOT NULL",
+            ),
+            S8FFestivalVideo::get_db_columns()
+        );
+    }
+
+    public function get_db_pk()
+    {
+        return "id";
+    }
 
     protected function beforeSave($args)
     {

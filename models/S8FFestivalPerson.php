@@ -1,12 +1,11 @@
 <?php
 
-trait S8FFestivalImage
+trait S8FFestivalPerson
 {
     // ======================================================================================================================== \\
 
     public $festival_id = 0;
-    use S8FImage;
-    use S8FContributable;
+    use S8FPerson;
 
     public static function get_db_columns()
     {
@@ -14,8 +13,7 @@ trait S8FFestivalImage
             array(
                 "`festival_id`  INT(10) UNSIGNED NOT NULL",
             ),
-            S8FImage::get_db_columns(),
-            S8FContributable::get_db_columns()
+            S8FPerson::get_db_columns()
         );
     }
 

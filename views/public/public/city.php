@@ -103,6 +103,11 @@ $festivals = get_all_festivals_in_city($city->id);
         <div class="col-6 order-2 col-lg-3 order-1">
             <div class="row">
                 <div class="col">
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#about" role="button" style="height: 100px;">About</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                     <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#posters" role="button" style="height: 100px;">Posters</a>
                 </div>
             </div>
@@ -153,6 +158,29 @@ $festivals = get_all_festivals_in_city($city->id);
 </div>
 
 <div class="container-fluid px-0">
+
+    <!--About-->
+
+    <section id="about" class="container mt-5 p-4 bg-light">
+        <div class="row">
+            <div class="col">
+                <h3 class="pt-2 pb-2 title">About</h3>
+                <span class="text-muted">
+                    Background information about <span class="title"><?= $city->name; ?></span>
+                </span>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col">
+                <?php $description = $city->description; ?>
+                <?php if ($description == null): ?>
+                    <p>There is no information available for this city.</p>
+                <?php else: ?>
+                    <p><?= $description; ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
 
     <!--Posters-->
     <?= $this->partial("__components/records-section-image.php", array(

@@ -1,6 +1,7 @@
 <?php
 queue_css_file("admin");
 queue_js_file("jquery.min");
+
 echo head(array(
     'title' => $city->name,
 ));
@@ -28,6 +29,17 @@ echo head(array(
         <?php else: ?>
             <?= $this->partial("__components/records/city-banner.php", array('city_banner' => $city_banner)); ?>
         <?php endif; ?>
+    </div>
+
+    <div class="records-section">
+        <h2>Description</h2>
+        <?php $description = $city->description; ?>
+        <?php if ($description == null): ?>
+            <p>There is no description available for this city.</p>
+        <?php else: ?>
+            <?= $description; ?>
+        <?php endif; ?>
+        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name) ?>/edit">Modify City Description</a>
     </div>
 
     <div class="records-section">

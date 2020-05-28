@@ -1,14 +1,34 @@
 <?php
 
-class SuperEightFestivalsCityBanner extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
+    public $city_id = 0;
     use S8FPreviewable;
 
-    public $city_id = 0;
-
     // ======================================================================================================================== \\
+
+    public function get_clazz()
+    {
+        return self::class;
+    }
+
+    public function get_db_columns()
+    {
+        return array_merge(
+            array(
+                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`city_id`   INT(10) UNSIGNED NOT NULL",
+            ),
+            S8FPreviewable::get_db_columns()
+        );
+    }
+
+    public function get_db_pk()
+    {
+        return "id";
+    }
 
     public function getResourceId()
     {

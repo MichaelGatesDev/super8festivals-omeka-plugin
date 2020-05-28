@@ -1,12 +1,32 @@
 <?php
 
-class SuperEightFestivalsFestivalPhoto extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
+class SuperEightFestivalsFestivalPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
     use S8FFestivalImage;
 
     // ======================================================================================================================== \\
+
+    public function get_clazz()
+    {
+        return self::class;
+    }
+
+    public function get_db_columns()
+    {
+        return array_merge(
+            array(
+                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+            ),
+            S8FFestivalImage::get_db_columns()
+        );
+    }
+
+    public function get_db_pk()
+    {
+        return "id";
+    }
 
     protected function beforeSave($args)
     {

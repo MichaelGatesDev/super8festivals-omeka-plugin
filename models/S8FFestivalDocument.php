@@ -4,10 +4,20 @@ trait S8FFestivalDocument
 {
     // ======================================================================================================================== \\
 
+    public $festival_id = 0;
     use S8FDocument;
     use S8FContributable;
 
-    public $festival_id = 0;
+    public static function get_db_columns()
+    {
+        return array_merge(
+            array(
+                "`festival_id`  INT(10) UNSIGNED NOT NULL",
+            ),
+            S8FDocument::get_db_columns(),
+            S8FContributable::get_db_columns()
+        );
+    }
 
     // ======================================================================================================================== \\
 

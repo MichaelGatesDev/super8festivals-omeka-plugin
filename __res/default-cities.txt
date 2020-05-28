@@ -5,7 +5,7 @@ belgium,brussels,50.85030,4.35170
 brazil,sao paulo,-23.55050,-46.63330
 spain,barcelona,41.38510,2.17340
 united states,chicago,41.87810,-87.62980
-colombia,bogota,4.71100,-74.07210
+colombia,cali,4.71100,-74.07210
 philippines,manila,14.59950,120.98420
 hong kong,hong kong,22.31930,114.16940
 iran,tehran,35.68920,51.38900

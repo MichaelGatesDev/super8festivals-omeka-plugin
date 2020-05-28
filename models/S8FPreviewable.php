@@ -4,8 +4,19 @@ trait S8FPreviewable
 {
     // ======================================================================================================================== \\
 
+    use S8FRecord;
+
     public $file_name = "";
     public $thumbnail_file_name = "";
+
+    public static function get_db_columns()
+    {
+        return array(
+            "`file_name`           TEXT(65535)",
+            "`thumbnail_file_name` TEXT(65535)",
+        );
+
+    }
 
     // ======================================================================================================================== \\
 

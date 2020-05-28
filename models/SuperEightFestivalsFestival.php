@@ -33,29 +33,46 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return "id";
     }
 
+    protected function _validate()
+    {
+        if (!is_numeric($this->year) || strlen($this->year) != 4) {
+            $this->addError("year", "The year may only be a 4-digit numeric year (e.g. 1974)");
+            return false;
+        }
+        return true;
+    }
+
     protected function beforeSave($args)
     {
         parent::beforeSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Adding festival: {$this->get_title()} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updating festival: {$this->get_title()} ({$this->id})");
+        if (isset($args['record'])) {
+            $record = $args['record'];
+        }
+        if (isset($args['insert'])) {
+            $insert = $args['insert'];
+            if ($insert) {
+                logger_log(LogLevel::Info, "Adding festival: {$this->get_title()} ({$this->id})");
+            } else {
+                logger_log(LogLevel::Info, "Updating festival: {$this->get_title()} ({$this->id})");
+            }
         }
     }
 
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Added festival: {$this->get_title()} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updated festival: {$this->get_title()} ({$this->id})");
+        if (isset($args['record'])) {
+            $record = $args['record'];
+        }
+        if (isset($args['insert'])) {
+            $insert = $args['insert'];
+            if ($insert) {
+                if ($insert) {
+                    logger_log(LogLevel::Info, "Added festival: {$this->get_title()} ({$this->id})");
+                } else {
+                    logger_log(LogLevel::Info, "Updated festival: {$this->get_title()} ({$this->id})");
+                }
+            }
         }
 
         $this->create_files();

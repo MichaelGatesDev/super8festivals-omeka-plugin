@@ -17,14 +17,15 @@ echo head(
 
 <section id="country-single">
 
+    <!--Newsletters-->
     <div class="records-section">
-        <h2>Documents</h2>
-        <a class="button" href="/admin/super-eight-festivals/federation/documents/add">Add Document</a>
-        <?php $documents = get_all_federation_documents(); ?>
-        <?php if (count($documents) == 0): ?>
-            <p>There are no documents available for the federation.</p>
+        <h2>Newsletters</h2>
+        <a class="button" href="/admin/super-eight-festivals/federation/newsletters/add">Add Newsletter</a>
+        <?php $newsletters = get_all_federation_newsletters(); ?>
+        <?php if (count($newsletters) == 0): ?>
+            <p>There are no newsletters available for the federation.</p>
         <?php else: ?>
-            <?= $this->partial("__components/records/federation-documents.php", array('federation_documents' => $documents)); ?>
+            <?= $this->partial("__components/records/federation-newsletters.php", array('federation_newsletters' => $newsletters)); ?>
         <?php endif; ?>
     </div>
 
@@ -36,6 +37,30 @@ echo head(
             <p>There are no photos available for the federation.</p>
         <?php else: ?>
             <?= $this->partial("__components/records/federation-photos.php", array('federation_photos' => $photos)); ?>
+        <?php endif; ?>
+    </div>
+
+    <!--Magazines-->
+    <div class="records-section">
+        <h2>Magazines</h2>
+        <a class="button" href="/admin/super-eight-festivals/federation/magazines/add">Add Magazine</a>
+        <?php $magazines = get_all_federation_magazines(); ?>
+        <?php if (count($magazines) == 0): ?>
+            <p>There are no magazines available for the federation.</p>
+        <?php else: ?>
+            <?= $this->partial("__components/records/federation-magazines.php", array('federation_magazines' => $magazines)); ?>
+        <?php endif; ?>
+    </div>
+
+    <!--By-Laws-->
+    <div class="records-section">
+        <h2>By-Laws</h2>
+        <a class="button" href="/admin/super-eight-festivals/federation/bylaws/add">Add By-Law</a>
+        <?php $bylaws = get_all_federation_bylaws(); ?>
+        <?php if (count($bylaws) == 0): ?>
+            <p>There are no by-laws available for the federation.</p>
+        <?php else: ?>
+            <?= $this->partial("__components/records/federation-bylaws.php", array('federation_bylaws' => $bylaws)); ?>
         <?php endif; ?>
     </div>
 

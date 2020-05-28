@@ -75,14 +75,14 @@ function get_festival_records_by_type($festivalID, $recordType)
 
 // ============================================================================================================================================================= \\
 
-function get_all_federation_documents(): array
+function get_all_federation_newsletters(): array
 {
-    return get_db()->getTable("SuperEightFestivalsFederationDocument")->findAll();
+    return get_db()->getTable("SuperEightFestivalsFederationNewsletter")->findAll();
 }
 
-function get_federation_document_by_id($documentID): ?SuperEightFestivalsFederationDocument
+function get_federation_newsletter_by_id($newsletterID): ?SuperEightFestivalsFederationNewsletter
 {
-    return get_db()->getTable('SuperEightFestivalsFederationDocument')->find($documentID);
+    return get_db()->getTable('SuperEightFestivalsFederationNewsletter')->find($newsletterID);
 }
 
 function get_all_federation_photos(): array
@@ -94,6 +94,28 @@ function get_federation_photo_by_id($photoID): ?SuperEightFestivalsFederationPho
 {
     return get_db()->getTable('SuperEightFestivalsFederationPhoto')->find($photoID);
 }
+
+function get_all_federation_magazines(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFederationMagazine")->findAll();
+}
+
+function get_federation_magazine_by_id($magazineID): ?SuperEightFestivalsFederationMagazine
+{
+    return get_db()->getTable('SuperEightFestivalsFederationMagazine')->find($magazineID);
+}
+
+function get_all_federation_bylaws(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFederationBylaw")->findAll();
+}
+
+function get_federation_bylaw_by_id($bylawID): ?SuperEightFestivalsFederationBylaw
+{
+    return get_db()->getTable('SuperEightFestivalsFederationBylaw')->find($bylawID);
+}
+
+// ============================================================================================================================================================= \\
 
 function get_all_countries(): array
 {

@@ -3,7 +3,7 @@ queue_css_file("admin");
 queue_js_file("jquery.min");
 queue_js_file("admin");
 echo head(array(
-    'title' => 'Edit Banner: ' . $banner->id,
+    'title' => 'Delete Federation Newsletter: ' . (strlen($federation_newsletter->title) > 0 ? ucwords($federation_newsletter->title) : "Untitled"),
 ));
 ?>
 
@@ -11,6 +11,7 @@ echo head(array(
 
 <?= $this->partial("__components/breadcrumbs.php"); ?>
 
+<h2>Are you sure?</h2>
 <?php echo $form; ?>
 
 <?php echo foot(); ?>

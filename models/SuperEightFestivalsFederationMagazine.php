@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivalsFederationDocument extends Super8FestivalsRecord
+class SuperEightFestivalsFederationMagazine extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
@@ -35,9 +35,9 @@ class SuperEightFestivalsFederationDocument extends Super8FestivalsRecord
         $insert = $args['insert'];
 
         if ($insert) {
-            logger_log(LogLevel::Info, "Adding federation document ({$this->id})");
+            logger_log(LogLevel::Info, "Adding federation magazine ({$this->id})");
         } else {
-            logger_log(LogLevel::Info, "Updating federation document ({$this->id})");
+            logger_log(LogLevel::Info, "Updating federation magazine ({$this->id})");
         }
     }
 
@@ -48,9 +48,9 @@ class SuperEightFestivalsFederationDocument extends Super8FestivalsRecord
         $insert = $args['insert'];
 
         if ($insert) {
-            logger_log(LogLevel::Info, "Added federation document ({$this->id})");
+            logger_log(LogLevel::Info, "Added federation magazine ({$this->id})");
         } else {
-            logger_log(LogLevel::Info, "Updated federation document ({$this->id})");
+            logger_log(LogLevel::Info, "Updated federation magazine ({$this->id})");
         }
     }
 
@@ -58,7 +58,7 @@ class SuperEightFestivalsFederationDocument extends Super8FestivalsRecord
     {
         parent::afterDelete();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted federation document ({$this->id})");
+        logger_log(LogLevel::Info, "Deleted federation magazine ({$this->id})");
     }
 
 
@@ -71,13 +71,13 @@ class SuperEightFestivalsFederationDocument extends Super8FestivalsRecord
 
     public function get_internal_prefix(): string
     {
-        return "federation_document";
+        return "federation_magazine";
     }
 
     public function get_dir(): ?string
     {
         if (get_federation_dir() == null) return null;
-        return get_federation_dir() . "/documents";
+        return get_federation_dir() . "/magazines";
     }
 
     // ======================================================================================================================== \\

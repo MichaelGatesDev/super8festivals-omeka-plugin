@@ -41,6 +41,9 @@ function get_temporary_file($inputName): array
  */
 function move_to_dir($fromPath, $newFileName, $newFileDir): void
 {
+    if (!is_dir($newFileDir)) {
+        mkdir($newFileDir);
+    }
     move_uploaded_file($fromPath, $newFileDir . "/" . $newFileName);
 }
 
@@ -135,8 +138,10 @@ function get_federation_dir()
 function generate_missing_thumbnails()
 {
     generate_missing_thumbnails_for_all(get_all_city_banners());
-    generate_missing_thumbnails_for_all(get_all_federation_documents());
+    generate_missing_thumbnails_for_all(get_all_federation_newsletters());
     generate_missing_thumbnails_for_all(get_all_federation_photos());
+    generate_missing_thumbnails_for_all(get_all_federation_magazines());
+    generate_missing_thumbnails_for_all(get_all_federation_bylaws());
     generate_missing_thumbnails_for_all(get_all_film_catalogs());
     generate_missing_thumbnails_for_all(get_all_memorabilia());
     generate_missing_thumbnails_for_all(get_all_photos());
@@ -147,8 +152,10 @@ function generate_missing_thumbnails()
 function generate_all_thumbnails()
 {
     generate_thumbnails_for_all(get_all_city_banners());
-    generate_thumbnails_for_all(get_all_federation_documents());
+    generate_thumbnails_for_all(get_all_federation_newsletters());
     generate_thumbnails_for_all(get_all_federation_photos());
+    generate_thumbnails_for_all(get_all_federation_magazines());
+    generate_thumbnails_for_all(get_all_federation_bylaws());
     generate_thumbnails_for_all(get_all_film_catalogs());
     generate_thumbnails_for_all(get_all_memorabilia());
     generate_thumbnails_for_all(get_all_photos());
@@ -159,8 +166,10 @@ function generate_all_thumbnails()
 function delete_all_thumbnails()
 {
     delete_thumbnails_for_all(get_all_city_banners());
-    delete_thumbnails_for_all(get_all_federation_documents());
+    delete_thumbnails_for_all(get_all_federation_newsletters());
     delete_thumbnails_for_all(get_all_federation_photos());
+    delete_thumbnails_for_all(get_all_federation_magazines());
+    delete_thumbnails_for_all(get_all_federation_bylaws());
     delete_thumbnails_for_all(get_all_film_catalogs());
     delete_thumbnails_for_all(get_all_memorabilia());
     delete_thumbnails_for_all(get_all_photos());

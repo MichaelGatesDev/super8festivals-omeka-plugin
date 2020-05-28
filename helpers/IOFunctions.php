@@ -42,7 +42,7 @@ function get_temporary_file($inputName): array
 function move_to_dir($fromPath, $newFileName, $newFileDir): void
 {
     if (!is_dir($newFileDir)) {
-        mkdir($newFileDir);
+        mkdir($newFileDir, 0777, true);
     }
     move_uploaded_file($fromPath, $newFileDir . "/" . $newFileName);
 }

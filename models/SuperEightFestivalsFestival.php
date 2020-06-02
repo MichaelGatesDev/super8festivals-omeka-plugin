@@ -105,7 +105,7 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     public function get_title()
     {
-        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->get_city()->name . " default festival";
+        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->get_city()->name . " uncategorized";
     }
 
     public function get_dir(): ?string

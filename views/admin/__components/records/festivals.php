@@ -50,7 +50,7 @@
             </td>
             <td>
                 <a class="title" href="/admin/super-eight-festivals/countries/<?= urlencode($festival->get_country()->name); ?>/cities/<?= urlencode($festival->get_city()->name); ?>/festivals/<?= $festival->id; ?>">
-                    <?= $festival->get_title() ?? $festival->get_city()->name . " default festival" ?>
+                    <?= $festival->get_title() ?? $festival->get_city()->name . " uncategorized" ?>
                 </a>
             </td>
             <td><a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($festival->get_country()->name); ?>/cities/<?= urlencode($festival->get_city()->name); ?>/festivals/<?= $festival->id; ?>/edit">Edit</a></td>

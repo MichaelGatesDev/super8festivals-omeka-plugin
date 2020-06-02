@@ -36,6 +36,7 @@ switch ($record_type) {
             <span class="text-muted">
                 <?= strtr($section_description, array(
                     "{city_name}" => "<span class='title'>" . $city->name . "</span>",
+                    "{country_name}" => "<span class='title'>" . $city->get_country()->name . "</span>",
                     "{records_name}" => $records_name,
                 )); ?>
              </span>
@@ -62,6 +63,7 @@ switch ($record_type) {
                 <p>
                     <?= strtr($section_no_records_msg, array(
                         "{city_name}" => "<span class='title'>" . $city->name . "</span>",
+                        "{country_name}" => "<span class='title'>" . $city->get_country()->name . "</span>",
                         "{records_name}" => $records_name,
                     )); ?>
                 </p>

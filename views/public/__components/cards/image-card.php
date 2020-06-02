@@ -1,6 +1,6 @@
 <div class="card mb-4 shadow-sm display-inline-block">
     <div class="card-body">
-        <div class="card-image" style="background-color: lightgray; height: 250px;">
+        <div class="card-image mb-2" style="background-color: lightgray; height: 250px;">
             <img class="card-img-top img-fluid w-100" src="<?= get_relative_path($image->get_thumbnail_path()); ?>" alt="No preview available" style="object-fit: cover; width: 100%; height: 100%;  display: flex; justify-content: center; align-items: center; text-align: center; "/>
         </div>
         <p class="card-title mb-2">

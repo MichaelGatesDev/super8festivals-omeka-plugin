@@ -4,7 +4,7 @@ class SuperEightFestivalsFestivalFilmmaker extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FFestivalPerson;
+    use S8FFestivalFilmmaker;
 
     // ======================================================================================================================== \\
 
@@ -16,10 +16,9 @@ class SuperEightFestivalsFestivalFilmmaker extends Super8FestivalsRecord
     public function get_db_columns()
     {
         return array_merge(
-            array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+            array(//                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
             ),
-            S8FFestivalPerson::get_db_columns()
+            S8FFestivalFilmmaker::get_db_columns()
         );
     }
 
@@ -103,7 +102,7 @@ class SuperEightFestivalsFestivalFilmmaker extends Super8FestivalsRecord
     private function create_files()
     {
         if (!file_exists($this->get_dir())) {
-            mkdir($this->get_dir());
+            mkdir($this->get_dir(), 0777, true);
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivals_PostersController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_FestivalPostersController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {
@@ -208,7 +208,7 @@ class SuperEightFestivals_PostersController extends Omeka_Controller_AbstractAct
                         }
                     }
 
-                    // bring us back to the city page
+
                     $this->redirect("/super-eight-festivals/countries/" . urlencode($poster->get_country()->name) . "/cities/" . urlencode($poster->get_city()->name) . "/festivals/" . $poster->festival_id);
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);

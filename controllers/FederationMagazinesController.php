@@ -159,7 +159,7 @@ class SuperEightFestivals_FederationMagazinesController extends Omeka_Controller
                         }
                     }
 
-                    // bring us back to the city page
+
                     $this->redirect("/super-eight-festivals/federation");
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);

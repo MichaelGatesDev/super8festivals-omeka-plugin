@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivals_PrintMediaController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {
@@ -208,7 +208,7 @@ class SuperEightFestivals_PrintMediaController extends Omeka_Controller_Abstract
                         }
                     }
 
-                    // bring us back to the city page
+
                     $this->redirect("/super-eight-festivals/countries/" . urlencode($print_media->get_country()->name) . "/cities/" . urlencode($print_media->get_city()->name) . "/festivals/" . $print_media->festival_id);
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);

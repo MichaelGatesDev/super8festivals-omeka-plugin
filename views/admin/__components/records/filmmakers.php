@@ -4,7 +4,7 @@
         padding: 1em 0;
         /*border: 1px dashed red;*/
         overflow-x: scroll;
-        height: 225px;
+        max-height: 275px;
     }
 
     li.filmmaker:not(:last-child) {
@@ -33,9 +33,10 @@
 <ul id="filmmakers">
     <?php foreach ($filmmakers as $filmmaker): ?>
         <li class="filmmaker">
-            <p>First: <?= $filmmaker->first_name; ?></p>
-            <p>Last: <?= $filmmaker->last_name; ?></p>
-            <p>Organization: <?= $filmmaker->organization_name; ?></p>
+            <p>First: <?= $filmmaker->first_name != "" ? $filmmaker->first_name : "N/A"; ?></p>
+            <p>Last: <?= $filmmaker->last_name != "" ? $filmmaker->last_name : "N/A"; ?></p>
+            <p>Organization: <?= $filmmaker->organization_name != "" ? $filmmaker->organization_name : "N/A"; ?></p>
+            <p>Email: <?= $filmmaker->email != "" ? $filmmaker->email : "N/A"; ?></p>
             <p style="text-align: center">
                 <a class="button green" style="width: 100%;"
                    href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/festivals/<?= $filmmaker->festival_id; ?>/filmmakers/<?= $filmmaker->id; ?>/">Contents</a>

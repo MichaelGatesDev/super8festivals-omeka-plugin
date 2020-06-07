@@ -33,9 +33,10 @@
 <ul id="contributors">
     <?php foreach ($contributors as $contributor): ?>
         <li class="contributor">
-            <p>First: <?= $contributor->first_name; ?></p>
-            <p>Last: <?= $contributor->last_name; ?></p>
-            <p>Organization: <?= $contributor->organization_name; ?></p>
+            <p>First: <?= $contributor->first_name != "" ? $contributor->first_name : "N/A"; ?></p>
+            <p>Last: <?= $contributor->last_name != "" ? $contributor->last_name : "N/A"; ?></p>
+            <p>Organization: <?= $contributor->organization_name != "" ? $contributor->organization_name : "N/A"; ?></p>
+            <p>Email: <?= $contributor->email != "" ? $contributor->email : "N/A"; ?></p>
             <p style="text-align: center">
                 <a class="button blue" href="/admin/super-eight-festivals/contributors/<?= $contributor->id; ?>/edit">Edit</a>
                 <a class="button red" href="/admin/super-eight-festivals/contributors/<?= $contributor->id; ?>/delete">Delete</a>

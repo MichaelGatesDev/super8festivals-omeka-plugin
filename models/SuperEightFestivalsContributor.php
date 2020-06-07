@@ -18,7 +18,6 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
         return array_merge(
             array(
                 "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
-                "`city_id`   INT(10) UNSIGNED NOT NULL",
             ),
             S8FPerson::get_db_columns()
         );

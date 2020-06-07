@@ -25,9 +25,19 @@ trait S8FPerson
 
     public function get_display_name()
     {
-        if ($this->first_name != "") return $this->first_name . " " . $this->last_name;
-        if ($this->organization_name != "") return $this->organization_name;
-        return $this->email;
+        $name = "";
+        if ($this->first_name != "")
+            $name .= $this->first_name;
+        if ($this->last_name != "")
+            $name .= $this->last_name;
+        else if ($this->organization_name != "")
+            $name .= $this->organization_name;
+
+        if ($this->email != "")
+            if ($name == "") $name = $this->email;
+            else $name .= " (" . $this->email . ")";
+
+        return $name;
     }
 
     // ======================================================================================================================== \\

@@ -35,7 +35,7 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     protected function _validate()
     {
-        if (!is_numeric($this->year) || strlen($this->year) != 4) {
+        if (!is_numeric($this->year) || ($this->year != 0 && strlen($this->year)) != 4) {
             $this->addError("year", "The year may only be a 4-digit numeric year (e.g. 1974)");
             return false;
         }

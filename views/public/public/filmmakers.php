@@ -22,7 +22,9 @@ echo head($head);
                         <div class="col">
                             <div class="card-columns">
                                 <?php foreach ($records as $record): ?>
-                                    <?= $this->partial("__components/cards/person-card.php", array("person" => $record)); ?>
+                                    <a href="/filmmakers/<?= $record->id; ?>" style="color: black;">
+                                        <?= $this->partial("__components/cards/person-card.php", array("person" => $record)); ?>
+                                    </a>
                                 <?php endforeach; ?>
                             </div>
                         </div>

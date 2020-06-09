@@ -34,6 +34,8 @@ echo head(array(
         <?php endif; ?>
     </div>
 
+    <?
+    /*
     <div class="records-section">
         <h2>Filmmakers</h2>
         <?php $filmmakers = get_all_festival_filmmakers_for_festival($festival->id); ?>
@@ -44,6 +46,8 @@ echo head(array(
             <?= $this->partial("__components/records/festival-filmmakers.php", array('filmmakers' => $filmmakers)); ?>
         <?php endif; ?>
     </div>
+    */
+    ?>
 
     <div class="records-section">
         <h2>Films</h2>

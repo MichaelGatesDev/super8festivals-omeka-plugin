@@ -6,6 +6,7 @@ trait S8FFilmmakerImage
 
     public $filmmaker_id = 0;
     use S8FImage;
+    use S8FContributable;
 
     public static function get_db_columns()
     {
@@ -13,7 +14,8 @@ trait S8FFilmmakerImage
             array(
                 "`filmmaker_id`  INT(10) UNSIGNED NOT NULL",
             ),
-            S8FImage::get_db_columns()
+            S8FImage::get_db_columns(),
+            S8FContributable::get_db_columns()
         );
     }
 

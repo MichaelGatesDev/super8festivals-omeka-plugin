@@ -30,15 +30,19 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
     {
     }
 
-    public function filmmakersFunction()
+    public function filmmakersAction()
     {
+    }
+
+    public function filmmakerAction()
+    {
+        $request = $this->getRequest();
+        $filmmakerID = $request->getParam('filmmakerID');
+        $filmmaker = get_filmmaker_by_id($filmmakerID);
+        $this->view->filmmaker = $filmmaker;
     }
 
     public function historyAction()
-    {
-    }
-
-    public function filmmakersAction()
     {
     }
 
@@ -53,4 +57,5 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
         $city = get_city_by_name_ambiguous($cityName);
         $this->view->city = $city;
     }
+
 }

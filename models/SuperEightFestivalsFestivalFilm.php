@@ -79,7 +79,7 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
 
     function get_filmmaker()
     {
-        return get_filmmaker_by_id($this->filmmaker_id);
+        return get_festival_filmmaker_by_id($this->filmmaker_id);
     }
 
     public function get_dir(): ?string

@@ -1,11 +1,11 @@
 <?php
 
-trait S8FFestivalFilmmakerImage
+trait S8FFilmmakerImage
 {
     // ======================================================================================================================== \\
 
     public $filmmaker_id = 0;
-    use S8FFestivalImage;
+    use S8FImage;
 
     public static function get_db_columns()
     {
@@ -13,30 +13,25 @@ trait S8FFestivalFilmmakerImage
             array(
                 "`filmmaker_id`  INT(10) UNSIGNED NOT NULL",
             ),
-            S8FFestivalImage::get_db_columns()
+            S8FImage::get_db_columns()
         );
     }
 
     // ======================================================================================================================== \\
 
-    public function get_festival()
+    public function get_filmmaker()
     {
-        return get_festival_by_id($this->filmmaker_id);
+        return get_filmmaker_by_id($this->filmmaker_id);
     }
 
     public function get_city()
     {
-        return $this->get_festival()->get_city();
+        return $this->get_filmmaker()->get_city();
     }
 
     public function get_country()
     {
-        return $this->get_festival()->get_country();
-    }
-
-    public function get_filmmaker()
-    {
-        return get_festival_filmmaker_by_id($this->filmmaker_id);
+        return $this->get_city()->get_country();
     }
 
     // ======================================================================================================================== \\

@@ -58,6 +58,17 @@ echo head(array(
         <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/add">Add Festival</a>
     </div>
 
+    <div class="records-section">
+        <h2>Filmmakers</h2>
+        <?php $filmmakers = get_all_filmmakers_for_city($city->id); ?>
+        <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/filmmakers/add">Add Filmmaker</a>
+        <?php if (count($filmmakers) == 0): ?>
+            <p>There are no filmmakers available for this city.</p>
+        <?php else: ?>
+            <?= $this->partial("__components/records/filmmakers.php", array('filmmakers' => $filmmakers)); ?>
+        <?php endif; ?>
+    </div>
+
 </section>
 
 <?php echo foot(); ?>

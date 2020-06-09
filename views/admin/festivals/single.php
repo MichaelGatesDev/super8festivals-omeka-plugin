@@ -36,12 +36,12 @@ echo head(array(
 
     <div class="records-section">
         <h2>Filmmakers</h2>
-        <?php $filmmakers = get_all_filmmakers_for_festival($festival->id); ?>
+        <?php $filmmakers = get_all_festival_filmmakers_for_festival($festival->id); ?>
         <a class="button" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/<?= urlencode($city->name); ?>/festivals/<?= $festival->id; ?>/filmmakers/add">Add Filmmaker</a>
         <?php if (count($filmmakers) == 0): ?>
             <p>There are no filmmakers available for this festival.</p>
         <?php else: ?>
-            <?= $this->partial("__components/records/filmmakers.php", array('filmmakers' => $filmmakers)); ?>
+            <?= $this->partial("__components/records/festival-filmmakers.php", array('filmmakers' => $filmmakers)); ?>
         <?php endif; ?>
     </div>
 

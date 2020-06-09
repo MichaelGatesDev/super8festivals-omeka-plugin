@@ -140,7 +140,7 @@ class SuperEightFestivals_FestivalFilmsController extends Omeka_Controller_Abstr
                 'id' => 'filmmaker_id',
                 'label' => 'Filmmaker',
                 'description' => "The person or organization who made the film",
-                'multiOptions' => get_parent_filmmaker_options(),
+                'multiOptions' => get_parent_festival_filmmaker_options(),
                 'value' => $film->filmmaker_id,
                 'required' => false,
             )

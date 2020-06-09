@@ -61,7 +61,7 @@ function get_festival_records_by_type($festivalID, $recordType)
         case Super8FestivalsRecordType::FestivalFilmCatalog:
             return get_all_film_catalogs_for_festival($festivalID);
         case Super8FestivalsRecordType::FestivalFilmmaker:
-            return get_all_filmmakers_for_festival($festivalID);
+            return get_all_festival_filmmakers_for_festival($festivalID);
         case Super8FestivalsRecordType::FestivalMemorabilia:
             return get_all_memorabilia_for_festival($festivalID);
         case Super8FestivalsRecordType::FestivalPhoto:
@@ -358,7 +358,7 @@ function delete_festival_records($festival_id)
     foreach ($films as $record) $record->delete();
     $film_catalogs = get_all_film_catalogs_for_festival($festival_id);
     foreach ($film_catalogs as $record) $record->delete();
-    $filmmakers = get_all_filmmakers_for_festival($festival_id);
+    $filmmakers = get_all_festival_filmmakers_for_festival($festival_id);
     foreach ($filmmakers as $record) $record->delete();
     $memorabilia = get_all_memorabilia_for_festival($festival_id);
     foreach ($memorabilia as $record) $record->delete();
@@ -400,28 +400,28 @@ function get_film_catalog_by_id($id): ?SuperEightFestivalsFestivalFilmCatalog
 
 // ============================================================================================================================================================= \\
 
-function get_all_filmmakers(): array
+function get_all_festival_filmmakers(): array
 {
     return get_db()->getTable("SuperEightFestivalsFestivalFilmmaker")->findAll();
 }
 
-function get_all_filmmakers_for_festival($id): array
+function get_all_festival_filmmakers_for_festival($id): array
 {
     return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->findBy(array('festival_id' => $id), -1);
 }
 
-function get_all_filmmakers_for_city($id): array
+function get_all_festival_filmmakers_for_city($id): array
 {
     $result = array();
     $festivals = get_all_festivals_in_city($id);
     foreach ($festivals as $festival) {
-        $filmmakers = get_all_filmmakers_for_festival($festival->id);
+        $filmmakers = get_all_festival_filmmakers_for_festival($festival->id);
         $result = array_merge($result, $filmmakers);
     }
     return $result;
 }
 
-function get_parent_filmmaker_options(): array
+function get_parent_festival_filmmaker_options(): array
 {
     $results = array();
     $results[0] = "Select...";
@@ -432,9 +432,37 @@ function get_parent_filmmaker_options(): array
     return $results;
 }
 
-function get_filmmaker_by_id($id): ?SuperEightFestivalsFestivalFilmmaker
+function get_festival_filmmaker_by_id($id): ?SuperEightFestivalsFestivalFilmmaker
 {
     return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->find($id);
+}
+
+// ============================================================================================================================================================= \\
+
+function get_all_filmmakers(): array
+{
+    return get_db()->getTable("SuperEightFestivalsFilmmaker")->findAll();
+}
+
+function get_all_filmmakers_for_city($id): array
+{
+    return get_db()->getTable('SuperEightFestivalsFilmmaker')->findBy(array('city_id' => $id), -1);
+}
+
+function get_parent_filmmaker_options(): array
+{
+    $results = array();
+    $results[0] = "Select...";
+    $potentialParents = get_db()->getTable('SuperEightFestivalsFilmmaker')->findAll();
+    foreach ($potentialParents as $potentialParent) {
+        $results[$potentialParent->id] = $potentialParent->get_display_name();
+    }
+    return $results;
+}
+
+function get_filmmaker_by_id($id): ?SuperEightFestivalsFilmmaker
+{
+    return get_db()->getTable('SuperEightFestivalsFilmmaker')->find($id);
 }
 
 
@@ -628,8 +656,7 @@ function get_all_contribution_types()
 
 // ============================================================================================================================================================= \\
 
-
-function get_filmmaker_photo_by_id($id): ?SuperEightFestivalsFestivalFilmmakerPhoto
+function get_festival_filmmaker_photo_by_id($id): ?SuperEightFestivalsFestivalFilmmakerPhoto
 {
     return get_db()->getTable('SuperEightFestivalsFestivalFilmmakerPhoto')->find($id);
 }
@@ -638,6 +665,19 @@ function get_all_photos_for_festival_filmmaker($filmmakerID): array
 {
     return get_db()->getTable('SuperEightFestivalsFestivalFilmmakerPhoto')->findBy(array('filmmaker_id' => $filmmakerID), -1);
 }
+
+// ============================================================================================================================================================= \\
+
+function get_filmmaker_photo_by_id($id): ?SuperEightFestivalsFestivalFilmmakerPhoto
+{
+    return get_db()->getTable('SuperEightFestivalFilmmakerPhoto')->find($id);
+}
+
+function get_all_photos_for_filmmaker($filmmakerID): array
+{
+    return get_db()->getTable('SuperEightFestivalsFilmmakerPhoto')->findBy(array('filmmaker_id' => $filmmakerID), -1);
+}
+
 
 // ============================================================================================================================================================= \\
 

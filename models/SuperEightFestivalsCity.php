@@ -93,6 +93,13 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return $this->get_dir() . "/festivals";
     }
 
+    function get_filmmakers_dir(): ?string
+    {
+        if ($this->get_dir() == null) return null;
+        return $this->get_dir() . "/filmmakers";
+    }
+
+
     private function create_files()
     {
         if ($this->get_dir() == null) {

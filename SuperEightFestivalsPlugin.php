@@ -181,6 +181,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
             $this->addRecordRoute($router, "city_banner", "city-banners", ":module/countries/:countryName/cities/:cityName/banners", "bannerID");
+            $this->addRecordRoute($router, "filmmaker", "filmmakers", ":module/countries/:countryName/cities/:cityName/filmmakers", "filmmakerID");
+            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:countryName/cities/:cityName/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
 
             $this->addRecordRoute($router, "festival", "festivals", ":module/countries/:countryName/cities/:cityName/festivals", "festivalID");
             $this->addRecordRoute($router, "festival_film_catalog", "festival-film-catalogs", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/film-catalogs", "filmCatalogID");
@@ -200,6 +202,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "federation", "federation", "federation", false);
             $this->add_static_route($router, "cities", "cities", "cities", false);
             $this->add_static_route($router, "city", "cities/:cityName", "city", false);
+            $this->add_static_route($router, "filmmakers", "filmmakers", "filmmakers", false);
+            $this->add_static_route($router, "filmmaker", "filmmakers/:filmmakerID", "filmmaker", false);
         }
     }
 

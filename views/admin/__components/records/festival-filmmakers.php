@@ -39,11 +39,11 @@
             <p>Email: <?= $filmmaker->email != "" ? $filmmaker->email : "N/A"; ?></p>
             <p style="text-align: center">
                 <a class="button green" style="width: 100%;"
-                   href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/filmmakers/<?= $filmmaker->id; ?>/">Contents</a>
+                   href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/festivals/<?= $filmmaker->festival_id; ?>/filmmakers/<?= $filmmaker->id; ?>/">Contents</a>
             </p>
             <p style="text-align: center">
-                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/filmmakers/<?= $filmmaker->id; ?>/edit">Edit</a>
-                <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/filmmakers/<?= $filmmaker->id; ?>/delete">Delete</a>
+                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/festivals/<?= $filmmaker->festival_id; ?>/filmmakers/<?= $filmmaker->id; ?>/edit">Edit</a>
+                <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($filmmaker->get_country()->name); ?>/cities/<?= urlencode($filmmaker->get_city()->name); ?>/festivals/<?= $filmmaker->festival_id; ?>/filmmakers/<?= $filmmaker->id; ?>/delete">Delete</a>
             </p>
         </li>
     <?php endforeach; ?>

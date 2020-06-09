@@ -34,7 +34,7 @@ echo head(array(
         <?php endif; ?>
     </div>
 
-    <?
+    <?php
     /*
     <div class="records-section">
         <h2>Filmmakers</h2>

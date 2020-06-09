@@ -13,30 +13,6 @@ $festivals = get_all_festivals_in_city($city->id);
 ?>
 
 <style>
-    @media (min-width: 576px) {
-        .card-columns {
-            column-count: 2;
-        }
-    }
-
-    @media (min-width: 768px) {
-        .card-columns {
-            column-count: 2;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .card-columns {
-            column-count: 3;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .card-columns {
-            column-count: 4;
-        }
-    }
-
     #short-nav-nav ul li {
         margin: 0 0.75em;
     }
@@ -238,6 +214,8 @@ $festivals = get_all_festivals_in_city($city->id);
     )); ?>
 
     <!--Filmmakers-->
+    <?php
+    /*
     <?= $this->partial("__components/records-section-person.php", array(
         "records_name" => "filmmakers",
         "section_id" => "filmmakers",
@@ -247,6 +225,34 @@ $festivals = get_all_festivals_in_city($city->id);
         "city" => $city,
         "record_type" => Super8FestivalsRecordType::FestivalFilmmaker,
     )); ?>
+    */
+    ?>
+
+    <section id="filmmakers" class="container mt-5 p-4 bg-light">
+        <div class="row pt-4">
+            <div class="col">
+                <h3 class="pt-2 pb-2 title">Filmmakers</h3>
+                <span class="text-muted">Here is a collection of filmmakers from  <span class="title"><?= $city->get_country()->name; ?></span></span>
+                <?php if (count($filmmakers = get_all_filmmakers_for_city($city->id)) > 0): ?>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <div class="card-columns">
+                                <?php foreach ($filmmakers as $filmmaker): ?>
+                                    <a href="/filmmakers/<?= $filmmaker->id; ?>" style="color: black;">
+                                        <?= $this->partial("__components/cards/person-card.php", array("person" => $filmmaker)); ?>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <p>
+                        There are no filmmakers for this city.
+                    </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
 
     <!--Film Catalogs-->
     <?= $this->partial("__components/records-section-document.php", array(

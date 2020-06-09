@@ -54,6 +54,7 @@
             <?= $film->embed; ?>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $film->title; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $film->description != "" ? $film->description : "N/A"; ?></p>
+            <p class=""><span style="font-weight: bold;">Contributor: </span><?= $film->get_contributor() ? $film->get_contributor()->get_display_name() : "N/A"; ?></p>
             <p style="text-align: center">
                 <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($film->get_country()->name); ?>/cities/<?= urlencode($film->get_city()->name); ?>/festivals/<?= $film->festival_id; ?>/films/<?= $film->id; ?>/edit">Edit</a>
                 <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($film->get_country()->name); ?>/cities/<?= urlencode($film->get_city()->name); ?>/festivals/<?= $film->festival_id; ?>/films/<?= $film->id; ?>/delete">Delete</a>

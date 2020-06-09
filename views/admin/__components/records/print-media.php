@@ -48,6 +48,7 @@
             </a>
             <p class=""><span style="font-weight: bold;">Title: </span><?= $print_media->title != "" ? $print_media->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $print_media->description != "" ? $print_media->description : "N/A"; ?></p>
+            <p class=""><span style="font-weight: bold;">Contributor: </span><?= $print_media->get_contributor() ? $print_media->get_contributor()->get_display_name() : "N/A"; ?></p>
             <p style="text-align: center">
                 <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($print_media->get_country()->name); ?>/cities/<?= urlencode($print_media->get_city()->name); ?>/festivals/<?= $print_media->festival_id; ?>/print-media/<?= $print_media->id; ?>/edit">Edit</a>
                 <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($print_media->get_country()->name); ?>/cities/<?= urlencode($print_media->get_city()->name); ?>/festivals/<?= $print_media->festival_id; ?>/print-media/<?= $print_media->id; ?>/delete">Delete</a>

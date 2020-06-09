@@ -117,7 +117,7 @@ class SuperEightFestivals_FestivalPostersController extends Omeka_Controller_Abs
                 'id' => 'contributor_id',
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
-                'multiOptions' => array_merge(array("Select..."), get_parent_contributor_options()),
+                'multiOptions' => get_parent_contributor_options(),
                 'value' => $poster->contributor_id,
                 'required' => false,
             )

@@ -117,7 +117,7 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
                 'id' => 'contributor_id',
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
-                'multiOptions' => array_merge(array("Select..."), get_parent_contributor_options()),
+                'multiOptions' => get_parent_contributor_options(),
                 'value' => $print_media->contributor_id,
                 'required' => false,
             )

@@ -72,8 +72,8 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     protected function _validate()
     {
         parent::_validate();
-        if (empty($this->city_id) || !is_numeric($this->city_id)) {
-            $this->addError('city_id', 'You must select a valid festival!');
+        if (empty($this->filmmaker_id) || !is_numeric($this->filmmaker_id)) {
+            $this->addError('filmmaker_id', 'You must select a valid city!');
         }
     }
 

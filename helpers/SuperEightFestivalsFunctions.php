@@ -668,9 +668,9 @@ function get_all_photos_for_festival_filmmaker($filmmakerID): array
 
 // ============================================================================================================================================================= \\
 
-function get_filmmaker_photo_by_id($id): ?SuperEightFestivalsFestivalFilmmakerPhoto
+function get_filmmaker_photo_by_id($id): ?SuperEightFestivalsFilmmakerPhoto
 {
-    return get_db()->getTable('SuperEightFestivalFilmmakerPhoto')->find($id);
+    return get_db()->getTable('SuperEightFestivalsFilmmakerPhoto')->find($id);
 }
 
 function get_all_photos_for_filmmaker($filmmakerID): array

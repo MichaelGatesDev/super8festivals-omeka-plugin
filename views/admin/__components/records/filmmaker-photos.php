@@ -49,8 +49,8 @@
             <p class=""><span style="font-weight: bold;">Title: </span><?= $photo->title != "" ? $photo->title : "N/A"; ?></p>
             <p class=""><span style="font-weight: bold;">Description: </span><?= $photo->description != "" ? $photo->description : "N/A"; ?></p>
             <p style="text-align: center">
-                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($photo->get_country()->name); ?>/cities/<?= urlencode($photo->get_city()->name); ?>/festivals/<?= $photo->festival_id; ?>/filmmakers/<?= $photo->get_filmmaker()->id; ?>/photos/<?= $photo->id; ?>/edit">Edit</a>
-                <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($photo->get_country()->name); ?>/cities/<?= urlencode($photo->get_city()->name); ?>/festivals/<?= $photo->festival_id; ?>/filmmakers/<?= $photo->get_filmmaker()->id; ?>/photos/<?= $photo->id; ?>/delete">Delete</a>
+                <a class="button blue" href="/admin/super-eight-festivals/countries/<?= urlencode($photo->get_country()->name); ?>/cities/<?= urlencode($photo->get_city()->name); ?>/filmmakers/<?= $photo->get_filmmaker()->id; ?>/photos/<?= $photo->id; ?>/edit">Edit</a>
+                <a class="button red" href="/admin/super-eight-festivals/countries/<?= urlencode($photo->get_country()->name); ?>/cities/<?= urlencode($photo->get_city()->name); ?>/filmmakers/<?= $photo->get_filmmaker()->id; ?>/photos/<?= $photo->id; ?>/delete">Delete</a>
             </p>
         </li>
     <?php endforeach; ?>

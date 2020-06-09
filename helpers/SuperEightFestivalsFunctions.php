@@ -294,6 +294,13 @@ function delete_city_records($city_id)
         delete_festival_records($festival);
         $festival->delete();
     }
+
+    // filmmakers
+    $filmmakers = get_all_filmmakers_for_city($city_id);
+    foreach ($filmmakers as $filmmaker) {
+        delete_filmmaker_records($filmmaker);
+        $filmmaker->delete();
+    }
 }
 
 // ============================================================================================================================================================= \\
@@ -465,6 +472,14 @@ function get_filmmaker_by_id($id): ?SuperEightFestivalsFilmmaker
     return get_db()->getTable('SuperEightFestivalsFilmmaker')->find($id);
 }
 
+function delete_filmmaker_records($filmmaker_id)
+{
+    // photos
+    $photos = get_all_photos_for_filmmaker($filmmaker_id);
+    foreach ($photos as $photo) {
+        $photo->delete();
+    }
+}
 
 // ============================================================================================================================================================= \\
 

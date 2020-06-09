@@ -67,6 +67,7 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     protected function afterDelete()
     {
         parent::afterDelete();
+        delete_filmmaker_records($this->id);
         $this->delete_files();
         logger_log(LogLevel::Info, "Deleted filmmaker for city {$this->id}");
     }

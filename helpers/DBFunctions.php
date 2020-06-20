@@ -16,7 +16,6 @@ function create_table($table_prefix, $table_name, $cols, $primary_key)
     $db->query($query);
 }
 
-
 function create_tables()
 {
     foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
@@ -49,6 +48,35 @@ function drop_tables()
                 $instance = new $class;
                 $instance->drop_table();
                 logger_log(LogLevel::Debug, "Dropped table: " . $class);
+            }
+        }
+    }
+}
+
+
+function create_missing_columns($table_prefix, $table_name, $cols)
+{
+    $db = get_db();
+
+    foreach ($cols as $col) {
+        try {
+            $db->query("ALTER TABLE `{$db->prefix}{$table_prefix}{$table_name}` ADD COLUMN $col;");
+        } catch (Exception $e) {
+            logger_log(LogLevel::Warning, "Could not create missing column: " . $e->getMessage());
+        }
+    }
+}
+
+function create_all_missing_columns()
+{
+    foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
+        $class = basename($file, '.php');
+        if (class_exists($class)) {
+            $reflect = new ReflectionClass($class);
+            if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
+                $instance = new $class;
+                $instance->create_missing_columns();
+                logger_log(LogLevel::Debug, "Created missing columns for table: " . $class);
             }
         }
     }

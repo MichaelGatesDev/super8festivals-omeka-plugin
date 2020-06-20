@@ -13,6 +13,15 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         );
     }
 
+    public function create_missing_columns()
+    {
+        create_missing_columns(
+            TablePrefix,
+            Inflector::tableize(str_replace("SuperEightFestivals", "", $this->get_clazz())),
+            $this->get_db_columns()
+        );
+    }
+
     public function drop_table()
     {
         drop_table(

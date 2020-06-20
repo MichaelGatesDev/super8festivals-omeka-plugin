@@ -32,6 +32,11 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
         create_tables();
     }
 
+    public function debugCreateMissingColumnsAction()
+    {
+        create_all_missing_columns();
+    }
+
     public function debugCreateDirectoriesAction()
     {
         create_plugin_directories();

@@ -37,7 +37,7 @@ $query = trim($query); // trim blank
         $festivals = get_all_festivals();
         $festival_films = get_all_films();
         $festival_film_catalogs = get_all_film_catalogs();
-        $festival_filmmakers = get_all_festival_filmmakers();
+        $filmmakers = get_all_filmmakers();
         $festival_memorabilia = get_all_memorabilia();
         $festival_photos = get_all_photos();
         $festival_posters = get_all_posters();
@@ -82,11 +82,11 @@ $query = trim($query); // trim blank
             search_records($festival_film_catalogs, "title", $part, $matching_festival_film_catalogs);
             search_records($festival_film_catalogs, "description", $part, $matching_festival_film_catalogs);
 
-            // search festival filmmaker metadata
-            search_records($festival_filmmakers, "first_name", $part, $matching_festival_filmmakers);
-            search_records($festival_filmmakers, "last_name", $part, $matching_festival_filmmakers);
-            search_records($festival_filmmakers, "organization_name", $part, $matching_festival_filmmakers);
-            search_records($festival_filmmakers, "email", $part, $matching_festival_filmmakers);
+            // search city filmmaker metadata
+            search_records($filmmakers, "first_name", $part, $matching_festival_filmmakers);
+            search_records($filmmakers, "last_name", $part, $matching_festival_filmmakers);
+            search_records($filmmakers, "organization_name", $part, $matching_festival_filmmakers);
+            search_records($filmmakers, "email", $part, $matching_festival_filmmakers);
 
             // search festival memorabilia metadata
             search_records($festival_memorabilia, "title", $part, $matching_festival_memorabilia);

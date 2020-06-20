@@ -32,7 +32,7 @@ usort($cities, function ($a, $b) {
                     <div class="card mb-4" style="width: 250px;">
                         <img src="<?= $banner != null ? get_relative_path($banner->get_thumbnail_path()) : "https://placehold.it/280x140/abc" ?>" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h5 class="card-title title"><?= $city->name; ?></h5>
+                            <h5 class="card-title title"><?= $city->name; ?> (<?= $city->get_country()->name; ?>)</h5>
                             <p class="card-text">
                                 Festivals: <?= count($festivals); ?>
                             </p>

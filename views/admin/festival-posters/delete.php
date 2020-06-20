@@ -1,7 +1,7 @@
 <?php
 queue_css_file("admin");
 queue_js_file("jquery.min");
-queue_js_file("admin");
+
 echo head(array(
     'title' => 'Delete Poster: ' . (strlen($poster->title) > 0 ? ucwords($poster->title) : "Untitled"),
 ));

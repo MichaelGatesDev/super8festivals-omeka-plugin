@@ -1,7 +1,7 @@
 <?php
 queue_css_file("admin");
 queue_js_file("jquery.min");
-queue_js_file("admin");
+
 echo head(array(
     'title' => 'Delete Memorabilia: ' . (strlen($memorabilia->title) > 0 ? ucwords($memorabilia->title) : "Untitled"),
 ));

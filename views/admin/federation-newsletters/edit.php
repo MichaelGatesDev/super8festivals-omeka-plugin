@@ -1,6 +1,8 @@
 <?php
 queue_css_file("admin");
 queue_js_file("jquery.min");
+queue_js_file("preview-file");
+queue_js_file("sort-selects");
 echo head(array(
     'title' => 'Edit Federation Newsletter: ' . (strlen($federation_newsletter->title) > 0 ? ucwords($federation_newsletter->title) : "Untitled"),
 ));

@@ -1,7 +1,8 @@
 <?php
 queue_css_file("admin");
 queue_js_file("jquery.min");
-queue_js_file("admin");
+queue_js_file("preview-file");
+
 echo head(array(
     'title' => 'Edit City Banner for ' . $city->name,
 ));

@@ -150,7 +150,9 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
-                                $originalRecord->delete_files();
+                                if ($originalRecord != null) {
+                                    $originalRecord->delete_files();
+                                }
                                 // do file upload
                                 $this->upload_file($banner);
                             }

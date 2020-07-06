@@ -18,12 +18,4 @@ jQuery(document).ready(() => {
         // select the originally selected item
         select.val(selectedOptionValue);
     }
-
-
-    function getIndexByValue(options, value) {
-        for (const option of options) {
-            if (option.value === value) return option.index;
-        }
-        return null;
-    }
 });

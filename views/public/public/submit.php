@@ -91,65 +91,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="row">
         <div class="col">
+
             <form action="submit" method="POST">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
+                    <!--Info-->
+                    <div class="col">
+                        <div class="form-group mb-4">
                             <label for="name">Name (Personal/Organization)</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter name" required="required" name="name"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-4">
                             <label for="email">Email Address</label>
                             <div class="input-group">
                                 <input type="email" class="form-control" id="email" placeholder="Enter email" required="required" name="email"/>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-4">
                             <label for="materialType">Material Type</label>
                             <div class="input-group mb-3">
-                                <select class="custom-select title" id="materialType" name="materialType" required="required">
-                                    <option value="" selected>Select</option>
+                                <select class="form-select title" id="materialType" name="materialType" required="required">
+                                    <option value="" selected>Select...</option>
                                     <?php foreach (get_all_contribution_types() as $contribution_type): ?>
                                         <option value="<?= $contribution_type["value"]; ?>" class="text-capitalize"><?= $contribution_type["name"]; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="message">Optional Message</label>
-                            <textarea name="optionalMessage" id="message" class="form-control" rows="9" cols="25" placeholder="Message"></textarea>
-                        </div>
+                        <div class="form-group form-file mb-4">
+                            <input type="file" class="form-file-input" id="file"/>
+                            <label class="form-file-label" for="file">
+                                <span class="form-file-text">Choose file...</span>
+                                <span class="form-file-button">Browse</span>
+                            </label>
+                        </div
                     </div>
                 </div>
-
-                <div class="row">
-                    <!--File Column A-->
-                    <div class="col">
-                        <?php for ($i = 0; $i < $files; $i++): ?>
-                            <!--File Row-->
-                            <div class="row">
-                                <div class="col">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Upload</span>
-                                        </div>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endfor; ?>
+                <!--Message-->
+                <div class="col">
+                    <div class="form-group">
+                        <label for="message">Optional Message</label>
+                        <textarea name="optionalMessage" id="message" class="form-control" rows="9" cols="25" placeholder="Message"></textarea>
                     </div>
-
-
                 </div>
+                <!--Submit Button-->
                 <div class="row">
                     <div class="col">
-                        <button type="submit" class="btn btn-primary pull-right" style="width: 100%;" id="btnContactUs">
+                        <button type="submit" class="btn btn-primary w-100 mb-4" id="submit">
                             Submit
                         </button>
                     </div>

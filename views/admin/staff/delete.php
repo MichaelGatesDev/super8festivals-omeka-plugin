@@ -16,7 +16,7 @@ echo head(array(
 
     <div class="row mb-3">
         <div class="col">
-            <h2>Delete Contributor: <?= $staff->get_display_name(); ?></h2>
+            <h2>Delete Staff: <?= $staff->get_display_name(); ?></h2>
         </div>
     </div>
 

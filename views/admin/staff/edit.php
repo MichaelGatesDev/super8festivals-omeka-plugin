@@ -16,7 +16,7 @@ echo head(array(
 
     <div class="row mb-3">
         <div class="col">
-            <h2>Edit Contributor</h2>
+            <h2>Edit Staff</h2>
         </div>
     </div>
 

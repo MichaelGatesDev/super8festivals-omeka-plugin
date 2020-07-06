@@ -25,6 +25,7 @@ echo head(array(
             <a href="/admin/super-eight-festivals/federation" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Federation</a>
             <a href="/admin/super-eight-festivals/countries" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Countries</a>
             <a href="/admin/super-eight-festivals/contributors" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Contributors</a>
+            <a href="/admin/super-eight-festivals/staff" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Site Staff</a>
         </div>
     </div>
 

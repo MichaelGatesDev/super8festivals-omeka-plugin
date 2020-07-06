@@ -160,6 +160,11 @@ function get_federation_dir()
     return get_project_dir() . "/federation";
 }
 
+function get_staff_dir()
+{
+    return get_project_dir() . "/staff";
+}
+
 function generate_missing_thumbnails()
 {
     generate_missing_thumbnails_for_all(get_all_city_banners());

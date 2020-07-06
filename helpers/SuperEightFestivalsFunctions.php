@@ -724,3 +724,16 @@ function get_page_by_url($url)
     $results = get_db()->getTable('SuperEightFestivalsPage')->findBy(array('url' => $url), 1);
     return count($results) > 0 ? $results[0] : null;
 }
+
+
+// ============================================================================================================================================================= \\
+
+function get_all_staffs(): array
+{
+    return get_db()->getTable("SuperEightFestivalsStaff")->findAll();
+}
+
+function get_staff_by_id($id): ?SuperEightFestivalsStaff
+{
+    return get_db()->getTable('SuperEightFestivalsStaff')->find($id);
+}

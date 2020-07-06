@@ -178,6 +178,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "debug_delete_all_thumbnails", ":module/debug/delete-all-thumbnails", "debug-delete-all-thumbnails", true);
             $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
 
+            $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
+
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
             $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
             $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");

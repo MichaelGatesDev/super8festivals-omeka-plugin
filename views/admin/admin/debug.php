@@ -1,48 +1,46 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
-echo head(
-    array(
-        'title' => 'Debug',
-    )
-);
+echo head(array(
+    'title' => 'Debug',
+));
 ?>
 
 <?php echo flash(); ?>
 
-<?= $this->partial("__components/breadcrumbs.php"); ?>
 
-<h2>Debug</h2>
+<section class="container">
 
-<style>
-    .buttons {
-        margin: 0 0 1em 0;
-        padding: 0;
-    }
+    <?= $this->partial("__partials/flash.php"); ?>
 
-    .buttons li {
-        list-style-type: none;
-        display: inline-block;
-    }
+    <div class="row">
+        <div class="col">
+            <?= $this->partial("__components/breadcrumbs.php"); ?>
+        </div>
+    </div>
 
-    .buttons li:not(:last-child) {
-        margin-right: 1em;
-    }
-</style>
+    <div class="row">
+        <div class="col">
+            <h2 class="mb-5">Debug Tools</h2>
+        </div>
+    </div>
 
-<ul class="buttons">
-    <li><a href="/admin/super-eight-festivals/debug/purge/unused" class="button red" style="margin: 0; padding: 0.5em 1.5em;">Purge All Unused records</a></li>
-    <li><a href="/admin/super-eight-festivals/debug/fix-festivals" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Fix Festival IDs</a></li>
-    <li><a href="/admin/super-eight-festivals/debug/create-tables" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Create DB Tables</a></li>
-    <li><a href="/admin/super-eight-festivals/debug/create-missing-columns" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Create DB Columns</a></li>
-    <li><a href="/admin/super-eight-festivals/debug/create-directories" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Create Directories</a></li>
-</ul>
+    <div class="row">
+        <div class="col">
+            <a href="/admin/super-eight-festivals/debug/purge/unused" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Purge All Unused records</a>
+            <a href="/admin/super-eight-festivals/debug/fix-festivals" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Fix Festival IDs</a>
+            <a href="/admin/super-eight-festivals/debug/create-tables" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Create DB Tables</a>
+            <a href="/admin/super-eight-festivals/debug/create-missing-columns" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Create DB Columns</a>
+            <a href="/admin/super-eight-festivals/debug/create-directories" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Create Directories</a>
+        </div>
+    </div>
 
+    <div class="row my-2">
+        <div class="col">
+            <a href="/admin/super-eight-festivals/debug/generate-missing-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Generate Missing Thumbnails</a>
+            <a href="/admin/super-eight-festivals/debug/regenerate-all-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Regenerate All Thumbnails</a>
+            <a href="/admin/super-eight-festivals/debug/delete-all-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Delete All Thumbnails</a>
+        </div>
+    </div>
 
-<ul class="buttons">
-    <li><a href="/admin/super-eight-festivals/debug/generate-missing-thumbnails" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Generate Missing Thumbnails</a></li>
-    <li><a href="/admin/super-eight-festivals/debug/regenerate-all-thumbnails" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Regenerate All Thumbnails</a></li>
-    <li><a href="/admin/super-eight-festivals/debug/delete-all-thumbnails" class="button blue" style="margin: 0; padding: 0.5em 1.5em;">Delete All Thumbnails</a></li>
-</ul>
+</section>
 
 <?php echo foot(); ?>

@@ -1,44 +1,40 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
-echo head(
-    array(
-        'title' => 'Admin Panel',
-    )
-);
+echo head(array(
+    'title' => 'Admin Panel',
+));
 ?>
 
-<?php echo flash(); ?>
+<section class="container">
 
-<?= $this->partial("__components/breadcrumbs.php"); ?>
+    <?= $this->partial("__partials/flash.php"); ?>
 
-<h2>Super 8 Festivals Control Panel</h2>
+    <div class="row">
+        <div class="col">
+            <?= $this->partial("__components/breadcrumbs.php"); ?>
+        </div>
+    </div>
 
-<style>
-    .buttons {
-        margin: 0;
-        padding: 0;
-    }
+    <div class="row">
+        <div class="col">
+            <h2 class="mb-5">Super 8 Festivals Control Panel</h2>
+        </div>
+    </div>
 
-    .buttons li {
-        list-style-type: none;
-        display: inline-block;
-    }
+    <div class="row">
+        <div class="col">
+            <a href="/admin/super-eight-festivals/federation" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Federation</a>
+            <a href="/admin/super-eight-festivals/countries" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Countries</a>
+            <a href="/admin/super-eight-festivals/contributors" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Contributors</a>
+        </div>
+    </div>
 
-    .buttons li:not(:last-child) {
-        margin-right: 1em;
-    }
-</style>
+    <div class="row">
+        <div class="col">
+            <a href="/admin/super-eight-festivals/debug" class="btn btn-danger mt-4">Debug Tools</a>
+        </div>
+    </div>
 
-<ul class="buttons">
-    <li><a href="/admin/super-eight-festivals/federation" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Federation</a></li>
-    <li><a href="/admin/super-eight-festivals/countries" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Countries</a></li>
-    <li><a href="/admin/super-eight-festivals/contributors" class="button green big" style="margin: 0; padding: 0.5em 1.5em;">Contributors</a></li>
-</ul>
-
-<hr style="margin-top: 5em">
-
-<a href="/admin/super-eight-festivals/debug" class="button red big">Debug Tools</a>
+</section>
 
 
 <?php echo foot(); ?>

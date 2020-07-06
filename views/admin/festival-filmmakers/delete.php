@@ -1,6 +1,4 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
 echo head(array(
     'title' => 'Delete Filmmaker: ' . ucwords($filmmaker->get_display_name()),
 ));

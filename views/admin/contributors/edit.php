@@ -1,15 +1,31 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
 echo head(array(
     'title' => 'Edit Contributor: ' . ucwords($contributor->get_display_name()),
 ));
 ?>
 
-<?php echo flash(); ?>
+<section class="container">
 
-<?= $this->partial("__components/breadcrumbs.php"); ?>
+    <?= $this->partial("__partials/flash.php"); ?>
 
-<?php echo $form; ?>
+    <div class="row">
+        <div class="col">
+            <?= $this->partial("__components/breadcrumbs.php"); ?>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <h2>Edit Contributor</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <?php echo $form; ?>
+        </div>
+    </div>
+
+</section>
 
 <?php echo foot(); ?>

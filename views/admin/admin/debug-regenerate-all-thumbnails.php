@@ -1,11 +1,7 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
-echo head(
-    array(
-        'title' => 'Debug',
-    )
-);
+echo head(array(
+    'title' => 'Debug',
+));
 ?>
 
 <?php echo flash(); ?>

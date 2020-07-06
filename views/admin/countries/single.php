@@ -1,52 +1,74 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
 echo head(array(
     'title' => $country->name,
 ));
+
+$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name);
 ?>
 
-<!--Omeka 'flash' message partial -->
-<?php echo flash(); ?>
+<section class="container">
 
-<a class="button blue" href='/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/edit'>Edit</a>
-<a class="button red" href='/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/delete'>Delete</a>
+    <?= $this->partial("__partials/flash.php"); ?>
 
-<?= $this->partial("__components/breadcrumbs.php"); ?>
-
-<style>
-</style>
-<section id="country-single">
-
-    <?php
-    /*
-    <div class="records-section">
-        <h2>Country Banners</h2>
-        <?php $country_banners = get_country_banners($country->id); ?>
-        <?php if (count($country_banners) == 0): ?>
-            <p>There are no country banners available for this country.</p>
-        <?php else: ?>
-            <?= $this->partial("__components/records/country-banners.php", array('country_banners' => $country_banners)); ?>
-        <?php endif; ?>
-        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/banners/add">Add Country Banner</a>
+    <div class="row">
+        <div class="col">
+            <?= $this->partial("__components/breadcrumbs.php"); ?>
+        </div>
     </div>
-    */
-    ?>
 
-    <div class="records-section">
-        <h2>Cities</h2>
-        <?php
-        $cities = get_all_cities_in_country($country->id);
-        sort($cities);
-        ?>
-        <?php if (count($cities) == 0): ?>
-            <p>There are no cities available for this country.</p>
-        <?php else: ?>
-            <?= $this->partial("__components/records/cities.php", array('cities' => $cities)); ?>
-        <?php endif; ?>
-        <a class="button green" href="/admin/super-eight-festivals/countries/<?= urlencode($country->name); ?>/cities/add">Add City</a>
+    <div class="row">
+        <div class="col">
+            <h2 class="text-capitalize">
+                <?= $country->name; ?>
+                <a class="btn btn-primary" href='<?= $rootURL; ?>/edit'>Edit</a>
+                <a class="btn btn-danger" href='<?= $rootURL; ?>/delete'>Delete</a>
+            </h2>
+        </div>
     </div>
+
+    <div class="row my-4">
+        <div class="col">
+            <h3 class="text-capitalize">
+                Cities
+                <a class="btn btn-success btn-sm" href="<?= $rootURL; ?>/cities/add">Add City</a>
+            </h3>
+            <p class="text-muted">Click on the city name to navigate to its page.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <?php
+            $cities = get_all_cities_in_country($country->id);
+            sort($cities);
+            ?>
+            <?php if (count($cities) == 0): ?>
+                <p>There are no cities available for this country.</p>
+            <?php else: ?>
+                <table id="countries" class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <td style="width: 1px;">ID</td>
+                        <td>City Name</td>
+                        <td style="width: 1px;"></td>
+                        <td style="width: 1px;"></td>
+                    </tr>
+                    </thead>
+                    <?php foreach ($cities as $city): ?>
+                        <tr>
+                            <td onclick="window.location.href = '<?= $rootURL; ?>/cities/<?= urlencode($city->name); ?>';" style="cursor: pointer;"><span class="title"><?= $city->id; ?></span></td>
+                            <td onclick="window.location.href = '<?= $rootURL; ?>/cities/<?= urlencode($city->name); ?>';" style="cursor: pointer;"><span class="title"><?= $city->name; ?></span></td>
+                            <td><a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/cities/<?= urlencode($city->name); ?>/edit">Edit</a></td>
+                            <td><a class="btn btn-danger btn-sm" href="<?= $rootURL; ?>/cities/<?= urlencode($city->name); ?>/delete">Delete</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            <?php endif; ?>
+        </div>
+    </div>
+
 </section>
+
 
 <?php echo foot(); ?>
 

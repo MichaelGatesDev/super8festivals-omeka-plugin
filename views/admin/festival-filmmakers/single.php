@@ -1,11 +1,7 @@
 <?php
-queue_css_file("admin");
-queue_js_file("jquery.min");
-echo head(
-    array(
-        'title' => 'Filmmaker: ' . $filmmaker->get_display_name(),
-    )
-);
+echo head(array(
+    'title' => 'Filmmaker: ' . $filmmaker->get_display_name(),
+));
 ?>
 
 <?php echo flash(); ?>

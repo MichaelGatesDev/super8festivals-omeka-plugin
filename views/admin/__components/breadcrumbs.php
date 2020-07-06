@@ -21,44 +21,11 @@ function constructURLTrail($parts, $part)
 }
 
 ?>
-<style>
-    #breadcrumbs {
-        background-color: #f9f9f9;
-        padding: 0.5em;
-        border: 1px solid black;
-        margin-bottom: 1em;
-    }
-
-    #breadcrumbs ul {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-    }
-
-    #breadcrumbs ul li {
-        display: inline-block;
-        list-style-type: circle;
-        text-transform: lowercase;
-    }
-
-    #breadcrumbs ul li a, #breadcrumbs ul li a:visited {
-        color: #c76941;
-    }
-
-    #breadcrumbs ul li a:hover {
-        color: #e88347;
-    }
-
-    #breadcrumbs ul li:not(:last-child):after {
-        content: " • ";
-    }
-</style>
-
-<div id="breadcrumbs">
-    <span>Navigation: </span>
-    <ul>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb my-4">
+        <span class="mr-2">Navigation:</span>
         <?php foreach ($parts = getUrlParts() as $part): ?>
-            <li><a href="<?= constructURLTrail($parts, $part); ?>"><?= urldecode($part); ?></a></li>
+            <li class="breadcrumb-item"><a href="<?= constructURLTrail($parts, $part); ?>"><?= urldecode($part); ?></a></li>
         <?php endforeach; ?>
-    </ul>
-</div>
+    </ol>
+</nav>

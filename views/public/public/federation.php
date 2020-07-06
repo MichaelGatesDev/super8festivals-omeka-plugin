@@ -53,54 +53,6 @@ echo head($head);
     }
 </style>
 
-<nav id="short-nav" class="navbar navbar-expand-lg navbar-dark bg-dark fixed-bottom justify-content-center text-center" style="display: none">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#short-nav-nav" aria-controls="short-nav-nav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-start">
-        <div class="navbar-nav">
-            <div class="nav-item"><a class="nav-link" href="#">Top of Page</a></div>
-        </div>
-    </div>
-    <div class="collapse navbar-collapse justify-content-center" id="short-nav-nav">
-        <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link d-lg-none" href="#">Top of Page</a></li>
-            <li class="nav-item"><a class="nav-link" href="#newsletters">Newsletters</a></li>
-            <li class="nav-item"><a class="nav-link" href="#photos">Photos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#magazines">Magazines</a></li>
-            <li class="nav-item "><a class="nav-link" href="#by-laws">By Laws</a></li>
-        </ul>
-    </div>
-    <div class="collapse navbar-collapse justify-content-end">
-        <div class="navbar-nav">
-            <div class="nav-item"><a class="nav-link" href="#">Top of Page</a></div>
-        </div>
-    </div>
-</nav>
-
-<script>
-    $(document).ready(() => {
-        const elemAdminBar = $("#admin-bar");
-        const elemHeader = $("header");
-
-        const totalPrependedHeight = (elemAdminBar.is(":visible") ? elemAdminBar.height() : 0) + elemHeader.height();
-        const windowHeight = $(window).height();
-        const remainingHeight = windowHeight - totalPrependedHeight;
-
-        const elemLanding = $("#landing");
-        elemLanding.css("height", remainingHeight + "px");
-
-        const elemShortNav = $("#short-nav");
-        $(window).scroll(function () {
-            if ($(window).scrollTop() >= (elemLanding.position().top + elemLanding.outerHeight(true))) {
-                elemShortNav.fadeIn(150);
-            } else {
-                elemShortNav.fadeOut(150);
-            }
-        });
-    });
-</script>
-
 <div class="container-fluid overflow-hidden" id="landing">
     <div class="row">
         <div class="col">

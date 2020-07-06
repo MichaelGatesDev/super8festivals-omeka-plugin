@@ -1,6 +1,11 @@
 <div class="card d-inline-block my-2 mx-2" style="width: 18rem;">
-    <a href="<?= get_relative_path($record->get_path()) ?>" data-fancybox="fb-film-catalogs" data-title="<?= $record->title; ?>">
-        <img class="card-img-top" src="<?= get_relative_path($record->get_thumbnail_path()); ?>" alt="<?= $record->title; ?>"/>
+    <a href="<?= get_relative_path($record->get_path()) ?>" data-fancybox="fb-TODO" data-title="<?= $record->title; ?>">
+        <img
+                class="card-img-top"
+                src="<?= get_relative_path($record->get_thumbnail_path()); ?>"
+                alt="<?= $record->title; ?>"
+                style="object-fit: cover; height: 300px; "
+        />
     </a>
     <div class="card-body">
         <p>

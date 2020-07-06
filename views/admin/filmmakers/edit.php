@@ -27,4 +27,5 @@ echo head(array(
     </div>
 
 </section>
+
 <?php echo foot(); ?>

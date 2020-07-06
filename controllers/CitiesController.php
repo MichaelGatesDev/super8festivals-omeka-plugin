@@ -164,7 +164,7 @@ class SuperEightFestivals_CitiesController extends Omeka_Controller_AbstractActi
                             }
                         }
                     }
-                    $this->redirect("/super-eight-festivals/countries/" . urlencode($city->get_country()->name));
+                    $this->redirect("/super-eight-festivals/countries/" . urlencode($city->get_country()->name) . "/cities/" . urlencode($city->name));
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);
                 } catch (Omeka_Record_Exception $e) {

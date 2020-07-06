@@ -103,6 +103,7 @@ class SuperEightFestivals_FederationMagazinesController extends Omeka_Controller
                 'label' => 'File',
                 'description' => "The federation magazine file",
                 'required' => $federation_magazine->file_name == "" || !file_exists($federation_magazine->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 

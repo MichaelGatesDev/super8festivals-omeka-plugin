@@ -103,6 +103,7 @@ class SuperEightFestivals_FederationBylawsController extends Omeka_Controller_Ab
                 'label' => 'File',
                 'description' => "The federation bylaw file",
                 'required' => $federation_bylaw->file_name == "" || !file_exists($federation_bylaw->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 

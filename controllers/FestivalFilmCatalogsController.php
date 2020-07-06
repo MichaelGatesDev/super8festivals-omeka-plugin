@@ -152,6 +152,7 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
                 'label' => 'File',
                 'description' => "The film catalog file",
                 'required' => $film_catalog->file_name == "" || !file_exists($film_catalog->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 

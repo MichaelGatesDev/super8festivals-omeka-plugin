@@ -156,6 +156,7 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
                 'label' => 'File',
                 'description' => "The memorabilia file",
                 'required' => $memorabilia->file_name == "" || !file_exists($memorabilia->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 

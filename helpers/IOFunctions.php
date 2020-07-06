@@ -3,11 +3,36 @@
 function is_image($path)
 {
     $ext = pathinfo($path, PATHINFO_EXTENSION);
-    return in_array($ext, array(
-        "jpg",
+    return in_array($ext, get_image_types());
+}
+
+function get_image_types()
+{
+    return array(
         "png",
+        "jpg",
         "jpeg",
-    ));
+    );
+}
+
+function get_document_types()
+{
+    return array(
+        "pdf",
+        "docx",
+        "doc",
+        "rtf",
+    );
+}
+
+function get_form_accept_string($arr)
+{
+    $result = "";
+    for ($i = 0; $i < count($arr); $i++) {
+        $result .= "." . $arr[$i];
+        if ($i < count($arr) - 1) $result .= ",";
+    }
+    return $result;
 }
 
 // ============================================================================================================================================================= \\

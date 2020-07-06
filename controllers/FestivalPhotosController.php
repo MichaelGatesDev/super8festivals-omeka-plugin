@@ -152,6 +152,7 @@ class SuperEightFestivals_FestivalPhotosController extends Omeka_Controller_Abst
                 'label' => 'File',
                 'description' => "The photo file",
                 'required' => $photo->file_name == "" || !file_exists($photo->get_path()),
+                'accept' => get_form_accept_string(get_image_types()),
             )
         );
 

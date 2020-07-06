@@ -102,6 +102,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                 'label' => 'File',
                 'description' => "The banner image file",
                 'required' => $banner == null || $banner->file_name == "" || !file_exists($banner->get_path()),
+                'accept' => get_form_accept_string(get_image_types()),
             )
         );
 

@@ -103,6 +103,7 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
                 'label' => 'File',
                 'description' => "The federation photo file",
                 'required' => $federation_photo->file_name == "" || !file_exists($federation_photo->get_path()),
+                'accept' => get_form_accept_string(get_image_types()),
             )
         );
 

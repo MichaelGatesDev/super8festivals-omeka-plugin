@@ -152,6 +152,7 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
                 'label' => 'File',
                 'description' => "The print media file",
                 'required' => $print_media->file_name == "" || !file_exists($print_media->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 

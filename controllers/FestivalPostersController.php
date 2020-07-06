@@ -152,6 +152,7 @@ class SuperEightFestivals_FestivalPostersController extends Omeka_Controller_Abs
                 'label' => 'File',
                 'description' => "The poster file",
                 'required' => $poster->file_name == "" || !file_exists($poster->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 

@@ -1,4 +1,4 @@
-<div class="card d-inline-block my-2 mx-2" style="width: 18rem;">
+<div class="card d-inline-block my-2 mx-2" style="width: 18rem; ">
     <a href="<?= get_relative_path($record->get_path()) ?>" data-fancybox="fb-TODO" data-title="<?= $record->title; ?>">
         <img
                 class="card-img-top"
@@ -24,5 +24,7 @@
             <span class="font-weight-bold text-dark">Contributor:</span>
             <?= $record->contributor ? $record->contributor->get_display_name() : "No contributor." ?>
         </p>
+        <a class="btn btn-primary" href="<?= $rootURL; ?>/film-catalogs/<?= $film_catalog->id; ?>/edit">Edit</a>
+        <a class="btn btn-danger" href="<?= $rootURL; ?>/film-catalogs/<?= $film_catalog->id; ?>/delete">Delete</a>
     </div>
 </div>

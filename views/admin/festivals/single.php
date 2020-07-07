@@ -50,37 +50,11 @@ $posters = get_all_posters_for_festival($festival->id);
             <?php if (count($film_catalogs) == 0): ?>
                 <p>There are no film catalogs available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($film_catalogs as $film_catalog): ?>
-                    <div class="card d-inline-block my-2 mx-2" style="width: 18rem;">
-                        <a href="<?= get_relative_path($film_catalog->get_path()) ?>" data-fancybox="fb-film-catalogs" data-title="<?= $film_catalog->title; ?>">
-                            <img class="card-img-top" src="<?= get_relative_path($film_catalog->get_thumbnail_path()); ?>" alt="<?= $film_catalog->title; ?>"/>
-                        </a>
-                        <div class="card-body">
-                            <p>
-                                <span class="font-weight-bold">
-                                Title:
-                                </span>
-                                <?= $film_catalog->title == "" ? "Untitled" : $film_catalog->title; ?>
-                            </p>
-                            <p class="text-muted">
-                                <span class="font-weight-bold text-dark">
-                                Description:
-                                </span>
-                                <?= $film_catalog->description == "" ? "No description available." : $film_catalog->description; ?>
-                            </p>
-                            <p>
-                                <span class="font-weight-bold">
-                                Contributor:
-                                </span>
-                                <?= $film_catalog->contributor ? $film_catalog->contributor->get_display_name() : "No contributor." ?>
-                            </p>
-                            <div>
-                                <a class="btn btn-primary" href="<?= $rootURL; ?>/film-catalogs/<?= $film_catalog->id; ?>/edit">Edit</a>
-                                <a class="btn btn-danger" href="<?= $rootURL; ?>/film-catalogs/<?= $film_catalog->id; ?>/delete">Delete</a>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($film_catalogs as $film_catalog): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $film_catalog)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -94,43 +68,11 @@ $posters = get_all_posters_for_festival($festival->id);
             <?php if (count($films) == 0): ?>
                 <p>There are no films available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($films as $film): ?>
-                    <div class="card d-inline-block my-2 mx-2" style="width: 18rem;">
-                        <div class="card-body">
-                            <div style="overflow: hidden;">
-                                <?= $film->embed; ?>
-                            </div>
-                            <p>
-                                <span class="font-weight-bold">
-                                Title:
-                                </span>
-                                <?= $film->title == "" ? "Untitled" : $film->title; ?>
-                            </p>
-                            <p class="text-muted">
-                                <span class="font-weight-bold text-dark">
-                                Description:
-                                </span>
-                                <?= $film->description == "" ? "No description available." : $film->description; ?>
-                            </p>
-                            <p>
-                                <span class="font-weight-bold">
-                                Contributor:
-                                </span>
-                                <?= $film->contributor ? $film->contributor->get_display_name() : "No contributor." ?>
-                            </p>
-                            <p>
-                                <span class="font-weight-bold">
-                                Filmmaker:
-                                </span>
-                                <?= $film->filmmaker ? $film->filmmaker->get_display_name() : "Filmmaker unknown." ?>
-                            </p>
-                            <div>
-                                <a class="btn btn-primary" href="<?= $rootURL; ?>/films/<?= $film->id; ?>/edit">Edit</a>
-                                <a class="btn btn-danger" href="<?= $rootURL; ?>/films/<?= $film->id; ?>/delete">Delete</a>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($films as $film): ?>
+                        <?= $this->partial("__components/festival-record-card-video.php", array('record' => $film)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>

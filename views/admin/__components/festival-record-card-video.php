@@ -2,7 +2,7 @@
     <div style="overflow: hidden;">
         <?= $record->embed; ?>
     </div>
-    <div class="card-body" style="max-height: 300px; overflow-y: scroll;">
+    <div class="card-body" style="height: 250px; max-height: 300px; overflow-y: scroll;">
         <p>
             <span class="font-weight-bold">Title:</span>
             <?= $record->title == "" ? "Untitled" : $record->title; ?>

@@ -117,9 +117,11 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php if (count($posters) == 0): ?>
                 <p>There are no film catalogs available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($posters as $poster): ?>
-                    <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $poster)); ?>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($posters as $poster): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $poster)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -133,9 +135,11 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php if (count($photos) == 0): ?>
                 <p>There are no film catalogs available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($photos as $photo): ?>
-                    <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($photos as $photo): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -149,9 +153,11 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php if (count($print_media) == 0): ?>
                 <p>There is no print media available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($print_media as $print_medium): ?>
-                    <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $print_medium)); ?>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($print_media as $print_medium): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $print_medium)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -165,9 +171,11 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php if (count($memorabilia) == 0): ?>
                 <p>There is no print media available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($memorabilia as $memorabilium): ?>
-                    <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $memorabilium)); ?>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($memorabilia as $memorabilium): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $memorabilium)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -181,9 +189,11 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php if (count($films) == 0): ?>
                 <p>There is no print media available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($films as $film): ?>
-                    <?= $this->partial("__components/festival-record-card-video.php", array('record' => $film)); ?>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($films as $film): ?>
+                        <?= $this->partial("__components/festival-record-card-video.php", array('record' => $film)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -196,14 +206,16 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                 Here is a collection of filmmakers from <span class="title"><?= $city->name; ?></span>
             </p>
             <?php if (count($filmmakers = get_all_filmmakers_for_city($city->id)) > 0): ?>
-                <?php foreach ($filmmakers as $filmmaker): ?>
-                    <div class="card d-inline-block m-4">
-                        <div class="card-body">
-                            <h5 class="card-title text-capitalize"><?= $filmmaker->get_display_name(); ?></h5>
+                <div class="row row-cols">
+                    <?php foreach ($filmmakers as $filmmaker): ?>
+                        <div class="card d-inline-block m-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-capitalize"><?= $filmmaker->get_display_name(); ?></h5>
+                            </div>
+                            <a href="/filmmakers/<?= $filmmaker->id; ?>" class="stretched-link"></a>
                         </div>
-                        <a href="/filmmakers/<?= $filmmaker->id; ?>" class="stretched-link"></a>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             <?php else: ?>
                 <p>
                     There are no filmmakers for this city.
@@ -222,9 +234,11 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php if (count($film_catalogs) == 0): ?>
                 <p>There is no print media available for this festival.</p>
             <?php else: ?>
-                <?php foreach ($film_catalogs as $film_catalog): ?>
-                    <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $film_catalog)); ?>
-                <?php endforeach; ?>
+                <div class="row row-cols">
+                    <?php foreach ($film_catalogs as $film_catalog): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $film_catalog)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>

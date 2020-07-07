@@ -129,86 +129,74 @@ echo head($head);
 
     <div class="container py-2">
 
+
         <!--Newsletters-->
-        <div class="row records-row" id="newsletters">
+        <div class="row mb-4">
             <div class="col">
-                <h2 class="mb-4">Newsletters</h2>
-                <?php if (count($records = get_all_federation_newsletters()) > 0): ?>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-columns">
-                                <?php foreach ($records as $record): ?>
-                                    <?= $this->partial("__components/cards/document-card.php", array("document" => $record)); ?>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
+                <h3>Newsletters</h3>
+                <?php $newsletters = get_all_federation_newsletters(); ?>
+                <?php if (count($newsletters) == 0): ?>
+                    <p>There are no newsletters available for the federation.</p>
                 <?php else: ?>
-                    <p>There are no newsletters here yet.</p>
+                    <div class="row row-cols">
+                        <?php foreach ($newsletters as $newsletter): ?>
+                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $newsletter)); ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
 
         <!--Photos-->
-        <div class="row records-row" id="photos">
-            <div class="col">
-                <h2 class="mb-4">Photos</h2>
-                <?php if (count($records = get_all_federation_photos()) > 0): ?>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-columns">
-                                <?php foreach ($records as $record): ?>
-                                    <?= $this->partial("__components/cards/image-card.php", array("image" => $record)); ?>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row my-4">
+            <div class="col bg-light">
+                <h3>Photos</h3>
+                <?php $photos = get_all_federation_photos(); ?>
+                <?php if (count($photos) == 0): ?>
+                    <p>There are no photos available for the federation.</p>
                 <?php else: ?>
-                    <p>There are no photos here yet.</p>
+                    <div class="row row-cols">
+                        <?php foreach ($photos as $photo): ?>
+                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
 
         <!--Magazines-->
-        <div class="row records-row" id="magazines">
+        <div class="row my-4">
             <div class="col">
-                <h2 class="mb-4">Magazines</h2>
-                <?php if (count($records = get_all_federation_magazines()) > 0): ?>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-columns">
-                                <?php foreach ($records as $record): ?>
-                                    <?= $this->partial("__components/cards/document-card.php", array("document" => $record)); ?>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
+                <h3>Magazines</h3>
+                <?php $magazines = get_all_federation_magazines(); ?>
+                <?php if (count($magazines) == 0): ?>
+                    <p>There are no magazines available for the federation.</p>
                 <?php else: ?>
-                    <p>There are no magazines here yet.</p>
+                    <div class="row row-cols">
+                        <?php foreach ($magazines as $magazine): ?>
+                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $magazine)); ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
 
         <!--By-Laws-->
-        <div class="row records-row" id="by-laws">
-            <div class="col">
-                <h2 class="mb-4">By-Laws</h2>
-                <?php if (count($records = get_all_federation_bylaws()) > 0): ?>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card-columns">
-                                <?php foreach ($records as $record): ?>
-                                    <?= $this->partial("__components/cards/document-card.php", array("document" => $record)); ?>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
+        <div class="row my-4">
+            <div class="col bg-light">
+                <h3>By-Laws</h3>
+                <?php $bylaws = get_all_federation_bylaws(); ?>
+                <?php if (count($bylaws) == 0): ?>
+                    <p>There are no by-laws available for the federation.</p>
                 <?php else: ?>
-                    <p>There are no by-laws here yet.</p>
+                    <div class="row row-cols">
+                        <?php foreach ($bylaws as $bylaw): ?>
+                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $bylaw)); ?>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
-
 
     </div>
 

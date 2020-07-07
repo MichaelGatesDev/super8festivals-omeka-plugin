@@ -29,7 +29,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 <div class="container-fluid" id="landing">
     <div class="row">
         <div class="col">
-            <h2 class="text-center py-2 title"><?= $city->name; ?></h2>
+            <h2 class="text-center py-2 capitalize"><?= $city->name; ?></h2>
         </div>
     </div>
     <div class="row">
@@ -90,10 +90,10 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 </div>
 
-<div class="container px-0 pb-5">
+<div class="container px-0 py-5">
 
     <!--About-->
-    <div class="row">
+    <div class="row my-5" id="about">
         <div class="col">
             <h3>About</h3>
             <p class="text-muted">
@@ -109,7 +109,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 
     <!--Posters-->
-    <div class="row">
+    <div class="row my-5" id="posters">
         <div class="col">
             <h3>
                 Posters (<?= count($posters); ?>)
@@ -127,7 +127,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 
     <!--Photos-->
-    <div class="row">
+    <div class="row my-5" id="photos">
         <div class="col">
             <h3>
                 Photos (<?= count($photos); ?>)
@@ -145,7 +145,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 
     <!--Print Media -->
-    <div class="row">
+    <div class="row my-5" id="print-media">
         <div class="col">
             <h3>
                 Print Media (<?= count($print_media); ?>)
@@ -163,7 +163,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 
     <!--Memorabilia-->
-    <div class="row">
+    <div class="row my-5" id="memorabilia">
         <div class="col">
             <h3>
                 Memorabilia (<?= count($memorabilia); ?>)
@@ -181,7 +181,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 
     <!--Films-->
-    <div class="row" id="films">
+    <div class="row my-5" id="films">
         <div class="col">
             <h3>
                 Films (<?= count($films); ?>)
@@ -199,7 +199,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 
 
-    <div class="row" id="filmmakers">
+    <div class="row my-5" id="filmmakers">
         <div class="col">
             <h3>Filmmakers</h3>
             <p class="text-muted">
@@ -226,7 +226,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 
 
     <!--Film Catalogs-->
-    <div class="row">
+    <div class="row my-5" id="film-catalogs">
         <div class="col">
             <h3>
                 Film Catalogs (<?= count($film_catalogs); ?>)

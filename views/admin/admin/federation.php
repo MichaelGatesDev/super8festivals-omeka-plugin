@@ -30,7 +30,11 @@ echo head(
             <?php if (count($newsletters) == 0): ?>
                 <p>There are no newsletters available for the federation.</p>
             <?php else: ?>
-                <?= $this->partial("__components/records/federation-newsletters.php", array('federation_newsletters' => $newsletters)); ?>
+                <div class="row row-cols">
+                    <?php foreach ($newsletters as $newsletter): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $newsletter)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -43,7 +47,11 @@ echo head(
             <?php if (count($photos) == 0): ?>
                 <p>There are no photos available for the federation.</p>
             <?php else: ?>
-                <?= $this->partial("__components/records/federation-photos.php", array('federation_photos' => $photos)); ?>
+                <div class="row row-cols">
+                    <?php foreach ($photos as $photo): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -56,7 +64,11 @@ echo head(
             <?php if (count($magazines) == 0): ?>
                 <p>There are no magazines available for the federation.</p>
             <?php else: ?>
-                <?= $this->partial("__components/records/federation-magazines.php", array('federation_magazines' => $magazines)); ?>
+                <div class="row row-cols">
+                    <?php foreach ($magazines as $magazine): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $magazine)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>
@@ -69,7 +81,11 @@ echo head(
             <?php if (count($bylaws) == 0): ?>
                 <p>There are no by-laws available for the federation.</p>
             <?php else: ?>
-                <?= $this->partial("__components/records/federation-bylaws.php", array('federation_bylaws' => $bylaws)); ?>
+                <div class="row row-cols">
+                    <?php foreach ($bylaws as $bylaw): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $bylaw)); ?>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         </div>
     </div>

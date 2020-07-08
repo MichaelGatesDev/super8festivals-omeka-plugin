@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!--Section: Contact v.2-->
-<section class="container">
+<section class="container my-5">
 
     <?php if ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
         <div class="row">

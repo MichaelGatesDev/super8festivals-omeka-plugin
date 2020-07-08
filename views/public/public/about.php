@@ -7,7 +7,7 @@ echo head($head);
 
 <?php echo flash(); ?>
 
-<section class="container">
+<section class="container my-5">
     <div class="row">
         <div class="col">
             <h2>About</h2>

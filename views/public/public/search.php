@@ -23,7 +23,7 @@ $query = trim($query); // trim blank
 <style>
 </style>
 
-<section class="container" id="search-section">
+<section class="container my-5" id="search-section">
 
 
     <?php if (trim(strlen($query)) > 0): ?>

@@ -7,7 +7,7 @@ echo head($head);
 $photos = get_all_photos_for_filmmaker($filmmaker->id);
 ?>
 
-<section class="container pb-4" id="filmmaker">
+<section class="container my-5" id="filmmaker">
 
     <div class="row">
         <div class="col">

@@ -65,7 +65,7 @@ if ($sort_mode == "country") {
                 $country_code = get_country_code($country->name);
                 ?>
                 <div class="card d-inline-block m-4">
-                    <img src="<?= $banner != null ? get_relative_path($banner->get_thumbnail_path()) : "https://placehold.it/280x140/abc" ?>" class="card-img-top" style="object-fit: cover" alt="City Banner">
+                    <img src="<?= $banner != null ? get_relative_path($banner->get_thumbnail_path()) : "https://placehold.it/280x140/abc?text=Placeholder" ?>" class="card-img-top" style="object-fit: cover" alt="City Banner">
                     <div class="card-body">
                         <h5 class="card-title text-capitalize"><?= $city->name; ?></h5>
                     </div>

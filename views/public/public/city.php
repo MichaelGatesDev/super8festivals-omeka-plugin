@@ -119,7 +119,34 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($posters as $poster): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $poster)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $poster->title == "" ? "Untitled" : $poster->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $poster->description == "" ? "No description" : $poster->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $poster->get_festival()->year == 0 ? "Uncategorized" : $poster->get_festival()->year,
+                        ));
+                        if ($poster->get_contributor()) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $poster->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            // 'embed' => $film->embed,
+                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($poster->get_path()),
+                            'fancybox_category' => 'posters',
+                            'information' => $information,
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -137,7 +164,34 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($photos as $photo): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $photo->title == "" ? "Untitled" : $photo->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $photo->description == "" ? "No description" : $photo->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $photo->get_festival()->year == 0 ? "Uncategorized" : $photo->get_festival()->year,
+                        ));
+                        if ($photo->get_contributor()) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $photo->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            // 'embed' => $film->embed,
+                            'thumbnail_path' => get_relative_path($photo->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($photo->get_path()),
+                            'fancybox_category' => 'photos',
+                            'information' => $information,
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -155,7 +209,34 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($print_media as $print_medium): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $print_medium)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $print_medium->title == "" ? "Untitled" : $print_medium->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $print_medium->description == "" ? "No description" : $print_medium->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $print_medium->get_festival()->year == 0 ? "Uncategorized" : $print_medium->get_festival()->year,
+                        ));
+                        if ($print_medium->get_contributor()) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $print_medium->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            // 'embed' => $film->embed,
+                            'thumbnail_path' => get_relative_path($print_medium->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($print_medium->get_path()),
+                            'fancybox_category' => 'print-media',
+                            'information' => $information,
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -173,7 +254,34 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($memorabilia as $memorabilium): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $memorabilium)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $memorabilium->title == "" ? "Untitled" : $memorabilium->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $memorabilium->description == "" ? "No description" : $memorabilium->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $memorabilium->get_festival()->year == 0 ? "Uncategorized" : $memorabilium->get_festival()->year,
+                        ));
+                        if ($memorabilium->get_contributor()) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $memorabilium->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            // 'embed' => $film->embed,
+                            'thumbnail_path' => get_relative_path($memorabilium->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($memorabilium->get_path()),
+                            'fancybox_category' => 'memorabilia',
+                            'information' => $information,
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -191,7 +299,40 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($films as $film): ?>
-                        <?= $this->partial("__components/festival-record-card-video.php", array('record' => $film)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $film->title == "" ? "Untitled" : $film->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $film->description == "" ? "No description" : $film->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $film->get_festival()->year == 0 ? "Uncategorized" : $film->get_festival()->year,
+                        ));
+                        if ($film->get_contributor()) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $film->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        if ($film->get_filmmaker()) {
+                            array_push($information, array(
+                                "key" => "Filmmaker",
+                                "value" => $film->get_filmmaker()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            'embed' => $film->embed,
+//                            'thumbnail_path' => get_relative_path($film->get_thumbnail_path()),
+//                            'preview_path' => get_relative_path($film->get_path()),
+//                            'fancybox_category' => 'film',
+                            'information' => $information,
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -236,7 +377,34 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($film_catalogs as $film_catalog): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $film_catalog)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $film_catalog->title == "" ? "Untitled" : $film_catalog->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $film_catalog->description == "" ? "No description" : $film_catalog->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $film_catalog->get_festival()->year == 0 ? "Uncategorized" : $film_catalog->get_festival()->year,
+                        ));
+                        if ($film_catalog->get_contributor()) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $film_catalog->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            // 'embed' => $film->embed,
+                            'thumbnail_path' => get_relative_path($film_catalog->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($film_catalog->get_path()),
+                            'fancybox_category' => 'film-catalog',
+                            'information' => $information,
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

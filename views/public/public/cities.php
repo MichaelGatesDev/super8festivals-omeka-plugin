@@ -2,6 +2,7 @@
 $head = array(
     'title' => "Festival Cities",
 );
+queue_css_url("//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css");
 echo head($head);
 
 $cities = get_all_cities();
@@ -39,7 +40,8 @@ usort($cities, function ($a, $b) {
                         <h5 class="card-title text-capitalize"><?= $city->name; ?></h5>
                     </div>
                     <div class="card-footer">
-                        <p class="small text-muted m-0 p-0 text-capitalize"><?= $city->get_country()->name; ?></p>
+                        <span class="flag-icon flag-icon-<?= strtolower(get_country_code($city->get_country()->name)); ?>"></span>
+                        <span class="small text-muted m-0 p-0 text-capitalize"><?= $city->get_country()->name; ?></span>
                     </div>
                     <a href="/cities/<?= urlencode($city->name); ?>" class="stretched-link"></a>
                 </div>

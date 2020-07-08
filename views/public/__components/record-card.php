@@ -9,7 +9,7 @@ if (!isset($information)) $information = array(
 );
 ?>
 
-<div class="card d-inline-block my-2 mx-2" style="width: <?= $card_width; ?>;">
+<div class="card d-inline-block p-0 my-2 mx-2" style="width: <?= $card_width; ?>;">
     <?php if ($embed): ?>
         <div style="overflow: hidden;">
             <?= $embed; ?>

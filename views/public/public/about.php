@@ -21,12 +21,12 @@ echo head($head);
                     <div class="col">
                         <div class="row row-cols">
                             <?php foreach ($records as $record): ?>
-                                <div class="card" style="width: 18rem;">
+                                <div class="card d-inline-block p-0 my-2 mx-2" style="width: 18rem;">
                                     <img
                                             class="card-img-top"
                                             src="<?= $record->get_path() != null ? get_relative_path($record->get_thumbnail_path()) : "https://placehold.it/280x140/abc?text=Placeholder"; ?>"
                                             alt="<?= $record->get_full_name(); ?>"
-                                            style="object-fit: cover; height: 200px; "
+                                            style="object-fit: cover; height: 200px; width: 100%;"
                                     />
                                     <div class="card-body" style="height: 75px;">
                                         <h5 class="card-title text-capitalize"><?= html_escape($record->get_full_name()); ?></h5>

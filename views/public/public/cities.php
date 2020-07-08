@@ -6,14 +6,30 @@ queue_css_url("//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-ico
 echo head($head);
 
 $cities = get_all_cities();
-usort($cities, function ($a, $b) {
-    return strtolower($a['name']) > strtolower($b['name']);
-});
+
+
+$sort_modes = array("city", "country");
+$sort_mode = isset($_GET['sort']) ? $_GET['sort'] : null;
+if ($sort_mode == null) {
+    $sort_mode = $sort_modes[0];
+}
+if ($sort_mode == "city") {
+    usort($cities, function ($a, $b) {
+        return strtolower($a['name']) > strtolower($b['name']);
+    });
+}
+if ($sort_mode == "country") {
+    usort($cities, function ($a, $b) {
+        $a_country = $a->get_country();
+        $b_country = $b->get_country();
+        return strtolower($a_country['name']) > strtolower($b_country['name']);
+    });
+}
 ?>
 
 <style>
     .card-img-top {
-        object-fit: contain;
+        object-fit: cover;
         width: 250px;
         height: 150px;
     }
@@ -24,6 +40,19 @@ usort($cities, function ($a, $b) {
     <div class="row">
         <div class="col">
             <h2 class="my-4 text-center">Festival Cities</h2>
+        </div>
+    </div>
+
+    <!-- Sort Buttons -->
+    <div class="row">
+        <div class="col">
+            <ul class="nav bg-light rounded">
+                <?php foreach ($sort_modes as $mode): ?>
+                    <li class="nav-item <?= $sort_mode == $mode ? " active " : "" ?>">
+                        <a class="nav-link" href="?sort=<?= $mode; ?>">Sort by <?= ucwords($mode); ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
         </div>
     </div>
 

@@ -28,12 +28,11 @@ echo head($head);
                                             alt="<?= $record->get_full_name(); ?>"
                                             style="object-fit: cover; height: 200px; width: 100%;"
                                     />
-                                    <div class="card-body" style="height: 75px;">
-                                        <h5 class="card-title text-capitalize"><?= html_escape($record->get_full_name()); ?></h5>
-                                        <p class="card-text"></p>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title text-capitalize m-0"><?= html_escape($record->get_full_name()); ?></h5>
                                     </div>
-                                    <div class="card-footer">
-                                        <p class="m-0"><?= html_escape($record->role); ?></p>
+                                    <div class="card-footer text-center">
+                                        <p class="text-capitalize m-0"><?= html_escape($record->role); ?></p>
                                     </div>
                                 </div>
                             <?php endforeach; ?>

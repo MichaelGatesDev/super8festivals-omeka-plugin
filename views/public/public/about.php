@@ -19,18 +19,25 @@ echo head($head);
             <?php if (count($records = get_all_staffs()) > 0): ?>
                 <div class="row">
                     <div class="col">
-                        <?php foreach ($records as $record): ?>
-                            <div class="card" style="width: 18rem;">
-                                <img src="<?= get_relative_path($record->get_thumbnail_path()); ?>" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title text-capitalize"><?= html_escape($record->get_full_name()); ?></h5>
-                                    <p class="card-text"></p>
+                        <div class="row row-cols">
+                            <?php foreach ($records as $record): ?>
+                                <div class="card" style="width: 18rem;">
+                                    <img
+                                            class="card-img-top"
+                                            src="<?= $record->get_path() != null ? get_relative_path($record->get_thumbnail_path()) : "https://placehold.it/280x140/abc?text=Placeholder"; ?>"
+                                            alt="<?= $record->get_full_name(); ?>"
+                                            style="object-fit: cover; height: 200px; "
+                                    />
+                                    <div class="card-body" style="height: 75px;">
+                                        <h5 class="card-title text-capitalize"><?= html_escape($record->get_full_name()); ?></h5>
+                                        <p class="card-text"></p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p class="m-0"><?= html_escape($record->role); ?></p>
+                                    </div>
                                 </div>
-                                <div class="card-footer">
-                                    <p class="m-0"><?= html_escape($record->role); ?></p>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             <?php else: ?>

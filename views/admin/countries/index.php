@@ -25,7 +25,7 @@ echo head(array(
             <?php
             $cities = get_all_countries();
             usort($cities, function ($a, $b) {
-                return $a['name'] > $b['name'];
+                return strtolower($a['name']) > strtolower($b['name']);
             });
             ?>
             <table id="countries" class="table table-striped table-hover">

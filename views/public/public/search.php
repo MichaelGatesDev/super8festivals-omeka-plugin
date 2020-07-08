@@ -105,10 +105,10 @@ $query = trim($query); // trim blank
             search_records($festival_print_media, "description", $part, $matching_festival_print_media);
         }
         usort($matching_countries, function ($a, $b) {
-            return strcmp($a->name, $b->name);
+            return strcmp(strtolower($a->name), strtolower($b->name));
         });
         usort($matching_cities, function ($a, $b) {
-            return strcmp($a->name, $b->name);
+            return strcmp(strtolower($a->name), strtolower($b->name));
         });
         ?>
 

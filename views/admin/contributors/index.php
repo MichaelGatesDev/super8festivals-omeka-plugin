@@ -29,10 +29,10 @@ $rootURL = "/admin/super-eight-festivals/contributors";
             <?php
             $contributors = get_all_contributors();
             usort($contributors, function ($a, $b) {
-                return $a['first_name'] > $b['first_name'];
+                return strtolower($a['first_name']) > strtolower($b['first_name']);
             });
             usort($contributors, function ($a, $b) {
-                return $a['last_name'] > $b['last_name'];
+                return strtolower($a['last_name']) > strtolower($b['last_name']);
             });
             ?>
             <?php if (count($contributors) == 0): ?>

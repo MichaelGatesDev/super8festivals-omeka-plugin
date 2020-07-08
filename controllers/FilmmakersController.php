@@ -123,9 +123,9 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
             array(
                 'id' => 'email',
                 'label' => 'Email',
-                'description' => "The filmmaker's email (required)",
+                'description' => "The filmmaker's email",
                 'value' => $filmmaker->email,
-                'required' => true
+                'required' => false
             )
         );
 
@@ -134,7 +134,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
             array(
                 'id' => 'first_name',
                 'label' => 'First Name',
-                'description' => "The filmmaker's first name (if any)",
+                'description' => "The filmmaker's first name",
                 'value' => $filmmaker->first_name,
                 'required' => false
             )
@@ -145,7 +145,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
             array(
                 'id' => 'last_name',
                 'label' => 'Last Name',
-                'description' => "The filmmaker's last name (if any)",
+                'description' => "The filmmaker's last name",
                 'value' => $filmmaker->last_name,
                 'required' => false
             )
@@ -156,7 +156,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
             array(
                 'id' => 'organization_name',
                 'label' => 'Organization Name',
-                'description' => "The name of the filmmaker's organization (if any)",
+                'description' => "The name of the filmmaker's organization",
                 'value' => $filmmaker->organization_name,
                 'required' => false
             )

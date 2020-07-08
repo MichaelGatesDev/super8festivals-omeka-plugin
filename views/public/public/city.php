@@ -141,6 +141,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
+                            'preview_height' => '300px',
                             // 'embed' => $film->embed,
                             'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
                             'preview_path' => get_relative_path($poster->get_path()),
@@ -186,6 +187,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
+                            'preview_height' => '300px',
                             // 'embed' => $film->embed,
                             'thumbnail_path' => get_relative_path($photo->get_thumbnail_path()),
                             'preview_path' => get_relative_path($photo->get_path()),
@@ -231,6 +233,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
+                            'preview_height' => '300px',
                             // 'embed' => $film->embed,
                             'thumbnail_path' => get_relative_path($print_medium->get_thumbnail_path()),
                             'preview_path' => get_relative_path($print_medium->get_path()),
@@ -276,6 +279,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
+                            'preview_height' => '300px',
                             // 'embed' => $film->embed,
                             'thumbnail_path' => get_relative_path($memorabilium->get_thumbnail_path()),
                             'preview_path' => get_relative_path($memorabilium->get_path()),
@@ -327,6 +331,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
+                            'preview_height' => '300px',
                             'embed' => $film->embed,
 //                            'thumbnail_path' => get_relative_path($film->get_thumbnail_path()),
 //                            'preview_path' => get_relative_path($film->get_path()),
@@ -399,6 +404,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
+                            'preview_height' => '300px',
                             // 'embed' => $film->embed,
                             'thumbnail_path' => get_relative_path($film_catalog->get_thumbnail_path()),
                             'preview_path' => get_relative_path($film_catalog->get_path()),

@@ -32,7 +32,8 @@ usort($cities, function ($a, $b) {
             <?php foreach ($cities as $city): ?>
                 <?php
                 $banner = get_city_banner($city->id);
-                $festivals = get_all_festivals_in_city($city->id);
+                $country = $city->get_country();
+                $country_code = get_country_code($country->name);
                 ?>
                 <div class="card d-inline-block m-4">
                     <img src="<?= $banner != null ? get_relative_path($banner->get_thumbnail_path()) : "https://placehold.it/280x140/abc" ?>" class="card-img-top" style="object-fit: cover" alt="City Banner">
@@ -40,8 +41,10 @@ usort($cities, function ($a, $b) {
                         <h5 class="card-title text-capitalize"><?= $city->name; ?></h5>
                     </div>
                     <div class="card-footer">
-                        <span class="flag-icon flag-icon-<?= strtolower(get_country_code($city->get_country()->name)); ?>"></span>
-                        <span class="small text-muted m-0 p-0 text-capitalize"><?= $city->get_country()->name; ?></span>
+                        <?php if ($country_code): ?>
+                            <span class="flag-icon flag-icon-<?= strtolower($country_code); ?>"></span>
+                        <?php endif; ?>
+                        <span class="small text-muted m-0 p-0 text-capitalize"><?= $country->name; ?></span>
                     </div>
                     <a href="/cities/<?= urlencode($city->name); ?>" class="stretched-link"></a>
                 </div>

@@ -29,7 +29,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 <div class="container-fluid" id="landing">
     <div class="row">
         <div class="col">
-            <h2 class="text-center py-2 capitalize"><?= $city->name; ?></h2>
+            <h2 class="text-center py-2 text-capitalize"><?= $city->name; ?></h2>
         </div>
     </div>
     <div class="row">

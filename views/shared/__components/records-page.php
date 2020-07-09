@@ -84,9 +84,11 @@ $film_catalogs = array_key_exists("film_catalogs", $records) ? $records["film_ca
                     "key" => "festival",
                     "value" => $photo->get_festival()->year == 0 ? "Uncategorized" : $photo->get_festival()->year,
                 ));
+                $contributor = $photo->get_contributor();
+                $contributor_id = $photo->contributor_id;
                 array_push($information, array(
                     "key" => "contributor",
-                    "value" => $photo->contributor_id === 0 ? "No contributor" : $photo->get_contributor()->get_display_name(),
+                    "value" => $contributor == null || $photo->contributor_id == 0 ? "No contributor" : $photo->get_contributor()->get_display_name(),
                 ));
                 echo $this->partial("__components/record-card.php", array(
                     'card_width' => '300px',

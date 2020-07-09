@@ -35,46 +35,6 @@ function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
 
 // ============================================================================================================================================================= \\
 
-interface Super8FestivalsRecordType
-{
-    const City = 0;
-    const CityBanner = 1;
-    const Contributor = 2;
-    const Country = 3;
-    const CountryBanner = 4;
-    const Festival = 5;
-    const FestivalFilm = 6;
-    const FestivalFilmCatalog = 7;
-    const FestivalFilmmaker = 8;
-    const FestivalMemorabilia = 9;
-    const FestivalPhoto = 10;
-    const FestivalPoster = 11;
-    const FestivalPrintMedia = 12;
-    const Page = 13;
-}
-
-function get_festival_records_by_type($festivalID, $recordType)
-{
-    switch ($recordType) {
-        case Super8FestivalsRecordType::FestivalFilm:
-            return get_all_films_for_festival($festivalID);
-        case Super8FestivalsRecordType::FestivalFilmCatalog:
-            return get_all_film_catalogs_for_festival($festivalID);
-        case Super8FestivalsRecordType::FestivalFilmmaker:
-            return get_all_festival_filmmakers_for_festival($festivalID);
-        case Super8FestivalsRecordType::FestivalMemorabilia:
-            return get_all_memorabilia_for_festival($festivalID);
-        case Super8FestivalsRecordType::FestivalPhoto:
-            return get_all_photos_for_festival($festivalID);
-        case Super8FestivalsRecordType::FestivalPoster:
-            return get_all_posters_for_festival($festivalID);
-        case Super8FestivalsRecordType::FestivalPrintMedia:
-            return get_all_print_media_for_festival($festivalID);
-    }
-}
-
-// ============================================================================================================================================================= \\
-
 function get_all_federation_newsletters(): array
 {
     return get_db()->getTable("SuperEightFestivalsFederationNewsletter")->findAll();
@@ -365,8 +325,6 @@ function delete_festival_records($festival_id)
     foreach ($films as $record) $record->delete();
     $film_catalogs = get_all_film_catalogs_for_festival($festival_id);
     foreach ($film_catalogs as $record) $record->delete();
-    $filmmakers = get_all_festival_filmmakers_for_festival($festival_id);
-    foreach ($filmmakers as $record) $record->delete();
     $memorabilia = get_all_memorabilia_for_festival($festival_id);
     foreach ($memorabilia as $record) $record->delete();
     $photos = get_all_photos_for_festival($festival_id);
@@ -403,45 +361,6 @@ function get_all_film_catalogs_for_city($id): array
 function get_film_catalog_by_id($id): ?SuperEightFestivalsFestivalFilmCatalog
 {
     return get_db()->getTable('SuperEightFestivalsFestivalFilmCatalog')->find($id);
-}
-
-// ============================================================================================================================================================= \\
-
-function get_all_festival_filmmakers(): array
-{
-    return get_db()->getTable("SuperEightFestivalsFestivalFilmmaker")->findAll();
-}
-
-function get_all_festival_filmmakers_for_festival($id): array
-{
-    return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->findBy(array('festival_id' => $id), -1);
-}
-
-function get_all_festival_filmmakers_for_city($id): array
-{
-    $result = array();
-    $festivals = get_all_festivals_in_city($id);
-    foreach ($festivals as $festival) {
-        $filmmakers = get_all_festival_filmmakers_for_festival($festival->id);
-        $result = array_merge($result, $filmmakers);
-    }
-    return $result;
-}
-
-function get_parent_festival_filmmaker_options(): array
-{
-    $results = array();
-    $results[0] = "Select...";
-    $potentialParents = get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->findAll();
-    foreach ($potentialParents as $potentialParent) {
-        $results[$potentialParent->id] = $potentialParent->get_display_name();
-    }
-    return $results;
-}
-
-function get_festival_filmmaker_by_id($id): ?SuperEightFestivalsFestivalFilmmaker
-{
-    return get_db()->getTable('SuperEightFestivalsFestivalFilmmaker')->find($id);
 }
 
 // ============================================================================================================================================================= \\
@@ -667,18 +586,6 @@ function get_all_contribution_types()
         array("name" => "Festival Poster", "value" => Super8FestivalsRecordType::FestivalPoster),
         array("name" => "Festival Print Media", "value" => Super8FestivalsRecordType::FestivalPrintMedia),
     );
-}
-
-// ============================================================================================================================================================= \\
-
-function get_festival_filmmaker_photo_by_id($id): ?SuperEightFestivalsFestivalFilmmakerPhoto
-{
-    return get_db()->getTable('SuperEightFestivalsFestivalFilmmakerPhoto')->find($id);
-}
-
-function get_all_photos_for_festival_filmmaker($filmmakerID): array
-{
-    return get_db()->getTable('SuperEightFestivalsFestivalFilmmakerPhoto')->findBy(array('filmmaker_id' => $filmmakerID), -1);
 }
 
 // ============================================================================================================================================================= \\

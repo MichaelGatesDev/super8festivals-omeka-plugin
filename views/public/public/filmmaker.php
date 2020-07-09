@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => "Federation",
+    'title' => "Filmmaker",
 );
 echo head($head);
 
@@ -21,11 +21,11 @@ $photos = get_all_photos_for_filmmaker($filmmaker->id);
                 Photos (<?= count($photos); ?>)
             </h3>
             <?php if (count($photos) == 0): ?>
-                <p>There is no print media available for this festival.</p>
+                <p>There are no photos available for this filmmaker.</p>
             <?php else: ?>
                 <div class="row row-cols">
-                    <?php foreach ($photos as $film_catalog): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $film_catalog)); ?>
+                    <?php foreach ($photos as $photo): ?>
+                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

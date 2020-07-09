@@ -7,6 +7,7 @@ if (!isset($fancybox_category)) $fancybox_category = "changeme";
 if (!isset($information)) $information = array(
     array('key' => 'change', 'value' => 'me')
 );
+if (!isset($admin)) $admin = false;
 ?>
 
 <div class="card d-inline-block p-0 my-2 mx-2" style="width: <?= $card_width; ?>;">
@@ -31,5 +32,9 @@ if (!isset($information)) $information = array(
                 <span><?= $info['value']; ?></span>
             </p>
         <?php endforeach; ?>
+        <?php if ($admin): ?>
+            <a class="btn btn-primary" href="<?= $edit_url ?>">Edit</a>
+            <a class="btn btn-danger" href="<?= $delete_url ?>">Delete</a>
+        <?php endif; ?>
     </div>
 </div>

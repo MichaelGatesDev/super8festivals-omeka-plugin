@@ -63,7 +63,7 @@ $banner = get_city_by_id($city->id);
         </div>
     </div>
 
-    <!--    Festivals Table -->
+    <!--  Festivals Table -->
     <div class="row my-5">
         <div class="col">
             <h3 class="text-capitalize">

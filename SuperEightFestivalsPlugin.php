@@ -219,8 +219,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
             $this->addRecordRoute($router, "festival", "festivals", ":module/countries/:countryName/cities/:cityName/festivals", "festivalID");
             $this->addRecordRoute($router, "festival_film_catalog", "festival-film-catalogs", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/film-catalogs", "filmCatalogID");
-            $this->addRecordRoute($router, "festival_filmmaker", "festival-filmmakers", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/filmmakers", "filmmakerID");
-            $this->addRecordRoute($router, "festival_filmmaker_photos", "festival-filmmaker-photos", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/filmmakers/:filmmakerID/photos", "festivalFilmmakerPhotoID");
             $this->addRecordRoute($router, "festival_films", "festival-films", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/films", "filmID");
             $this->addRecordRoute($router, "festival_memorabilia", "festival-memorabilia", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/memorabilia", "memorabiliaID");
             $this->addRecordRoute($router, "festival_print_media", "festival-print-media", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/print-media", "printMediaID");

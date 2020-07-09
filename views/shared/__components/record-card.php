@@ -32,9 +32,11 @@ if (!isset($admin)) $admin = false;
                 <span><?= $info['value']; ?></span>
             </p>
         <?php endforeach; ?>
-        <?php if ($admin): ?>
+    </div>
+    <?php if ($admin): ?>
+        <div class="card-footer">
             <a class="btn btn-primary" href="<?= $edit_url ?>">Edit</a>
             <a class="btn btn-danger" href="<?= $delete_url ?>">Delete</a>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 </div>

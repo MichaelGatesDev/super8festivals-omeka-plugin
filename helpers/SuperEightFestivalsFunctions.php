@@ -600,6 +600,11 @@ function get_all_photos_for_filmmaker($filmmakerID): array
     return get_db()->getTable('SuperEightFestivalsFilmmakerPhoto')->findBy(array('filmmaker_id' => $filmmakerID), -1);
 }
 
+function get_all_films_for_filmmaker($filmmakerID): array
+{
+    return get_db()->getTable('SuperEightFestivalsFestivalFilm')->findBy(array('filmmaker_id' => $filmmakerID), -1);
+}
+
 
 // ============================================================================================================================================================= \\
 

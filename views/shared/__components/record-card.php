@@ -25,7 +25,7 @@ if (!isset($admin)) $admin = false;
             />
         </a>
     <?php endif; ?>
-    <div class="card-body" style="height: 250px; max-height: 300px; overflow-y: scroll;">
+    <div class="card-body" style="height: 250px; max-height: 180px; overflow-y: auto;">
         <?php foreach ($information as $info): ?>
             <p>
                 <span class="font-weight-bold text-capitalize"><?= $info['key']; ?>:</span>

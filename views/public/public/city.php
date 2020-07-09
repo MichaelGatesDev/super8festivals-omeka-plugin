@@ -24,7 +24,12 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     iframe {
         width: 100%;
     }
+
+    .container > .row:not(:first-child):not(:nth-child(2)) {
+        margin: 3em 0;
+    }
 </style>
+
 
 <div class="container-fluid" id="landing">
     <div class="row">

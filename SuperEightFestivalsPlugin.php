@@ -18,6 +18,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
     );
     protected $_filters = array(
         'admin_navigation_main', // admin sidebar
+        'public_navigation_main', // admin sidebar
     );
     protected $_options = array();
 
@@ -97,6 +98,34 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         );
         return $nav;
     }
+
+    public function filterPublicNavigationMain($nav)
+    {
+        $nav = array(
+            array(
+                'label' => 'About',
+                'uri' => '/about',
+            ),
+            array(
+                'label' => 'Federation',
+                'uri' => '/federation',
+            ),
+            array(
+                'label' => 'History',
+                'uri' => '/federation#history',
+            ),
+            array(
+                'label' => 'Filmmakers',
+                'uri' => '/filmmakers',
+            ),
+            array(
+                'label' => 'Festival Cities',
+                'uri' => '/cities',
+            ),
+        );
+        return $nav;
+    }
+
 
     function addRecordRoute($router, $routeID, $controllerName, $fullRoute, $urlParam)
     {

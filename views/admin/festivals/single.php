@@ -3,7 +3,8 @@ echo head(array(
     'title' => $festival->get_title(),
 ));
 
-$root_url = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id;
+$city_url = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
+$root_url = $city_url . "/festivals/" . $festival->id;
 
 $film_catalogs = get_all_film_catalogs_for_festival($festival->id);
 $films = get_all_films_for_festival($festival->id);
@@ -47,6 +48,7 @@ $posters = get_all_posters_for_festival($festival->id);
     <?= $this->partial("__components/records-page.php", array(
         "admin" => true,
         "root_url" => $root_url,
+        "filmmakers_url" => $city_url . "/filmmakers",
         "records" => array(
             "posters" => $posters,
             "photos" => $photos,

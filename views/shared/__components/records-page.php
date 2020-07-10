@@ -1,6 +1,7 @@
 <?php
 if (!isset($records)) $records = array();
 if (!isset($root_url)) $root_url = "/";
+if (!isset($filmmakers_url)) $filmmakers_url = "add";
 
 $posters = array_key_exists("posters", $records) ? $records["posters"] : array();
 $photos = array_key_exists("photos", $records) ? $records["photos"] : array();
@@ -277,51 +278,49 @@ $film_catalogs = array_key_exists("film_catalogs", $records) ? $records["film_ca
     </div>
 </div>
 
-<?php if (count($filmmakers) > 0): ?>
-    <!-- Filmmakers -->
-    <div class="row" id="filmmakers">
-        <div class="col">
-            <h3>
-                Filmmakers (<?= count($filmmakers); ?>)
-                <?php if ($admin): ?>
-                    <a class="btn btn-success btn-sm" href="<?= $root_url; ?>/filmmakers/add">Add Filmmaker</a>
-                <?php endif; ?>
-            </h3>
-            <?php if (count($filmmakers) == 0): ?>
-                <p>There are no filmmakers available.</p>
-            <?php else: ?>
-                <div class="row row-cols">
-                    <?php foreach ($filmmakers as $filmmaker): ?>
-                        <?php
-                        $information = array();
-                        array_push($information, array(
-                            "key" => "Name",
-                            "value" => $filmmaker->get_full_name() == "" ? "No name" : $filmmaker->get_full_name(),
-                        ));
-                        array_push($information, array(
-                            "key" => "email",
-                            "value" => $filmmaker->email == "" ? "No email" : $filmmaker->email,
-                        ));
-                        echo $this->partial("__components/record-card.php", array(
-                            'card_width' => '300px',
-                            'card_height' => '100px',
+<!-- Filmmakers -->
+<div class="row" id="filmmakers">
+    <div class="col">
+        <h3>
+            Filmmakers (<?= count($filmmakers); ?>)
+            <?php if ($admin): ?>
+                <a class="btn btn-success btn-sm" href="<?= $filmmakers_url ?>/add">Add Filmmaker</a>
+            <?php endif; ?>
+        </h3>
+        <?php if (count($filmmakers) == 0): ?>
+            <p>There are no filmmakers available.</p>
+        <?php else: ?>
+            <div class="row row-cols">
+                <?php foreach ($filmmakers as $filmmaker): ?>
+                    <?php
+                    $information = array();
+                    array_push($information, array(
+                        "key" => "Name",
+                        "value" => $filmmaker->get_full_name() == "" ? "No name" : $filmmaker->get_full_name(),
+                    ));
+                    array_push($information, array(
+                        "key" => "email",
+                        "value" => $filmmaker->email == "" ? "No email" : $filmmaker->email,
+                    ));
+                    echo $this->partial("__components/record-card.php", array(
+                        'card_width' => 'auto',
+//                            'card_height' => '100px',
 //                            'preview_height' => '300px',
-                            'embed' => $filmmaker->embed,
+                        'embed' => $filmmaker->embed,
 //                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
 //                            'preview_path' => get_relative_path($poster->get_path()),
-                            'fancybox_category' => 'filmmakers',
-                            'information' => $information,
-                            'admin' => $admin,
-                            'edit_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/edit",
-                            'delete_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/delete",
-                            'link' => '/filmmakers/' . $filmmaker->id
-                        )); ?>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </div>
+                        'fancybox_category' => 'filmmakers',
+                        'information' => $information,
+                        'admin' => $admin,
+                        'edit_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/edit",
+                        'delete_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/delete",
+                        'link' => '/filmmakers/' . $filmmaker->id
+                    )); ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
     </div>
-<?php endif; ?>
+</div>
 
 <!-- Film Catalogs -->
 <div class="row" id="film-catalogs">

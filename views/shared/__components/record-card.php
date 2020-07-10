@@ -1,6 +1,7 @@
 <?php
 if (!isset($card_width)) $card_width = "256px";
 if (!isset($card_height)) $card_height = "auto";
+if (!isset($card_body_max_height)) $card_body_max_height = "180px";
 if (!isset($embed)) $embed = null;
 if (!isset($thumbnail_path)) $thumbnail_path = null;
 if (!isset($preview_path)) $preview_path = null;
@@ -25,7 +26,7 @@ if (!isset($link)) $link = "";
             />
         </a>
     <?php endif; ?>
-    <div class="card-body" style="height: 180px; max-height: 180px; overflow-y: auto;">
+    <div class="card-body" style="max-height: <?= $card_body_max_height; ?>; overflow-y: auto;">
         <?php foreach ($information as $info): ?>
             <p>
                 <span class="font-weight-bold text-capitalize"><?= $info['key']; ?>:</span>

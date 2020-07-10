@@ -22,12 +22,30 @@ echo head($head);
         <div class="col">
             <?php if (count($records = get_all_filmmakers()) > 0): ?>
                 <?php foreach ($records as $filmmaker): ?>
-                    <div class="card d-inline-block m-4">
-                        <div class="card-body">
-                            <h5 class="card-title text-capitalize"><?= $filmmaker->get_display_name(); ?></h5>
-                        </div>
-                        <a href="/filmmakers/<?= $filmmaker->id; ?>" class="stretched-link"></a>
-                    </div>
+                    <?php
+                    $information = array();
+                    array_push($information, array(
+                        "key" => "Name",
+                        "value" => $filmmaker->get_full_name() == "" ? "No name" : $filmmaker->get_full_name(),
+                    ));
+                    array_push($information, array(
+                        "key" => "email",
+                        "value" => $filmmaker->email == "" ? "No email" : $filmmaker->email,
+                    ));
+                    echo $this->partial("__components/record-card.php", array(
+                        'card_width' => '300px',
+                        'card_height' => '100px',
+//                            'preview_height' => '300px',
+                        'embed' => $filmmaker->embed,
+//                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
+//                            'preview_path' => get_relative_path($poster->get_path()),
+                        'fancybox_category' => 'filmmakers',
+                        'information' => $information,
+                        'admin' => false,
+//                        'edit_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/edit",
+//                        'delete_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/delete",
+                        'link' => '/filmmakers/' . $filmmaker->id
+                    )); ?>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>There are no filmmakers here yet.</p>

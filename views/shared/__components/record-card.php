@@ -4,10 +4,9 @@ if (!isset($embed)) $embed = null;
 if (!isset($thumbnail_path)) $thumbnail_path = null;
 if (!isset($preview_path)) $preview_path = null;
 if (!isset($fancybox_category)) $fancybox_category = "changeme";
-if (!isset($information)) $information = array(
-    array('key' => 'change', 'value' => 'me')
-);
+if (!isset($information)) $information = array(array('key' => 'change', 'value' => 'me'));
 if (!isset($admin)) $admin = false;
+if (!isset($link)) $link = "";
 ?>
 
 <div class="card d-inline-block p-0 my-2 mx-2" style="width: <?= $card_width; ?>;">
@@ -38,5 +37,8 @@ if (!isset($admin)) $admin = false;
             <a class="btn btn-primary" href="<?= $edit_url ?>">Edit</a>
             <a class="btn btn-danger" href="<?= $delete_url ?>">Delete</a>
         </div>
+    <?php endif; ?>
+    <?php if ($link != ""): ?>
+        <a href="<?= $link ?>" class="stretched-link"></a>
     <?php endif; ?>
 </div>

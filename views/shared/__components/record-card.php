@@ -1,5 +1,6 @@
 <?php
 if (!isset($card_width)) $card_width = "256px";
+if (!isset($card_height)) $card_height = "auto";
 if (!isset($embed)) $embed = null;
 if (!isset($thumbnail_path)) $thumbnail_path = null;
 if (!isset($preview_path)) $preview_path = null;
@@ -9,7 +10,7 @@ if (!isset($admin)) $admin = false;
 if (!isset($link)) $link = "";
 ?>
 
-<div class="card d-inline-block p-0 my-2 mx-2" style="width: <?= $card_width; ?>;">
+<div class="card d-inline-block p-0 my-2 mx-2" style="width: <?= $card_width; ?>; height: <?= $card_height; ?>">
     <?php if ($embed): ?>
         <div style="overflow: hidden;">
             <?= $embed; ?>

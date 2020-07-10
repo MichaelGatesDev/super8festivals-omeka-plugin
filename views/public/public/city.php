@@ -23,6 +23,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 <style>
     iframe {
         width: 100%;
+        height: 300px;
     }
 
     .container > .row:not(:first-child):not(:nth-child(2)) {
@@ -123,6 +124,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
             "print_medias" => $print_medias,
             "memorabilia" => $memorabilia,
             "films" => $films,
+            "filmmakers" => $filmmakers,
             "film_catalogs" => $film_catalogs,
         )
     ));

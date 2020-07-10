@@ -40,16 +40,14 @@ $photos = get_all_photos_for_filmmaker($filmmaker->id);
                             "key" => "festival",
                             "value" => $film->get_festival()->year == 0 ? "Uncategorized" : $film->get_festival()->year,
                         ));
-                        array_push($information, array(
-                            "key" => "contributor",
-                            "value" => $film->contributor_id === 0 ? "No contributor" : $film->get_contributor()->get_display_name(),
-                        ));
-//                        $filmmaker = $film->get_filmmaker();
-//                        $filmmaker_id = $film->filmmaker_id;
-//                        array_push($information, array(
-//                            "key" => "filmmaker",
-//                            "value" => $filmmaker == null || $filmmaker_id == 0 ? "No filmmaker" : "<a href='/filmmakers/$filmmaker_id/'>" . $filmmaker->get_full_name() . "</a>",
-//                        ));
+                        $contributor = $film->get_contributor();
+                        $contributor_id = $film->contributor_id;
+                        if ($film->contributor_id != 0 && $contributor != null) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $film->contributor_id === 0 ? "No contributor" : $contributor->get_display_name(),
+                            ));
+                        }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '500px',
 //                            'preview_height' => '300px',

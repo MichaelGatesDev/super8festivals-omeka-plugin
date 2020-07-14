@@ -21,11 +21,10 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 ?>
 
 <style>
-    .container > .row:not(:first-child):not(:nth-child(2)) {
-        margin: 3em 0;
+    #about, #posters, #photos, #print-media, #memorabilia, #films, #filmmakers, #film-catalogs {
+        margin: 4em auto;
     }
 </style>
-
 
 <div class="container-fluid" id="landing">
     <div class="row">
@@ -94,7 +93,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 <div class="container px-0 py-5">
 
     <!--About-->
-    <div class="row my-5" id="about">
+    <div class="row" id="about">
         <div class="col">
             <h3>About</h3>
             <p class="text-muted">

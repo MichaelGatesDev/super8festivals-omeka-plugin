@@ -8,6 +8,13 @@ $photos = array_key_exists("photos", $records) ? $records["photos"] : array();
 $magazines = array_key_exists("magazines", $records) ? $records["magazines"] : array();
 $by_laws = array_key_exists("by_laws", $records) ? $records["by_laws"] : array();
 ?>
+
+<style>
+    #newsletters, #photos, #magazines, #by-laws {
+        margin: 3em auto;
+    }
+</style>
+
 <!-- Newsletters -->
 <div class="row" id="newsletters">
     <div class="col">
@@ -154,7 +161,7 @@ $by_laws = array_key_exists("by_laws", $records) ? $records["by_laws"] : array()
 </div>
 
 <!-- By-Laws -->
-<div class="row" id="by_law">
+<div class="row" id="by-laws">
     <div class="col">
         <h3>
             By-Laws (<?= count($by_laws); ?>)

@@ -103,21 +103,18 @@ $by_laws = get_all_federation_bylaws();
 
 <section class="container-fluid" id="countries-list">
 
-    <div class="container py-2">
 
-        <?= $this->partial("__components/federation-records-page.php", array(
-            "admin" => false,
+    <?= $this->partial("__components/federation-records-page.php", array(
+        "admin" => false,
 //            "root_url" => $root_url,
-            "records" => array(
-                "newsletters" => $newsletters,
-                "photos" => $photos,
-                "magazines" => $magazines,
-                "by_laws" => $by_laws,
-            )
-        ));
-        ?>
-
-    </div>
+        "records" => array(
+            "newsletters" => $newsletters,
+            "photos" => $photos,
+            "magazines" => $magazines,
+            "by_laws" => $by_laws,
+        )
+    ));
+    ?>
 
 </section>
 

@@ -76,7 +76,36 @@ $photos = get_all_photos_for_filmmaker($filmmaker->id);
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($photos as $photo): ?>
-                        <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $photo->title == "" ? "Untitled" : $photo->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $photo->description == "" ? "No description" : $photo->description,
+                        ));
+                        $contributor = $photo->get_contributor();
+                        $contributor_id = $photo->contributor_id;
+                        if ($photo->contributor_id != 0 && $contributor != null) {
+                            array_push($information, array(
+                                "key" => "contributor",
+                                "value" => $contributor == null || $photo->contributor_id == 0 ? "No contributor" : $photo->get_contributor()->get_display_name(),
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '300px',
+                            'preview_height' => '300px',
+                            // 'embed' => $film->embed,
+                            'thumbnail_path' => get_relative_path($photo->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($photo->get_path()),
+                            'fancybox_category' => 'photos',
+                            'information' => $information,
+                            'admin' => false,
+//                            'edit_url' => $root_url . '/photos/' . $photo->id . "/edit",
+//                            'delete_url' => $root_url . '/photos/' . $photo->id . "/delete",
+                        )); ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>

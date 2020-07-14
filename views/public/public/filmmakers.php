@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => "Federation",
+    'title' => "Filmmakers",
 );
 echo head($head);
 
@@ -26,11 +26,11 @@ echo head($head);
                     $information = array();
                     array_push($information, array(
                         "key" => "Name",
-                        "value" => $filmmaker->get_full_name() == "" ? "No name" : $filmmaker->get_full_name(),
+                        "value" => $filmmaker->get_full_name() == "" ? "No name" : html_escape($filmmaker->get_full_name()),
                     ));
                     array_push($information, array(
                         "key" => "email",
-                        "value" => $filmmaker->email == "" ? "No email" : $filmmaker->email,
+                        "value" => $filmmaker->email == "" ? "No email" : html_escape($filmmaker->email),
                     ));
                     echo $this->partial("__components/record-card.php", array(
                         'card_width' => '300px',

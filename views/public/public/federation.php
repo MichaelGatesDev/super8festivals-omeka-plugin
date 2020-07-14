@@ -101,7 +101,7 @@ $by_laws = get_all_federation_bylaws();
     </div>
 </div>
 
-<section class="container-fluid" id="countries-list">
+<section class="container" id="countries-list">
 
 
     <?= $this->partial("__components/federation-records-page.php", array(

@@ -90,7 +90,7 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
     </div>
 </div>
 
-<div class="px-0 py-5">
+<div class="container px-0 py-5">
 
     <!--About-->
     <div class="row" id="about">

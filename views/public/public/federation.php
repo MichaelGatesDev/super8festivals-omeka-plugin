@@ -8,33 +8,13 @@ queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.f
 
 echo head($head);
 
+$newsletters = get_all_federation_newsletters();
+$photos = get_all_federation_photos();
+$magazines = get_all_federation_magazines();
+$by_laws = get_all_federation_bylaws();
 ?>
 
 <style>
-    @media (min-width: 576px) {
-        .card-columns {
-            column-count: 2;
-        }
-    }
-
-    @media (min-width: 768px) {
-        .card-columns {
-            column-count: 2;
-        }
-    }
-
-    @media (min-width: 992px) {
-        .card-columns {
-            column-count: 3;
-        }
-    }
-
-    @media (min-width: 1200px) {
-        .card-columns {
-            column-count: 4;
-        }
-    }
-
     #short-nav-nav ul li {
         margin: 0 0.75em;
     }
@@ -46,10 +26,6 @@ echo head($head);
     .carousel-inner > .carousel-item img {
         height: 500px;
         object-fit: cover;
-    }
-
-    .records-row {
-        margin: 4em 0;
     }
 </style>
 
@@ -129,74 +105,17 @@ echo head($head);
 
     <div class="container py-2">
 
-
-        <!--Newsletters-->
-        <div class="row mb-4">
-            <div class="col">
-                <h3>Newsletters</h3>
-                <?php $newsletters = get_all_federation_newsletters(); ?>
-                <?php if (count($newsletters) == 0): ?>
-                    <p>There are no newsletters available for the federation.</p>
-                <?php else: ?>
-                    <div class="row row-cols">
-                        <?php foreach ($newsletters as $newsletter): ?>
-                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $newsletter)); ?>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!--Photos-->
-        <div class="row my-4">
-            <div class="col bg-light">
-                <h3>Photos</h3>
-                <?php $photos = get_all_federation_photos(); ?>
-                <?php if (count($photos) == 0): ?>
-                    <p>There are no photos available for the federation.</p>
-                <?php else: ?>
-                    <div class="row row-cols">
-                        <?php foreach ($photos as $photo): ?>
-                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $photo)); ?>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!--Magazines-->
-        <div class="row my-4">
-            <div class="col">
-                <h3>Magazines</h3>
-                <?php $magazines = get_all_federation_magazines(); ?>
-                <?php if (count($magazines) == 0): ?>
-                    <p>There are no magazines available for the federation.</p>
-                <?php else: ?>
-                    <div class="row row-cols">
-                        <?php foreach ($magazines as $magazine): ?>
-                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $magazine)); ?>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!--By-Laws-->
-        <div class="row my-4">
-            <div class="col bg-light">
-                <h3>By-Laws</h3>
-                <?php $bylaws = get_all_federation_bylaws(); ?>
-                <?php if (count($bylaws) == 0): ?>
-                    <p>There are no by-laws available for the federation.</p>
-                <?php else: ?>
-                    <div class="row row-cols">
-                        <?php foreach ($bylaws as $bylaw): ?>
-                            <?= $this->partial("__components/festival-record-card-previewable.php", array('record' => $bylaw)); ?>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
+        <?= $this->partial("__components/federation-records-page.php", array(
+            "admin" => false,
+//            "root_url" => $root_url,
+            "records" => array(
+                "newsletters" => $newsletters,
+                "photos" => $photos,
+                "magazines" => $magazines,
+                "by_laws" => $by_laws,
+            )
+        ));
+        ?>
 
     </div>
 

@@ -18,9 +18,7 @@ echo head(array(
 
     <div class="row">
         <div class="col">
-            <h3>Add Federation
-                <By-Law></By-Law>
-            </h3>
+            <h3>Add Federation By-law</h3>
         </div>
     </div>
 

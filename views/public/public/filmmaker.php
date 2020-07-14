@@ -30,22 +30,22 @@ $photos = get_all_photos_for_filmmaker($filmmaker->id);
                         $information = array();
                         array_push($information, array(
                             "key" => "title",
-                            "value" => $film->title == "" ? "Untitled" : $film->title,
+                            "value" => $film->title == "" ? "Untitled" : html_escape($film->title),
                         ));
                         array_push($information, array(
                             "key" => "description",
-                            "value" => $film->description == "" ? "No description" : $film->description,
+                            "value" => $film->description == "" ? "No description" : html_escape($film->description),
                         ));
                         array_push($information, array(
                             "key" => "festival",
-                            "value" => $film->get_festival()->year == 0 ? "Uncategorized" : $film->get_festival()->year,
+                            "value" => $film->get_festival()->year == 0 ? "Uncategorized" : html_escape($film->get_festival()->year),
                         ));
                         $contributor = $film->get_contributor();
                         $contributor_id = $film->contributor_id;
                         if ($film->contributor_id != 0 && $contributor != null) {
                             array_push($information, array(
                                 "key" => "contributor",
-                                "value" => $film->contributor_id === 0 ? "No contributor" : $contributor->get_display_name(),
+                                "value" => $film->contributor_id === 0 ? "No contributor" : html_escape($contributor->get_display_name()),
                             ));
                         }
                         echo $this->partial("__components/record-card.php", array(

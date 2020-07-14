@@ -21,11 +21,6 @@ $film_catalogs = get_all_film_catalogs_for_city($city->id);
 ?>
 
 <style>
-    iframe {
-        width: 100%;
-        height: 300px;
-    }
-
     .container > .row:not(:first-child):not(:nth-child(2)) {
         margin: 3em 0;
     }

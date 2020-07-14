@@ -262,7 +262,8 @@ $film_catalogs = array_key_exists("film_catalogs", $records) ? $records["film_ca
                     }
                     echo $this->partial("__components/record-card.php", array(
                         'card_width' => '500px',
-//                            'preview_height' => '300px',
+//                        'preview_height' => '300px',
+//                        'preview_width' => '100%',
                         'embed' => $film->embed,
 //                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
 //                            'preview_path' => get_relative_path($poster->get_path()),

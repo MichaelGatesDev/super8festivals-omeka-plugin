@@ -1,7 +1,13 @@
 <?php
+if (!isset($preview_width)) $preview_width = "100%";
+if (!isset($preview_height)) $preview_height = "300px";
+
 if (!isset($card_width)) $card_width = "256px";
 if (!isset($card_height)) $card_height = "auto";
+
 if (!isset($card_body_max_height)) $card_body_max_height = "180px";
+if (!isset($card_body_height)) $card_body_height = "180px";
+
 if (!isset($embed)) $embed = null;
 if (!isset($thumbnail_path)) $thumbnail_path = null;
 if (!isset($preview_path)) $preview_path = null;
@@ -10,6 +16,14 @@ if (!isset($information)) $information = array(array('key' => 'change', 'value' 
 if (!isset($admin)) $admin = false;
 if (!isset($link)) $link = "";
 ?>
+
+<style>
+    iframe {
+        object-fit: cover;
+        height: <?= $preview_height; ?>;
+        width: <?= $preview_width; ?>;
+    }
+</style>
 
 <div class="card d-inline-block p-0 my-2 mx-2" style="width: <?= $card_width; ?>; height: <?= $card_height; ?>">
     <?php if ($embed): ?>
@@ -22,11 +36,11 @@ if (!isset($link)) $link = "";
                     class="card-img-top"
                     src="<?= $thumbnail_path; ?>"
                     alt="<?= $thumbnail_alt ?? "" ?>"
-                    style="object-fit: cover; height: <?= $preview_height; ?>; "
+                    style="object-fit: cover; height: <?= $preview_height; ?>; width: <?= $preview_width; ?>; "
             />
         </a>
     <?php endif; ?>
-    <div class="card-body" style="max-height: <?= $card_body_max_height; ?>; overflow-y: auto;">
+    <div class="card-body" style="max-height: <?= $card_body_max_height; ?>; height: <?= $card_body_height; ?>; overflow-y: auto;">
         <?php foreach ($information as $info): ?>
             <p>
                 <span class="font-weight-bold text-capitalize"><?= $info['key']; ?>:</span>

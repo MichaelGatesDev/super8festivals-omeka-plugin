@@ -23,15 +23,11 @@ $flashMsg = flash();
                 break;
         }
         ?>
-        <div class="row">
-            <div class="col">
-                <div class="alert <?= $alertColorClass; ?> alert-dismissible fade show mt-4" role="alert">
-                    <?= $li->textContent; ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
+        <div class="alert <?= $alertColorClass; ?> alert-dismissible fade show mt-4" role="alert">
+            <?= $li->textContent; ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     <?php endforeach; ?>
 <?php endif; ?>

@@ -15,6 +15,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         'uninstall', // when the plugin is uninstalled
         'initialize', // when the plugin starts up
         'define_routes', // to add our custom routes
+        'admin_head', // override admin head to add custom modules
     );
     protected $_filters = array(
         'admin_navigation_main', // admin sidebar
@@ -78,6 +79,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
         // delete files
         delete_plugin_directories();
+    }
+
+    function hookAdminHead()
+    {
+        echo "<script type='module' src='" . src('s8f-modal.js', 'javascripts') . "'></script>\n";
+        echo "<script type='module' src='" . src('s8f-alerts-area.js', 'javascripts') . "'></script>\n";
+        echo "<script type='module' src='" . src('s8f-table.js', 'javascripts') . "'></script>\n";
+
+        echo "<script type='module' src='" . src('s8f-countries-table.js', 'javascripts') . "'></script>\n";
+        echo "<script type='module' src='" . src('s8f-cities-table.js', 'javascripts') . "'></script>\n";
     }
 
     public function filterAdminNavigationMain($nav)
@@ -186,6 +197,21 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         );
     }
 
+    function add_api_route($router, $id, $fullRoute, $action)
+    {
+        $router->addRoute(
+            $id,
+            new Zend_Controller_Router_Route(
+                $fullRoute,
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => "api",
+                    "action" => $action,
+                )
+            )
+        );
+    }
+
     function hookDefineRoutes($args)
     {
         $router = $args['router'];
@@ -236,6 +262,21 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "filmmakers", "filmmakers", "filmmakers", false);
             $this->add_static_route($router, "filmmaker", "filmmakers/:filmmakerID", "filmmaker", false);
         }
+
+        // ADD API ROUTES
+        $this->add_api_route($router, "api_index", "/rest-api/", "index");
+        // users
+        $this->add_api_route($router, "api_users_all", "/rest-api/users/", "all-users");
+        $this->add_api_route($router, "api_users_single", "/rest-api/users/:user/", "single-user");
+        $this->add_api_route($router, "api_users_add", "/rest-api/users/add/", "add-user");
+        // countries
+        $this->add_api_route($router, "api_countries_all", "/rest-api/countries/", "all-countries");
+        $this->add_api_route($router, "api_countries_single", "/rest-api/countries/:country/", "single-country");
+        $this->add_api_route($router, "api_countries_add", "/rest-api/countries/add/", "add-country");
+        // cities
+        $this->add_api_route($router, "api_cities_all", "/rest-api/countries/:country/cities/", "all-cities");
+        $this->add_api_route($router, "api_cities_single", "/rest-api/countries/:country/cities/:city", "single-city");
+        $this->add_api_route($router, "api_cities_add", "/rest-api/countries/:country/cities/add", "add-city");
     }
 
 }

@@ -35,6 +35,13 @@ function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
 
 // ============================================================================================================================================================= \\
 
+function get_all_users(): array
+{
+    return get_db()->getTable("User")->findAll();
+}
+
+// ============================================================================================================================================================= \\
+
 function get_all_federation_newsletters(): array
 {
     return get_db()->getTable("SuperEightFestivalsFederationNewsletter")->findAll();
@@ -125,18 +132,15 @@ function get_all_countries_by_name_ambiguous($name, $partial = false): array
 
 function add_country($countryName, $lat = 0, $long = 0): ?SuperEightFestivalsCountry
 {
+    if (trim($countryName) === "") throw new Error("Country name can not be blank!");
+    if (get_country_by_name($countryName)) throw new Error("A country with that name already exists!");
+
     $country = new SuperEightFestivalsCountry();
     $country->name = $countryName;
     $country->latitude = $lat;
     $country->longitude = $long;
-    try {
-        $country->save();
-        return $country;
-    } catch (Omeka_Record_Exception $e) {
-        return null;
-    } catch (Omeka_Validate_Exception $e) {
-        return null;
-    }
+    $country->save();
+    return $country;
 }
 
 function add_countries_by_names(array $countryNames): void
@@ -226,13 +230,17 @@ function get_all_cities_by_name_ambiguous($cityName, $partial = false): array
     return get_db()->getTable('SuperEightFestivalsCity')->findBy(array('name' => $cityName), -1);
 }
 
-function add_city($countryID, $name, $latitude, $longitude)
+function add_city($countryID, $name, $latitude, $longitude, $description)
 {
+    if (trim($name) === "") throw new Error("City name can not be blank!");
+    if (get_city_by_name($countryID, $name)) throw new Error("A city with that name already exists!");
+
     $city = new SuperEightFestivalsCity();
     $city->name = $name;
     $city->latitude = $latitude;
     $city->longitude = $longitude;
     $city->country_id = $countryID;
+    $city->description = $description;
     $city->save();
     return $city;
 }

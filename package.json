@@ -1,0 +1,8 @@
+{
+  "name": "super8festivals-omeka-plugin-master",
+  "version": "1.0.0",
+  "dependencies": {
+    "haunted": "^4.7.0",
+    "lit-element": "^2.4.0"
+  }
+}

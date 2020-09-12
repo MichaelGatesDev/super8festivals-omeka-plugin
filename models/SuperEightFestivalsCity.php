@@ -35,27 +35,33 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     protected function beforeSave($args)
     {
         parent::beforeSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
+        if (array_key_exists("record", $args)) {
+            $record = $args['record'];
+        }
+        if (array_key_exists("insert", $args)) {
+            $insert = $args['insert'];
+            if ($insert) {
+                logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
+            } else {
+                logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
+            }
         }
     }
 
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Added city: {$this->name} ({$this->id})");
-            add_festival($this->id, 0);
-        } else {
-            logger_log(LogLevel::Info, "Updated city: {$this->name} ({$this->id})");
+        if (array_key_exists("record", $args)) {
+            $record = $args['record'];
+        }
+        if (array_key_exists("insert", $args)) {
+            $insert = $args['insert'];
+            if ($insert) {
+                logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
+                add_festival($this->id, 0);
+            } else {
+                logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
+            }
         }
 
         $this->create_files();

@@ -40,6 +40,7 @@ function CountriesTable() {
         } finally {
             hideModal();
             scrollToAlerts();
+            jQuery("#country-form").trigger("reset");
         }
     };
 
@@ -56,6 +57,7 @@ function CountriesTable() {
         } finally {
             hideModal();
             scrollToAlerts();
+            jQuery("#country-form").trigger("reset");
         }
     };
 
@@ -126,6 +128,7 @@ function CountriesTable() {
                         id="form-country-latitude"
                         name="country-latitude" 
                         aria-describedby="formCountryHelp"
+                        .value=${country ? country.latitude : 0}
                      >
                 </div>
                 <div class="mb-3">

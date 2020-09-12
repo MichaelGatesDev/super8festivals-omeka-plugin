@@ -94,7 +94,7 @@ function CountriesTable() {
                     country.latitude,
                     country.longitude,
                     html`
-                        <a href="${window.location.href}/${country.name}" class="btn btn-info btn-sm">View</a>
+                        <a href="/admin/super-eight-festivals/countries/${country.name}/" class="btn btn-info btn-sm">View</a>
                         <button type="button" class="btn btn-primary btn-sm" @click=${() => { showEditDialog(country); }}>Edit</button>
                         <button type="button" class="btn btn-danger btn-sm" @click=${() => { showDeleteDialog(country); }}>Delete</button>
                     `

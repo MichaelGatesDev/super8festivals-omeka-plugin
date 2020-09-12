@@ -110,7 +110,7 @@ function CitiesTable(element) {
                     city.longitude,
                     city.description,
                     html`
-                        <a href="${window.location.href}/${city.name}" class="btn btn-info btn-sm">View</a>
+                        <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/" class="btn btn-info btn-sm">View</a>
                         <button type="button" class="btn btn-primary btn-sm" @click=${() => { showEditDialog(city); }}>Edit</button>
                         <button type="button" class="btn btn-danger btn-sm" @click=${() => { showDeleteDialog(city); }}>Delete</button>
                     `

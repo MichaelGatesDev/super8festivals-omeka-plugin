@@ -235,10 +235,34 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
 
             $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
-
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
-            $this->addRecordRoute($router, "country", "countries", ":module/countries", "countryName");
-            $this->addRecordRoute($router, "city", "cities", ":module/countries/:countryName/cities", "cityName");
+
+
+            // ... /countries/
+            $router->addRoute("super_eight_festivals_admin_countries", new Zend_Controller_Router_Route(":module/countries/", array(
+                'module' => 'super-eight-festivals',
+                'controller' => "admin-countries",
+                'action' => "index"
+            )));
+            // ... /countries/[country]/
+            $router->addRoute("super_eight_festivals_admin_country", new Zend_Controller_Router_Route(":module/countries/:country", array(
+                'module' => 'super-eight-festivals',
+                'controller' => "admin-countries",
+                'action' => "single"
+            )));
+            // ... /countries/[country]/cities/
+            $router->addRoute("super_eight_festivals_admin_country_cities", new Zend_Controller_Router_Route(":module/countries/:country/cities/", array(
+                'module' => 'super-eight-festivals',
+                'controller' => "admin-country-cities",
+                'action' => "index"
+            )));
+            // ... /countries/[country]/cities/[city]
+            $router->addRoute("super_eight_festivals_admin_country_city", new Zend_Controller_Router_Route(":module/countries/:country/cities/:city", array(
+                'module' => 'super-eight-festivals',
+                'controller' => "admin-country-cities",
+                'action' => "single"
+            )));
+
             $this->addRecordRoute($router, "city_banner", "city-banners", ":module/countries/:countryName/cities/:cityName/banners", "bannerID");
             $this->addRecordRoute($router, "filmmaker", "filmmakers", ":module/countries/:countryName/cities/:cityName/filmmakers", "filmmakerID");
             $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:countryName/cities/:cityName/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");

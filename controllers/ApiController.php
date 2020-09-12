@@ -274,7 +274,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             }
 
             if ($request->isGet()) {
-                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched festival", $festival));
             } else if ($request->isPost()) {
                 $festival_year = $_POST["festival-year"];
                 $festival_title = $_POST["festival-title"];
@@ -285,10 +285,10 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $festival->description = $festival_description;
                 $festival->save();
 
-                $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully updated festival", $festival));
             } else if ($request->isDelete()) {
-                $city->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city));
+                $festival->delete();
+                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted festival", $festival));
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));

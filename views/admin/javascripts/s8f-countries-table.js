@@ -114,9 +114,7 @@ function CountriesTable() {
                         id="form-country-name" 
                         name="country-name" 
                         aria-describedby="formCountryHelp"
-                        placeholder=""
                         .value=${country ? country.name : null}
-                        required
                     >
                 </div>
                 <div class="mb-3">
@@ -127,9 +125,7 @@ function CountriesTable() {
                         class="form-control" 
                         id="form-country-latitude"
                         name="country-latitude" 
-                        aria-describedby="formCountryHelp" 
-                        placeholder="1.234"
-                        .value=${country ? country.latitude : 0}
+                        aria-describedby="formCountryHelp"
                      >
                 </div>
                 <div class="mb-3">
@@ -140,8 +136,7 @@ function CountriesTable() {
                         class="form-control" 
                         id="form-country-longitude"
                         name="country-longitude" 
-                        aria-describedby="formCountryHelp" 
-                        placeholder="-4.567"
+                        aria-describedby="formCountryHelp"
                         .value=${country ? country.longitude : 0}
                      >
                  </div>

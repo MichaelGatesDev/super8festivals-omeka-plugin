@@ -225,10 +225,12 @@ function CitiesTable(element) {
         showModal();
     };
 
+    if (country == null) return html`Loading...`;
+
     return html`
     <s8f-modal modal-id="modal" @modal-update=${(evt) => { setModal(evt.detail.modal); }}></s8f-modal>
-    <h3 class="mb-4">
-        Cities 
+    <h3 class="mb-2">
+        Cities
         <button 
             type="button" 
             class="btn btn-success btn-sm"
@@ -237,6 +239,9 @@ function CitiesTable(element) {
             Add City
         </button>
     </h3>
+    <p class="text-muted">
+           Here are a list of cities in <span class="text-capitalize">${country.name}</span>.
+    </p>
     <s8f-table id="countries-table"></s8f-table>
     `;
 }

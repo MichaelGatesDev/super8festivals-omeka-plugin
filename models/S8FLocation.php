@@ -12,8 +12,8 @@ trait S8FLocation
     {
         return array(
             "`name`         VARCHAR(255)     NOT NULL",
-            "`latitude`     FLOAT(8, 5)",
-            "`longitude`    FLOAT(8, 5)",
+            "`latitude`     FLOAT(8, 4)",
+            "`longitude`    FLOAT(8, 4)",
         );
     }
 

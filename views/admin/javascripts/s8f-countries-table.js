@@ -129,7 +129,7 @@ function CountriesTable() {
                         name="country-latitude" 
                         aria-describedby="formCountryHelp" 
                         placeholder="1.234"
-                        .value=${country ? country.latitude : 0.00}
+                        .value=${country ? country.latitude : 0}
                      >
                 </div>
                 <div class="mb-3">
@@ -142,7 +142,7 @@ function CountriesTable() {
                         name="country-longitude" 
                         aria-describedby="formCountryHelp" 
                         placeholder="-4.567"
-                        .value=${country ? country.longitude : 0.00}
+                        .value=${country ? country.longitude : 0}
                      >
                  </div>
             </form>

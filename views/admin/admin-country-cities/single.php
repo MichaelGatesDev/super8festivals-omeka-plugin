@@ -19,11 +19,7 @@ $banner = get_city_by_id($city->id);
 
     <div class="row">
         <div class="col">
-            <h2 class="text-capitalize">
-                <?= $city->name; ?> (<?= $country->name; ?>)
-                <a class="btn btn-primary" href='<?= $rootURL; ?>/edit'>Edit</a>
-                <a class="btn btn-danger" href='<?= $rootURL; ?>/delete'>Delete</a>
-            </h2>
+            <h2 class="text-capitalize"><?= $city->name; ?> <span class="text-muted">(<?= $country->name; ?>)</span></h2>
         </div>
     </div>
 

@@ -28,6 +28,20 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         return "id";
     }
 
+    protected function _validate()
+    {
+        parent::_validate();
+        if (empty($this->name)) {
+            $this->addError('name', "Name can not be blank!");
+        }
+        if (!is_numeric($this->latitude)) {
+            $this->addError('latitude', "Latitude and Longitude may only be numeric.");
+        }
+        if (!is_numeric($this->longitude)) {
+            $this->addError('longitude', "Latitude and Longitude may only be numeric.");
+        }
+    }
+
 
     protected function beforeSave($args)
     {

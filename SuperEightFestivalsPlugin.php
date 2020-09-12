@@ -297,10 +297,14 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "api_countries_all", "/rest-api/countries/", "all-countries");
         $this->add_api_route($router, "api_countries_single", "/rest-api/countries/:country/", "single-country");
         $this->add_api_route($router, "api_countries_add", "/rest-api/countries/add/", "add-country");
-        // cities
-        $this->add_api_route($router, "api_cities_all", "/rest-api/countries/:country/cities/", "all-cities");
-        $this->add_api_route($router, "api_cities_single", "/rest-api/countries/:country/cities/:city", "single-city");
-        $this->add_api_route($router, "api_cities_add", "/rest-api/countries/:country/cities/add", "add-city");
+        // countries->cities
+        $this->add_api_route($router, "api_countries_cities_all", "/rest-api/countries/:country/cities/", "all-cities");
+        $this->add_api_route($router, "api_countries_cities_single", "/rest-api/countries/:country/cities/:city", "single-city");
+        $this->add_api_route($router, "api_countries_cities_add", "/rest-api/countries/:country/cities/add", "add-city");
+        // countries->cities->festivals
+        $this->add_api_route($router, "api_countries_cities_festivals_all", "/rest-api/countries/:country/cities/:city/festivals/", "all-festivals");
+        $this->add_api_route($router, "api_countries_cities_festivals_single", "/rest-api/countries/:country/cities/:city/festivals/:festival", "single-festival");
+        $this->add_api_route($router, "api_countries_cities_festivals_add", "/rest-api/countries/:country/cities/:city/festivals/add", "add-festival");
     }
 
 }

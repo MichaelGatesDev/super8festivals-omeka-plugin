@@ -40,7 +40,6 @@ function CountriesTable() {
         } finally {
             hideModal();
             scrollToAlerts();
-            jQuery("#country-form").trigger("reset");
         }
     };
 
@@ -57,7 +56,6 @@ function CountriesTable() {
         } finally {
             hideModal();
             scrollToAlerts();
-            jQuery("#country-form").trigger("reset");
         }
     };
 

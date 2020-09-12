@@ -32,6 +32,12 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return "id";
     }
 
+    protected function _validate()
+    {
+        parent::_validate();
+        $this->__validate();
+    }
+
     protected function beforeSave($args)
     {
         parent::beforeSave($args);

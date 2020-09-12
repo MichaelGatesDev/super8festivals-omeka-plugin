@@ -17,5 +17,18 @@ trait S8FLocation
         );
     }
 
+    protected function __validate()
+    {
+        if (empty($this->name)) {
+            $this->addError('name', "Name can not be blank.");
+        }
+        if (!is_numeric($this->latitude)) {
+            $this->addError(null, "Latitude may only be numeric.");
+        }
+        if (!is_numeric($this->longitude)) {
+            $this->addError(null, "Longitude may only be numeric.");
+        }
+    }
+
     // ======================================================================================================================== \\
 }

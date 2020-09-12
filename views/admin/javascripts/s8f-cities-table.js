@@ -133,7 +133,6 @@ function CitiesTable(element) {
                         aria-describedby="formCityHelp"
                         placeholder=""
                         .value=${city ? city.name : null}
-                        required
                     >
                 </div>
                 <div class="mb-3">
@@ -146,7 +145,7 @@ function CitiesTable(element) {
                         name="city-latitude" 
                         aria-describedby="formCityHelp" 
                         placeholder="1.234"
-                        .value=${city ? city.latitude : 0.00}
+                        .value=${city ? city.latitude : 0}
                      >
                 </div>
                 <div class="mb-3">
@@ -159,7 +158,7 @@ function CitiesTable(element) {
                         name="city-longitude" 
                         aria-describedby="formCityHelp" 
                         placeholder="-4.567"
-                        .value=${city ? city.longitude : 0.00}
+                        .value=${city ? city.longitude : 0}
                      >
                 </div>
                 <div class="mb-3">

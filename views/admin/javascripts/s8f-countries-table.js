@@ -2,12 +2,10 @@ import { html } from '../../shared/javascripts/vendor/lit-html.js';
 import { component, useEffect, useState } from '../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "./utils/alerts";
-import Modals from "./utils/modals";
 import API from "./utils/api";
 
 function CountriesTable() {
     const [countries, setCountries] = useState([]);
-    const [modal, setModal] = useState();
 
     const scrollToAlerts = () => {
         document.getElementById("alerts").scrollIntoView({
@@ -27,10 +25,9 @@ function CountriesTable() {
         }
     };
 
-    const addCountryFromForm = async () => {
-        const formData = new FormData(document.getElementById("country-form"));
+    const addCountry = async (countryToAddObj) => {
         try {
-            const country = await API.addCountry(formData);
+            const country = await API.addCountry(countryToAddObj);
             Alerts.success("alerts", html`<strong>Success</strong> - Added Country`, `Successfully added country "${country.name}" to the database.`);
             console.debug(`Added country: ${JSON.stringify(country)}`);
             await fetchCountries();
@@ -43,10 +40,9 @@ function CountriesTable() {
         }
     };
 
-    const editCountryFromForm = async (countryToEdit) => {
-        const formData = new FormData(document.getElementById("country-form"));
+    const updateCountry = async (countryToUpdateObj) => {
         try {
-            const country = await API.updateCountry(countryToEdit, formData);
+            const country = await API.updateCountry(countryToUpdateObj);
             Alerts.success("alerts", html`<strong>Success</strong> - Edited Country`, `Successfully edited country "${country.name}" in the database.`);
             console.debug(`Edited country: ${JSON.stringify(country)}`);
             await fetchCountries();
@@ -59,9 +55,9 @@ function CountriesTable() {
         }
     };
 
-    const deleteCountry = async (countryToDelete) => {
+    const deleteCountry = async (countryID) => {
         try {
-            const country = await API.deleteCountry(countryToDelete);
+            const country = await API.deleteCountry(countryID);
             Alerts.success("alerts", html`<strong>Success</strong> - Deleted Country`, `Successfully deleted country "${country.name}" from the database.`);
             console.debug(`Deleted country: ${JSON.stringify(country)}`);
             await fetchCountries();
@@ -83,6 +79,7 @@ function CountriesTable() {
 
     useEffect(() => {
         const tableElem = document.getElementById("countries-table");
+        if(!tableElem) return;
         tableElem.dispatchEvent(new CustomEvent("s8f-table-change", {
             bubbles: true, // this lets the event bubble up through the DOM
             composed: true, // this lets the event cross the Shadow DOM boundary
@@ -95,114 +92,56 @@ function CountriesTable() {
                     country.longitude,
                     html`
                         <a href="/admin/super-eight-festivals/countries/${country.name}/" class="btn btn-info btn-sm">View</a>
-                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showEditDialog(country); }}>Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showDeleteDialog(country); }}>Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", country); }}>Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", country);  }}>Delete</button>
                     `
                 ]),
             },
         }));
     }, [countries]);
 
-    const getCountryForm = (country = null) => {
-        return html`
-            <form id="country-form">
-                <div class="mb-3">
-                    <label for="form-country-name" class="form-label">Country Name</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="form-country-name" 
-                        name="country-name" 
-                        aria-describedby="formCountryHelp"
-                        .value=${country ? country.name : null}
-                    >
-                </div>
-                <div class="mb-3">
-                    <label for="form-country-latitude" class="form-label">Country Latitude</label>
-                    <input 
-                        type="number"
-                        step="0.0001"
-                        class="form-control" 
-                        id="form-country-latitude"
-                        name="country-latitude" 
-                        aria-describedby="formCountryHelp"
-                        .value=${country ? country.latitude : 0}
-                     >
-                </div>
-                <div class="mb-3">
-                    <label for="form-country-longitude" class="form-label">Country Longitude</label>
-                    <input 
-                        type="number"
-                        step="0.0001"
-                        class="form-control" 
-                        id="form-country-longitude"
-                        name="country-longitude" 
-                        aria-describedby="formCountryHelp"
-                        .value=${country ? country.longitude : 0}
-                     >
-                 </div>
-            </form>
-        `;
-    };
-
-    const showModal = () => {
-        modal.show();
+    const showModal = (mode = "add", country = null) => {
+        const modalElem = document.getElementById("country-modal");
+        modalElem.dispatchEvent(new CustomEvent("modal-show", {
+            detail: {
+                mode,
+                country,
+            },
+        }));
     }
 
     const hideModal = () => {
-        modal.hide();
-    };
-
-    const showAddDialog = () => {
-        Modals.update(
-            modal,
-            "Add Country",
-            getCountryForm(),
-            html`
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" @click=${() => { addCountryFromForm(); }}>Submit</button>
-            `,
-        );
-        showModal();
-    };
-
-    const showEditDialog = (country) => {
-        Modals.update(
-            modal,
-            "Edit Country",
-            getCountryForm(country),
-            html`
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" @click=${() => { editCountryFromForm(country); }}>Confirm</button>
-            `,
-        );
-        showModal();
-    };
-
-    const showDeleteDialog = (country) => {
-        Modals.update(
-            modal,
-            "Delete Country",
-            html`
-                <p>Are you sure you want to delete <strong>${country.name}</strong>?</p>
-                <p class="text-danger">Warning: This can not be undone.</p>
-            `,
-            html`
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" @click=${() => { deleteCountry(country); }}>Confirm</button>
-            `,
-        );
-        showModal();
+        const modalElem = document.getElementById("country-modal");
+        modalElem.dispatchEvent(new Event("modal-hide"));
     };
 
     return html`
-    <s8f-modal modal-id="modal" @modal-update=${(evt) => { setModal(evt.detail.modal); }}></s8f-modal>
+    <s8f-country-modal 
+        modal-id="country-modal"
+        @modal-form-submit=${async (evt) => {
+            const country = evt.detail;
+            if (country.id) {
+                await updateCountry(country);
+            } else {
+                await addCountry(country);
+            }
+        }}
+        @modal-form-delete=${async (evt) => {
+            const country = evt.detail;
+            if (country.id) {
+                await deleteCountry(country.id);
+            } else {
+                await addCountry(country);
+            }
+        }}
+    >
+    </s8f-country-modal>
     <h2 class="mb-4">
         Countries 
         <button 
             type="button" 
             class="btn btn-success btn-sm"
-            @click=${() => { showAddDialog(); }}
+            @click=${() => { showModal("add"); }}
         >
             Add Country
         </button>

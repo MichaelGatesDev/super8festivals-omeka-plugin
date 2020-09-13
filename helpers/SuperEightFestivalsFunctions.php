@@ -33,6 +33,12 @@ function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
     return substr($base_url, 0, strlen($base_url) - 1);
 }
 
+function alpha_only($string) {
+    $string = str_replace(' ', ' ', $string);
+    $string = preg_replace('/[^A-Za-z\-]/', ' ', $string);
+    return $string;
+}
+
 // ============================================================================================================================================================= \\
 
 function get_all_users(): array

@@ -34,7 +34,7 @@ function Modal({ modalId }) {
             detail: {
                 modal,
             } // all data you wish to pass must be in `detail`
-        }))
+        }));
     }, []);
 
     return html`

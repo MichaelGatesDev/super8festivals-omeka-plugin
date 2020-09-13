@@ -19,15 +19,20 @@ trait S8FLocation
 
     protected function __validate()
     {
-        if (empty($this->name)) {
+        if (empty(trim($this->name))) {
             $this->addError('name', "Name can not be blank.");
         }
+        $this->name = alpha_only($this->name);
+
         if (!is_numeric($this->latitude)) {
             $this->addError(null, "Latitude may only be numeric.");
         }
+        $this->latitude = intval($this->latitude * 1e4) / 1e4; // truncate float to the 4th decimal point. Taken from https://stackoverflow.com/a/40418116/1925638
+
         if (!is_numeric($this->longitude)) {
             $this->addError(null, "Longitude may only be numeric.");
         }
+        $this->longitude = intval($this->longitude * 1e4) / 1e4;
     }
 
     // ======================================================================================================================== \\

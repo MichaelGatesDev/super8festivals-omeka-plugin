@@ -87,6 +87,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         echo "<script type='module' src='" . src('s8f-alerts-area.js', 'javascripts') . "'></script>\n";
         echo "<script type='module' src='" . src('s8f-table.js', 'javascripts') . "'></script>\n";
 
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/country-modal.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/city-modal.js'></script>\n";
         echo "<script type='module' src='" . src('s8f-countries-table.js', 'javascripts') . "'></script>\n";
         echo "<script type='module' src='" . src('s8f-cities-table.js', 'javascripts') . "'></script>\n";
     }

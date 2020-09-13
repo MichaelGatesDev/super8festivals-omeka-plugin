@@ -2,14 +2,11 @@ import { html } from '../../shared/javascripts/vendor/lit-html.js';
 import { component, useEffect, useState } from '../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "./utils/alerts";
-import Modals from "./utils/modals";
 import API from "./utils/api";
-import Rest from "./utils/rest";
 
 function CitiesTable(element) {
     const [country, setCountry] = useState();
     const [cities, setCities] = useState([]);
-    const [modal, setModal] = useState();
 
     const scrollToAlerts = () => {
         document.getElementById("alerts").scrollIntoView({
@@ -31,7 +28,7 @@ function CitiesTable(element) {
 
     const fetchCities = async () => {
         try {
-            const cities = await API.getCities(element.countryId);
+            const cities = await API.getCitiesInCountry(element.countryId);
             setCities(cities);
             console.debug("Fetched cities in country");
         } catch (err) {
@@ -41,10 +38,9 @@ function CitiesTable(element) {
     };
 
 
-    const addCityFromForm = async () => {
-        const formData = new FormData(document.getElementById("city-form"));
+    const addCity = async (cityToAddObj) => {
         try {
-            const city = await API.addCity(country.id, formData);
+            const city = await API.addCityToCountry(country.id, cityToAddObj);
             Alerts.success("alerts", html`<strong>Success</strong> - Added City`, `Successfully added city "${city.name}" to the database.`);
             console.debug(`Added city: ${JSON.stringify(city)}`);
             await fetchCities();
@@ -57,12 +53,11 @@ function CitiesTable(element) {
         }
     };
 
-    const editCityFromForm = async (cityToEdit) => {
-        const formData = new FormData(document.getElementById("city-form"));
+    const updateCity = async (cityToUpdateObj) => {
         try {
-            const city = await API.updateCity(country.id, cityToEdit.id, formData);
+            const city = await API.updateCityInCountry(country.id, cityToUpdateObj);
             Alerts.success("alerts", html`<strong>Success</strong> - Edited City`, `Successfully edited city "${city.name}" in the database.`);
-            console.debug(`Edited city: ${JSON.stringify(country)}`);
+            console.debug(`Edited city: ${JSON.stringify(city)}`);
             await fetchCities();
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit City`, err);
@@ -73,9 +68,9 @@ function CitiesTable(element) {
         }
     };
 
-    const deleteCity = async (cityToDelete) => {
+    const deleteCity = async (cityToDeleteObj) => {
         try {
-            const city = await API.deleteCity(country.id, cityToDelete.id);
+            const city = await API.deleteCityFromCountry(country.id, cityToDeleteObj.id);
             Alerts.success("alerts", html`<strong>Success</strong> - Deleted City`, `Successfully deleted city "${city.name}" from the database.`);
             console.debug(`Deleted city: ${JSON.stringify(city)}`);
             await fetchCities();
@@ -97,7 +92,8 @@ function CitiesTable(element) {
     }, []);
 
     useEffect(() => {
-        const tableElem = document.getElementById("countries-table");
+        const tableElem = document.getElementById("cities-table");
+        if(!tableElem) return;
         tableElem.dispatchEvent(new CustomEvent("s8f-table-change", {
             bubbles: true, // this lets the event bubble up through the DOM
             composed: true, // this lets the event cross the Shadow DOM boundary
@@ -111,8 +107,8 @@ function CitiesTable(element) {
                     city.description,
                     html`
                         <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/" class="btn btn-info btn-sm">View</a>
-                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showEditDialog(city); }}>Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showDeleteDialog(city); }}>Delete</button>
+                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", city); }}>Edit</button>
+                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", city); }}>Delete</button>
                     `
                 ]),
             },
@@ -120,129 +116,59 @@ function CitiesTable(element) {
     }, [cities]);
 
 
-    const getCityForm = (city = null) => {
-        return html`
-            <form id="city-form">
-                <div class="mb-3">
-                    <label for="form-city-name" class="form-label">City Name</label>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        id="form-city-name" 
-                        name="city-name" 
-                        aria-describedby="formCityHelp"
-                        placeholder=""
-                        .value=${city ? city.name : null}
-                    >
-                </div>
-                <div class="mb-3">
-                    <label for="form-city-latitude" class="form-label">City Latitude</label>
-                    <input 
-                        type="number"
-                        step="0.0001"
-                        class="form-control" 
-                        id="form-city-latitude"
-                        name="city-latitude" 
-                        aria-describedby="formCityHelp" 
-                        placeholder="1.234"
-                        .value=${city ? city.latitude : 0}
-                     >
-                </div>
-                <div class="mb-3">
-                    <label for="form-city-longitude" class="form-label">City Longitude</label>
-                    <input 
-                        type="number"
-                        step="0.0001"
-                        class="form-control" 
-                        id="form-city-longitude"
-                        name="city-longitude" 
-                        aria-describedby="formCityHelp" 
-                        placeholder="-4.567"
-                        .value=${city ? city.longitude : 0}
-                     >
-                </div>
-                <div class="mb-3">
-                    <label for="form-city-description" class="form-label">City Description</label>
-                    <textarea
-                        id="form-city-description"
-                        name="city-description" 
-                        class="form-control" 
-                        aria-describedby="formCityHelp" 
-                        .value=${city ? city.description : null}
-                    />
-                </div>
-            </form>
-        `;
-    };
-
-    const showModal = () => {
-        modal.show();
+    const showModal = (mode = "add", city = null) => {
+        const modalElem = document.getElementById("city-modal");
+        modalElem.dispatchEvent(new CustomEvent("modal-show", {
+            detail: {
+                mode,
+                city,
+            },
+        }));
     }
 
     const hideModal = () => {
-        modal.hide();
+        const modalElem = document.getElementById("city-modal");
+        modalElem.dispatchEvent(new Event("modal-hide"));
     };
 
-    const showAddDialog = () => {
-        Modals.update(
-            modal,
-            "Add City",
-            getCityForm(),
-            html`
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" @click=${() => { addCityFromForm(); }}>Submit</button>
-            `,
-        );
-        showModal();
-    };
-
-    const showEditDialog = (country) => {
-        Modals.update(
-            modal,
-            "Edit City",
-            getCityForm(country),
-            html`
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" @click=${() => { editCityFromForm(country); }}>Confirm</button>
-            `,
-        );
-        showModal();
-    };
-
-    const showDeleteDialog = (country) => {
-        Modals.update(
-            modal,
-            "Delete City",
-            html`
-                <p>Are you sure you want to delete <strong>${country.name}</strong>?</p>
-                <p class="text-danger">Warning: This can not be undone.</p>
-            `,
-            html`
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" @click=${() => { deleteCity(country); }}>Confirm</button>
-            `,
-        );
-        showModal();
-    };
 
     if (country == null) return html`Loading...`;
 
     return html`
-    <s8f-modal modal-id="modal" @modal-update=${(evt) => { setModal(evt.detail.modal); }}></s8f-modal>
+    <s8f-city-modal 
+        modal-id="city-modal"
+        @modal-form-submit=${async (evt) => {
+        const city = evt.detail;
+        if (city.id) {
+            await updateCity(city);
+        } else {
+            await addCity(city);
+        }
+    }}
+        @modal-form-delete=${async (evt) => {
+        const city = evt.detail;
+        if (city.id) {
+            await deleteCity(city);
+        } else {
+            await addCity(city);
+        }
+    }}
+    >
+    </s8f-city-modal>
     <h3 class="mb-2">
         Cities
         <button 
             type="button" 
             class="btn btn-success btn-sm"
-            @click=${() => { showAddDialog(); }}
+            @click=${() => { showModal("add"); }}
         >
             Add City
         </button>
     </h3>
     <p class="text-muted">
-           Here are a list of cities in <span class="text-capitalize">${country.name}</span>.
+       Here are a list of cities in <span class="text-capitalize">${country.name}</span>.
     </p>
-    <s8f-table id="countries-table"></s8f-table>
+    <s8f-table id="cities-table"></s8f-table>
     `;
 }
 

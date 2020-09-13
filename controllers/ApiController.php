@@ -63,13 +63,13 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched country", $country));
             } else if ($request->isPost()) {
-                $country_name = $_POST["country-name"];
-                $country_latitude = $_POST["country-latitude"];
-                $country_longitude = $_POST["country-longitude"];
 
-                $country->name = $country_name;
-                $country->latitude = $country_latitude;
-                $country->longitude = $country_longitude;
+                $raw_json = file_get_contents('php://input');
+                $json = json_decode($raw_json, TRUE);
+
+                $country->name = $json['name'];
+                $country->latitude = $json['latitude'];
+                $country->longitude = $json['longitude'];
                 $country->save();
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully updated country", $country));
@@ -98,14 +98,14 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 return;
             }
 
-            $country_name = $_POST["country-name"];
-            $country_latitude = $_POST["country-latitude"];
-            $country_longitude = $_POST["country-longitude"];
+            $raw_json = file_get_contents('php://input');
+            $json = json_decode($raw_json, TRUE);
 
             $country = new SuperEightFestivalsCountry();
-            $country->name = $country_name;
-            $country->latitude = $country_latitude;
-            $country->longitude = $country_longitude;
+            $country->name = $json['name'];
+            $country->latitude = $json['latitude'];
+            $country->longitude = $json['longitude'];
+            $country->save();
 
             $this->_helper->json($this->getJsonResponse("success", "Successfully created country", $country));
         } catch (Throwable $e) {
@@ -156,15 +156,14 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city));
             } else if ($request->isPost()) {
-                $city_name = $_POST["city-name"];
-                $city_latitude = $_POST["city-latitude"];
-                $city_longitude = $_POST["city-longitude"];
-                $city_description = $_POST["city-description"];
 
-                $city->name = $city_name;
-                $city->latitude = $city_latitude;
-                $city->longitude = $city_longitude;
-                $city->description = $city_description;
+                $raw_json = file_get_contents('php://input');
+                $json = json_decode($raw_json, TRUE);
+
+                $city->name = $json['name'];
+                $city->latitude = $json['latitude'];
+                $city->longitude = $json['longitude'];
+                $city->description = $json['description'];
                 $city->save();
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
@@ -200,17 +199,15 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 return;
             }
 
-            $city_name = $_POST["city-name"];
-            $city_latitude = $_POST["city-latitude"];
-            $city_longitude = $_POST["city-longitude"];
-            $city_description = $_POST["city-description"];
+            $raw_json = file_get_contents('php://input');
+            $json = json_decode($raw_json, TRUE);
 
             $city = new SuperEightFestivalsCity();
             $city->country_id = $country->id;
-            $city->name = $city_name;
-            $city->latitude = $city_latitude;
-            $city->longitude = $city_longitude;
-            $city->description = $city_description;
+            $city->name = $json['name'];
+            $city->latitude = $json['latitude'];
+            $city->longitude = $json['longitude'];
+            $city->description = $json['description'];
             $city->save();
 
             $this->_helper->json($this->getJsonResponse("success", "Successfully created city", $city));

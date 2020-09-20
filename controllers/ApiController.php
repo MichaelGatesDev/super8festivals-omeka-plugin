@@ -4,15 +4,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 {
     // ======================================================================================================================== \\
 
-    /**
-     * Initialize this controller.
-     */
-    public function init()
-    {
-        // Actions should use the jsonApi action helper to render JSON data.
-        $this->_helper->viewRenderer->setNoRender();
-    }
-
     public function indexAction()
     {
     }

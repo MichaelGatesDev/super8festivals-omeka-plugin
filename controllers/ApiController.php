@@ -42,7 +42,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function allCountriesAction()
     {
         try {
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all countries", get_all_countries()));
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all countries", SuperEightFestivalsCountry::get_all()));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
@@ -54,7 +54,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $request = $this->getRequest();
 
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
@@ -120,14 +120,26 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         try {
             $request = $this->getRequest();
 
+            $cities = SuperEightFestivalsCity::get_all();
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", $cities));
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCitiesAction()
+    {
+        try {
+            $request = $this->getRequest();
+
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
             }
 
-            $cities = get_all_cities_in_country($country->id);
+            $cities = SuperEightFestivalsCity::get_by_param('country_id', $country->id);
             $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities for country", $cities));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
@@ -140,14 +152,14 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $request = $this->getRequest();
 
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
             }
 
             $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? get_city_by_id($city_param) : get_city_by_name($country->id, $city_param);
+            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
             if (!$city || $city->country_id != $country->id) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
                 return;
@@ -188,7 +200,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $request = $this->getRequest();
 
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
@@ -224,20 +236,20 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $request = $this->getRequest();
 
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
             }
 
             $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? get_city_by_id($city_param) : get_city_by_name($country->id, $city_param);
+            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
             if (!$city) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
                 return;
             }
 
-            $festivals = get_all_festivals_in_city($city->id);
+            $festivals = SuperEightFestivalsFestival::get_by_param('city_id', $city->id);
             $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all festivals for city", $festivals));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
@@ -250,21 +262,21 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $request = $this->getRequest();
 
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
             }
 
             $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? get_city_by_id($city_param) : get_city_by_name($country->id, $city_param);
+            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
             if (!$city) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
                 return;
             }
 
             $festival_param = $request->getParam('festival');
-            $festival = get_festival_by_id($festival_param);
+            $festival = SuperEightFestivalsFestival::get_by_id($festival_param);
             if (!$festival) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a festival with that ID: " . $festival_param));
                 return;
@@ -304,14 +316,14 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $request = $this->getRequest();
 
             $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? get_country_by_id($country_param) : get_country_by_name($country_param);
+            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
             if (!$country) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
                 return;
             }
 
             $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? get_city_by_id($city_param) : get_city_by_name($country->id, $city_param);
+            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
             if (!$city) {
                 $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
                 return;

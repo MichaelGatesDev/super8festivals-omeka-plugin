@@ -14,11 +14,11 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
         $this->view->city = $city;
 
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name));
@@ -30,11 +30,11 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
         $this->view->city = $city;
 
         // Create new banner
@@ -51,14 +51,14 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
         $this->view->city = $city;
 
-        $banner = get_city_banner($city->id);
+        $banner = $city->get_banner();
         $this->view->banner = $banner;
 
         $form = $this->_getForm($banner);
@@ -72,14 +72,14 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
         $this->view->city = $city;
 
-        $banner = get_city_banner($city->id);
+        $banner = $city->get_banner();
         $this->view->banner = $banner;
 
         $form = $this->_getDeleteForm();
@@ -136,7 +136,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
                     } //edit
                     else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_city_banner($banner->id);
+                        $originalRecord = SuperEightFestivalsCityBanner::get_by_id($banner->id);
                         // set the data of the record according to what was submitted in the form
                         $banner->setPostData($_POST);
                         // if there is no pending upload, use the old files

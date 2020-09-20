@@ -15,11 +15,11 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
         $this->view->city = $city;
 
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name));
@@ -31,15 +31,15 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
         $this->view->city = $city;
 
         $festivalID = $request->getParam('festivalID');
-        $festival = get_festival_by_id($festivalID);
+        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
         $this->view->festival = $festival;
 
         return;
@@ -50,11 +50,11 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
         $this->view->city = $city;
 
         // Create new city
@@ -70,15 +70,15 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
         $this->view->city = $city;
 
         $festivalID = $request->getParam('festivalID');
-        $festival = get_festival_by_id($festivalID);
+        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
         $this->view->festival = $festival;
 
         $form = $this->_getForm($festival);
@@ -91,15 +91,15 @@ class SuperEightFestivals_FestivalsController extends Omeka_Controller_AbstractA
         $request = $this->getRequest();
 
         $countryName = $request->getParam('countryName');
-        $country = get_country_by_name($countryName);
+        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
         $this->view->country = $country;
 
         $cityName = $request->getParam('cityName');
-        $city = get_city_by_name($country->id, $cityName);
+        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
         $this->view->city = $city;
 
         $festivalID = $request->getParam('festivalID');
-        $festival = get_festival_by_id($festivalID);
+        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
         $this->view->festival = $festival;
 
         $form = $this->_getDeleteForm();

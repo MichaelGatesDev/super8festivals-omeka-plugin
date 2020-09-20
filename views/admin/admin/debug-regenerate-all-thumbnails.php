@@ -10,7 +10,4 @@ echo head(array(
 
 <h2>Regenerated all thumbnails</h2>
 
-<style>
-</style>
-
 <?php echo foot(); ?>

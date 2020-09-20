@@ -23,7 +23,7 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         );
     }
 
-    public function get_db_pk()
+    public function get_table_pk()
     {
         return "id";
     }
@@ -32,6 +32,9 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
     {
         parent::_validate();
         $this->__validate();
+        if (SuperEightFestivalsCountry::get_by_param('name', $this->name)) {
+            throw new Error("A country with that name already exists!");
+        }
     }
 
     protected function beforeSave($args)
@@ -71,7 +74,7 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_country_records($this->id);
+        $this->delete_children();
         $this->delete_files();
         logger_log(LogLevel::Info, "Deleted country: {$this->name} ({$this->id})");
     }
@@ -81,7 +84,19 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         return 'SuperEightFestivals_Country';
     }
 
+    function delete_children()
+    {
+        foreach ($this->get_cities() as $city) {
+            $city->delete();
+        }
+    }
+
     // ======================================================================================================================== \\
+
+    function get_cities()
+    {
+        return SuperEightFestivalsCity::get_by_param('country_id', $this->id, 1);
+    }
 
     function get_dir()
     {

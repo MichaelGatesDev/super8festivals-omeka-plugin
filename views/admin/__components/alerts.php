@@ -1,1 +1,0 @@
-<s8f-alerts-area id="alerts"></s8f-alerts-area>

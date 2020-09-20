@@ -27,7 +27,7 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         );
     }
 
-    public function get_db_pk()
+    public function get_table_pk()
     {
         return "id";
     }
@@ -36,6 +36,9 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         parent::_validate();
         $this->__validate();
+        if (SuperEightFestivalsCity::get_by_params(array('country_id' => $this->country_id, 'name' => $this->name))) {
+            throw new Error("Country already contains a city with that name!");
+        }
     }
 
     protected function beforeSave($args)
@@ -64,7 +67,10 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
             $insert = $args['insert'];
             if ($insert) {
                 logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
-                add_festival($this->id, 0);
+
+                $festival = new SuperEightFestivalsFestival();
+                $festival->city_id = $this->id;
+                $festival->save();
             } else {
                 logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
             }
@@ -76,7 +82,7 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_city_records($this->id);
+        $this->delete_children();
         $this->delete_files();
         logger_log(LogLevel::Info, "Deleted city: {$this->name} ({$this->id})");
     }
@@ -86,11 +92,40 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return 'SuperEightFestivals_City';
     }
 
+    function delete_children()
+    {
+        // banner
+        $banner = SuperEightFestivalsCityBanner::get_by_params(array('city_id' => $this->id));
+        if ($banner != null) $banner->delete();
+
+        // festivals
+        $festivals = SuperEightFestivalsFestival::get_by_params(array('city_id' => $this->id));
+        foreach ($festivals as $festival) {
+            $festival->delete();
+        }
+
+        // filmmakers
+        $filmmakers = SuperEightFestivalsFilmmaker::get_by_params(array('city_id' => $this->id));
+        foreach ($filmmakers as $filmmaker) {
+            $filmmaker->delete();
+        }
+    }
+
     // ======================================================================================================================== \\
 
-    public function get_country(): ?SuperEightFestivalsCountry
+    public function get_country()
     {
-        return $this->getTable('SuperEightFestivalsCountry')->find($this->country_id);
+        return SuperEightFestivalsCountry::get_by_id($this->country_id);
+    }
+
+    public function get_banner()
+    {
+        return SuperEightFestivalsCityBanner::get_by_param('city_id', $this->id, 1)[0];
+    }
+
+    public function get_filmmakers()
+    {
+        return SuperEightFestivalsFilmmaker::get_by_param('city_id', $this->id);
     }
 
     public function get_dir(): ?string

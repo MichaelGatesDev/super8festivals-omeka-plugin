@@ -33,7 +33,7 @@ class SuperEightFestivals_FederationBylawsController extends Omeka_Controller_Ab
         $request = $this->getRequest();
 
         $bylawID = $request->getParam('bylawID');
-        $federation_bylaw = get_federation_bylaw_by_id($bylawID);
+        $federation_bylaw = SuperEightFestivalsFederationBylaw::get_by_id($bylawID);
         $this->view->federation_bylaw = $federation_bylaw;
 
         $form = $this->_getForm($federation_bylaw);
@@ -46,7 +46,7 @@ class SuperEightFestivals_FederationBylawsController extends Omeka_Controller_Ab
         $request = $this->getRequest();
 
         $bylawID = $request->getParam('bylawID');
-        $federation_bylaw = get_federation_bylaw_by_id($bylawID);
+        $federation_bylaw = SuperEightFestivalsFederationBylaw::get_by_id($bylawID);
         $this->view->federation_bylaw = $federation_bylaw;
 
         $form = $this->_getDeleteForm();
@@ -136,7 +136,7 @@ class SuperEightFestivals_FederationBylawsController extends Omeka_Controller_Ab
                     } // edit
                     else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_federation_bylaw_by_id($federation_bylaw->id);
+                        $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($federation_bylaw->id);
                         // set the data of the record according to what was submitted in the form
                         $federation_bylaw->setPostData($_POST);
                         // if there is no pending upload, use the old files

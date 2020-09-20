@@ -6,12 +6,12 @@ echo head(array(
 $city_url = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
 $root_url = $city_url . "/festivals/" . $festival->id;
 
-$film_catalogs = get_all_film_catalogs_for_festival($festival->id);
-$films = get_all_films_for_festival($festival->id);
-$memorabilia = get_all_memorabilia_for_festival($festival->id);
-$print_medias = get_all_print_media_for_festival($festival->id);
-$photos = get_all_photos_for_festival($festival->id);
-$posters = get_all_posters_for_festival($festival->id);
+$film_catalogs = SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $festival->id);
+$films = SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $festival->id);
+$memorabilia = SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $festival->id);
+$print_medias = SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $festival->id);
+$photos = SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $festival->id);
+$posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festival->id);
 ?>
 
 

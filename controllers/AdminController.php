@@ -16,15 +16,17 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
 
     public function debugPurgeUnusedAction()
     {
-        foreach (get_all_festivals() as $record) if ($record->get_city() === null) $record->delete();
-        foreach (get_all_cities() as $record) if ($record->get_country() === null) $record->delete();
-        foreach (get_all_city_banners() as $record) if ($record->get_city() === null) $record->delete();
-        foreach (get_all_film_catalogs() as $record) if ($record->get_festival() === null) $record->delete();
-        foreach (get_all_filmmakers() as $record) if ($record->get_city() === null) $record->delete();
-        foreach (get_all_memorabilia() as $record) if ($record->get_festival() === null) $record->delete();
-        foreach (get_all_photos() as $record) if ($record->get_festival() === null) $record->delete();
-        foreach (get_all_posters() as $record) if ($record->get_festival() === null) $record->delete();
-        foreach (get_all_print_media() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (SuperEightFestivalsCity::get_all() as $record) if ($record->get_country() === null) $record->delete();
+
+        foreach (SuperEightFestivalsFestival::get_all() as $record) if ($record->get_city() === null) $record->delete();
+        foreach (SuperEightFestivalsCityBanner::get_all() as $record) if ($record->get_city() === null) $record->delete();
+        foreach (SuperEightFestivalsFilmmaker::get_all() as $record) if ($record->get_city() === null) $record->delete();
+
+        foreach (SuperEightFestivalsFestivalFilmCatalog::get_all() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (SuperEightFestivalsFestivalMemorabilia::get_all() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (SuperEightFestivalsFestivalPhoto::get_all() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (SuperEightFestivalsFestivalPoster::get_all() as $record) if ($record->get_festival() === null) $record->delete();
+        foreach (SuperEightFestivalsFestivalPrintMedia::get_all() as $record) if ($record->get_festival() === null) $record->delete();
     }
 
     public function debugCreateTablesAction()
@@ -64,7 +66,7 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
 
     public function debugFixFestivalsAction()
     {
-        foreach (get_all_festivals() as $festival) {
+        foreach (SuperEightFestivalsFestival::get_all() as $festival) {
             if ($festival->id === -1) $festival->id = 0;
             if ($festival->year === -1) $festival->year = 0;
             $festival->save();

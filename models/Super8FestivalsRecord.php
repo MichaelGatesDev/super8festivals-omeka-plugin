@@ -9,7 +9,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
             TablePrefix,
             Inflector::tableize(str_replace("SuperEightFestivals", "", $this->get_clazz())),
             $this->get_db_columns(),
-            $this->get_db_pk()
+            $this->get_table_pk()
         );
     }
 
@@ -34,5 +34,26 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     public abstract function get_db_columns();
 
-    public abstract function get_db_pk();
+    public abstract function get_table_pk();
+
+    public static function get_all()
+    {
+        return get_db()->getTable(get_called_class())->findAll();
+    }
+
+    public static function get_by_id($search_id)
+    {
+        return get_db()->getTable(get_called_class())->find($search_id);
+    }
+
+    public static function get_by_param($param_name, $param_value, $limit = null)
+    {
+        return get_db()->getTable(get_called_class())->findBy(array($param_name => $param_value), $limit);
+    }
+
+    public static function get_by_params($params_arr, $limit = null)
+    {
+        return get_db()->getTable(get_called_class())->findBy($params_arr, $limit);
+    }
+
 }

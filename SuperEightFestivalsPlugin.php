@@ -51,7 +51,15 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             while (!feof($fn)) {
                 $result = fgets($fn);
                 list($countryName, $lat, $long) = explode(",", trim($result));
-                add_country($countryName, $lat, $long);
+                try {
+                    $country = new SuperEightFestivalsCountry();
+                    $country->name = $countryName;
+                    $country->latitude = $lat;
+                    $country->longitude = $long;
+                    $country->save();
+                } catch (Throwable $e) {
+                    logger_log(LogLevel::Error, "Failed to add country. " . $e->getMessage());
+                }
             }
             fclose($fn);
         }
@@ -62,7 +70,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             while (!feof($fn)) {
                 $result = fgets($fn);
                 list($countryName, $cityName, $lat, $long) = explode(",", trim($result));
-                add_city(get_country_by_name($countryName)->id, $cityName, $lat, $long);
+                try {
+                    $city = new SuperEightFestivalsCity();
+                    $city->country_id = SuperEightFestivalsCountry::get_by_param('name', $countryName);
+                    $city->name = $cityName;
+                    $city->latitude = $lat;
+                    $city->longitude = $long;
+                    $city->save();
+                } catch (Throwable $e) {
+                    logger_log(LogLevel::Error, "Failed to add city. " . $e->getMessage());
+                }
             }
             fclose($fn);
         }
@@ -299,8 +316,10 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "api_countries_all", "/rest-api/countries/", "all-countries");
         $this->add_api_route($router, "api_countries_single", "/rest-api/countries/:country/", "single-country");
         $this->add_api_route($router, "api_countries_add", "/rest-api/countries/add/", "add-country");
+        // cities
+        $this->add_api_route($router, "api_cities_all", "/rest-api/cities/", "all-cities");
         // countries->cities
-        $this->add_api_route($router, "api_countries_cities_all", "/rest-api/countries/:country/cities/", "all-cities");
+        $this->add_api_route($router, "api_countries_cities_all", "/rest-api/countries/:country/cities/", "country-cities");
         $this->add_api_route($router, "api_countries_cities_single", "/rest-api/countries/:country/cities/:city", "single-city");
         $this->add_api_route($router, "api_countries_cities_add", "/rest-api/countries/:country/cities/add", "add-city");
         // countries->cities->festivals

@@ -22,7 +22,7 @@ echo head(array(
     <!-- S8F Alerts -->
     <div class="row">
         <div class="col">
-            <?= $this->partial("__components/alerts.php"); ?>
+            <s8f-alerts-area id="alerts"></s8f-alerts-area>
         </div>
     </div>
 

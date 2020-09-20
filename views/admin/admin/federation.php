@@ -3,10 +3,10 @@ echo head(array(
     'title' => 'Federation',
 ));
 
-$newsletters = get_all_federation_newsletters();
-$photos = get_all_federation_photos();
-$magazines = get_all_federation_magazines();
-$by_laws = get_all_federation_bylaws();
+$newsletters = SuperEightFestivalsFederationNewsletter::get_all();
+$photos = SuperEightFestivalsFederationPhoto::get_all();
+$magazines = SuperEightFestivalsFederationPhoto::get_all();
+$by_laws = SuperEightFestivalsFederationBylaw::get_all();
 
 $root_url = "/admin/super-eight-festivals/federation";
 ?>

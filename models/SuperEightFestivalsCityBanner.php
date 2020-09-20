@@ -25,7 +25,7 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         );
     }
 
-    public function get_db_pk()
+    public function get_table_pk()
     {
         return "id";
     }
@@ -74,14 +74,14 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         return "city_banner";
     }
 
-    public function get_country(): ?SuperEightFestivalsCountry
+    public function get_country()
     {
         return $this->get_city()->get_country();
     }
 
-    public function get_city(): ?SuperEightFestivalsCity
+    public function get_city()
     {
-        return $this->getTable('SuperEightFestivalsCity')->find($this->city_id);
+        return SuperEightFestivalsCity::get_by_id($this->city_id);
     }
 
     public function get_dir(): ?string

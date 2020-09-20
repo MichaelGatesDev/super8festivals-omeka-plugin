@@ -4,6 +4,5 @@ class SuperEightFestivals_IndexController extends Omeka_Controller_AbstractActio
 {
     public function indexAction()
     {
-        return;
     }
 }

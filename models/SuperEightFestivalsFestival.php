@@ -28,7 +28,7 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         );
     }
 
-    public function get_db_pk()
+    public function get_table_pk()
     {
         return "id";
     }
@@ -67,11 +67,9 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         if (isset($args['insert'])) {
             $insert = $args['insert'];
             if ($insert) {
-                if ($insert) {
-                    logger_log(LogLevel::Info, "Added festival: {$this->get_title()} ({$this->id})");
-                } else {
-                    logger_log(LogLevel::Info, "Updated festival: {$this->get_title()} ({$this->id})");
-                }
+                logger_log(LogLevel::Info, "Added festival: {$this->get_title()} ({$this->id})");
+            } else {
+                logger_log(LogLevel::Info, "Updated festival: {$this->get_title()} ({$this->id})");
             }
         }
 
@@ -81,7 +79,7 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     protected function afterDelete()
     {
         parent::afterDelete();
-        delete_festival_records($this->id);
+        $this->delete_children();
         $this->delete_files();
         logger_log(LogLevel::Info, "Deleted festival: {$this->get_title()} ({$this->id})");
     }
@@ -91,16 +89,56 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return 'SuperEightFestivals_Festival';
     }
 
+    public function delete_children()
+    {
+        foreach (SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id) as $record) $record->delete();
+        foreach (SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id) as $record) $record->delete();
+        foreach (SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $this->id) as $record) $record->delete();
+        foreach (SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $this->id) as $record) $record->delete();
+        foreach (SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $this->id) as $record) $record->delete();
+        foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->delete();
+    }
+
     // ======================================================================================================================== \\
 
     public function get_city()
     {
-        return get_city_by_id($this->city_id);
+        return SuperEightFestivalsCity::get_by_id($this->city_id);
     }
 
     public function get_country()
     {
         return $this->get_city()->get_country() ?? null;
+    }
+
+    public function get_posters()
+    {
+        return SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $this->id);
+    }
+
+    public function get_photos()
+    {
+        return SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $this->id);
+    }
+
+    public function get_print_media()
+    {
+        return SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id);
+    }
+
+    public function get_memorabilia()
+    {
+        return SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $this->id);
+    }
+
+    public function get_films()
+    {
+        return SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id);
+    }
+
+    public function get_film_catalogs()
+    {
+        return SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id);
     }
 
     public function get_title()

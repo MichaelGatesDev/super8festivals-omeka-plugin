@@ -33,7 +33,7 @@ class SuperEightFestivals_FederationNewslettersController extends Omeka_Controll
         $request = $this->getRequest();
 
         $newsletterID = $request->getParam('newsletterID');
-        $federation_newsletter = get_federation_newsletter_by_id($newsletterID);
+        $federation_newsletter = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
         $this->view->federation_newsletter = $federation_newsletter;
 
         $form = $this->_getForm($federation_newsletter);
@@ -46,7 +46,7 @@ class SuperEightFestivals_FederationNewslettersController extends Omeka_Controll
         $request = $this->getRequest();
 
         $newsletterID = $request->getParam('newsletterID');
-        $federation_newsletter = get_federation_newsletter_by_id($newsletterID);
+        $federation_newsletter = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
         $this->view->federation_newsletter = $federation_newsletter;
 
         $form = $this->_getDeleteForm();
@@ -136,7 +136,7 @@ class SuperEightFestivals_FederationNewslettersController extends Omeka_Controll
                     } // edit
                     else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_federation_newsletter_by_id($federation_newsletter->id);
+                        $originalRecord = SuperEightFestivalsFederationNewsletter::get_by_id($federation_newsletter->id);
                         // set the data of the record according to what was submitted in the form
                         $federation_newsletter->setPostData($_POST);
                         // if there is no pending upload, use the old files

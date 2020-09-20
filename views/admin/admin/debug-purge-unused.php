@@ -10,7 +10,4 @@ echo head(array(
 
 <h2>Purged unused data!</h2>
 
-<style>
-</style>
-
 <?php echo foot(); ?>

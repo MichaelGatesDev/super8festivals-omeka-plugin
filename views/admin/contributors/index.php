@@ -27,7 +27,7 @@ $rootURL = "/admin/super-eight-festivals/contributors";
     <div class="row">
         <div class="col">
             <?php
-            $contributors = get_all_contributors();
+            $contributors = SuperEightFestivalsContributor::get_all();
             usort($contributors, function ($a, $b) {
                 return strtolower($a['first_name']) > strtolower($b['first_name']);
             });

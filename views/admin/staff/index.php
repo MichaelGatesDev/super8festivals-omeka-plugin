@@ -27,7 +27,7 @@ $rootURL = "/admin/super-eight-festivals/staff";
     <div class="row">
         <div class="col">
             <?php
-            $staff = get_all_staffs();
+            $staff = SuperEightFestivalsStaff::get_all();
             ?>
             <?php if (count($staff) == 0): ?>
                 <p>There are no staff available.</p>

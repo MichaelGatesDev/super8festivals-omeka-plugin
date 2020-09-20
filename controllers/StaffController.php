@@ -11,7 +11,6 @@ class SuperEightFestivals_StaffController extends Omeka_Controller_AbstractActio
 
     public function indexAction()
     {
-        return;
     }
 
     public function addAction()
@@ -28,7 +27,7 @@ class SuperEightFestivals_StaffController extends Omeka_Controller_AbstractActio
         $request = $this->getRequest();
 
         $staffID = $request->getParam('staffID');
-        $staff = get_staff_by_id($staffID);
+        $staff = SuperEightFestivalsStaff::get_by_id($staffID);
         $form = $this->_getForm($staff);
         $this->view->form = $form;
         $this->_processForm($staff, $form, 'edit');
@@ -39,7 +38,7 @@ class SuperEightFestivals_StaffController extends Omeka_Controller_AbstractActio
         $request = $this->getRequest();
 
         $staffID = $request->getParam('staffID');
-        $staff = get_staff_by_id($staffID);
+        $staff = SuperEightFestivalsStaff::get_by_id($staffID);
         $this->view->staff = $staff;
 
         $form = $this->_getDeleteForm();

@@ -19,12 +19,12 @@ trait S8FFilmmaker
 
     // ======================================================================================================================== \\
 
-    public function get_city(): ?SuperEightFestivalsCity
+    public function get_city()
     {
-        return get_city_by_id($this->city_id);
+        return SuperEightFestivalsCity::get_by_id($this->city_id);
     }
 
-    public function get_country(): ?SuperEightFestivalsCountry
+    public function get_country()
     {
         return $this->get_city()->get_country();
     }

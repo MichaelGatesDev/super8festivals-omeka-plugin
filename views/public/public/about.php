@@ -16,7 +16,7 @@ echo head($head);
     <div class="row">
         <div class="col">
             <h3>Our Team</h3>
-            <?php if (count($records = get_all_staffs()) > 0): ?>
+            <?php if (count($records = SuperEightFestivalsStaff::get_all()) > 0): ?>
                 <div class="row">
                     <div class="col">
                         <div class="row row-cols">

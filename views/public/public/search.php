@@ -31,17 +31,17 @@ $query = trim($query); // trim blank
         <p>Search query: <?= $query ?></p>
 
         <?php
-        $countries = get_all_countries();
-        $cities = get_all_cities();
-        $contributors = get_all_contributors();
-        $festivals = get_all_festivals();
-        $festival_films = get_all_films();
-        $festival_film_catalogs = get_all_film_catalogs();
-        $filmmakers = get_all_filmmakers();
-        $festival_memorabilia = get_all_memorabilia();
-        $festival_photos = get_all_photos();
-        $festival_posters = get_all_posters();
-        $festival_print_media = get_all_print_media();
+        $countries = SuperEightFestivalsCountry::get_all();
+        $cities = SuperEightFestivalsCity::get_all();
+        $contributors = SuperEightFestivalsContributor::get_all();
+        $festivals = SuperEightFestivalsFestival::get_all();
+        $festival_films = SuperEightFestivalsFestivalFilm::get_all();
+        $festival_film_catalogs = SuperEightFestivalsFestivalFilmCatalog::get_all();
+        $filmmakers = SuperEightFestivalsFilmmaker::get_all();
+        $festival_memorabilia = SuperEightFestivalsFestivalMemorabilia::get_all();
+        $festival_photos = SuperEightFestivalsFestivalPhoto::get_all();
+        $festival_posters = SuperEightFestivalsFestivalPoster::get_all();
+        $festival_print_media = SuperEightFestivalsFestivalPrintMedia::get_all();
 
         $split_query = explode(" ", strtolower($query));
         $matching_countries = array();

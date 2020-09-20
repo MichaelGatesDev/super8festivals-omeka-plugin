@@ -111,9 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="input-group mb-3">
                                 <select class="form-select title" id="materialType" name="materialType" required="required">
                                     <option value="" selected>Select...</option>
-                                    <?php foreach (get_all_contribution_types() as $contribution_type): ?>
-                                        <option value="<?= $contribution_type["value"]; ?>" class="text-capitalize"><?= $contribution_type["name"]; ?></option>
-                                    <?php endforeach; ?>
+                                    <option value="" class="text-capitalize">Placeholder</option>
                                 </select>
                             </div>
                         </div>

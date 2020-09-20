@@ -33,7 +33,7 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
         $request = $this->getRequest();
 
         $photoID = $request->getParam('photoID');
-        $federation_photo = get_federation_photo_by_id($photoID);
+        $federation_photo = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
         $this->view->federation_photo = $federation_photo;
 
         $form = $this->_getForm($federation_photo);
@@ -46,7 +46,7 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
         $request = $this->getRequest();
 
         $photoID = $request->getParam('photoID');
-        $federation_photo = get_federation_photo_by_id($photoID);
+        $federation_photo = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
         $this->view->federation_photo = $federation_photo;
 
         $form = $this->_getDeleteForm();
@@ -134,7 +134,7 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
                         }
                     } else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_federation_photo_by_id($federation_photo->id);
+                        $originalRecord = SuperEightFestivalsFederationPhoto::get_by_id($federation_photo->id);
                         // set the data of the record according to what was submitted in the form
                         $federation_photo->setPostData($_POST);
                         // if there is no pending upload, use the old files

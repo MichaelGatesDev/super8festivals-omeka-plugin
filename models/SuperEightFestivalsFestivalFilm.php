@@ -27,7 +27,7 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
         );
     }
 
-    public function get_db_pk()
+    public function get_table_pk()
     {
         return "id";
     }
@@ -61,7 +61,6 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     protected function afterDelete()
     {
         parent::afterDelete();
-        $this->delete_files();
         logger_log(LogLevel::Info, "Deleted festival film for festival {$this->id}");
     }
 
@@ -79,7 +78,7 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
 
     function get_filmmaker()
     {
-        return get_filmmaker_by_id($this->filmmaker_id);
+        return SuperEightFestivalsFilmmaker::get_by_id($this->filmmaker_id);
     }
 
     public function get_dir(): ?string

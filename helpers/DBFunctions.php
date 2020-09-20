@@ -72,11 +72,15 @@ function create_all_missing_columns()
     foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
         $class = basename($file, '.php');
         if (class_exists($class)) {
-            $reflect = new ReflectionClass($class);
-            if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
-                $instance = new $class;
-                $instance->create_missing_columns();
-                logger_log(LogLevel::Debug, "Created missing columns for table: " . $class);
+            try {
+                $reflect = new ReflectionClass($class);
+                if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
+                    $instance = new $class;
+                    $instance->create_missing_columns();
+                    logger_log(LogLevel::Debug, "Created missing columns for table: " . $class);
+                }
+            } catch (ReflectionException $e) {
+                logger_log(LogLevel::Error, $e->getMessage());
             }
         }
     }

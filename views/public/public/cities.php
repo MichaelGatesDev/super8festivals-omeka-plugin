@@ -5,8 +5,7 @@ $head = array(
 queue_css_url("//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css");
 echo head($head);
 
-$cities = get_all_cities();
-
+$cities = SuperEightFestivalsCity::get_all();
 
 $sort_modes = array("city", "country");
 $sort_mode = isset($_GET['sort']) ? $_GET['sort'] : null;
@@ -60,7 +59,7 @@ if ($sort_mode == "country") {
         <div class="col">
             <?php foreach ($cities as $city): ?>
                 <?php
-                $banner = get_city_banner($city->id);
+                $banner = $city->get_banner();
                 $country = $city->get_country();
                 $country_code = get_country_code($country->name);
                 ?>

@@ -4,7 +4,7 @@ echo head(array(
 ));
 
 $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
-$banner = get_city_by_id($city->id);
+$banner = SuperEightFestivalsCity::get_by_id($city->id);
 ?>
 
 <section class="container">
@@ -43,7 +43,7 @@ $banner = get_city_by_id($city->id);
     <div class="row my-5">
         <div class="col">
             <h3>City Banner</h3>
-            <?php $city_banner = get_city_banner($city->id); ?>
+            <?php $city_banner = $city->get_banner(); ?>
             <?php if ($city_banner == null): ?>
                 <p>There is no banner available for this city.</p>
                 <a class="btn btn-success" href="<?= $rootURL; ?>/banners/add">Add City Banner</a>
@@ -67,7 +67,7 @@ $banner = get_city_by_id($city->id);
                 <a class="btn btn-success btn-sm" href="<?= $rootURL; ?>/festivals/add">Add Festival</a>
             </h3>
             <?php
-            $festivals = get_all_festivals_in_city($city->id);
+            $festivals = SuperEightFestivalsFestival::get_by_param('city_id', $city->id);
             usort($festivals, function ($value, $compareTo) {
                 return $value['year'] >= $compareTo['year'];
             });
@@ -109,7 +109,7 @@ $banner = get_city_by_id($city->id);
                 Filmmakers
                 <a class="btn btn-success btn-sm" href="<?= $rootURL; ?>/filmmakers/add">Add Filmmaker</a>
             </h3>
-            <?php $filmmakers = get_all_filmmakers_for_city($city->id); ?>
+            <?php $filmmakers = SuperEightFestivalsFilmmaker::get_by_param('city_id', $city->id); ?>
             <?php if (count($filmmakers) == 0): ?>
                 <p>There are no filmmakers available for this city.</p>
             <?php else: ?>

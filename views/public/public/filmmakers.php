@@ -3,8 +3,6 @@ $head = array(
     'title' => "Filmmakers",
 );
 echo head($head);
-
-
 ?>
 
 <style>
@@ -20,7 +18,7 @@ echo head($head);
 
     <div class="row mb-5">
         <div class="col">
-            <?php if (count($records = get_all_filmmakers()) > 0): ?>
+            <?php if (count($records = SuperEightFestivalsFilmmaker::get_all()) > 0): ?>
                 <?php foreach ($records as $filmmaker): ?>
                     <?php
                     $information = array();

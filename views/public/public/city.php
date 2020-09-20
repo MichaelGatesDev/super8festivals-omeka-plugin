@@ -8,16 +8,28 @@ queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.f
 
 echo head($head);
 
-$banner = get_city_banner($city->id);
-$festivals = get_all_festivals_in_city($city->id);
+$banner = $city->get_banner();
+$festivals = SuperEightFestivalsFestival::get_by_param('city_id', $city->id);
 
-$posters = get_all_posters_for_city($city->id);
-$photos = get_all_photos_for_city($city->id);
-$print_medias = get_all_print_media_for_city($city->id);
-$memorabilia = get_all_memorabilia_for_city($city->id);
-$films = get_all_films_for_city($city->id);
-$filmmakers = get_all_filmmakers_for_city($city->id);
-$film_catalogs = get_all_film_catalogs_for_city($city->id);
+$posters = array();
+foreach ($festivals as $festival) $posters = array_merge($posters, $festival->get_posters());
+
+$photos = array();
+foreach ($festivals as $festival) $photos = array_merge($photos, $festival->get_photos());
+
+$print_medias = array();
+foreach ($festivals as $festival) $print_medias = array_merge($print_medias, $festival->get_print_media());
+
+$memorabilia = array();
+foreach ($festivals as $festival) $memorabilia = array_merge($memorabilia, $festival->get_memorabilia());
+
+$films = array();
+foreach ($festivals as $festival) $films = array_merge($films, $festival->get_films());
+
+$filmmakers = $city->get_filmmakers();
+
+$film_catalogs = array();
+foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $festival->get_film_catalogs());
 ?>
 
 <style>

@@ -167,44 +167,44 @@ function get_staff_dir()
 
 function generate_missing_thumbnails()
 {
-    generate_missing_thumbnails_for_all(get_all_city_banners());
-    generate_missing_thumbnails_for_all(get_all_federation_newsletters());
-    generate_missing_thumbnails_for_all(get_all_federation_photos());
-    generate_missing_thumbnails_for_all(get_all_federation_magazines());
-    generate_missing_thumbnails_for_all(get_all_federation_bylaws());
-    generate_missing_thumbnails_for_all(get_all_film_catalogs());
-    generate_missing_thumbnails_for_all(get_all_memorabilia());
-    generate_missing_thumbnails_for_all(get_all_photos());
-    generate_missing_thumbnails_for_all(get_all_posters());
-    generate_missing_thumbnails_for_all(get_all_print_media());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsCityBanner::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFederationNewsletter::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFederationPhoto::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFederationPhoto::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFederationBylaw::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFestivalFilmCatalog::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFestivalMemorabilia::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFestivalPhoto::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFestivalPoster::get_all());
+    generate_missing_thumbnails_for_all(SuperEightFestivalsFestivalPrintMedia::get_all());
 }
 
 function generate_all_thumbnails()
 {
-    generate_thumbnails_for_all(get_all_city_banners());
-    generate_thumbnails_for_all(get_all_federation_newsletters());
-    generate_thumbnails_for_all(get_all_federation_photos());
-    generate_thumbnails_for_all(get_all_federation_magazines());
-    generate_thumbnails_for_all(get_all_federation_bylaws());
-    generate_thumbnails_for_all(get_all_film_catalogs());
-    generate_thumbnails_for_all(get_all_memorabilia());
-    generate_thumbnails_for_all(get_all_photos());
-    generate_thumbnails_for_all(get_all_posters());
-    generate_thumbnails_for_all(get_all_print_media());
+    generate_thumbnails_for_all(SuperEightFestivalsCityBanner::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFederationNewsletter::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFederationPhoto::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFederationPhoto::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFederationBylaw::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFestivalFilmCatalog::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFestivalMemorabilia::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFestivalPhoto::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFestivalPoster::get_all());
+    generate_thumbnails_for_all(SuperEightFestivalsFestivalPrintMedia::get_all());
 }
 
 function delete_all_thumbnails()
 {
-    delete_thumbnails_for_all(get_all_city_banners());
-    delete_thumbnails_for_all(get_all_federation_newsletters());
-    delete_thumbnails_for_all(get_all_federation_photos());
-    delete_thumbnails_for_all(get_all_federation_magazines());
-    delete_thumbnails_for_all(get_all_federation_bylaws());
-    delete_thumbnails_for_all(get_all_film_catalogs());
-    delete_thumbnails_for_all(get_all_memorabilia());
-    delete_thumbnails_for_all(get_all_photos());
-    delete_thumbnails_for_all(get_all_posters());
-    delete_thumbnails_for_all(get_all_print_media());
+    delete_thumbnails_for_all(SuperEightFestivalsCityBanner::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFederationNewsletter::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFederationPhoto::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFederationPhoto::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFederationBylaw::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFestivalFilmCatalog::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFestivalMemorabilia::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFestivalPhoto::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFestivalPoster::get_all());
+    delete_thumbnails_for_all(SuperEightFestivalsFestivalPrintMedia::get_all());
 }
 
 function regenerate_all_thumbnails()

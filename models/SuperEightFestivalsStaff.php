@@ -28,7 +28,7 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
         );
     }
 
-    public function get_db_pk()
+    public function get_table_pk()
     {
         return "id";
     }

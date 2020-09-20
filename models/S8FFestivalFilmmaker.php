@@ -20,7 +20,7 @@ trait S8FFestivalFilmmaker
 
     public function get_festival()
     {
-        return get_festival_by_id($this->festival_id);
+        return SuperEightFestivalsFestival::get_by_id($this->festival_id);
     }
 
     public function get_city()

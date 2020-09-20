@@ -19,7 +19,7 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
         $request = $this->getRequest();
 
         $contributorID = $request->getParam('contributorID');
-        $contributor = get_contributor_by_id($contributorID);
+        $contributor = SuperEightFestivalsContributor::get_by_id($contributorID);
         $this->view->contributor = $contributor;
 
         return;
@@ -39,7 +39,7 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
         $request = $this->getRequest();
 
         $contributorID = $request->getParam('contributorID');
-        $contributor = get_contributor_by_id($contributorID);
+        $contributor = SuperEightFestivalsContributor::get_by_id($contributorID);
         $form = $this->_getForm($contributor);
         $this->view->form = $form;
         $this->_processForm($contributor, $form, 'edit');
@@ -50,7 +50,7 @@ class SuperEightFestivals_ContributorsController extends Omeka_Controller_Abstra
         $request = $this->getRequest();
 
         $contributorID = $request->getParam('contributorID');
-        $contributor = get_contributor_by_id($contributorID);
+        $contributor = SuperEightFestivalsContributor::get_by_id($contributorID);
         $this->view->contributor = $contributor;
 
         $form = $this->_getDeleteForm();

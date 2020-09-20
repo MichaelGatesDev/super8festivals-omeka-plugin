@@ -10,7 +10,4 @@ echo head(array(
 
 <h2>Generated [missing] thumbnails</h2>
 
-<style>
-</style>
-
 <?php echo foot(); ?>

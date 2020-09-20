@@ -10,7 +10,4 @@ echo head(array(
 
 <h2>Purging all data...</h2>
 
-<style>
-</style>
-
 <?php echo foot(); ?>

@@ -8,10 +8,10 @@ queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.f
 
 echo head($head);
 
-$newsletters = get_all_federation_newsletters();
-$photos = get_all_federation_photos();
-$magazines = get_all_federation_magazines();
-$by_laws = get_all_federation_bylaws();
+$newsletters = SuperEightFestivalsFederationNewsletter::get_all();
+$photos = SuperEightFestivalsFederationPhoto::get_all();
+$magazines = SuperEightFestivalsFederationPhoto::get_all();
+$by_laws = SuperEightFestivalsFederationBylaw::get_all();
 ?>
 
 <style>
@@ -51,7 +51,7 @@ $by_laws = get_all_federation_bylaws();
 
         <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 mb-4 d-flex flex-column">
             <div id="carouselIndicators" class="carousel slide container" data-ride="carousel">
-                <?php if (count($records = get_all_federation_photos()) > 0): ?>
+                <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) > 0): ?>
                     <ol class="carousel-indicators">
                         <?php foreach ($records as $index => $record): ?>
                             <li data-target="#carouselIndicators" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? "active " : "" ?>"></li>
@@ -59,7 +59,7 @@ $by_laws = get_all_federation_bylaws();
                     </ol>
                 <?php endif; ?>
                 <div class="carousel-inner">
-                    <?php if (count($records = get_all_federation_photos()) == 0): ?>
+                    <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) == 0): ?>
                         <div class="carousel-item active" style="background-image: url(http://placehold.it/400x400);">
                             <img class="d-block w-100" src="http://placehold.it/400x400" alt="First slide">
                         </div>

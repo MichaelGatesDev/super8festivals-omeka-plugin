@@ -3,7 +3,7 @@ echo head(array(
     'title' => 'Filmmaker: ' . $filmmaker->get_display_name(),
 ));
 
-$photos = get_all_photos_for_filmmaker($filmmaker->id);
+$photos = SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $filmmaker->id);
 $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/filmmakers/" . $filmmaker->id;
 ?>
 

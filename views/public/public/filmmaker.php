@@ -4,8 +4,8 @@ $head = array(
 );
 echo head($head);
 
-$films = get_all_films_for_filmmaker($filmmaker->id);
-$photos = get_all_photos_for_filmmaker($filmmaker->id);
+$films = $filmmaker->get_films();
+$photos = $filmmaker->get_photos();
 ?>
 
 <section class="container my-5" id="filmmaker">

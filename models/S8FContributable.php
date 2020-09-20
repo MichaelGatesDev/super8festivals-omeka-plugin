@@ -19,7 +19,7 @@ trait S8FContributable
 
     function get_contributor()
     {
-        return get_contributor_by_id($this->contributor_id);
+        return SuperEightFestivalsContributor::get_by_id($this->contributor_id);
     }
 
     // ======================================================================================================================== \\

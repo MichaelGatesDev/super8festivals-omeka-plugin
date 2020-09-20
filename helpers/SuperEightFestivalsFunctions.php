@@ -116,53 +116,5 @@ function get_parent_contributor_options(): array
 }
 
 function get_all_users (){
-    return get_db()->getTableName("User")->findAll();
+    return get_db()->getTable("User")->findAll();
 }
-
-// get_country_by_name
-// get_all_city_banners
-// get_city_banner
-// get_all_cities
-// get_all_cities_in_country
-// get_city_by_name
-// get_city_by_name_ambiguous
-// SuperEightFestivalsCity::get_by_id
-// get_all_festivals
-// get_all_festivals_in_country
-// get_all_festivals_in_city
-// SuperEightFestivalsFestival::get_by_id
-// get_all_film_catalogs
-// get_all_film_catalogs_for_festival
-// get_all_film_catalogs_for_city
-// get_film_catalog_by_id
-// get_all_filmmakers
-// get_all_filmmakers_for_city
-// SuperEightFestivalsFilmmaker::get_by_id
-// get_all_films
-// get_all_films_for_festival
-// get_all_films_for_city
-// get_film_by_id
-// get_all_memorabilia
-// get_all_memorabilia_for_festival
-// get_all_memorabilia_for_city
-// get_memorabilia_by_id
-// get_all_print_media
-// get_all_print_media_for_festival
-// get_all_print_media_for_city
-// get_print_media_by_id
-// get_all_photos
-// get_all_photos_for_festival
-// get_all_photos_for_city
-// get_photo_by_id
-// get_all_posters
-// get_all_posters_for_festival
-// get_all_posters_for_city
-// get_poster_by_id
-// get_all_contributors
-// SuperEightFestivalsContributor::get_by_id
-// get_filmmaker_photo_by_id
-// get_all_photos_for_filmmaker
-// get_all_films_for_filmmaker
-// get_all_staffs
-// get_staff_by_id
-// get_all_cities_by_name_ambiguous

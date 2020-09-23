@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/super8festivals-omeka-plugin-master",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "sparta",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "phpunit/phpunit": "9.3.10"
+  }
+}

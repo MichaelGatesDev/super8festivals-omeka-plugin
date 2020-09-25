@@ -7,7 +7,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     {
         create_table(
             TablePrefix,
-            Inflector::tableize(str_replace("SuperEightFestivals", "", $this->get_clazz())),
+            Inflector::tableize(str_replace("SuperEightFestivals", "", get_called_class())),
             $this->get_db_columns(),
             $this->get_table_pk()
         );
@@ -17,7 +17,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     {
         create_missing_columns(
             TablePrefix,
-            Inflector::tableize(str_replace("SuperEightFestivals", "", $this->get_clazz())),
+            Inflector::tableize(str_replace("SuperEightFestivals", "", get_called_class())),
             $this->get_db_columns()
         );
     }
@@ -26,11 +26,9 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     {
         drop_table(
             TablePrefix,
-            Inflector::tableize(str_replace("SuperEightFestivals", "", $this->get_clazz()))
+            Inflector::tableize(str_replace("SuperEightFestivals", "", get_called_class()))
         );
     }
-
-    public abstract function get_clazz();
 
     public abstract function get_db_columns();
 

@@ -11,11 +11,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     // ======================================================================================================================== \\
 
-    public function get_clazz()
-    {
-        return self::class;
-    }
-
     public function get_db_columns()
     {
         return array_merge(

@@ -23,37 +23,10 @@ class SuperEightFestivalsFestivalPhoto extends Super8FestivalsRecord
         return "id";
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Adding festival photo for {$this->get_festival()->get_title()} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updating festival photo for {$this->get_festival()->get_title()} ({$this->id})");
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Added festival photo for {$this->get_festival()->get_title()} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updated festival photo for {$this->get_festival()->get_title()} ({$this->id})");
-        }
-    }
-
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted festival photo for festival: {$this->id}");
     }
 
     public function getResourceId()

@@ -37,37 +37,9 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return true;
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        if (isset($args['record'])) {
-            $record = $args['record'];
-        }
-        if (isset($args['insert'])) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Adding festival: {$this->get_title()} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updating festival: {$this->get_title()} ({$this->id})");
-            }
-        }
-    }
-
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        if (isset($args['record'])) {
-            $record = $args['record'];
-        }
-        if (isset($args['insert'])) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Added festival: {$this->get_title()} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updated festival: {$this->get_title()} ({$this->id})");
-            }
-        }
-
         $this->create_files();
     }
 
@@ -76,7 +48,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         parent::afterDelete();
         $this->delete_children();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted festival: {$this->get_title()} ({$this->id})");
     }
 
     public function getResourceId()

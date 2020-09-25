@@ -23,42 +23,6 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
         return "id";
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-
-        if (array_key_exists('record', $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists('insert', $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Adding filmmaker for {$this->get_city()->name} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updating filmmaker for {$this->get_city()->name} ({$this->id})");
-            }
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
-
-        if (array_key_exists('record', $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists('insert', $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Added filmmaker for {$this->get_city()->name} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updated filmmaker for {$this->get_city()->name} ({$this->id})");
-            }
-        }
-
-        $this->create_files();
-    }
-
     protected function _validate()
     {
         parent::_validate();
@@ -67,12 +31,17 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
         }
     }
 
+    protected function afterSave($args)
+    {
+        parent::afterSave($args);
+        $this->create_files();
+    }
+
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_children();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted filmmaker for city {$this->id}");
     }
 
     public function getResourceId()

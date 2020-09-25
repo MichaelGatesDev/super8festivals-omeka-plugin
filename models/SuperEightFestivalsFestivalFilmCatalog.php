@@ -23,37 +23,10 @@ class SuperEightFestivalsFestivalFilmCatalog extends Super8FestivalsRecord
         return "id";
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Adding festival film catalog for {$this->get_festival()->get_title()} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updating festival film catalog for {$this->get_festival()->get_title()} ({$this->id})");
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Added festival film catalog for {$this->get_festival()->get_title()} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updated festival film catalog for {$this->get_festival()->get_title()} ({$this->id})");
-        }
-    }
-
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted festival film catalog for festival {$this->id}");
     }
 
     public function getResourceId()

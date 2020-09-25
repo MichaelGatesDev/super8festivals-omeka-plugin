@@ -30,38 +30,6 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         return 'SuperEightFestivals_City_Banner';
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Adding city banner for {$this->get_city()->name} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updating city banner for {$this->get_city()->name} ({$this->id})");
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Added city banner for {$this->get_city()->name} ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updated city banner for {$this->get_city()->name} ({$this->id})");
-        }
-    }
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        logger_log(LogLevel::Info, "Deleted city banner for city {$this->id}");
-    }
-
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string

@@ -23,47 +23,6 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
         return "id";
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        if (array_key_exists('record', $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists('insert', $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Adding photo for filmmaker {$this->get_filmmaker()->get_display_name()} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updating photo for filmmaker {$this->get_filmmaker()->get_display_name()} ({$this->id})");
-            }
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::beforeSave($args);
-        if (array_key_exists('record', $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists('insert', $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Added photo for filmmaker {$this->get_filmmaker()->get_display_name()} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updated photo for filmmaker {$this->get_filmmaker()->get_display_name()} ({$this->id})");
-            }
-        }
-
-        $this->create_files();
-    }
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted photo for filmmaker {$this->id}");
-    }
-
     protected function _validate()
     {
         parent::_validate();
@@ -72,6 +31,17 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
         }
     }
 
+    protected function afterSave($args)
+    {
+        parent::beforeSave($args);
+        $this->create_files();
+    }
+
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        $this->delete_files();
+    }
 
     public function getResourceId()
     {

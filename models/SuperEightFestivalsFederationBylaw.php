@@ -23,39 +23,11 @@ class SuperEightFestivalsFederationBylaw extends Super8FestivalsRecord
         return "id";
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Adding federation bylaw ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updating federation bylaw ({$this->id})");
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
-        $record = $args['record'];
-        $insert = $args['insert'];
-
-        if ($insert) {
-            logger_log(LogLevel::Info, "Added federation bylaw ({$this->id})");
-        } else {
-            logger_log(LogLevel::Info, "Updated federation bylaw ({$this->id})");
-        }
-    }
-
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted federation bylaw ({$this->id})");
     }
-
 
     public function getResourceId()
     {

@@ -72,7 +72,12 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 list($countryName, $cityName, $lat, $long) = explode(",", trim($result));
                 try {
                     $city = new SuperEightFestivalsCity();
-                    $city->country_id = SuperEightFestivalsCountry::get_by_param('name', $countryName);
+                    $country = SuperEightFestivalsCountry::get_by_name($countryName);
+                    if (!$country) {
+                        logger_log(LogLevel::Error, "Failed to add city: no country found with name '${countryName}'");
+                        continue;
+                    }
+                    $city->country_id = $country->id;
                     $city->name = $cityName;
                     $city->latitude = $lat;
                     $city->longitude = $long;

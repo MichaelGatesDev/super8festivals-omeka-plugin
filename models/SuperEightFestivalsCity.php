@@ -36,38 +36,15 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         }
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        if (array_key_exists("record", $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists("insert", $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
-            }
-        }
-    }
-
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        if (array_key_exists("record", $args)) {
-            $record = $args['record'];
-        }
         if (array_key_exists("insert", $args)) {
             $insert = $args['insert'];
             if ($insert) {
-                logger_log(LogLevel::Info, "Adding city: {$this->name} ({$this->id})");
-
                 $festival = new SuperEightFestivalsFestival();
                 $festival->city_id = $this->id;
                 $festival->save();
-            } else {
-                logger_log(LogLevel::Info, "Updating city: {$this->name} ({$this->id})");
             }
         }
 
@@ -79,7 +56,6 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         parent::afterDelete();
         $this->delete_children();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted city: {$this->name} ({$this->id})");
     }
 
     public function getResourceId()
@@ -107,6 +83,17 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     }
 
     // ======================================================================================================================== \\
+
+    public static function get_by_name($name): ?SuperEightFestivalsCity
+    {
+        $results = SuperEightFestivalsCity::get_by_param('name', $name, 1);
+        return count($results) > 0 ? $results[0] : null;
+    }
+
+    public static function get_all_by_name($name): array
+    {
+        return SuperEightFestivalsCity::get_by_param('name', $name);
+    }
 
     public function get_country()
     {

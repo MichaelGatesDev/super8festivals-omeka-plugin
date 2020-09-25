@@ -32,37 +32,9 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         }
     }
 
-    protected function beforeSave($args)
-    {
-        parent::beforeSave($args);
-        if (array_key_exists("record", $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists("insert", $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Adding country: {$this->name} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updating country: {$this->name} ({$this->id})");
-            }
-        }
-    }
-
     protected function afterSave($args)
     {
         parent::afterSave($args);
-        if (array_key_exists("record", $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists("insert", $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Added country: {$this->name} ({$this->id})");
-            } else {
-                logger_log(LogLevel::Info, "Updated country: {$this->name} ({$this->id})");
-            }
-        }
-
         $this->create_files();
     }
 
@@ -71,7 +43,6 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         parent::afterDelete();
         $this->delete_children();
         $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted country: {$this->name} ({$this->id})");
     }
 
     public function getResourceId()
@@ -88,9 +59,15 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
 
     // ======================================================================================================================== \\
 
+    public static function get_by_name($name): ?SuperEightFestivalsCountry
+    {
+        $results = SuperEightFestivalsCountry::get_by_param('name', $name, 1);
+        return count($results) > 0 ? $results[0] : null;
+    }
+
     function get_cities()
     {
-        return SuperEightFestivalsCity::get_by_param('country_id', $this->id, 1);
+        return SuperEightFestivalsCity::get_by_param('country_id', $this->id);
     }
 
     function get_dir()

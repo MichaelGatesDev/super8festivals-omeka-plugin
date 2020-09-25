@@ -3,6 +3,58 @@
 
 abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord implements Zend_Acl_Resource_Interface
 {
+    // ======================================================================================================================== \\
+
+    protected function beforeSave($args)
+    {
+        parent::beforeSave($args);
+        $cname = get_called_class();
+        if (array_key_exists("record", $args)) {
+            $record = $args['record'];
+        }
+        if (array_key_exists("insert", $args)) {
+            $insert = $args['insert'];
+            if ($insert) {
+                logger_log(LogLevel::Info, "Creating new ${cname}");
+            } else {
+                logger_log(LogLevel::Info, "Updating ${cname} (ID: {$this->id})");
+            }
+        }
+    }
+
+    protected function afterSave($args)
+    {
+        parent::afterSave($args);
+        $cname = get_called_class();
+        if (array_key_exists("record", $args)) {
+            $record = $args['record'];
+        }
+        if (array_key_exists("insert", $args)) {
+            $insert = $args['insert'];
+            if ($insert) {
+                logger_log(LogLevel::Info, "Created new ${cname}");
+            } else {
+                logger_log(LogLevel::Info, "Updated ${cname} (ID: {$this->id})");
+            }
+        }
+    }
+
+    protected function beforeDelete()
+    {
+        parent::beforeDelete();
+        $cname = get_called_class();
+        logger_log(LogLevel::Info, "Deleting ${cname} (ID: {$this->id})");
+    }
+
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        $cname = get_called_class();
+        logger_log(LogLevel::Info, "Deleted ${cname}");
+    }
+
+    // ======================================================================================================================== \\
+
     public function create_table()
     {
         create_table(
@@ -54,4 +106,5 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         return get_db()->getTable(get_called_class())->findBy($params_arr, $limit);
     }
 
+    // ======================================================================================================================== \\
 }

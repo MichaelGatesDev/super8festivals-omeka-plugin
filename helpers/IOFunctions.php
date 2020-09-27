@@ -67,7 +67,7 @@ function get_temporary_file($inputName): array
 function move_to_dir($fromPath, $newFileName, $newFileDir): void
 {
     if (!is_dir($newFileDir)) {
-        mkdir($newFileDir, 0777, true);
+        mkdir($newFileDir, 0750, true);
     }
     move_uploaded_file($fromPath, $newFileDir . "/" . $newFileName);
 }
@@ -118,13 +118,13 @@ function delete_dir($dirPath)
 function create_plugin_directories()
 {
     if (!file_exists(get_project_dir())) {
-        mkdir(get_project_dir(), 0777, true);
+        mkdir(get_project_dir(), 0750, true);
     }
-    if (!file_exists(get_countries_dir())) {
-        mkdir(get_countries_dir(), 0777, true);
+    if (!file_exists(get_uploads_dir())) {
+        mkdir(get_uploads_dir(), 0750, true);
     }
-    if (!file_exists(get_federation_dir())) {
-        mkdir(get_federation_dir(), 0777, true);
+    if (!file_exists(get_logs_dir())) {
+        mkdir(get_logs_dir(), 0750, true);
     }
 }
 
@@ -150,19 +150,14 @@ function get_project_dir()
     return get_root_dir() . "/super-eight-festivals";
 }
 
-function get_countries_dir()
+function get_uploads_dir()
 {
-    return get_project_dir() . "/countries";
+    return get_root_dir() . "/uploads";
 }
 
-function get_federation_dir()
+function get_logs_dir()
 {
-    return get_project_dir() . "/federation";
-}
-
-function get_staff_dir()
-{
-    return get_project_dir() . "/staff";
+    return get_root_dir() . "/logs";
 }
 
 function generate_missing_thumbnails()

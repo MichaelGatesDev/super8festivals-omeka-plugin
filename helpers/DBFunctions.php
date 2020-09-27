@@ -21,11 +21,15 @@ function create_tables()
     foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
         $class = basename($file, '.php');
         if (class_exists($class)) {
-            $reflect = new ReflectionClass($class);
-            if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
-                $instance = new $class;
-                $instance->create_table();
-                logger_log(LogLevel::Debug, "Created table: " . $class);
+            try {
+                $reflect = new ReflectionClass($class);
+                if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
+                    $instance = new $class;
+                    $instance->create_table();
+                    logger_log(LogLevel::Debug, "Created table: " . $class);
+                }
+            } catch (ReflectionException $e) {
+                logger_log(LogLevel::Error, $e->getMessage());
             }
         }
     }
@@ -43,11 +47,15 @@ function drop_tables()
     foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
         $class = basename($file, '.php');
         if (class_exists($class)) {
-            $reflect = new ReflectionClass($class);
-            if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
-                $instance = new $class;
-                $instance->drop_table();
-                logger_log(LogLevel::Debug, "Dropped table: " . $class);
+            try {
+                $reflect = new ReflectionClass($class);
+                if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
+                    $instance = new $class;
+                    $instance->drop_table();
+                    logger_log(LogLevel::Debug, "Dropped table: " . $class);
+                }
+            } catch (ReflectionException $e) {
+                logger_log(LogLevel::Error, $e->getMessage());
             }
         }
     }
@@ -57,7 +65,6 @@ function drop_tables()
 function create_missing_columns($table_prefix, $table_name, $cols)
 {
     $db = get_db();
-
     foreach ($cols as $col) {
         try {
             $db->query("ALTER TABLE `{$db->prefix}{$table_prefix}{$table_name}` ADD COLUMN $col;");

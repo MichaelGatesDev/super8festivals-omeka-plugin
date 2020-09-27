@@ -19,3 +19,6 @@ canada,montreal,45.50170,-73.56730
 canada,toronto,43.65320,-79.38320
 tunisia,kelibia,36.84620,11.09950
 venezuela,caracas,10.48060,-66.90360
+algeria,algiers,0,0
+senegal,dakar,0,0
+zaire,kinshasa,0,0

@@ -1,3 +1,4 @@
+algeria,0,0
 argentina,0,0
 australia,0,0
 belgium,0,0
@@ -13,7 +14,9 @@ mexico,0,0
 philippines,0,0
 portugal,0,0
 puerto rico,0,0
+senegal,0,0
 spain,0,0
 tunisia,0,0
 united states,0,0
 venezuela,0,0
+zaire,0,0

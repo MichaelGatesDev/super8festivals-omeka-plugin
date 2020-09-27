@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . '/helpers/S8FLogger.php';
 require_once dirname(__FILE__) . '/helpers/IOFunctions.php';
 require_once dirname(__FILE__) . '/helpers/SuperEightFestivalsFunctions.php';
 require_once dirname(__FILE__) . '/helpers/DBFunctions.php';
+require_once dirname(__FILE__) . '/helpers/ControllersHelper.php';
 require_once dirname(__FILE__) . '/helpers/CountryHelper.php';
 
 class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
@@ -22,11 +23,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         'public_navigation_main', // admin sidebar
     );
     protected $_options = array();
-
-
-    public function __construct()
-    {
-    }
 
     public function hookInstall()
     {
@@ -105,14 +101,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     function hookAdminHead()
     {
-        echo "<script type='module' src='" . src('s8f-modal.js', 'javascripts') . "'></script>\n";
-        echo "<script type='module' src='" . src('s8f-alerts-area.js', 'javascripts') . "'></script>\n";
-        echo "<script type='module' src='" . src('s8f-table.js', 'javascripts') . "'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-modal.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-alerts-area.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-table.js'></script>\n";
 
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/country-modal.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/city-modal.js'></script>\n";
-        echo "<script type='module' src='" . src('s8f-countries-table.js', 'javascripts') . "'></script>\n";
-        echo "<script type='module' src='" . src('s8f-cities-table.js', 'javascripts') . "'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/festival-modal.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-countries-table.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-cities-table.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>\n";
     }
 
     public function filterAdminNavigationMain($nav)
@@ -262,28 +260,34 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
 
 
-            // ... /countries/
-            $router->addRoute("super_eight_festivals_admin_countries", new Zend_Controller_Router_Route(":module/countries/", array(
+            // Route: /countries/
+            $router->addRoute("s8f_admin_countries", new Zend_Controller_Router_Route(":module/countries/", array(
                 'module' => 'super-eight-festivals',
                 'controller' => "admin-countries",
                 'action' => "index"
             )));
-            // ... /countries/[country]/
-            $router->addRoute("super_eight_festivals_admin_country", new Zend_Controller_Router_Route(":module/countries/:country", array(
+            // Route: /countries/[country]/
+            $router->addRoute("s8f_admin_country", new Zend_Controller_Router_Route(":module/countries/:country", array(
                 'module' => 'super-eight-festivals',
                 'controller' => "admin-countries",
                 'action' => "single"
             )));
-            // ... /countries/[country]/cities/
-            $router->addRoute("super_eight_festivals_admin_country_cities", new Zend_Controller_Router_Route(":module/countries/:country/cities/", array(
+            // Route: /countries/[country]/cities/
+            $router->addRoute("s8f_admin_country_cities", new Zend_Controller_Router_Route(":module/countries/:country/cities/", array(
                 'module' => 'super-eight-festivals',
                 'controller' => "admin-country-cities",
                 'action' => "index"
             )));
-            // ... /countries/[country]/cities/[city]
-            $router->addRoute("super_eight_festivals_admin_country_city", new Zend_Controller_Router_Route(":module/countries/:country/cities/:city", array(
+            // Route: /countries/[country]/cities/[city]/
+            $router->addRoute("s8f_admin_country_city", new Zend_Controller_Router_Route(":module/countries/:country/cities/:city", array(
                 'module' => 'super-eight-festivals',
                 'controller' => "admin-country-cities",
+                'action' => "single"
+            )));
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/
+            $router->addRoute("s8f_admin_country_city_festival", new Zend_Controller_Router_Route(":module/countries/:country/cities/:city/festivals/:festival", array(
+                'module' => 'super-eight-festivals',
+                'controller' => "admin-country-city-festivals",
                 'action' => "single"
             )));
 
@@ -323,15 +327,19 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "api_countries_add", "/rest-api/countries/add/", "add-country");
         // cities
         $this->add_api_route($router, "api_cities_all", "/rest-api/cities/", "all-cities");
-        // countries->cities
-        $this->add_api_route($router, "api_countries_cities_all", "/rest-api/countries/:country/cities/", "country-cities");
-        $this->add_api_route($router, "api_countries_cities_single", "/rest-api/countries/:country/cities/:city", "single-city");
-        $this->add_api_route($router, "api_countries_cities_add", "/rest-api/countries/:country/cities/add", "add-city");
-        // countries->cities->festivals
-        $this->add_api_route($router, "api_countries_cities_festivals_all", "/rest-api/countries/:country/cities/:city/festivals/", "all-festivals");
-        $this->add_api_route($router, "api_countries_cities_festivals_single", "/rest-api/countries/:country/cities/:city/festivals/:festival", "single-festival");
-        $this->add_api_route($router, "api_countries_cities_festivals_add", "/rest-api/countries/:country/cities/:city/festivals/add", "add-festival");
-
+        $this->add_api_route($router, "api_cities_single", "/rest-api/cities/:city/", "single-city");
+        $this->add_api_route($router, "api_country_cities_all", "/rest-api/countries/:country/cities/", "country-all-cities");
+        $this->add_api_route($router, "api_country_cities_single", "/rest-api/countries/:country/cities/:city/", "country-single-city");
+        $this->add_api_route($router, "api_country_cities_add", "/rest-api/countries/:country/cities/add/", "country-add-city");
+        // festivals
+        $this->add_api_route($router, "api_festivals_all", "/rest-api/festivals/", "all-festivals");
+        $this->add_api_route($router, "api_festivals_single", "/rest-api/festivals/:festival/", "single-festival");
+        $this->add_api_route($router, "api_city_festivals_all", "/rest-api/cities/:city/festivals/", "city-all-festivals");
+        $this->add_api_route($router, "api_city_festivals_single", "/rest-api/cities/:city/festivals/:festival/", "city-single-festival");
+        $this->add_api_route($router, "api_city_festivals_add", "/rest-api/cities/:city/festivals/add/", "city-add-festival");
+        $this->add_api_route($router, "api_country_city_festivals_all", "/rest-api/countries/:country/cities/:city/festivals/", "country-city-all-festivals");
+        $this->add_api_route($router, "api_country_city_festivals_single", "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-single-festival");
+        $this->add_api_route($router, "api_country_city_festivals_add", "/rest-api/countries/:country/cities/:city/festivals/add/ ", "country-city-add-festival");
     }
 
 }

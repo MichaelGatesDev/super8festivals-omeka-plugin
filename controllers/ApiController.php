@@ -41,32 +41,33 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function singleCountryAction()
     {
+        $user = current_user();
         try {
             $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
+            $country = get_request_param_country($request);
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched country", $country));
-            } else if ($request->isPost()) {
+            } else {
+                if ($user->role !== "super") {
+                    $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
+                    return;
+                }
 
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
+                if ($request->isPost()) {
+                    $raw_json = file_get_contents('php://input');
+                    $json = json_decode($raw_json, TRUE);
 
-                $country->name = $json['name'];
-                $country->latitude = $json['latitude'];
-                $country->longitude = $json['longitude'];
-                $country->save();
+                    $country->name = $json['name'];
+                    $country->latitude = $json['latitude'];
+                    $country->longitude = $json['longitude'];
+                    $country->save();
 
-                $this->_helper->json($this->getJsonResponse("success", "Successfully updated country", $country));
-            } else if ($request->isDelete()) {
-                $country->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted country", $country));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated country", $country));
+                } else if ($request->isDelete()) {
+                    $country->delete();
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted country", $country));
+                }
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
@@ -77,7 +78,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     {
         $user = current_user();
         if ($user->role !== "super") {
-            $this->_helper->json($this->getJsonResponse("error", "Must be signed in to use Rest API"));
+            $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
             return;
         }
 
@@ -109,29 +110,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function allCitiesAction()
     {
         try {
-            $request = $this->getRequest();
-
-            $cities = SuperEightFestivalsCity::get_all();
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", $cities));
-        } catch (Throwable $e) {
-            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
-        }
-    }
-
-    public function countryCitiesAction()
-    {
-        try {
-            $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
-
-            $cities = SuperEightFestivalsCity::get_by_param('country_id', $country->id);
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities for country", $cities));
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", SuperEightFestivalsCity::get_all()));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
@@ -141,66 +120,72 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     {
         try {
             $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
-
-            $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
-            if (!$city || $city->country_id != $country->id) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
-                return;
-            }
+            $city = get_request_param_city($request);
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city));
-            } else if ($request->isPost()) {
+            } else {
+                $user = current_user();
+                if ($user->role !== "super") {
+                    $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
+                    return;
+                }
 
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
+                if ($request->isPost()) {
 
-                $city->name = $json['name'];
-                $city->latitude = $json['latitude'];
-                $city->longitude = $json['longitude'];
-                $city->description = $json['description'];
-                $city->save();
+                    $raw_json = file_get_contents('php://input');
+                    $json = json_decode($raw_json, TRUE);
 
-                $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
-            } else if ($request->isDelete()) {
-                $city->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city));
+                    $city->name = $json['name'];
+                    $city->latitude = $json['latitude'];
+                    $city->longitude = $json['longitude'];
+                    $city->description = $json['description'];
+                    $city->save();
+
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
+                } else if ($request->isDelete()) {
+                    $city->delete();
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city));
+                }
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
     }
 
-    public function addCityAction()
+    public function countryAllCitiesAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $country = get_request_param_country($request);
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities for country", $country->get_cities()));
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    public function countrySingleCityAction()
+    {
+        $request = $this->getRequest();
+        $city = get_request_param_city($request);
+        $this->redirect("/rest-api/cities/" . $city->id . "/");
+    }
+
+    public function countryAddCityAction()
     {
         $user = current_user();
         if ($user->role !== "super") {
-            $this->_helper->json($this->getJsonResponse("error", "Must be signed in to use Rest API"));
+            $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
             return;
         }
 
         try {
             $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
-
             if (!$request->isPost()) {
                 $this->_helper->json($this->getJsonResponse("error", "Can only add countries by POST request"));
                 return;
             }
+            $country = get_request_param_country($request);
 
             $raw_json = file_get_contents('php://input');
             $json = json_decode($raw_json, TRUE);
@@ -224,24 +209,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function allFestivalsAction()
     {
         try {
-            $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
-
-            $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
-            if (!$city) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
-                return;
-            }
-
-            $festivals = SuperEightFestivalsFestival::get_by_param('city_id', $city->id);
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all festivals for city", $festivals));
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all festivals for city", SuperEightFestivalsFestival::get_all()));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
@@ -251,89 +219,77 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     {
         try {
             $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
-
-            $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
-            if (!$city) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
-                return;
-            }
-
-            $festival_param = $request->getParam('festival');
-            $festival = SuperEightFestivalsFestival::get_by_id($festival_param);
-            if (!$festival) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a festival with that ID: " . $festival_param));
-                return;
-            }
+            $festival = get_request_param_festival($request);
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched festival", $festival));
-            } else if ($request->isPost()) {
-                $festival_year = $_POST["festival-year"];
-                $festival_title = $_POST["festival-title"];
-                $festival_description = $_POST["festival-description"];
+            } else {
+                $user = current_user();
+                if ($user->role !== "super") {
+                    $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
+                    return;
+                }
 
-                $festival->year = $festival_year;
-                $festival->title = $festival_title;
-                $festival->description = $festival_description;
-                $festival->save();
+                $raw_json = file_get_contents('php://input');
+                $json = json_decode($raw_json, TRUE);
 
-                $this->_helper->json($this->getJsonResponse("success", "Successfully updated festival", $festival));
-            } else if ($request->isDelete()) {
-                $festival->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted festival", $festival));
+                if ($request->isPost()) {
+                    $festival_year = $json["year"];
+
+                    $festival->year = $festival_year;
+                    $festival->save();
+
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated festival", $festival));
+                } else if ($request->isDelete()) {
+                    $festival->delete();
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted festival", $festival));
+                }
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
     }
 
-    public function addFestivalAction()
+    public function cityAllFestivalsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all festivals for city", $city->get_festivals()));
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    public function citySingleFestivalAction()
+    {
+        $request = $this->getRequest();
+        $festival = get_request_param_festival($request);
+        $this->redirect("/rest-api/festivals/" . $festival->id . "/");
+    }
+
+    public function cityAddFestivalAction()
     {
         $user = current_user();
         if ($user->role !== "super") {
-            $this->_helper->json($this->getJsonResponse("error", "Must be signed in to use Rest API"));
+            $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
             return;
         }
 
         try {
             $request = $this->getRequest();
-
-            $country_param = $request->getParam('country');
-            $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_param("name", $country_param, 1)[0];
-            if (!$country) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a country with that ID/Name: " . $country_param));
-                return;
-            }
-
-            $city_param = $request->getParam('city');
-            $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCountry::get_by_params(array('country_id' => $country->id, 'name' => $city_param, 1))[0];
-            if (!$city) {
-                $this->_helper->json($this->getJsonResponse("error", "Failed to find a city with that ID/Name: " . $city_param));
-                return;
-            }
-
             if (!$request->isPost()) {
                 $this->_helper->json($this->getJsonResponse("error", "Can only add countries by POST request"));
                 return;
             }
+            $city = get_request_param_city($request);
 
-            $festival_year = $_POST["festival-year"];
-            $festival_title = $_POST["festival-title"];
-            $festival_description = $_POST["festival-description"];
+            $raw_json = file_get_contents('php://input');
+            $json = json_decode($raw_json, TRUE);
 
             $festival = new SuperEightFestivalsFestival();
             $festival->city_id = $city->id;
-            $festival->year = $festival_year;
-            $festival->title = $festival_title;
-            $festival->description = $festival_description;
+            $festival->year = $json['year'];
             $festival->save();
 
             $this->_helper->json($this->getJsonResponse("success", "Successfully created festival", $festival));

@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => $city->name,
+    'title' => ucwords($city->name) . ", " . ucwords($country->name),
 ));
 
 $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
@@ -20,6 +20,13 @@ $banner = SuperEightFestivalsCity::get_by_id($city->id);
     <div class="row">
         <div class="col">
             <h2 class="text-capitalize"><?= $city->name; ?> <span class="text-muted">(<?= $country->name; ?>)</span></h2>
+        </div>
+    </div>
+
+    <!-- S8F Alerts -->
+    <div class="row">
+        <div class="col">
+            <s8f-alerts-area id="alerts"></s8f-alerts-area>
         </div>
     </div>
 
@@ -59,46 +66,9 @@ $banner = SuperEightFestivalsCity::get_by_id($city->id);
         </div>
     </div>
 
-    <!--  Festivals Table -->
-    <div class="row my-5">
+    <div class="row">
         <div class="col">
-            <h3 class="text-capitalize">
-                Festivals
-                <a class="btn btn-success btn-sm" href="<?= $rootURL; ?>/festivals/add">Add Festival</a>
-            </h3>
-            <?php
-            $festivals = SuperEightFestivalsFestival::get_by_param('city_id', $city->id);
-            usort($festivals, function ($value, $compareTo) {
-                return $value['year'] >= $compareTo['year'];
-            });
-            ?>
-            <?php if (count($festivals) == 0): ?>
-                <p>There are no festivals available for this city.</p>
-            <?php else: ?>
-                <table id="festivals" class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <td style="width: 1px;">ID</td>
-                        <td>Year</td>
-                        <td>Title</td>
-                        <td style="width: 1px;"></td>
-                        <td style="width: 1px;"></td>
-                    </tr>
-                    </thead>
-                    <?php foreach ($festivals as $festival): ?>
-                        <?php
-                        $recordRootURL = "$rootURL/festivals/" . $festival->id;
-                        ?>
-                        <tr>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $festival->id; ?></span></td>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $festival->year == 0 ? "N/A" : $festival->year; ?></span></td>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $festival->get_title() ?? $festival->get_city()->name . " uncategorized" ?></span></td>
-                            <td><a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/festivals/<?= $festival->id; ?>/edit">Edit</a></td>
-                            <td><a class="btn btn-danger btn-sm <?= $festival->year == 0 ? "disabled" : "" ?>" href="<?= $rootURL; ?>/festivals/<?= $festival->id; ?>/delete">Delete</a></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php endif; ?>
+            <s8f-festivals-table country-id="<?= $country->id; ?>" city-id="<?= $city->id; ?>"></s8f-festivals-table>
         </div>
     </div>
 

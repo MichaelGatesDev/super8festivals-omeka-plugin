@@ -15,11 +15,11 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`id`           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
                 "`city_id`      INT(10) UNSIGNED NOT NULL",
                 "`year`         INT(4)           NOT NULL",
             ),
-            S8FMetadata::get_db_columns()
+            S8FMetadata::get_db_columns(),
         );
     }
 
@@ -30,9 +30,12 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     protected function _validate()
     {
+        parent::_validate();
         if (!is_numeric($this->year) || ($this->year != 0 && strlen($this->year) != 4)) {
-            $this->addError("year", "The year may only be a 4-digit numeric year (e.g. 1974)");
-            return false;
+            throw new Error("The year may only be a 4-digit numeric year (e.g. 1974)");
+        }
+        if (SuperEightFestivalsFestival::get_by_params(['city_id' => $this->city_id, 'year' => $this->year])) {
+            throw new Error("A festival with that year already exists!");
         }
         return true;
     }

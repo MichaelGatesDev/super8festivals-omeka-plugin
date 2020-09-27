@@ -90,6 +90,11 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return count($results) > 0 ? $results[0] : null;
     }
 
+    function get_festivals()
+    {
+        return SuperEightFestivalsFestival::get_by_param('city_id', $this->id);
+    }
+
     public static function get_all_by_name($name): array
     {
         return SuperEightFestivalsCity::get_by_param('name', $name);

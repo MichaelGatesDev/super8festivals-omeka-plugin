@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => $country->name,
+    'title' => ucwords($country->name),
 ));
 ?>
 

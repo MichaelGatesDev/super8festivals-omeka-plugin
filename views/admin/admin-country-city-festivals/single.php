@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => $festival->get_title(),
+    'title' => $festival->id
 ));
 
 $city_url = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);

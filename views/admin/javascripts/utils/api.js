@@ -9,7 +9,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async getAllCountries() {
-        return Rest.get("/rest-api/countries/").then((data) => data).catch((err) => { throw err; });
+        return Rest.get("/rest-api/countries/");
     }
 
     /**
@@ -17,7 +17,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async getCountry(countryID) {
-        return Rest.get(`/rest-api/countries/${countryID}`).then((data) => data).catch((err) => { throw err; });
+        return Rest.get(`/rest-api/countries/${countryID}/`);
     }
 
     /**
@@ -27,7 +27,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async addCountry(countryObj) {
-        return Rest.post("/rest-api/countries/add", countryObj).then((data) => data).catch((err) => { throw err; });
+        return Rest.post("/rest-api/countries/add/", countryObj);
     }
 
     /**
@@ -37,7 +37,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async updateCountry(countryObj) {
-        return Rest.post(`/rest-api/countries/${countryObj.id}`, countryObj).then((data) => data).catch((err) => { throw err; });
+        return Rest.post(`/rest-api/countries/${countryObj.id}/`, countryObj);
     }
 
     /**
@@ -47,14 +47,18 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async deleteCountry(countryID) {
-        return Rest.delete(`/rest-api/countries/${countryID}`).then((data) => data).catch((err) => { throw err; });
+        return Rest.delete(`/rest-api/countries/${countryID}/`);
     }
 
     // ===================================================================================================================================================== \\
 
-    // static async getAllCities() {
-    //     return Rest.get("/rest-api/countries/").then((data) => data).catch((err) => { throw err; });
-    // }
+    /**
+     * Returns a promise, whose success result is an array of all city objects in the database.
+     * @returns {Promise<* | void>}
+     */
+    static async getAllCities() {
+        return Rest.get("/rest-api/cities/");
+    }
 
     /**
      * Returns a promise, whose success result is an array of city objects for the specified country.
@@ -62,7 +66,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async getCitiesInCountry(countryID) {
-        return Rest.get(`/rest-api/countries/${countryID}/cities/`).then((data) => data).catch((err) => { throw err; });
+        return Rest.get(`/rest-api/countries/${countryID}/cities/`);
     }
 
     /**
@@ -71,8 +75,8 @@ export default class API {
      * @param cityID - The ID of the city.
      * @returns {Promise<* | void>}
      */
-    static async getCityInCountryWithID(countryID, cityID) {
-        return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}`).then((data) => data).catch((err) => { throw err; });
+    static async getCityInCountry(countryID, cityID) {
+        return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}/`);
     }
 
     /**
@@ -82,7 +86,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async addCityToCountry(countryID, cityObj) {
-        return Rest.post(`/rest-api/countries/${countryID}/cities/add`, cityObj).then((data) => data).catch((err) => { throw err; });
+        return Rest.post(`/rest-api/countries/${countryID}/cities/add/`, cityObj);
     }
 
     /**
@@ -92,7 +96,7 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async updateCityInCountry(countryID, cityObj) {
-        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityObj.id}`, cityObj).then((data) => data).catch((err) => { throw err; });
+        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityObj.id}/`, cityObj);
     }
 
     /**
@@ -103,7 +107,55 @@ export default class API {
      * @returns {Promise<* | void>}
      */
     static async deleteCityFromCountry(countryID, cityID) {
-        return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}`).then((data) => data).catch((err) => { throw err; });
+        return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}/`);
     }
 
+    // ===================================================================================================================================================== \\
+
+    /**
+     * Returns a promise, whose success result is an array of all city objects in the database.
+     * @returns {Promise<* | void>}
+     */
+    static async getAllFestivals() {
+        return Rest.get("/rest-api/festivals/");
+    }
+
+    /**
+     * Returns a promise, whose success result is an array of city objects for the specified country.
+     * @param cityID - The ID of the city in which the festivals exist.
+     * @returns {Promise<* | void>}
+     */
+    static async getAllFestivalsInCity(cityID) {
+        return Rest.get(`/rest-api/cities/${cityID}/festivals/`);
+    }
+
+    /**
+     * Returns a promise, whose success result is the added festival object.
+     * @param cityID - The ID of the city in which the festival exists.
+     * @param festivalObj - The object to take info from.
+     * @returns {Promise<* | void>}
+     */
+    static async addFestival(cityID, festivalObj) {
+        return Rest.post(`/rest-api/cities/${cityID}/festivals/add/`, festivalObj);
+    }
+
+    /**
+     * Returns a promise, whose success result is the updated festival object.
+     * @param festivalObj - The updated festival object.
+     * @returns {Promise<* | void>}
+     */
+    static async updateFestival(festivalObj) {
+        return Rest.post(`/rest-api/festivals/${festivalObj.id}`, festivalObj);
+    }
+
+    /**
+     * Returns a promise, whose success result is the deleted festival object.
+     * @param festivalID - The festival ID to delete.
+     * @returns {Promise<* | void>}
+     */
+    static async deleteFestival(festivalID) {
+        return Rest.delete(`/rest-api/festivals/${festivalID}/`);
+    }
+
+    // ===================================================================================================================================================== \\
 }

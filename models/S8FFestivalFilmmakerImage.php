@@ -36,7 +36,7 @@ trait S8FFestivalFilmmakerImage
 
     public function get_filmmaker()
     {
-        return SuperEightFestivalsFestivalFilmmaker::get_by_id($this->filmmaker_id);
+        return SuperEightFestivalsFilmmaker::get_by_id($this->filmmaker_id);
     }
 
     // ======================================================================================================================== \\

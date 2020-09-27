@@ -67,7 +67,7 @@ function get_temporary_file($inputName): array
 function move_to_dir($fromPath, $newFileName, $newFileDir): void
 {
     if (!is_dir($newFileDir)) {
-        mkdir($newFileDir, 0750, true);
+        mkdir($newFileDir, 0775, true);
     }
     move_uploaded_file($fromPath, $newFileDir . "/" . $newFileName);
 }
@@ -118,13 +118,13 @@ function delete_dir($dirPath)
 function create_plugin_directories()
 {
     if (!file_exists(get_project_dir())) {
-        mkdir(get_project_dir(), 0750, true);
+        mkdir(get_project_dir(), 0775, true);
     }
     if (!file_exists(get_uploads_dir())) {
-        mkdir(get_uploads_dir(), 0750, true);
+        mkdir(get_uploads_dir(), 0775, true);
     }
     if (!file_exists(get_logs_dir())) {
-        mkdir(get_logs_dir(), 0750, true);
+        mkdir(get_logs_dir(), 0775, true);
     }
 }
 

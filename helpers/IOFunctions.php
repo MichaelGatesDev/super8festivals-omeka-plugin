@@ -152,12 +152,12 @@ function get_project_dir()
 
 function get_uploads_dir()
 {
-    return get_root_dir() . "/uploads";
+    return get_project_dir() . "/uploads";
 }
 
 function get_logs_dir()
 {
-    return get_root_dir() . "/logs";
+    return get_project_dir() . "/logs";
 }
 
 function generate_missing_thumbnails()

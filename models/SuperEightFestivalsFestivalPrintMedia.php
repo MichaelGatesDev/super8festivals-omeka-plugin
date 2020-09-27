@@ -29,22 +29,11 @@ class SuperEightFestivalsFestivalPrintMedia extends Super8FestivalsRecord
         $this->delete_files();
     }
 
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Festival_Print_Media';
-    }
-
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string
     {
         return "festival_print_media";
-    }
-
-    public function get_dir(): ?string
-    {
-        if ($this->get_festival() == null) return null;
-        return $this->get_festival()->get_print_media_dir();
     }
 
     // ======================================================================================================================== \\

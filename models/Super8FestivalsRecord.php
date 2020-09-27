@@ -5,6 +5,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 {
     // ======================================================================================================================== \\
 
+    public function getResourceId()
+    {
+        return Inflector::tableize(get_called_class());
+    }
+
     protected function beforeSave($args)
     {
         parent::beforeSave($args);

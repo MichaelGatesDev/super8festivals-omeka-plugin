@@ -60,8 +60,6 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
                 logger_log(LogLevel::Info, "Updated staff");
             }
         }
-
-        $this->create_files();
     }
 
     protected function afterDelete()
@@ -75,34 +73,6 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
     {
         parent::_validate();
     }
-
-
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Staff';
-    }
-
-    // ======================================================================================================================== \\
-
-    public function get_dir(): ?string
-    {
-        return get_staff_dir();
-    }
-
-    private function create_files()
-    {
-        if (!file_exists($this->get_dir())) {
-            mkdir($this->get_dir(), 0777, true);
-        }
-    }
-
-    public function delete_files()
-    {
-        if (file_exists($this->get_dir())) {
-            rrmdir($this->get_dir());
-        }
-    }
-
 
     // ======================================================================================================================== \\
 }

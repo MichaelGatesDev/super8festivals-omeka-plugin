@@ -27,11 +27,6 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
         return "id";
     }
 
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Festival_Film';
-    }
-
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string
@@ -42,12 +37,6 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     function get_filmmaker()
     {
         return SuperEightFestivalsFilmmaker::get_by_id($this->filmmaker_id);
-    }
-
-    public function get_dir(): ?string
-    {
-        if ($this->get_festival() == null) return null;
-        return $this->get_festival()->get_films_dir();
     }
 
     // ======================================================================================================================== \\

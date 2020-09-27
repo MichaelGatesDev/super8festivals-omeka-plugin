@@ -58,11 +58,6 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         $this->delete_files();
     }
 
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_City';
-    }
-
     function delete_children()
     {
         // banner
@@ -113,53 +108,6 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     public function get_filmmakers()
     {
         return SuperEightFestivalsFilmmaker::get_by_param('city_id', $this->id);
-    }
-
-    public function get_dir(): ?string
-    {
-        if ($this->get_country() == null) return null;
-        return $this->get_country()->get_dir() . "/" . $this->name;
-    }
-
-    function get_festivals_dir(): ?string
-    {
-        if ($this->get_dir() == null) return null;
-        return $this->get_dir() . "/festivals";
-    }
-
-    function get_filmmakers_dir(): ?string
-    {
-        if ($this->get_dir() == null) return null;
-        return $this->get_dir() . "/filmmakers";
-    }
-
-
-    private function create_files()
-    {
-        if ($this->get_dir() == null) {
-            logger_log(LogLevel::Error, "Root directory is null for city: {$this->name} ({$this->id})");
-            return;
-        }
-
-        if ($this->get_dir() != null) {
-            if (!file_exists($this->get_dir())) {
-                mkdir($this->get_dir());
-            }
-        }
-        if ($this->get_festivals_dir() != null) {
-            if (!file_exists($this->get_festivals_dir())) {
-                mkdir($this->get_festivals_dir());
-            }
-        }
-    }
-
-    public function delete_files()
-    {
-        if ($this->get_dir() != null) {
-            if (file_exists($this->get_dir())) {
-                rrmdir($this->get_dir());
-            }
-        }
     }
 
     // ======================================================================================================================== \\

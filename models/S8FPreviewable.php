@@ -21,16 +21,12 @@ trait S8FPreviewable
     // ======================================================================================================================== \\
 
     /**
-     * @return string the directory which this resource belongs to
-     */
-    public abstract function get_dir(): string;
-
-    /**
      * @return string The absolute path to the resource
      */
     public function get_path(): ?string
     {
-        return $this->file_name != "" ? $this->get_dir() . "/" . $this->file_name : null;
+        if ($this->file_name === "") return null;
+        return get_uploads_dir() . $this->file_name;
     }
 
     /**
@@ -38,7 +34,8 @@ trait S8FPreviewable
      */
     public function get_thumbnail_path(): ?string
     {
-        return $this->thumbnail_file_name != "" ? $this->get_dir() . "/" . $this->thumbnail_file_name : null;
+        if ($this->thumbnail_file_name === "") return null;
+        return get_uploads_dir() . $this->thumbnail_file_name;
     }
 
     /**
@@ -46,7 +43,9 @@ trait S8FPreviewable
      */
     public function has_thumbnail(): bool
     {
-        return $this->get_thumbnail_path() != null && file_exists($this->get_thumbnail_path()) && !is_dir($this->get_thumbnail_path());
+        return $this->get_thumbnail_path() != null &&
+            file_exists($this->get_thumbnail_path()) &&
+            !is_dir($this->get_thumbnail_path());
     }
 
     public function create_thumbnail()

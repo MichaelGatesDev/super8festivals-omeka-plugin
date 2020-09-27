@@ -34,18 +34,11 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     protected function afterSave($args)
     {
         parent::beforeSave($args);
-        $this->create_files();
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
-        $this->delete_files();
-    }
-
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Filmmaker_Photo';
     }
 
     // ======================================================================================================================== \\
@@ -54,27 +47,6 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     {
         return "festival_filmmaker_photo";
     }
-
-    public function get_dir(): ?string
-    {
-        if ($this->get_filmmaker() == null) return null;
-        return $this->get_filmmaker()->get_dir() . "/photos/";
-    }
-
-    private function create_files()
-    {
-        if (!file_exists($this->get_dir())) {
-            mkdir($this->get_dir(), 0777, true);
-        }
-    }
-
-    public function delete_files()
-    {
-        if (file_exists($this->get_dir())) {
-            rrmdir($this->get_dir());
-        }
-    }
-
 
     // ======================================================================================================================== \\
 }

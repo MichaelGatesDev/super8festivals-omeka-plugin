@@ -29,22 +29,11 @@ class SuperEightFestivalsFederationMagazine extends Super8FestivalsRecord
         $this->delete_files();
     }
 
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Federation_Document';
-    }
-
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string
     {
         return "federation_magazine";
-    }
-
-    public function get_dir(): ?string
-    {
-        if (get_federation_dir() == null) return null;
-        return get_federation_dir() . "/magazines";
     }
 
     // ======================================================================================================================== \\

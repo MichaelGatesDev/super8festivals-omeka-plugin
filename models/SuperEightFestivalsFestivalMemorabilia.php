@@ -37,22 +37,11 @@ class SuperEightFestivalsFestivalMemorabilia extends Super8FestivalsRecord
         }
     }
 
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Festival_Memorabilia';
-    }
-
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string
     {
         return "festival_memorabilia";
-    }
-
-    public function get_dir(): ?string
-    {
-        if ($this->get_festival() == null) return null;
-        return $this->get_festival()->get_memorabilia_dir();
     }
 
     // ======================================================================================================================== \\

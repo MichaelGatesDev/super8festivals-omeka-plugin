@@ -23,10 +23,5 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
         return "id";
     }
 
-    public function getResourceId()
-    {
-        return 'SuperEightFestivals_Contributor';
-    }
-
     // ======================================================================================================================== \\
 }

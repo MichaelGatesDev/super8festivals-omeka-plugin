@@ -26,7 +26,7 @@ trait S8FPreviewable
     public function get_path(): ?string
     {
         if ($this->file_name === "") return null;
-        return get_uploads_dir() . $this->file_name;
+        return get_uploads_dir() . "/" . $this->file_name;
     }
 
     /**
@@ -35,7 +35,7 @@ trait S8FPreviewable
     public function get_thumbnail_path(): ?string
     {
         if ($this->thumbnail_file_name === "") return null;
-        return get_uploads_dir() . $this->thumbnail_file_name;
+        return get_uploads_dir() . "/" . $this->thumbnail_file_name;
     }
 
     /**
@@ -76,15 +76,6 @@ trait S8FPreviewable
             error_log($e);
             return false;
         }
-    }
-
-    public function delete_thumbnail()
-    {
-        if ($this->has_thumbnail()) {
-            delete_file($this->get_thumbnail_path());
-        }
-        $this->thumbnail_file_name = "";
-        $this->save();
     }
 
     public function delete_files()

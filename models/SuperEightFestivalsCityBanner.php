@@ -25,6 +25,12 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         return "id";
     }
 
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+        $this->delete_files();
+    }
+
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string

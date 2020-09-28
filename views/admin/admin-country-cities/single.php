@@ -4,7 +4,6 @@ echo head(array(
 ));
 
 $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
-$banner = SuperEightFestivalsCity::get_by_id($city->id);
 ?>
 
 <section class="container">

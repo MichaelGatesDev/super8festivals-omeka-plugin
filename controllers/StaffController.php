@@ -193,7 +193,7 @@ class SuperEightFestivals_StaffController extends Omeka_Controller_AbstractActio
 
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid() . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_project_dir());
+        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $staff->file_name = $newFileName;
         $staff->create_thumbnail();
         $staff->save();

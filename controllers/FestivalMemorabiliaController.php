@@ -228,7 +228,7 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($memorabilia->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_project_dir());
+        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $memorabilia->file_name = $newFileName;
         $memorabilia->create_thumbnail();
         $memorabilia->save();

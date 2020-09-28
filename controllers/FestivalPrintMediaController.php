@@ -226,7 +226,7 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($print_media->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_project_dir());
+        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $print_media->file_name = $newFileName;
         $print_media->create_thumbnail();
         $print_media->save();

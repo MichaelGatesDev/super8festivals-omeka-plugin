@@ -179,7 +179,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($city_banner->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_project_dir());
+        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $city_banner->file_name = $newFileName;
         $city_banner->create_thumbnail();
         $city_banner->save();

@@ -177,7 +177,7 @@ class SuperEightFestivals_FederationNewslettersController extends Omeka_Controll
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($federation_newsletter->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_project_dir());
+        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $federation_newsletter->file_name = $newFileName;
         $federation_newsletter->create_thumbnail();
         $federation_newsletter->save();

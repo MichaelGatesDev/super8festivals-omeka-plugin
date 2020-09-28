@@ -229,7 +229,7 @@ class SuperEightFestivals_FilmmakerPhotosController extends Omeka_Controller_Abs
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($photo->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, $photo->get_dir());
+        move_to_dir($temporary_name, $newFileName, get_project_dir());
         $photo->file_name = $newFileName;
         $photo->create_thumbnail();
         $photo->save();

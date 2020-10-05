@@ -28,7 +28,7 @@ function logger_log($level, $msg)
             break;
     }
 
-    $log_path = get_project_dir() . "/log.txt";
+    $log_path = get_logs_dir() . "/" . date("YmdG");
 
     $current = file_get_contents($log_path);
     $current .= "$timestamp$levelStr: $msg\n";

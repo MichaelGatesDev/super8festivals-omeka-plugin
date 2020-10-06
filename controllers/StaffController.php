@@ -148,7 +148,7 @@ class SuperEightFestivals_StaffController extends Omeka_Controller_AbstractActio
                     } //edit
                     else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_staff_by_id($staff->id);
+                        $originalRecord = SuperEightFestivalsStaff::get_by_id($staff->id);
                         // set the data of the record according to what was submitted in the form
                         $staff->setPostData($_POST);
                         // if there is no pending upload, use the old files

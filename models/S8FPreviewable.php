@@ -25,7 +25,7 @@ trait S8FPreviewable
      */
     public function get_path(): ?string
     {
-        if ($this->file_name === "") return null;
+        if (empty($this->file_name)) return null;
         return get_uploads_dir() . "/" . $this->file_name;
     }
 
@@ -34,7 +34,7 @@ trait S8FPreviewable
      */
     public function get_thumbnail_path(): ?string
     {
-        if ($this->thumbnail_file_name === "") return null;
+        if (empty($this->thumbnail_file_name)) return null;
         return get_uploads_dir() . "/" . $this->thumbnail_file_name;
     }
 

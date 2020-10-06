@@ -110,7 +110,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function allCitiesAction()
     {
         try {
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", SuperEightFestivalsCity::get_all()));
+            $cities = SuperEightFestivalsCity::get_all();
+            foreach ($cities as $city) {
+                $city['country'] = $city->get_country();
+            }
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", $cities));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }

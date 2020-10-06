@@ -61,7 +61,7 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
                 <div class="carousel-inner">
                     <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) == 0): ?>
                         <div class="carousel-item active" style="background-image: url(http://placehold.it/400x400);">
-                            <img class="d-block w-100" src="http://placehold.it/400x400" alt="First slide">
+                            <img class="d-block w-100" src="http://placehold.it/400x400" alt="First slide" loading="lazy">
                         </div>
                     <?php else: ?>
                         <?php foreach ($records as $index => $record): ?>

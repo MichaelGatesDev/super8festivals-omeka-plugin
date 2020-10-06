@@ -13,13 +13,8 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = get_city_by_name(get_country_by_name($countryName)->id, $cityName);
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -37,13 +32,8 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -61,13 +51,8 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -86,13 +71,8 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = get_city_by_name(get_country_by_name($countryName)->id, $cityName);
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -228,7 +208,7 @@ class SuperEightFestivals_FestivalMemorabiliaController extends Omeka_Controller
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($memorabilia->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
+        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $memorabilia->file_name = $newFileName;
         $memorabilia->create_thumbnail();
         $memorabilia->save();

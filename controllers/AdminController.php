@@ -72,4 +72,8 @@ class SuperEightFestivals_AdminController extends Omeka_Controller_AbstractActio
             $festival->save();
         }
     }
+
+    public function debugRelocateFilesAction()
+    {
+    }
 }

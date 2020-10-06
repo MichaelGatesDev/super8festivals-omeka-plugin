@@ -39,7 +39,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
                 <?php foreach ($photos as $photo): ?>
                     <div class="card d-inline-block my-2 mx-2" style="width: 18rem;">
                         <a href="<?= get_relative_path($photo->get_path()) ?>" data-fancybox="fb-filmmaker-photos" data-title="<?= $photo->title; ?>">
-                            <img class="card-img-top" src="<?= get_relative_path($photo->get_thumbnail_path()); ?>" alt="<?= $photo->title; ?>"/>
+                            <img class="card-img-top" src="<?= get_relative_path($photo->get_thumbnail_path()); ?>" alt="<?= $photo->title; ?>" loading="lazy"/>
                         </a>
                         <div class="card-body">
                             <div style="overflow: hidden;">

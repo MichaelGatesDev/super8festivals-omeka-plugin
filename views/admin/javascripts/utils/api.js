@@ -1,4 +1,4 @@
-import Rest from "./rest";
+import Rest from "./rest.js";
 
 export default class API {
 

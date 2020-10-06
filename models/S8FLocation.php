@@ -19,11 +19,12 @@ trait S8FLocation
 
     protected function __validate()
     {
+        $this->name = alpha_only($this->name);
         if (empty(trim($this->name))) {
-            $this->addError('name', "Name can not be blank.");
+            $this->addError(null, "Name can not be blank.");
             return false;
         }
-        $this->name = alpha_only($this->name);
+        $this->name = strtolower($this->name);
 
         if (!is_numeric($this->latitude)) {
             $this->addError(null, "Latitude may only be numeric.");

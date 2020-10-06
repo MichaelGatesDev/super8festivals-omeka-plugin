@@ -13,29 +13,18 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
-        $this->view->city = $city;
+        $country = get_request_param_country($request);
+        $city = get_request_param_city($request);
 
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name));
-        return;
     }
 
     public function addAction()
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         // Create new banner
         $banner = new SuperEightFestivalsCityBanner();
@@ -50,13 +39,8 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $banner = $city->get_banner();
         $this->view->banner = $banner;
@@ -71,13 +55,8 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName), 1)[0];
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $banner = $city->get_banner();
         $this->view->banner = $banner;
@@ -179,7 +158,7 @@ class SuperEightFestivals_CityBannersController extends Omeka_Controller_Abstrac
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($city_banner->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
+        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $city_banner->file_name = $newFileName;
         $city_banner->create_thumbnail();
         $city_banner->save();

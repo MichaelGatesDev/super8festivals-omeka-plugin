@@ -175,7 +175,7 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($federation_photo->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
+        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $federation_photo->file_name = $newFileName;
         $federation_photo->create_thumbnail();
         $federation_photo->save();

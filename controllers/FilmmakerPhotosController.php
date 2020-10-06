@@ -13,13 +13,8 @@ class SuperEightFestivals_FilmmakerPhotosController extends Omeka_Controller_Abs
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $filmmakerID = $request->getParam('filmmakerID');
         $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
@@ -33,13 +28,8 @@ class SuperEightFestivals_FilmmakerPhotosController extends Omeka_Controller_Abs
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $filmmakerID = $request->getParam('filmmakerID');
         $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
@@ -58,13 +48,8 @@ class SuperEightFestivals_FilmmakerPhotosController extends Omeka_Controller_Abs
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $filmmakerID = $request->getParam('filmmakerID');
         $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
@@ -83,13 +68,8 @@ class SuperEightFestivals_FilmmakerPhotosController extends Omeka_Controller_Abs
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $filmmakerID = $request->getParam('filmmakerID');
         $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
@@ -229,7 +209,7 @@ class SuperEightFestivals_FilmmakerPhotosController extends Omeka_Controller_Abs
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($photo->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
+        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $photo->file_name = $newFileName;
         $photo->create_thumbnail();
         $photo->save();

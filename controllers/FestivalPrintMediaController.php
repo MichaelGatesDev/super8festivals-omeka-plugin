@@ -13,13 +13,8 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -33,13 +28,8 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -57,13 +47,8 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -82,13 +67,8 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
     {
         $request = $this->getRequest();
 
-        $countryName = $request->getParam('countryName');
-        $country = SuperEightFestivalsCountry::get_by_param('name', $countryName, 1)[0];
-        $this->view->country = $country;
-
-        $cityName = $request->getParam('cityName');
-        $city = SuperEightFestivalsCity::get_by_params(array('country_id' => $country->id, 'name', $cityName, 1))[0];;
-        $this->view->city = $city;
+        $this->view->country = $country = get_request_param_country($request);
+        $this->view->city = $city = get_request_param_city($request);
 
         $festivalID = $request->getParam('festivalID');
         $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
@@ -226,7 +206,7 @@ class SuperEightFestivals_FestivalPrintMediaController extends Omeka_Controller_
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
         $newFileName = uniqid($print_media->get_internal_prefix() . "_") . "." . $extension;
-        move_to_dir($temporary_name, $newFileName, get_uploads_dir());
+        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
         $print_media->file_name = $newFileName;
         $print_media->create_thumbnail();
         $print_media->save();

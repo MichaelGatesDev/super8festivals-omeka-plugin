@@ -1,8 +1,8 @@
 import { html } from '../../../shared/javascripts/vendor/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
-import Alerts from "../utils/alerts";
-import API from "../utils/api";
+import Alerts from "../utils/alerts.js";
+import API from "../utils/api.js";
 
 function CountriesTable() {
     const [countries, setCountries] = useState([]);

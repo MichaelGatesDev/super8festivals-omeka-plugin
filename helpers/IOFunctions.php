@@ -64,7 +64,7 @@ function get_temporary_file($inputName): array
  * @param $newFileName
  * @param $newFileDir
  */
-function move_to_dir($fromPath, $newFileName, $newFileDir): void
+function move_tempfile_to_dir($fromPath, $newFileName, $newFileDir): void
 {
     if (!is_dir($newFileDir)) {
         mkdir($newFileDir, 0775, true);
@@ -112,6 +112,18 @@ function delete_dir($dirPath)
     rrmdir($dirPath);
 }
 
+function find_path_to_file($file_name)
+{
+    $di = new RecursiveDirectoryIterator(get_project_dir(), RecursiveDirectoryIterator::SKIP_DOTS);
+    $it = new RecursiveIteratorIterator($di);
+    $results = [];
+    foreach ($it as $file) {
+        if (strpos($file, $file_name)) {
+            array_push($results, $file);
+        }
+    }
+    return $results;
+}
 
 // ============================================================================================================================================================= \\
 
@@ -135,11 +147,6 @@ function delete_plugin_directories()
     }
 }
 
-function get_relative_path($dir)
-{
-    return str_replace(get_root_dir(), "", $dir);
-}
-
 function get_root_dir()
 {
     return $_SERVER['DOCUMENT_ROOT'];
@@ -158,6 +165,11 @@ function get_uploads_dir()
 function get_logs_dir()
 {
     return get_project_dir() . "/logs";
+}
+
+function get_relative_path($dir)
+{
+    return str_replace(get_root_dir(), "", $dir);
 }
 
 function generate_missing_thumbnails()

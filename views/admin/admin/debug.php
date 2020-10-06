@@ -36,8 +36,14 @@ echo head(array(
     <div class="row my-2">
         <div class="col">
             <a href="/admin/super-eight-festivals/debug/generate-missing-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Generate Missing Thumbnails</a>
-            <a href="/admin/super-eight-festivals/debug/regenerate-all-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Regenerate All Thumbnails</a>
-            <a href="/admin/super-eight-festivals/debug/delete-all-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Delete All Thumbnails</a>
+            <a href="/admin/super-eight-festivals/debug/regenerate-all-thumbnails" class="btn btn-secondary" style="margin: 0; padding: 0.5em 1.5em;">Regenerate All Thumbnails</a>
+            <a href="/admin/super-eight-festivals/debug/delete-all-thumbnails" class="btn btn-danger" style="margin: 0; padding: 0.5em 1.5em;">Delete All Thumbnails</a>
+        </div>
+    </div>
+
+    <div class="row my-2">
+        <div class="col">
+            <a href="/admin/super-eight-festivals/debug/relocate-files" class="btn btn-danger" style="margin: 0; padding: 0.5em 1.5em;">Relocate Files</a>
         </div>
     </div>
 

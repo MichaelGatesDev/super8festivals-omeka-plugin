@@ -1,8 +1,8 @@
 import { html } from '../../../shared/javascripts/vendor/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
-import Alerts from "../utils/alerts";
-import API from "../utils/api";
+import Alerts from "../utils/alerts.js";
+import API from "../utils/api.js";
 
 function CitiesTable(element) {
     const [country, setCountry] = useState();
@@ -116,7 +116,7 @@ function CitiesTable(element) {
                     festival.id,
                     festival.year === 0 ? "N/A" : festival.year,
                     html`
-                        <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${festival.name}/festivals/${festival.id}" class="btn btn-info btn-sm">View</a>
+                        <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/festivals/${festival.id}" class="btn btn-info btn-sm">View</a>
                         <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", festival); }}>Edit</button>
                         <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", festival); }}>Delete</button>
                     `

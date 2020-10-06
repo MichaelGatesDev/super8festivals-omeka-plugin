@@ -37,6 +37,7 @@ if (!isset($link)) $link = "";
                     src="<?= $thumbnail_path; ?>"
                     alt="<?= $thumbnail_alt ?? "" ?>"
                     style="object-fit: cover; height: <?= $preview_height; ?>; width: <?= $preview_width; ?>; "
+                    loading="lazy"
             />
         </a>
     <?php endif; ?>

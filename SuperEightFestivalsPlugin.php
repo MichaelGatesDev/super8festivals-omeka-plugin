@@ -255,6 +255,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "debug_regenerate_all_thumbnails", ":module/debug/regenerate-all-thumbnails", "debug-regenerate-all-thumbnails", true);
             $this->add_static_route($router, "debug_delete_all_thumbnails", ":module/debug/delete-all-thumbnails", "debug-delete-all-thumbnails", true);
             $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
+            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
 
             $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
             $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
@@ -291,17 +292,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 'action' => "single"
             )));
 
-            $this->addRecordRoute($router, "city_banner", "city-banners", ":module/countries/:countryName/cities/:cityName/banners", "bannerID");
-            $this->addRecordRoute($router, "filmmaker", "filmmakers", ":module/countries/:countryName/cities/:cityName/filmmakers", "filmmakerID");
-            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:countryName/cities/:cityName/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
+            $this->addRecordRoute($router, "city_banner", "city-banners", ":module/countries/:country/cities/:city/banners", "bannerID");
+            $this->addRecordRoute($router, "filmmaker", "filmmakers", ":module/countries/:country/cities/:city/filmmakers", "filmmakerID");
+            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:country/cities/:city/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
 
-            $this->addRecordRoute($router, "festival", "festivals", ":module/countries/:countryName/cities/:cityName/festivals", "festivalID");
-            $this->addRecordRoute($router, "festival_film_catalog", "festival-film-catalogs", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/film-catalogs", "filmCatalogID");
-            $this->addRecordRoute($router, "festival_films", "festival-films", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/films", "filmID");
-            $this->addRecordRoute($router, "festival_memorabilia", "festival-memorabilia", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/memorabilia", "memorabiliaID");
-            $this->addRecordRoute($router, "festival_print_media", "festival-print-media", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/print-media", "printMediaID");
-            $this->addRecordRoute($router, "festival_photos", "festival-photos", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/photos", "photoID");
-            $this->addRecordRoute($router, "festival_posters", "festival-posters", ":module/countries/:countryName/cities/:cityName/festivals/:festivalID/posters", "posterID");
+            $this->addRecordRoute($router, "festival_film_catalog", "festival-film-catalogs", ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs", "filmCatalogID");
+            $this->addRecordRoute($router, "festival_films", "festival-films", ":module/countries/:country/cities/:city/festivals/:festivalID/films", "filmID");
+            $this->addRecordRoute($router, "festival_memorabilia", "festival-memorabilia", ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia", "memorabiliaID");
+            $this->addRecordRoute($router, "festival_print_media", "festival-print-media", ":module/countries/:country/cities/:city/festivals/:festivalID/print-media", "printMediaID");
+            $this->addRecordRoute($router, "festival_photos", "festival-photos", ":module/countries/:country/cities/:city/festivals/:festivalID/photos", "photoID");
+            $this->addRecordRoute($router, "festival_posters", "festival-posters", ":module/countries/:country/cities/:city/festivals/:festivalID/posters", "posterID");
         } else {
 //            $this->add_public_static_route($router, "index", "", "index"); // commented out because the theme should handle the index
             $this->add_static_route($router, "search", "search", "search", false);
@@ -310,7 +310,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "submit", "submit", "submit", false);
             $this->add_static_route($router, "federation", "federation", "federation", false);
             $this->add_static_route($router, "cities", "cities", "cities", false);
-            $this->add_static_route($router, "city", "cities/:cityName", "city", false);
+            $this->add_static_route($router, "city", "cities/:city", "city", false);
             $this->add_static_route($router, "filmmakers", "filmmakers", "filmmakers", false);
             $this->add_static_route($router, "filmmaker", "filmmakers/:filmmakerID", "filmmaker", false);
         }

@@ -74,5 +74,13 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
         parent::_validate();
     }
 
+    /**
+     * @return SuperEightFestivalsStaff[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 }

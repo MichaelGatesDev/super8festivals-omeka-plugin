@@ -74,6 +74,14 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         }
     }
 
+    /**
+     * @return SuperEightFestivalsCity[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 
     public static function get_by_name($name): ?SuperEightFestivalsCity

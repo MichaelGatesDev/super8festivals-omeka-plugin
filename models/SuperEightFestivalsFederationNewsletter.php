@@ -29,6 +29,14 @@ class SuperEightFestivalsFederationNewsletter extends Super8FestivalsRecord
         $this->delete_files();
     }
 
+    /**
+     * @return SuperEightFestivalsFederationNewsletter[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string

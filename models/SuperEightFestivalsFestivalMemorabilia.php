@@ -37,6 +37,14 @@ class SuperEightFestivalsFestivalMemorabilia extends Super8FestivalsRecord
         }
     }
 
+    /**
+     * @return SuperEightFestivalsFestivalMemorabilia[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string

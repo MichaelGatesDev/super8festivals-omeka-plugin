@@ -29,6 +29,14 @@ class SuperEightFestivalsFederationPhoto extends Super8FestivalsRecord
         $this->delete_files();
     }
 
+    /**
+     * @return SuperEightFestivalsFederationPhoto[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string

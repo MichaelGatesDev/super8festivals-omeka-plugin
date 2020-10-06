@@ -23,5 +23,13 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
         return "id";
     }
 
+    /**
+     * @return SuperEightFestivalsContributor[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 }

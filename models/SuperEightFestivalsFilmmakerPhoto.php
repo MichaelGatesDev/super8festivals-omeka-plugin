@@ -41,6 +41,14 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
         parent::afterDelete();
     }
 
+    /**
+     * @return SuperEightFestivalsFilmmakerPhoto[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 
     public function get_internal_prefix(): string

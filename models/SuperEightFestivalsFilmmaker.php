@@ -42,8 +42,17 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
         $this->delete_children();
     }
 
-    function delete_children()
+    public function delete_children()
     {
+        foreach (SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $this->id) as $record) $record->delete();
+    }
+
+    /**
+     * @return SuperEightFestivalsFilmmaker[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
     }
 
     // ======================================================================================================================== \\

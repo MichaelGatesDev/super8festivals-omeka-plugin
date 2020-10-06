@@ -50,6 +50,14 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         }
     }
 
+    /**
+     * @return SuperEightFestivalsCountry[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
+    }
+
     // ======================================================================================================================== \\
 
     public static function get_by_name($name): ?SuperEightFestivalsCountry

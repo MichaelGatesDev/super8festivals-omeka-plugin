@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivals_FilmmakersController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_AdminFilmmakersController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {
@@ -11,39 +11,18 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
 
     public function indexAction()
     {
-        $request = $this->getRequest();
-
-        $this->view->country = $country = get_request_param_country($request);
-        $this->view->city = $city = get_request_param_city($request);
-
-        $filmmakerID = $request->getParam('filmmakerID');
-        $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
-        $this->view->filmmaker = $filmmaker;
-
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name));
-        return;
     }
 
     public function singleAction()
     {
         $request = $this->getRequest();
-
-        $this->view->country = $country = get_request_param_country($request);
-        $this->view->city = $city = get_request_param_city($request);
-
-        $filmmakerID = $request->getParam('filmmakerID');
-        $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
-        $this->view->filmmaker = $filmmaker;
-        return;
+        $this->view->filmmaker = $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmakerID");
     }
 
 
     public function addAction()
     {
         $request = $this->getRequest();
-
-        $this->view->country = $country = get_request_param_country($request);
-        $this->view->city = $city = get_request_param_city($request);
 
         $filmmaker = new SuperEightFestivalsFilmmaker();
         $filmmaker->city_id = $city->id;
@@ -56,13 +35,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
     public function editAction()
     {
         $request = $this->getRequest();
-
-        $this->view->country = $country = get_request_param_country($request);
-        $this->view->city = $city = get_request_param_city($request);
-
-        $filmmakerID = $request->getParam('filmmakerID');
-        $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
-        $this->view->filmmaker = $filmmaker;
+        $this->view->filmmaker = $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmakerID");
 
         $form = $this->_getForm($filmmaker);
         $this->view->form = $form;
@@ -72,13 +45,7 @@ class SuperEightFestivals_FilmmakersController extends Omeka_Controller_Abstract
     public function deleteAction()
     {
         $request = $this->getRequest();
-
-        $this->view->country = $country = get_request_param_country($request);
-        $this->view->city = $city = get_request_param_city($request);
-
-        $filmmakerID = $request->getParam('filmmakerID');
-        $filmmaker = SuperEightFestivalsFilmmaker::get_by_id($filmmakerID);
-        $this->view->filmmaker = $filmmaker;
+        $this->view->filmmaker = $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmakerID");
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;

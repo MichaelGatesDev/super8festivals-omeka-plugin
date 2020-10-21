@@ -179,7 +179,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 ))
         );
         $router->addRoute("super_eight_festivals_" . $routeID . "_add", new Zend_Controller_Router_Route(
-                "$fullRoute/add",
+                "$fullRoute/add/",
                 array(
                     'module' => 'super-eight-festivals',
                     'controller' => $controllerName,
@@ -187,7 +187,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 ))
         );
         $router->addRoute("super_eight_festivals_" . $routeID . "_edit", new Zend_Controller_Router_Route(
-                "$fullRoute/:$urlParam/edit",
+                "$fullRoute/:$urlParam/edit/",
                 array(
                     'module' => 'super-eight-festivals',
                     'controller' => $controllerName,
@@ -195,7 +195,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 ))
         );
         $router->addRoute("super_eight_festivals_" . $routeID . "_delete", new Zend_Controller_Router_Route(
-                "$fullRoute/:$urlParam/delete",
+                "$fullRoute/:$urlParam/delete/",
                 array(
                     'module' => 'super-eight-festivals',
                     'controller' => $controllerName,
@@ -234,74 +234,115 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         );
     }
 
+    function id_from_route($route)
+    {
+        $route = str_replace("/", "_", $route);
+        $route = str_replace(":", "", $route);
+        if (preg_match('/_$/', $route)) $route = substr($route, 0, strlen($route) - 1);
+        return $route;
+    }
+
+    function add_route($router, $route, $controller, $action)
+    {
+        $router->addRoute("s8f_" . $this->id_from_route($route), new Zend_Controller_Router_Route($route, array(
+            'module' => 'super-eight-festivals',
+            'controller' => $controller,
+            'action' => $action
+        )));
+    }
+
     function hookDefineRoutes($args)
     {
         $router = $args['router'];
 
         if (is_admin_theme()) {
-            $this->add_static_route($router, "federation", ":module/federation", "federation", true);
-            $this->addRecordRoute($router, "federation_newsletter", "federation-newsletters", ":module/federation/newsletters", "newsletterID");
-            $this->addRecordRoute($router, "federation_photo", "federation-photos", ":module/federation/photos", "photoID");
-            $this->addRecordRoute($router, "federation_magazine", "federation-magazines", ":module/federation/magazines", "magazineID");
-            $this->addRecordRoute($router, "federation_bylaw", "federation-bylaws", ":module/federation/bylaws", "bylawID");
-
-            $this->add_static_route($router, "debug", ":module/debug", "debug", true);
-            $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
-            $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
-            $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);
-            $this->add_static_route($router, "debug_create_missing_columns", ":module/debug/create-missing-columns", "debug-create-missing-columns", true);
-            $this->add_static_route($router, "debug_create_directories", ":module/debug/create-directories", "debug-create-directories", true);
-            $this->add_static_route($router, "debug_generate_missing_thumbnails", ":module/debug/generate-missing-thumbnails", "debug-generate-missing-thumbnails", true);
-            $this->add_static_route($router, "debug_regenerate_all_thumbnails", ":module/debug/regenerate-all-thumbnails", "debug-regenerate-all-thumbnails", true);
-            $this->add_static_route($router, "debug_delete_all_thumbnails", ":module/debug/delete-all-thumbnails", "debug-delete-all-thumbnails", true);
-            $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
-            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
-
-            $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
-            $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
-
-
             // Route: /countries/
-            $router->addRoute("s8f_admin_countries", new Zend_Controller_Router_Route(":module/countries/", array(
-                'module' => 'super-eight-festivals',
-                'controller' => "admin-countries",
-                'action' => "index"
-            )));
+            $this->add_route($router, ":module/countries/", "admin-countries", "index");
             // Route: /countries/[country]/
-            $router->addRoute("s8f_admin_country", new Zend_Controller_Router_Route(":module/countries/:country", array(
-                'module' => 'super-eight-festivals',
-                'controller' => "admin-countries",
-                'action' => "single"
-            )));
+            $this->add_route($router, ":module/countries/:country/", "admin-countries", "single");
             // Route: /countries/[country]/cities/
-            $router->addRoute("s8f_admin_country_cities", new Zend_Controller_Router_Route(":module/countries/:country/cities/", array(
-                'module' => 'super-eight-festivals',
-                'controller' => "admin-country-cities",
-                'action' => "index"
-            )));
+            $this->add_route($router, ":module/countries/:country/cities/", "admin-country-cities", "index");
             // Route: /countries/[country]/cities/[city]/
-            $router->addRoute("s8f_admin_country_city", new Zend_Controller_Router_Route(":module/countries/:country/cities/:city", array(
-                'module' => 'super-eight-festivals',
-                'controller' => "admin-country-cities",
-                'action' => "single"
-            )));
+            $this->add_route($router, ":module/countries/:country/cities/:city/", "admin-country-cities", "single");
+            // Route: /countries/[country]/cities/[city]/banners/
+            $this->add_route($router, ":module/countries/:country/cities/:city/banners/", "admin-country-city-banners", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/", "admin-country-city-banners", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/edit/", "admin-country-city-banners", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/delete/", "admin-country-city-banners", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/banners/add/", "admin-country-city-banners", "add");
+            // Route: /countries/[country]/cities/[city]/festivals/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/", "admin-country-city-festivals", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/
-            $router->addRoute("s8f_admin_country_city_festival", new Zend_Controller_Router_Route(":module/countries/:country/cities/:city/festivals/:festival", array(
-                'module' => 'super-eight-festivals',
-                'controller' => "admin-country-city-festivals",
-                'action' => "single"
-            )));
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/", "admin-country-city-festivals", "single");
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/film-catalogs/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/", "admin-country-city-festival-film-catalogs", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/:filmCatalogID/", "admin-country-city-festival-film-catalogs", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/:filmCatalogID/edit/", "admin-country-city-festival-film-catalogs", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/:filmCatalogID/delete/", "admin-country-city-festival-film-catalogs", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/add/", "admin-country-city-festival-film-catalogs", "add");
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/films/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/", "admin-country-city-festival-films", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/:filmID/", "admin-country-city-festival-films", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/:filmID/edit/", "admin-country-city-festival-films", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/:filmID/delete/", "admin-country-city-festival-films", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/add/", "admin-country-city-festival-films", "add");
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/memorabilia/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/", "admin-country-city-festival-memorabilia", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/:memorabiliaID/", "admin-country-city-festival-memorabilia", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/:memorabiliaID/edit/", "admin-country-city-festival-memorabilia", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/:memorabiliaID/delete/", "admin-country-city-festival-memorabilia", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/add/", "admin-country-city-festival-memorabilia", "add");
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/print-media/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/", "admin-country-city-festival-print-media", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/:printMediaID/", "admin-country-city-festival-print-media", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/:printMediaID/edit/", "admin-country-city-festival-print-media", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/:printMediaID/delete/", "admin-country-city-festival-print-media", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/add/", "admin-country-city-festival-print-media", "add");
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/photos/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/", "admin-country-city-festival-photos", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/:photoID/", "admin-country-city-festival-photos", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/:photoID/edit/", "admin-country-city-festival-photos", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/:photoID/delete/", "admin-country-city-festival-photos", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/add/", "admin-country-city-festival-photos", "add");
+            // Route: /countries/[country]/cities/[city]/festivals/[festival]/posters/
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/", "admin-country-city-festival-posters", "index");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/:posterID/", "admin-country-city-festival-posters", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/:posterID/edit/", "admin-country-city-festival-posters", "edit");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/:posterID/delete/", "admin-country-city-festival-posters", "delete");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/add/", "admin-country-city-festival-posters", "add");
 
-            $this->addRecordRoute($router, "city_banner", "city-banners", ":module/countries/:country/cities/:city/banners", "bannerID");
-            $this->addRecordRoute($router, "filmmaker", "filmmakers", ":module/countries/:country/cities/:city/filmmakers", "filmmakerID");
-            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:country/cities/:city/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
+            // Route: /filmmakers/
+            $this->add_route($router, ":module/filmmakers/", "admin-filmmakers", "index");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/", "admin-filmmakers", "single");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/edit/", "admin-filmmakers", "edit");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/delete/", "admin-filmmakers", "delete");
+            $this->add_route($router, ":module/filmmakers/add/", "admin-filmmakers", "add");
 
-            $this->addRecordRoute($router, "festival_film_catalog", "festival-film-catalogs", ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs", "filmCatalogID");
-            $this->addRecordRoute($router, "festival_films", "festival-films", ":module/countries/:country/cities/:city/festivals/:festivalID/films", "filmID");
-            $this->addRecordRoute($router, "festival_memorabilia", "festival-memorabilia", ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia", "memorabiliaID");
-            $this->addRecordRoute($router, "festival_print_media", "festival-print-media", ":module/countries/:country/cities/:city/festivals/:festivalID/print-media", "printMediaID");
-            $this->addRecordRoute($router, "festival_photos", "festival-photos", ":module/countries/:country/cities/:city/festivals/:festivalID/photos", "photoID");
-            $this->addRecordRoute($router, "festival_posters", "festival-posters", ":module/countries/:country/cities/:city/festivals/:festivalID/posters", "posterID");
+            // TODO move these
+//            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:country/cities/:city/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
+
+//            $this->add_static_route($router, "federation", ":module/federation", "federation", true);
+//            $this->addRecordRoute($router, "federation_newsletter", "federation-newsletters", ":module/federation/newsletters", "newsletterID");
+//            $this->addRecordRoute($router, "federation_photo", "federation-photos", ":module/federation/photos", "photoID");
+//            $this->addRecordRoute($router, "federation_magazine", "federation-magazines", ":module/federation/magazines", "magazineID");
+//            $this->addRecordRoute($router, "federation_bylaw", "federation-bylaws", ":module/federation/bylaws", "bylawID");
+//
+//            $this->add_static_route($router, "debug", ":module/debug", "debug", true);
+//            $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
+//            $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
+//            $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);
+//            $this->add_static_route($router, "debug_create_missing_columns", ":module/debug/create-missing-columns", "debug-create-missing-columns", true);
+//            $this->add_static_route($router, "debug_create_directories", ":module/debug/create-directories", "debug-create-directories", true);
+//            $this->add_static_route($router, "debug_generate_missing_thumbnails", ":module/debug/generate-missing-thumbnails", "debug-generate-missing-thumbnails", true);
+//            $this->add_static_route($router, "debug_regenerate_all_thumbnails", ":module/debug/regenerate-all-thumbnails", "debug-regenerate-all-thumbnails", true);
+//            $this->add_static_route($router, "debug_delete_all_thumbnails", ":module/debug/delete-all-thumbnails", "debug-delete-all-thumbnails", true);
+//            $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
+//            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
+//
+//            $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
+//            $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
+
+
         } else {
 //            $this->add_public_static_route($router, "index", "", "index"); // commented out because the theme should handle the index
             $this->add_static_route($router, "search", "search", "search", false);

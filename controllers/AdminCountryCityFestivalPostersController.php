@@ -1,12 +1,12 @@
 <?php
 
-class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {
         // Set the model class so this controller can perform some functions,
         // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFestivalFilmCatalog');
+        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFestivalPoster');
     }
 
     public function indexAction()
@@ -15,10 +15,7 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
-
-        $festivalID = $request->getParam('festivalID');
-        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
-        $this->view->festival = $festival;
+        $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
 
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id);
         return;
@@ -30,17 +27,14 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
+        $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
 
-        $festivalID = $request->getParam('festivalID');
-        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
-        $this->view->festival = $festival;
-
-        $catalog = new SuperEightFestivalsFestivalFilmCatalog();
-        $catalog->festival_id = $festival->id;
-        $form = $this->_getForm($catalog);
+        $poster = new SuperEightFestivalsFestivalPoster();
+        $poster->festival_id = $festival->id;
+        $form = $this->_getForm($poster);
         $this->view->form = $form;
-        $this->view->catalog = $catalog;
-        $this->_processForm($catalog, $form, 'add');
+        $this->view->poster = $poster;
+        $this->_processForm($poster, $form, 'add');
     }
 
     public function editAction()
@@ -49,18 +43,12 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
+        $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
+        $this->view->poster = $poster = get_request_param_by_id($request, SuperEightFestivalsFestivalPoster::class, "posterID");
 
-        $festivalID = $request->getParam('festivalID');
-        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
-        $this->view->festival = $festival;
-
-        $filmCatalogID = $request->getParam('filmCatalogID');
-        $film_catalog = get_film_catalog_by_id($filmCatalogID);
-        $this->view->film_catalog = $film_catalog;
-
-        $form = $this->_getForm($film_catalog);
+        $form = $this->_getForm($poster);
         $this->view->form = $form;
-        $this->_processForm($film_catalog, $form, 'edit');
+        $this->_processForm($poster, $form, 'edit');
     }
 
     public function deleteAction()
@@ -69,24 +57,18 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
-
-        $festivalID = $request->getParam('festivalID');
-        $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
-        $this->view->festival = $festival;
-
-        $filmCatalogID = $request->getParam('filmCatalogID');
-        $film_catalog = get_film_catalog_by_id($filmCatalogID);
-        $this->view->film_catalog = $film_catalog;
+        $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
+        $this->view->poster = $poster = get_request_param_by_id($request, SuperEightFestivalsFestivalPoster::class, "posterID");
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($film_catalog, $form, 'delete');
+        $this->_processForm($poster, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalFilmCatalog $film_catalog = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalPoster $poster = null): Omeka_Form_Admin
     {
         $formOptions = array(
-            'type' => 'super_eight_festivals_festival_film_catalog'
+            'type' => 'super_eight_festivals_festival_poster'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
@@ -98,7 +80,7 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => get_parent_contributor_options(),
-                'value' => $film_catalog->contributor_id,
+                'value' => $poster->contributor_id,
                 'required' => false,
             )
         );
@@ -109,7 +91,7 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
                 'id' => 'title',
                 'label' => 'Title',
                 'description' => "The catalog's title",
-                'value' => $film_catalog->title,
+                'value' => $poster->title,
                 'required' => false,
             )
         );
@@ -120,7 +102,7 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
                 'id' => 'description',
                 'label' => 'Description',
                 'description' => "The catalog's description",
-                'value' => $film_catalog->description,
+                'value' => $poster->description,
                 'required' => false,
             )
         );
@@ -130,8 +112,8 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
             array(
                 'id' => 'file',
                 'label' => 'File',
-                'description' => "The film catalog file",
-                'required' => $film_catalog->file_name == "" || !file_exists($film_catalog->get_path()),
+                'description' => "The poster file",
+                'required' => $poster->file_name == "" || !file_exists($poster->get_path()),
                 'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
@@ -139,9 +121,9 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalFilmCatalog $film_catalog, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalPoster $poster, Zend_Form $form, $action)
     {
-        $this->view->film_catalog = $film_catalog;
+        $this->view->poster = $poster;
 
         if ($this->getRequest()->isPost()) {
             try {
@@ -152,43 +134,45 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
                 try {
                     // delete
                     if ($action == 'delete') {
-                        $film_catalog->delete();
-                        $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been deleted.", 'success');
-                    } else if ($action == 'add') {
-                        $film_catalog->setPostData($_POST);
-                        if ($film_catalog->save()) {
+                        $poster->delete();
+                        $this->_helper->flashMessenger("The poster has been deleted.", 'success');
+                    } // add
+                    else if ($action == 'add') {
+                        $poster->setPostData($_POST);
+                        if ($poster->save()) {
                             // do file upload
-                            $this->upload_file($film_catalog);
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been added.", 'success');
+                            $this->upload_file($poster);
+                            $this->_helper->flashMessenger("The poster has been added.", 'success');
                         }
-                    } else if ($action == 'edit') {
+                    } // edit
+                    else if ($action == 'edit') {
                         // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = get_film_catalog_by_id($film_catalog->id);
+                        $originalRecord = SuperEightFestivalsFestivalPoster::get_by_id($poster->id);
                         // set the data of the record according to what was submitted in the form
-                        $film_catalog->setPostData($_POST);
+                        $poster->setPostData($_POST);
                         // if there is no pending upload, use the old files
                         if (!has_temporary_file('file')) {
-                            $film_catalog->file_name = $originalRecord->file_name;
-                            $film_catalog->thumbnail_file_name = $originalRecord->thumbnail_file_name;
+                            $poster->file_name = $originalRecord->file_name;
+                            $poster->thumbnail_file_name = $originalRecord->thumbnail_file_name;
                         } else {
                             // temporarily set file name to uploaded file name
-                            $film_catalog->file_name = get_temporary_file("file")[0];
+                            $poster->file_name = get_temporary_file("file")[0];
                         }
-                        if ($film_catalog->save()) {
+                        if ($poster->save()) {
                             // only change files if there is a file waiting
                             if (has_temporary_file('file')) {
                                 // delete old files
                                 $originalRecord->delete_files();
                                 // do file upload
-                                $this->upload_file($film_catalog);
+                                $this->upload_file($poster);
                             }
                             // display result dialog
-                            $this->_helper->flashMessenger("The film catalog for " . $film_catalog->get_city()->name . " has been edited.", 'success');
+                            $this->_helper->flashMessenger("The poster has been edited.", 'success');
                         }
                     }
 
 
-                    $this->redirect("/super-eight-festivals/countries/" . urlencode($film_catalog->get_country()->name) . "/cities/" . urlencode($film_catalog->get_city()->name) . "/festivals/" . $film_catalog->festival_id);
+                    $this->redirect("/super-eight-festivals/countries/" . urlencode($poster->get_country()->name) . "/cities/" . urlencode($poster->get_city()->name) . "/festivals/" . $poster->festival_id);
                 } catch (Omeka_Validate_Exception $e) {
                     $this->_helper->flashMessenger($e);
                 } catch (Omeka_Record_Exception $e) {
@@ -200,14 +184,13 @@ class SuperEightFestivals_FestivalFilmCatalogsController extends Omeka_Controlle
         }
     }
 
-    private function upload_file(SuperEightFestivalsFestivalFilmCatalog $film_catalog)
+    private function upload_file(SuperEightFestivalsFestivalPoster $poster)
     {
         list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($film_catalog->get_internal_prefix() . "_") . "." . $extension;
+        $newFileName = uniqid($poster->get_internal_prefix() . "_") . "." . $extension;
         move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $film_catalog->file_name = $newFileName;
-        $film_catalog->create_thumbnail();
-        $film_catalog->save();
+        $poster->file_name = $newFileName;
+        $poster->create_thumbnail();
+        $poster->save();
     }
-
 }

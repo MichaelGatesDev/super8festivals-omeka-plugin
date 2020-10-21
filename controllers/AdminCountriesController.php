@@ -9,6 +9,6 @@ class SuperEightFestivals_AdminCountriesController extends Omeka_Controller_Abst
     public function singleAction()
     {
         $request = $this->getRequest();
-        $this->view->country = get_request_param_country($request);
+        $this->view->country = $country = get_request_param_country($request);
     }
 }

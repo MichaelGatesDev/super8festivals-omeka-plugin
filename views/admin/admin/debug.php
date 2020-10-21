@@ -25,6 +25,16 @@ echo head(array(
 
     <div class="row">
         <div class="col">
+            <div class="alert alert-danger" role="alert">
+                <h5 class="text-danger text-center">
+                    Warning: This section is intended for the developer of the website only.
+                </h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
             <a href="/admin/super-eight-festivals/debug/purge/unused" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Purge All Unused records</a>
             <a href="/admin/super-eight-festivals/debug/fix-festivals" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Fix Festival IDs</a>
             <a href="/admin/super-eight-festivals/debug/create-tables" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Create DB Tables</a>

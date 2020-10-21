@@ -1,5 +1,16 @@
 <?php
 
+function get_request_param_by_id($request, $clazz, $param_name)
+{
+    $id = $request->getParam($param_name);
+    $result = $clazz::get_by_id($id);
+
+    if (!$result) {
+        throw new Omeka_Controller_Exception_404("No such ${clazz} exists with that ID: '${$id}'.");
+    }
+    return $result;
+}
+
 function get_request_param_country($request): SuperEightFestivalsCountry
 {
     $country_param = $request->getParam('country');
@@ -18,14 +29,4 @@ function get_request_param_city($request): SuperEightFestivalsCity
         throw new Omeka_Controller_Exception_404("No city exists with that name/ID: '${city_param}'.");
     }
     return $city;
-}
-
-function get_request_param_festival($request): SuperEightFestivalsFestival
-{
-    $festivalID = $request->getParam('festival');
-    $festival = SuperEightFestivalsFestival::get_by_id($festivalID);
-    if (!$festival) {
-        throw new Omeka_Controller_Exception_404("No festival exists with that ID: '${$festivalID}'.");
-    }
-    return $festival;
 }

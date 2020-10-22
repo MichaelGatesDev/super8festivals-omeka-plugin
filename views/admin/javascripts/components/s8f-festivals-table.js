@@ -4,7 +4,6 @@ import { component, useEffect, useState } from '../../../shared/javascripts/vend
 import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
 import Modals from "../utils/modals.js";
-import { isNumeric } from "../../../shared/javascripts/vendor/bootstrap/js/popper-utils";
 
 
 const FormAction = {

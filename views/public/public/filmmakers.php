@@ -20,30 +20,16 @@ echo head($head);
         <div class="col">
             <?php if (count($records = SuperEightFestivalsFilmmaker::get_all()) > 0): ?>
                 <?php foreach ($records as $filmmaker): ?>
-                    <?php
-                    $information = array();
-                    array_push($information, array(
-                        "key" => "Name",
-                        "value" => $filmmaker->get_full_name() == "" ? "No name" : html_escape($filmmaker->get_full_name()),
-                    ));
-                    array_push($information, array(
-                        "key" => "email",
-                        "value" => $filmmaker->email == "" ? "No email" : html_escape($filmmaker->email),
-                    ));
-                    echo $this->partial("__components/record-card.php", array(
-                        'card_width' => '300px',
-                        'card_height' => '100px',
-//                            'preview_height' => '300px',
-                        'embed' => $filmmaker->embed,
-//                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
-//                            'preview_path' => get_relative_path($poster->get_path()),
-                        'fancybox_category' => 'filmmakers',
-                        'information' => $information,
-                        'admin' => false,
-//                        'edit_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/edit",
-//                        'delete_url' => $root_url . '/filmmakers/' . $filmmaker->id . "/delete",
-                        'link' => '/filmmakers/' . $filmmaker->id
-                    )); ?>
+                    <div class="card d-inline-block mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title text-capitalize mb-3">
+                                <?= $filmmaker->get_full_name() == "" ? "No name" : html_escape($filmmaker->get_full_name()) ?>
+                            </h5>
+                            <p class="card-text mb-1"><span class="font-weight-bold">Total films:</span> <?= count($filmmaker->get_films()); ?></p>
+                            <p class="card-text mb-1"><span class="font-weight-bold">Organization:</span> <?= $filmmaker->organization_name != "" ? $filmmaker->organization_name : "N/A" ?></p>
+                            <a href="/filmmakers/<?= $filmmaker->id; ?>/" class="stretched-link"></a>
+                        </div>
+                    </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <p>There are no filmmakers here yet.</p>

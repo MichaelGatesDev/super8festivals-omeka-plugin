@@ -65,51 +65,9 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <s8f-festivals-table country-id="<?= $country->id; ?>" city-id="<?= $city->id; ?>"></s8f-festivals-table>
-        </div>
-    </div>
-
-    <!--    Filmmakers Table -->
     <div class="row my-5">
         <div class="col">
-            <h3 class="text-capitalize">
-                Filmmakers
-                <a class="btn btn-success btn-sm" href="<?= $rootURL; ?>/filmmakers/add">Add Filmmaker</a>
-            </h3>
-            <?php $filmmakers = SuperEightFestivalsFilmmaker::get_by_param('city_id', $city->id); ?>
-            <?php if (count($filmmakers) == 0): ?>
-                <p>There are no filmmakers available for this city.</p>
-            <?php else: ?>
-                <table id="contributors" class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <td style="width: 1px;">ID</td>
-                        <td>First Name</td>
-                        <td>Last Name</td>
-                        <td>Organization</td>
-                        <td>Email</td>
-                        <td style="width: 1px;"></td>
-                        <td style="width: 1px;"></td>
-                    </tr>
-                    </thead>
-                    <?php foreach ($filmmakers as $filmmaker): ?>
-                        <?php
-                        $recordRootURL = "$rootURL/filmmakers/" . $filmmaker->id;
-                        ?>
-                        <tr>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $filmmaker->id; ?></span></td>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $filmmaker->first_name; ?></span></td>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $filmmaker->last_name; ?></span></td>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $filmmaker->organization_name; ?></span></td>
-                            <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $filmmaker->email; ?></span></td>
-                            <td><a class="btn btn-primary btn-sm" href="<?= $recordRootURL; ?>/edit">Edit</a></td>
-                            <td><a class="btn btn-danger btn-sm" href="<?= $recordRootURL; ?>/delete">Delete</a></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </table>
-            <?php endif; ?>
+            <s8f-festivals-table country-id="<?= $country->id; ?>" city-id="<?= $city->id; ?>"></s8f-festivals-table>
         </div>
     </div>
 

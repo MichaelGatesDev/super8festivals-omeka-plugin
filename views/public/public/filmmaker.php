@@ -16,13 +16,13 @@ $photos = $filmmaker->get_photos();
         </div>
     </div>
 
-    <div class="row my-5" id="film-catalogs">
+    <div class="row my-5" id="filmmaker-films">
         <div class="col">
             <h3>
                 Films (<?= count($films); ?>)
             </h3>
             <?php if (count($films) == 0): ?>
-                <p>There are no photos available for this filmmaker.</p>
+                <p>There are no films available for this filmmaker.</p>
             <?php else: ?>
                 <div class="row row-cols">
                     <?php foreach ($films as $film): ?>
@@ -66,7 +66,7 @@ $photos = $filmmaker->get_photos();
         </div>
     </div>
 
-    <div class="row my-5" id="film-catalogs">
+    <div class="row my-5" id="film-photos">
         <div class="col">
             <h3>
                 Photos (<?= count($photos); ?>)

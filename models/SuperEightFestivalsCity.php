@@ -31,7 +31,7 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         parent::_validate();
         $this->__validate();
-        if (SuperEightFestivalsCity::get_by_params(array('country_id' => $this->country_id, 'name' => $this->name))) {
+        if (($found = SuperEightFestivalsCountry::get_by_params(['country_id' => $this->country_id, 'name' => $this->name])) && count($found) > 0 && $found[0]->id !== $this->id) {
             throw new Error("Country already contains a city with that name!");
         }
     }

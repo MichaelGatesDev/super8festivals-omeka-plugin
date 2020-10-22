@@ -34,7 +34,7 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         if (!is_numeric($this->year) || ($this->year != 0 && strlen($this->year) != 4)) {
             throw new Error("The year may only be a 4-digit numeric year (e.g. 1974)");
         }
-        if (SuperEightFestivalsFestival::get_by_params(['city_id' => $this->city_id, 'year' => $this->year])) {
+        if (($found = SuperEightFestivalsCountry::get_by_params(['city_id' => $this->city_id, 'year' => $this->year])) && count($found) > 0 && $found[0]->id !== $this->id) {
             throw new Error("A festival with that year already exists!");
         }
         return true;

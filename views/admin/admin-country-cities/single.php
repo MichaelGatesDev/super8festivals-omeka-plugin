@@ -37,7 +37,9 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
             <?php if ($description == null): ?>
                 <p>There is no description available for this city.</p>
             <?php else: ?>
-                <?= $description; ?>
+                <div class="form-group">
+                    <textarea class="form-control" readonly><?= $description; ?></textarea>
+                </div>
             <?php endif; ?>
         </div>
     </div>

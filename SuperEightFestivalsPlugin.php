@@ -105,9 +105,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-alerts-area.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-table.js'></script>\n";
 
-        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/country-modal.js'></script>\n";
-        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/city-modal.js'></script>\n";
-        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/festival-modal.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-filmmakers-table.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-countries-table.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-cities-table.js'></script>\n";

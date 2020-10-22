@@ -11,4 +11,14 @@ export default class Modals {
         });
         modal._element.dispatchEvent(event);
     }
+
+    static show_custom(modalID) {
+        const modalElem = document.getElementById(modalID);
+        modalElem.dispatchEvent(new CustomEvent("modal-show"));
+    }
+
+    static hide_custom(modalID) {
+        const modalElem = document.getElementById(modalID);
+        modalElem.dispatchEvent(new CustomEvent("modal-hide"));
+    }
 }

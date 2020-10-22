@@ -249,9 +249,39 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countrySingleCityAction()
     {
-        $request = $this->getRequest();
-        $city = get_request_param_city($request);
-        $this->redirect("/rest-api/cities/" . $city->id . "/");
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city));
+            } else {
+                $user = current_user();
+                if ($user->role !== "super") {
+                    $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
+                    return;
+                }
+
+                if ($request->isPost()) {
+
+                    $raw_json = file_get_contents('php://input');
+                    $json = json_decode($raw_json, TRUE);
+
+                    $city->name = $json['name'];
+                    $city->latitude = $json['latitude'];
+                    $city->longitude = $json['longitude'];
+                    $city->description = $json['description'];
+                    $city->save();
+
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
+                } else if ($request->isDelete()) {
+                    $city->delete();
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city));
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
     }
 
     public function countryAddCityAction()

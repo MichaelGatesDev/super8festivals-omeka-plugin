@@ -3,6 +3,8 @@ import { component, useEffect, useState } from '../../../shared/javascripts/vend
 
 import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
+import Modals from "../utils/modals.js";
+
 
 const FormAction = {
     Add: "add",
@@ -54,7 +56,7 @@ function FilmmakersTable() {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Filmmaker`, err);
             console.error(`Error - Failed to Add Filmmaker: ${err.message}`);
         } finally {
-            hideModal();
+            Modals.hide_custom("filmmaker-modal");
             scrollToAlerts();
         }
     };
@@ -76,7 +78,7 @@ function FilmmakersTable() {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Filmmaker`, err);
             console.error(`Error - Failed to Edit Filmmaker: ${err.message}`);
         } finally {
-            hideModal();
+            Modals.hide_custom("filmmaker-modal");
             scrollToAlerts();
         }
     };
@@ -98,7 +100,7 @@ function FilmmakersTable() {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Filmmaker`, err);
             console.error(`Error - Failed to Delete Filmmaker: ${err.message}`);
         } finally {
-            hideModal();
+            Modals.hide_custom("filmmaker-modal");
             scrollToAlerts();
         }
     };
@@ -125,7 +127,7 @@ function FilmmakersTable() {
         } else if (action === FormAction.Update) {
             updateFilmmaker(obj);
         }
-        hideModal();
+        Modals.hide_custom("filmmaker-modal");
     };
 
 
@@ -200,21 +202,6 @@ function FilmmakersTable() {
         `;
     };
 
-    const showModal = (mode = "add", filmmaker = null) => {
-        const modalElem = document.getElementById("filmmaker-modal");
-        modalElem.dispatchEvent(new CustomEvent("modal-show", {
-            detail: {
-                mode,
-                filmmaker,
-            },
-        }));
-    }
-
-    const hideModal = () => {
-        const modalElem = document.getElementById("filmmaker-modal");
-        modalElem.dispatchEvent(new Event("modal-hide"));
-    };
-
     const btnAddClick = () => {
         setModalTitle("Add Filmmaker");
         setModalBody(getForm());
@@ -222,7 +209,7 @@ function FilmmakersTable() {
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
         `);
-        showModal();
+        Modals.show_custom("filmmaker-modal");
     };
 
     const btnEditClick = (filmmaker) => {
@@ -232,7 +219,7 @@ function FilmmakersTable() {
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
         `);
-        showModal();
+        Modals.show_custom("filmmaker-modal");
     };
 
     const btnDeleteClick = (filmmaker) => {
@@ -245,7 +232,7 @@ function FilmmakersTable() {
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click=${() => { deleteFilmmaker(filmmaker.id); }}>Confirm</button>
         `);
-        showModal();
+        Modals.show_custom("filmmaker-modal");
     };
 
     const getTableHeaders = () => ["ID", "First Name", "Last Name", "Organization Name", "Email", "Actions"];
@@ -261,7 +248,7 @@ function FilmmakersTable() {
                 type="button" 
                 class="btn btn-primary btn-sm" 
                 @click=${() => { btnEditClick(filmmaker); }}
-                >
+            >
                 Edit
             </button>
             <button 

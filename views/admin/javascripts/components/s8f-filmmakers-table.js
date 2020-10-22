@@ -136,21 +136,23 @@ function FilmmakersTable() {
         const formData = new FormData(document.getElementById("form"))
         // const id = formData.get('id');
         const first_name = formData.get('first-name');
-        if (first_name.replace(/\s/g, "") === "") {
-            return { valid: false, problematic_input: "first-name", message: "Can not be blank!" };
-        }
         const last_name = formData.get('last-name');
-        if (last_name.replace(/\s/g, "") === "") {
-            return { valid: false, problematic_input: "last-name", message: "Can not be blank!" };
-        }
         const organization_name = formData.get('organization-name');
-        if (organization_name.replace(/\s/g, "") === "") {
-            return { valid: false, problematic_input: "organization-name", message: "Can not be blank!" };
-        }
         const email = formData.get('email');
-        if (email.replace(/\s/g, "") === "") {
-            return { valid: false, problematic_input: "email", message: "Can not be blank!" };
+        if (
+            first_name.replace(/\s/g, "") === "" &&
+            last_name.replace(/\s/g, "") === "" &&
+            organization_name.replace(/\s/g, "") === "" &&
+            email.replace(/\s/g, "") === ""
+        ) {
+            return { valid: false, problematic_input: "", message: "Form can not be blank" };
         }
+        // if (organization_name.replace(/\s/g, "") === "") {
+        //     return { valid: false, problematic_input: "organization-name", message: "Can not be blank!" };
+        // }
+        // if (email.replace(/\s/g, "") === "") {
+        //     return { valid: false, problematic_input: "email", message: "Can not be blank!" };
+        // }
         return { valid: true };
     };
 

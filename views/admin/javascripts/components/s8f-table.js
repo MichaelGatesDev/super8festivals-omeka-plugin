@@ -1,38 +1,33 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html.js';
+import { html, nothing } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
+import { repeat } from '../../../shared/javascripts/vendor/lit-html/directives/repeat.js';
 import { component, useState, useEffect } from '../../../shared/javascripts/vendor/haunted.js';
 
-function Table() {
-    const [tableHeaders, setTableHeaders] = useState([]);
-    const [tableRows, setTableRows] = useState([]);
+function Table(element) {
+    const tableHeaderTemplate = (header) => {
+        return html`<td>${header}</td>`;
+    };
 
-    const onTableChange = (evt) => {
-        const { detail } = evt;
+    const tableRowCellTemplate = (cell) => {
+        return html`<td>${cell}</td>`;
+    };
 
-        if (detail.headers) setTableHeaders(detail.headers);
-        if (detail.rows) setTableRows(detail.rows);
-    }
-
-    useEffect(() => {
-        this.addEventListener('s8f-table-change', onTableChange);
-    }, []);
+    const tableRowTemplate = (row) => {
+        return html`
+        <tr>
+            ${repeat(Object.values(row), (cell) => tableRowCellTemplate(cell))}
+        </tr>
+        `;
+    };
 
     return html`
     <table class="table table-striped table-hover">
         <thead>
             <tr>
-                ${tableHeaders.map((header) => html`<td>${header}</td>`)}
+                ${repeat(element.headers, (header) => tableHeaderTemplate(header))}
             </tr>
         </thead>
         <tbody>
-            ${tableRows.map((row) => html`
-            <tr>
-                ${row.map((value) => html`
-                    <td>
-                        ${value}
-                    </td>
-                `)}
-            </tr>
-            `)}
+            ${repeat(element.rows, (row) => tableRowTemplate(row))}
         </tbody>
     </table>
     `;

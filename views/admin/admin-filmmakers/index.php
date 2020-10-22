@@ -28,7 +28,7 @@ echo head(array(
 
     <div class="row">
         <div class="col">
-            Filmmakers go here
+            <s8f-filmmakers-table></s8f-filmmakers-table>
         </div>
     </div>
 

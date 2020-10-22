@@ -1,4 +1,4 @@
-import { html } from '../../../shared/javascripts/vendor/lit-html.js';
+import { html } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "../utils/alerts.js";
@@ -25,6 +25,10 @@ function CitiesTable(element) {
             console.error(`Error - Failed to Fetch Countries: ${err.message}`);
         }
     };
+
+    useEffect(() => {
+        fetchCountry().then(() => { fetchCities(); })
+    }, []);
 
     const fetchCities = async () => {
         try {
@@ -83,38 +87,19 @@ function CitiesTable(element) {
         }
     };
 
-    useEffect(async () => {
-        // grab data
-        setTimeout(async () => {
-            await fetchCountry();
-            await fetchCities();
-        }, 0);
-    }, []);
-
-    useEffect(() => {
-        const tableElem = document.getElementById("cities-table");
-        if(!tableElem) return;
-        tableElem.dispatchEvent(new CustomEvent("s8f-table-change", {
-            bubbles: true, // this lets the event bubble up through the DOM
-            composed: true, // this lets the event cross the Shadow DOM boundary
-            detail: {
-                headers: ["ID", "Name", "Latitude", "Longitude", "Description", "Actions"],
-                rows: cities.map((city) => [
-                    city.id,
-                    city.name,
-                    city.latitude,
-                    city.longitude,
-                    city.description,
-                    html`
-                        <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/" class="btn btn-info btn-sm">View</a>
-                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", city); }}>Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", city); }}>Delete</button>
-                    `
-                ]),
-            },
-        }));
-    }, [cities]);
-
+    const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Description", "Actions"];
+    const getTableRows = () => cities.map((city) => [
+        city.id,
+        city.name,
+        city.latitude,
+        city.longitude,
+        city.description,
+        html`
+            <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/" class="btn btn-info btn-sm">View</a>
+            <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", city); }}>Edit</button>
+            <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", city); }}>Delete</button>
+        `
+    ]);
 
     const showModal = (mode = "add", city = null) => {
         const modalElem = document.getElementById("city-modal");
@@ -168,7 +153,11 @@ function CitiesTable(element) {
     <p class="text-muted">
        Here are a list of cities in <span class="text-capitalize">${country.name}</span>.
     </p>
-    <s8f-table id="cities-table"></s8f-table>
+    <s8f-table 
+        id="cities-table"
+        .headers=${getTableHeaders()}
+        .rows=${getTableRows()}
+    ></s8f-table>
     `;
 }
 

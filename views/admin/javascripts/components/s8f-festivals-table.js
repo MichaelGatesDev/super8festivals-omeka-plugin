@@ -1,4 +1,4 @@
-import { html } from '../../../shared/javascripts/vendor/lit-html.js';
+import { html } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "../utils/alerts.js";
@@ -7,7 +7,7 @@ import API from "../utils/api.js";
 function CitiesTable(element) {
     const [country, setCountry] = useState();
     const [city, setCity] = useState();
-    const [festivals, setFestivals] = useState();
+    const [festivals, setFestivals] = useState([]);
 
     const scrollToAlerts = () => {
         document.getElementById("alerts").scrollIntoView({
@@ -49,6 +49,13 @@ function CitiesTable(element) {
         }
     };
 
+    useEffect(() => {
+        fetchCountry().then(() => {
+            return fetchCity();
+        }).then(() => {
+            return fetchFestivals();
+        });
+    }, []);
 
     const addFestival = async (festivalToAddObj) => {
         try {
@@ -95,36 +102,16 @@ function CitiesTable(element) {
         }
     };
 
-    useEffect(async () => {
-        // grab data
-        setTimeout(async () => {
-            await fetchCountry();
-            await fetchCity();
-            await fetchFestivals();
-        }, 0);
-    }, []);
-
-    useEffect(() => {
-        const tableElem = document.getElementById("festivals-table");
-        if (!tableElem) return;
-        tableElem.dispatchEvent(new CustomEvent("s8f-table-change", {
-            bubbles: true, // this lets the event bubble up through the DOM
-            composed: true, // this lets the event cross the Shadow DOM boundary
-            detail: {
-                headers: ["ID", "Year", "Actions"],
-                rows: festivals.map((festival) => [
-                    festival.id,
-                    festival.year === 0 ? "N/A" : festival.year,
-                    html`
-                        <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/festivals/${festival.id}" class="btn btn-info btn-sm">View</a>
-                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", festival); }}>Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", festival); }}>Delete</button>
-                    `
-                ]),
-            },
-        }));
-    }, [festivals]);
-
+    const getTableHeaders = () => ["ID", "Year", "Actions"];
+    const getTableRows = () => festivals.map((festival) => [
+        festival.id,
+        festival.year === 0 ? "N/A" : festival.year,
+        html`
+            <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/festivals/${festival.id}" class="btn btn-info btn-sm">View</a>
+            <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", festival); }}>Edit</button>
+            <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", festival); }}>Delete</button>
+        `
+    ]);
 
     const showModal = (mode = "add", festival = null) => {
         const modalElem = document.getElementById("festival-modal");
@@ -178,7 +165,11 @@ function CitiesTable(element) {
     <p class="text-muted">
        Here are a list of festivals in <span class="text-capitalize">${city.name}, ${country.name}</span>.
     </p>
-    <s8f-table id="festivals-table"></s8f-table>
+    <s8f-table 
+        id="festivals-table"
+        .headers=${getTableHeaders()}
+        .rows=${getTableRows()}
+    ></s8f-table>
     `;
 }
 

@@ -30,6 +30,85 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     // ======================================================================================================================== \\
 
+    public function allFilmmakersAction()
+    {
+        try {
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all filmmakers", SuperEightFestivalsFilmmaker::get_all()));
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    public function singleFilmmakerAction()
+    {
+        $user = current_user();
+        try {
+            $request = $this->getRequest();
+            $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmakerID");
+
+            if ($request->isGet()) {
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched filmmaker", $filmmaker));
+            } else {
+                if ($user->role !== "super") {
+                    $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
+                    return;
+                }
+
+                if ($request->isPost()) {
+                    $raw_json = file_get_contents('php://input');
+                    $json = json_decode($raw_json, TRUE);
+
+                    $filmmaker->first_name = $json['first_name'];
+                    $filmmaker->last_name = $json['last_name'];
+                    $filmmaker->organization_name = $json['organization_name'];
+                    $filmmaker->email = $json['email'];
+                    $filmmaker->save();
+
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated filmmaker", $filmmaker));
+                } else if ($request->isDelete()) {
+                    $filmmaker->delete();
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted filmmaker", $filmmaker));
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    public function addFilmmakerAction()
+    {
+        $user = current_user();
+        if ($user->role !== "super") {
+            $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
+            return;
+        }
+
+        try {
+            $request = $this->getRequest();
+
+            if (!$request->isPost()) {
+                $this->_helper->json($this->getJsonResponse("error", "Can only add filmmakers by POST request"));
+                return;
+            }
+
+            $raw_json = file_get_contents('php://input');
+            $json = json_decode($raw_json, TRUE);
+
+            $filmmaker = new SuperEightFestivalsFilmmaker();
+            $filmmaker->first_name = $json['first_name'];
+            $filmmaker->last_name = $json['last_name'];
+            $filmmaker->organization_name = $json['organization_name'];
+            $filmmaker->email = $json['email'];
+            $filmmaker->save();
+
+            $this->_helper->json($this->getJsonResponse("success", "Successfully created filmmaker", $filmmaker));
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    // ======================================================================================================================== \\
+
     public function allCountriesAction()
     {
         try {

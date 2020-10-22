@@ -4,7 +4,7 @@ echo head(array(
 ));
 
 $photos = SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $filmmaker->id);
-$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/filmmakers/" . $filmmaker->id;
+$rootURL = "/admin/super-eight-festivals/filmmakers/" . $filmmaker->id;
 ?>
 
 <section class="container">

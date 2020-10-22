@@ -1,6 +1,6 @@
-import { directive, render } from './lit-html.js';
+import { directive, render } from './lit-html/lit-html.js';
 
-export { html, render } from './lit-html.js';
+export { html, render } from './lit-html/lit-html.js';
 
 let current;
 let currentId = 0;

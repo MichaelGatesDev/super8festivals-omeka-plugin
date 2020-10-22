@@ -1,4 +1,4 @@
-import { html } from '../../../shared/javascripts/vendor/lit-html.js';
+import { html } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "../utils/alerts.js";
@@ -24,6 +24,10 @@ function CountriesTable() {
             console.error(`Error - Failed to Fetch Countries: ${err.message}`);
         }
     };
+
+    useEffect(() => {
+        fetchCountries();
+    }, []);
 
     const addCountry = async (countryToAddObj) => {
         try {
@@ -70,35 +74,18 @@ function CountriesTable() {
         }
     };
 
-    useEffect(async () => {
-        // grab data
-        setTimeout(async () => {
-            await fetchCountries();
-        }, 0);
-    }, []);
-
-    useEffect(() => {
-        const tableElem = document.getElementById("countries-table");
-        if(!tableElem) return;
-        tableElem.dispatchEvent(new CustomEvent("s8f-table-change", {
-            bubbles: true, // this lets the event bubble up through the DOM
-            composed: true, // this lets the event cross the Shadow DOM boundary
-            detail: {
-                headers: ["ID", "Name", "Latitude", "Longitude", "Actions"],
-                rows: countries.map((country) => [
-                    country.id,
-                    country.name,
-                    country.latitude,
-                    country.longitude,
-                    html`
-                        <a href="/admin/super-eight-festivals/countries/${country.name}/" class="btn btn-info btn-sm">View</a>
-                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", country); }}>Edit</button>
-                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", country);  }}>Delete</button>
-                    `
-                ]),
-            },
-        }));
-    }, [countries]);
+    const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Actions"];
+    const getTableRows = () => countries.map((country) => [
+        country.id,
+        country.name,
+        country.latitude,
+        country.longitude,
+        html`
+            <a href="/admin/super-eight-festivals/countries/${country.name}/" class="btn btn-info btn-sm">View</a>
+            <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", country); }}>Edit</button>
+            <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", country); }}>Delete</button>
+        `
+    ]);
 
     const showModal = (mode = "add", country = null) => {
         const modalElem = document.getElementById("country-modal");
@@ -119,21 +106,21 @@ function CountriesTable() {
     <s8f-country-modal 
         modal-id="country-modal"
         @modal-form-submit=${async (evt) => {
-            const country = evt.detail;
-            if (country.id) {
-                await updateCountry(country);
-            } else {
-                await addCountry(country);
-            }
-        }}
+        const country = evt.detail;
+        if (country.id) {
+            await updateCountry(country);
+        } else {
+            await addCountry(country);
+        }
+    }}
         @modal-form-delete=${async (evt) => {
-            const country = evt.detail;
-            if (country.id) {
-                await deleteCountry(country.id);
-            } else {
-                await addCountry(country);
-            }
-        }}
+        const country = evt.detail;
+        if (country.id) {
+            await deleteCountry(country.id);
+        } else {
+            await addCountry(country);
+        }
+    }}
     >
     </s8f-country-modal>
     <h2 class="mb-4">
@@ -146,7 +133,11 @@ function CountriesTable() {
             Add Country
         </button>
     </h2>
-    <s8f-table id="countries-table"></s8f-table>
+    <s8f-table 
+        id="countries-table"
+        .headers=${getTableHeaders()}
+        .rows=${getTableRows()}
+    ></s8f-table>
     `;
 }
 

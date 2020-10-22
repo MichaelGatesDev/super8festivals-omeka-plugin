@@ -108,6 +108,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/country-modal.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/city-modal.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/modals/festival-modal.js'></script>\n";
+        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-filmmakers-table.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-countries-table.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-cities-table.js'></script>\n";
         echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>\n";
@@ -204,36 +205,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         );
     }
 
-    function add_static_route($router, $id, $fullRoute, $action, $adminOnly)
-    {
-        $router->addRoute(
-            $id,
-            new Zend_Controller_Router_Route(
-                $fullRoute,
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $adminOnly ? "admin" : "public",
-                    "action" => $action,
-                )
-            )
-        );
-    }
-
-    function add_api_route($router, $id, $fullRoute, $action)
-    {
-        $router->addRoute(
-            $id,
-            new Zend_Controller_Router_Route(
-                $fullRoute,
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => "api",
-                    "action" => $action,
-                )
-            )
-        );
-    }
-
     function id_from_route($route)
     {
         $route = str_replace("/", "_", $route);
@@ -249,6 +220,26 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             'controller' => $controller,
             'action' => $action
         )));
+    }
+
+    function add_api_route($router, $full_route, $action)
+    {
+        $this->add_route($router, $full_route, "api", $action);
+    }
+
+    function add_static_route($router, $id, $fullRoute, $action, $adminOnly)
+    {
+        $router->addRoute(
+            $id,
+            new Zend_Controller_Router_Route(
+                $fullRoute,
+                array(
+                    'module' => 'super-eight-festivals',
+                    'controller' => $adminOnly ? "admin" : "public",
+                    "action" => $action,
+                )
+            )
+        );
     }
 
     function hookDefineRoutes($args)
@@ -317,6 +308,10 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/filmmakers/:filmmakerID/edit/", "admin-filmmakers", "edit");
             $this->add_route($router, ":module/filmmakers/:filmmakerID/delete/", "admin-filmmakers", "delete");
             $this->add_route($router, ":module/filmmakers/add/", "admin-filmmakers", "add");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/", "admin-filmmaker-photos", "index");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/:filmmakerPhotoID/edit/", "admin-filmmaker-photos", "edit");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/:filmmakerPhotoID/delete/", "admin-filmmaker-photos", "delete");
+            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/add/", "admin-filmmaker-photos", "add");
 
             // TODO move these
 //            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:country/cities/:city/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
@@ -357,30 +352,34 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         // ADD API ROUTES
-        $this->add_api_route($router, "api_index", "/rest-api/", "index");
+        $this->add_api_route($router, "/rest-api/", "index");
         // users
-        $this->add_api_route($router, "api_users_all", "/rest-api/users/", "all-users");
-        $this->add_api_route($router, "api_users_single", "/rest-api/users/:user/", "single-user");
-        $this->add_api_route($router, "api_users_add", "/rest-api/users/add/", "add-user");
+        $this->add_api_route($router, "/rest-api/users/", "all-users");
+        $this->add_api_route($router, "/rest-api/users/:user/", "single-user");
+        $this->add_api_route($router, "/rest-api/users/add/", "add-user");
+        // filmmakers
+        $this->add_api_route($router, "/rest-api/filmmakers/", "all-filmmakers");
+        $this->add_api_route($router, "/rest-api/filmmakers/:filmmakerID/", "single-filmmaker");
+        $this->add_api_route($router, "/rest-api/filmmakers/add/", "add-filmmaker");
         // countries
-        $this->add_api_route($router, "api_countries_all", "/rest-api/countries/", "all-countries");
-        $this->add_api_route($router, "api_countries_single", "/rest-api/countries/:country/", "single-country");
-        $this->add_api_route($router, "api_countries_add", "/rest-api/countries/add/", "add-country");
+        $this->add_api_route($router, "/rest-api/countries/", "all-countries");
+        $this->add_api_route($router, "/rest-api/countries/:country/", "single-country");
+        $this->add_api_route($router, "/rest-api/countries/add/", "add-country");
         // cities
-        $this->add_api_route($router, "api_cities_all", "/rest-api/cities/", "all-cities");
-        $this->add_api_route($router, "api_cities_single", "/rest-api/cities/:city/", "single-city");
-        $this->add_api_route($router, "api_country_cities_all", "/rest-api/countries/:country/cities/", "country-all-cities");
-        $this->add_api_route($router, "api_country_cities_single", "/rest-api/countries/:country/cities/:city/", "country-single-city");
-        $this->add_api_route($router, "api_country_cities_add", "/rest-api/countries/:country/cities/add/", "country-add-city");
+        $this->add_api_route($router, "/rest-api/cities/", "all-cities");
+        $this->add_api_route($router, "/rest-api/cities/:city/", "single-city");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/", "country-all-cities");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/", "country-single-city");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/add/", "country-add-city");
         // festivals
-        $this->add_api_route($router, "api_festivals_all", "/rest-api/festivals/", "all-festivals");
-        $this->add_api_route($router, "api_festivals_single", "/rest-api/festivals/:festival/", "single-festival");
-        $this->add_api_route($router, "api_city_festivals_all", "/rest-api/cities/:city/festivals/", "city-all-festivals");
-        $this->add_api_route($router, "api_city_festivals_single", "/rest-api/cities/:city/festivals/:festival/", "city-single-festival");
-        $this->add_api_route($router, "api_city_festivals_add", "/rest-api/cities/:city/festivals/add/", "city-add-festival");
-        $this->add_api_route($router, "api_country_city_festivals_all", "/rest-api/countries/:country/cities/:city/festivals/", "country-city-all-festivals");
-        $this->add_api_route($router, "api_country_city_festivals_single", "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-single-festival");
-        $this->add_api_route($router, "api_country_city_festivals_add", "/rest-api/countries/:country/cities/:city/festivals/add/ ", "country-city-add-festival");
+        $this->add_api_route($router, "/rest-api/festivals/", "all-festivals");
+        $this->add_api_route($router, "/rest-api/festivals/:festival/", "single-festival");
+        $this->add_api_route($router, "/rest-api/cities/:city/festivals/", "city-all-festivals");
+        $this->add_api_route($router, "/rest-api/cities/:city/festivals/:festival/", "city-single-festival");
+        $this->add_api_route($router, "/rest-api/cities/:city/festivals/add/", "city-add-festival");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/", "country-city-all-festivals");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-single-festival");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/add/ ", "country-city-add-festival");
     }
 
 }

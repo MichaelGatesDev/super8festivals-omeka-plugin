@@ -8,6 +8,54 @@ export default class API {
      * Returns a promise, whose success result is an array of country objects.
      * @returns {Promise<* | void>}
      */
+    static async getAllFilmmakers() {
+        return Rest.get("/rest-api/filmmakers/");
+    }
+
+    /**
+     * Returns a promise, whose success result is a country object.
+     * @returns {Promise<* | void>}
+     */
+    static async getFilmmaker(filmmakerID) {
+        return Rest.get(`/rest-api/countries/${filmmakerID}/`);
+    }
+
+    /**
+     * Creates a new country object in the database based on info from the passed object.
+     * Returns a promise, whose success result is the created country object
+     * @param filmmakerObj - The object to take the info from.
+     * @returns {Promise<* | void>}
+     */
+    static async addFilmmaker(filmmakerObj) {
+        return Rest.post("/rest-api/filmmakers/add/", filmmakerObj);
+    }
+
+    /**
+     * Updates a country object in the database based on info from the passed object.
+     * Returns a promise, whose success result is the updated country object.
+     * @param filmmakerObj - The object to take updated info from.
+     * @returns {Promise<* | void>}
+     */
+    static async updateFilmmaker(filmmakerObj) {
+        return Rest.post(`/rest-api/filmmakers/${filmmakerObj.id}/`, filmmakerObj);
+    }
+
+    /**
+     * Deletes a country object from the database.
+     * Returns a promise, whose success result is the deleted country object.
+     * @param filmmakerID - The ID of the country to delete.
+     * @returns {Promise<* | void>}
+     */
+    static async deleteFilmmaker(filmmakerID) {
+        return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/`);
+    }
+
+    // ===================================================================================================================================================== \\
+
+    /**
+     * Returns a promise, whose success result is an array of country objects.
+     * @returns {Promise<* | void>}
+     */
     static async getAllCountries() {
         return Rest.get("/rest-api/countries/");
     }

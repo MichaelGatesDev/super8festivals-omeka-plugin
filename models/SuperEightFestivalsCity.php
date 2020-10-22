@@ -112,7 +112,14 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
 
     public function get_filmmakers()
     {
-        return SuperEightFestivalsFilmmaker::get_by_param('city_id', $this->id);
+        $results = [];
+        foreach ($this->get_festivals() as $festival) {
+            $films = SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $festival->id);
+            foreach ($films as $film) {
+                array_push($results, $film->get_filmmaker());
+            }
+        }
+        return $results;
     }
 
     // ======================================================================================================================== \\

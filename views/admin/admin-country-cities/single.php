@@ -29,13 +29,10 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
         </div>
     </div>
 
-    <!--    Description -->
+    <!--  Description -->
     <div class="row my-5">
         <div class="col">
-            <h3>
-                Description
-                <a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/edit">Edit Description</a>
-            </h3>
+            <h3>Description</h3>
             <?php $description = $city->description; ?>
             <?php if ($description == null): ?>
                 <p>There is no description available for this city.</p>
@@ -45,7 +42,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
         </div>
     </div>
 
-    <!--    City Banner -->
+    <!--  City Banner -->
     <div class="row my-5">
         <div class="col">
             <h3>City Banner</h3>

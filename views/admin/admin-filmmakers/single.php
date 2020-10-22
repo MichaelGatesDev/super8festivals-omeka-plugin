@@ -4,6 +4,8 @@ echo head(array(
 ));
 
 $photos = SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $filmmaker->id);
+$films = SuperEightFestivalsFestivalFilm::get_by_param('filmmaker_id', $filmmaker->id);
+
 $rootURL = "/admin/super-eight-festivals/filmmakers/" . $filmmaker->id;
 ?>
 
@@ -19,11 +21,60 @@ $rootURL = "/admin/super-eight-festivals/filmmakers/" . $filmmaker->id;
 
     <div class="row">
         <div class="col">
-            <h2 class="text-capitalize">
-                <?= $filmmaker->get_display_name(); ?>
-                <a class="btn btn-primary" href='<?= $rootURL; ?>/edit'>Edit</a>
-                <a class="btn btn-danger" href='<?= $rootURL; ?>/delete'>Delete</a>
-            </h2>
+            <h2 class="text-capitalize"><?= $filmmaker->get_display_name(); ?></h2>
+        </div>
+    </div>
+
+    <!-- Films -->
+    <div class="row" id="films">
+        <div class="col">
+            <h3>Films (<?= count($films); ?>)</h3>
+            <p class="text-muted">Note: You can not upload films on this page.<br/>To add a film, you must navigate to the country -> city -> festival and add it there.</p>
+            <?php if (count($films) == 0): ?>
+                <p>There are no films available yet.</p>
+            <?php else: ?>
+                <div class="row row-cols">
+                    <?php foreach ($films as $film): ?>
+                        <?php
+                        $information = array();
+                        array_push($information, array(
+                            "key" => "title",
+                            "value" => $film->title == "" ? "Untitled" : $film->title,
+                        ));
+                        array_push($information, array(
+                            "key" => "description",
+                            "value" => $film->description == "" ? "No description" : $film->description,
+                        ));
+                        array_push($information, array(
+                            "key" => "festival",
+                            "value" => $film->get_festival()->year == 0 ? "Uncategorized" : $film->get_festival()->year,
+                        ));
+                        array_push($information, array(
+                            "key" => "contributor",
+                            "value" => $film->contributor_id === 0 ? "No contributor" : $film->get_contributor()->get_display_name(),
+                        ));
+                        $filmmaker = $film->get_filmmaker();
+                        $filmmaker_id = $film->filmmaker_id;
+                        if ($film->contributor_id != 0 && $filmmaker != null) {
+                            array_push($information, array(
+                                "key" => "filmmaker",
+                                "value" => $filmmaker == null || $filmmaker_id == 0 ? "No filmmaker" : "<a href='/filmmakers/$filmmaker_id/'>" . $filmmaker->get_full_name() . "</a>",
+                            ));
+                        }
+                        echo $this->partial("__components/record-card.php", array(
+                            'card_width' => '500px',
+//                        'preview_height' => '300px',
+//                        'preview_width' => '100%',
+                            'embed' => $film->embed,
+//                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
+//                            'preview_path' => get_relative_path($poster->get_path()),
+                            'fancybox_category' => 'films',
+                            'information' => $information,
+                            'admin' => false,
+                        )); ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -73,6 +124,7 @@ $rootURL = "/admin/super-eight-festivals/filmmakers/" . $filmmaker->id;
             <?php endif; ?>
         </div>
     </div>
+
 
 </section>
 

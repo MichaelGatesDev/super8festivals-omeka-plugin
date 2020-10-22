@@ -115,6 +115,7 @@ function CitiesTable(element) {
 
         if (action === FormAction.Add) {
             addCity(obj);
+            document.getElementById("form").reset();
         } else if (action === FormAction.Update) {
             updateCity(obj);
         }

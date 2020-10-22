@@ -130,6 +130,7 @@ function FestivalsTable(element) {
 
         if (action === FormAction.Add) {
             addFestival(obj);
+            document.getElementById("form").reset();
         } else if (action === FormAction.Update) {
             updateFestival(obj);
         }

@@ -124,6 +124,7 @@ function FilmmakersTable() {
 
         if (action === FormAction.Add) {
             addFilmmaker(obj);
+            document.getElementById("form").reset();
         } else if (action === FormAction.Update) {
             updateFilmmaker(obj);
         }

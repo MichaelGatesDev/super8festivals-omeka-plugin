@@ -123,6 +123,7 @@ function CountriesTable() {
 
         if (action === FormAction.Add) {
             addCountry(obj);
+            document.getElementById("form").reset();
         } else if (action === FormAction.Update) {
             updateCountry(obj);
         }

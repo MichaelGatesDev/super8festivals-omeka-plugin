@@ -37,8 +37,12 @@ $photos = $filmmaker->get_photos();
                             "value" => $film->description == "" ? "No description" : html_escape($film->description),
                         ));
                         array_push($information, array(
+                            "key" => "city",
+                            "value" => $film->get_festival()->get_city()->name,
+                        ));
+                        array_push($information, array(
                             "key" => "festival",
-                            "value" => $film->get_festival()->year == 0 ? "Uncategorized" : html_escape($film->get_festival()->year),
+                            "value" => $film->get_festival()->year == 0 ? "uncategorized" : html_escape($film->get_festival()->year),
                         ));
                         $contributor = $film->get_contributor();
                         $contributor_id = $film->contributor_id;

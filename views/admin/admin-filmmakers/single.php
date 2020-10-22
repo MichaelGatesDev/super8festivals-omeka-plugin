@@ -46,6 +46,10 @@ $rootURL = "/admin/super-eight-festivals/filmmakers/" . $filmmaker->id;
                             "value" => $film->description == "" ? "No description" : $film->description,
                         ));
                         array_push($information, array(
+                            "key" => "city",
+                            "value" => $film->get_festival()->get_city()->name,
+                        ));
+                        array_push($information, array(
                             "key" => "festival",
                             "value" => $film->get_festival()->year == 0 ? "Uncategorized" : $film->get_festival()->year,
                         ));

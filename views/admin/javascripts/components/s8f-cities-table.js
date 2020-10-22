@@ -51,7 +51,6 @@ function CitiesTable(element) {
         }
     };
 
-
     const addCity = async (cityToAddObj) => {
         try {
             const city = await API.addCityToCountry(country.id, cityToAddObj);
@@ -199,9 +198,9 @@ function CitiesTable(element) {
         Modals.show_custom("city-modal");
     };
 
-    const btnEditClick = (jcity) => {
+    const btnEditClick = (city) => {
         setModalTitle("Edit City");
-        setModalBody(getForm(jcity));
+        setModalBody(getForm(city));
         setModalFooter(html`
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>

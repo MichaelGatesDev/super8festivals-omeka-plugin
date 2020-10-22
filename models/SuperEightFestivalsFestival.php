@@ -4,8 +4,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FMetadata;
-
     public $city_id = 0;
     public $year = 0;
 
@@ -19,7 +17,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
                 "`city_id`      INT(10) UNSIGNED NOT NULL",
                 "`year`         INT(4)           NOT NULL",
             ),
-            S8FMetadata::get_db_columns(),
         );
     }
 
@@ -71,6 +68,9 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     // ======================================================================================================================== \\
 
+    /**
+     * @return SuperEightFestivalsCity|null
+     */
     public function get_city()
     {
         return SuperEightFestivalsCity::get_by_id($this->city_id);

@@ -1,13 +1,25 @@
-import { html } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
+import { html, nothing } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
+import Modals from "../utils/modals.js";
+import { isNumeric } from "../../../shared/javascripts/vendor/bootstrap/js/popper-utils";
 
-function CitiesTable(element) {
+
+const FormAction = {
+    Add: "add",
+    Update: "update",
+}
+
+
+function FestivalsTable(element) {
     const [country, setCountry] = useState();
     const [city, setCity] = useState();
     const [festivals, setFestivals] = useState([]);
+    const [modalTitle, setModalTitle] = useState();
+    const [modalBody, setModalBody] = useState();
+    const [modalFooter, setModalFooter] = useState();
 
     const scrollToAlerts = () => {
         document.getElementById("alerts").scrollIntoView({
@@ -67,7 +79,7 @@ function CitiesTable(element) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Festival`, err);
             console.error(`Error - Failed to Add Festival: ${err.message}`);
         } finally {
-            hideModal();
+            Modals.hide_custom("festival-modal");
             scrollToAlerts();
         }
     };
@@ -82,14 +94,14 @@ function CitiesTable(element) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Festival`, err);
             console.error(`Error - Failed to Edit Festival: ${err.message}`);
         } finally {
-            hideModal();
+            Modals.hide_custom("festival-modal");
             scrollToAlerts();
         }
     };
 
-    const deleteFestival = async (festivalToDeleteObj) => {
+    const deleteFestival = async (festivalID) => {
         try {
-            const festival = await API.deleteFestival(festivalToDeleteObj.id);
+            const festival = await API.deleteFestival(festivalID);
             Alerts.success("alerts", html`<strong>Success</strong> - Deleted Festival`, `Successfully deleted festival "${festival.year}" from the database.`);
             console.debug(`Deleted festival: ${JSON.stringify(festival)}`);
             await fetchFestivals();
@@ -97,9 +109,95 @@ function CitiesTable(element) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Festival`, err);
             console.error(`Error - Failed to Delete Festival: ${err.message}`);
         } finally {
-            hideModal();
+            Modals.hide_custom("festival-modal");
             scrollToAlerts();
         }
+    };
+
+    const submitForm = (action) => {
+        const formData = new FormData(document.getElementById("form"))
+        const formResult = validateForm();
+        if (!formResult.valid) {
+            console.error(`${formResult.problematic_input}: ${formResult.message}`);
+            // TODO show validation results on form
+            return;
+        }
+
+        const obj = {
+            id: formData.get('id'),
+            year: formData.get('year'),
+        };
+
+        if (action === FormAction.Add) {
+            addFestival(obj);
+        } else if (action === FormAction.Update) {
+            updateFestival(obj);
+        }
+        Modals.hide_custom("festival-modal");
+    };
+
+
+    const validateForm = () => {
+        const formData = new FormData(document.getElementById("form"))
+        // const id = formData.get('id');
+        const year = formData.get('year');
+        if (year != 0 && `${year}`.length != 4) {
+            return { valid: false, problematic_input: "year", message: "Invalid year!" };
+        }
+        return { valid: true };
+    };
+
+    const getForm = (festival = null) => {
+        return html`
+        <form id="form" method="POST" action="">
+            ${festival ? html`<input type="text" class="d-none" name="id" value=${festival.id} />` : nothing}
+            <div class="mb-3">
+                <label for="form-year" class="form-label">Festival Year</label>
+                <input 
+                    type="number" 
+                    class="form-control" 
+                    id="form-year" 
+                    name="year" 
+                    aria-describedby="formFestivalHelp"
+                    placeholder=""
+                    .value=${festival ? festival.year : 0}
+                >
+            </div>
+        </form>
+        `;
+    };
+
+    const btnAddClick = () => {
+        setModalTitle("Add Festival");
+        setModalBody(getForm());
+        setModalFooter(html`
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
+        `);
+        Modals.show_custom("festival-modal");
+    };
+
+    const btnEditClick = (festival) => {
+        setModalTitle("Edit Festival");
+        setModalBody(getForm(festival));
+        setModalFooter(html`
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
+        `);
+        Modals.show_custom("festival-modal");
+    };
+
+    const btnDeleteClick = (festival) => {
+        setModalTitle("Delete Festival");
+        setModalBody(html`
+            <p>Are you sure you want to delete this?</p>
+            <p class="text-danger">Warning: this can not be undone.</p>
+        `);
+        setModalFooter(html`
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" @click=${() => { deleteFestival(festival.id); }}>Confirm</button>
+        `);
+        Modals.show_custom("festival-modal");
     };
 
     const getTableHeaders = () => ["ID", "Year", "Actions"];
@@ -108,63 +206,32 @@ function CitiesTable(element) {
         festival.year === 0 ? "N/A" : festival.year,
         html`
             <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/festivals/${festival.id}" class="btn btn-info btn-sm">View</a>
-            <button type="button" class="btn btn-primary btn-sm" @click=${() => { showModal("edit", festival); }}>Edit</button>
-            <button type="button" class="btn btn-danger btn-sm" @click=${() => { showModal("delete", festival); }}>Delete</button>
+            <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(festival); }}>Edit</button>
+            <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(festival); }}>Delete</button>
         `
     ]);
-
-    const showModal = (mode = "add", festival = null) => {
-        const modalElem = document.getElementById("festival-modal");
-        modalElem.dispatchEvent(new CustomEvent("modal-show", {
-            detail: {
-                mode,
-                festival,
-            },
-        }));
-    }
-
-    const hideModal = () => {
-        const modalElem = document.getElementById("festival-modal");
-        modalElem.dispatchEvent(new Event("modal-hide"));
-    };
 
 
     if (!country || !city) return html`Loading...`;
 
     return html`
-    <s8f-festival-modal 
+    <s8f-modal 
         modal-id="festival-modal"
-        @modal-form-submit=${async (evt) => {
-        const festival = evt.detail;
-        if (festival.id) {
-            await updateFestival(festival);
-        } else {
-            await addFestival(festival);
-        }
-    }}
-        @modal-form-delete=${async (evt) => {
-        const festival = evt.detail;
-        if (festival.id) {
-            await deleteFestival(festival);
-        } else {
-            await addFestival(festival);
-        }
-    }}
+        .modal-title=${modalTitle}
+        .modal-body=${modalBody}
+        .modal-footer=${modalFooter}
     >
-    </s8f-festival-modal>
+    </s8f-modal>
     <h3 class="mb-2">
         Festivals
         <button 
             type="button" 
             class="btn btn-success btn-sm"
-            @click=${() => { showModal("add"); }}
+            @click=${() => { btnAddClick(); }}
         >
             Add Festival
         </button>
     </h3>
-    <p class="text-muted">
-       Here are a list of festivals in <span class="text-capitalize">${city.name}, ${country.name}</span>.
-    </p>
     <s8f-table 
         id="festivals-table"
         .headers=${getTableHeaders()}
@@ -173,6 +240,6 @@ function CitiesTable(element) {
     `;
 }
 
-CitiesTable.observedAttributes = ['country-id', 'city-id'];
+FestivalsTable.observedAttributes = ['country-id', 'city-id'];
 
-customElements.define('s8f-festivals-table', component(CitiesTable, { useShadowDOM: false }));
+customElements.define('s8f-festivals-table', component(FestivalsTable, { useShadowDOM: false }));

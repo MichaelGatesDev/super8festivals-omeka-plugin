@@ -332,7 +332,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     {
         try {
             $request = $this->getRequest();
-            $festival = get_request_param_festival($request);
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched festival", $festival));
@@ -377,7 +377,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function citySingleFestivalAction()
     {
         $request = $this->getRequest();
-        $festival = get_request_param_festival($request);
+        $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
         $this->redirect("/rest-api/festivals/" . $festival->id . "/");
     }
 

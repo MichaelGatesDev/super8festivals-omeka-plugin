@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivals_StaffController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_AdminStaffController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {

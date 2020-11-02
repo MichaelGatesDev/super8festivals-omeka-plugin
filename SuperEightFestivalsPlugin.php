@@ -157,51 +157,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         return $nav;
     }
 
-
-    function addRecordRoute($router, $routeID, $controllerName, $fullRoute, $urlParam)
-    {
-        $router->addRoute("super_eight_festivals_" . $controllerName, new Zend_Controller_Router_Route(
-                $fullRoute,
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $controllerName,
-                    'action' => "index"
-                ))
-        );
-        $router->addRoute("super_eight_festivals_" . $routeID . "_single", new Zend_Controller_Router_Route(
-                "$fullRoute/:$urlParam",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $controllerName,
-                    'action' => "single"
-                ))
-        );
-        $router->addRoute("super_eight_festivals_" . $routeID . "_add", new Zend_Controller_Router_Route(
-                "$fullRoute/add/",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $controllerName,
-                    'action' => "add"
-                ))
-        );
-        $router->addRoute("super_eight_festivals_" . $routeID . "_edit", new Zend_Controller_Router_Route(
-                "$fullRoute/:$urlParam/edit/",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $controllerName,
-                    'action' => "edit"
-                ))
-        );
-        $router->addRoute("super_eight_festivals_" . $routeID . "_delete", new Zend_Controller_Router_Route(
-                "$fullRoute/:$urlParam/delete/",
-                array(
-                    'module' => 'super-eight-festivals',
-                    'controller' => $controllerName,
-                    'action' => "delete"
-                ))
-        );
-    }
-
     function id_from_route($route)
     {
         $route = str_replace("/", "_", $route);
@@ -350,6 +305,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 //
 //            $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
 //            $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
+
+            // Route: /staff/
+            $this->add_route($router, ":module/staff/", "admin-staff", "index");
+            $this->add_route($router, ":module/staff/:staffID/", "admin-staff", "single");
+            $this->add_route($router, ":module/staff/:staffID/edit", "admin-staff", "edit");
+            $this->add_route($router, ":module/staff/:staffID/delete/", "admin-staff", "delete");
+            $this->add_route($router, ":module/staff/add/", "admin-staff", "add");
 
 
         } else {

@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_AbstractActionController
+class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controller_AbstractActionController
 {
     public function init()
     {
@@ -14,7 +14,6 @@ class SuperEightFestivals_FederationPhotosController extends Omeka_Controller_Ab
         $request = $this->getRequest();
 
         $this->redirect("/super-eight-festivals/federation/");
-        return;
     }
 
     public function addAction()

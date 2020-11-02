@@ -301,6 +301,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
             // Route: /filmmakers/
             $this->add_route($router, ":module/filmmakers/", "admin-filmmakers", "index");
+            // Route: /filmmakers/[filmmaker]/
             $this->add_route($router, ":module/filmmakers/:filmmakerID/", "admin-filmmakers", "single");
             $this->add_route($router, ":module/filmmakers/:filmmakerID/edit/", "admin-filmmakers", "edit");
             $this->add_route($router, ":module/filmmakers/:filmmakerID/delete/", "admin-filmmakers", "delete");
@@ -310,16 +311,31 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/:filmmakerPhotoID/delete/", "admin-filmmaker-photos", "delete");
             $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/add/", "admin-filmmaker-photos", "add");
 
-            // TODO move these
-//            $this->addRecordRoute($router, "filmmaker_photos", "filmmaker-photos", ":module/countries/:country/cities/:city/filmmakers/:filmmakerID/photos", "filmmakerPhotoID");
+            // Route: /federation/
+            $this->add_route($router, ":module/federation/", "admin-federation", "index");
+            $this->add_route($router, ":module/federation/newsletters/", "admin-federation-newsletters", "index");
+            $this->add_route($router, ":module/federation/newsletters/:newsletterID/", "admin-federation-newsletters", "single");
+            $this->add_route($router, ":module/federation/newsletters/:newsletterID/edit/", "admin-federation-newsletters", "edit");
+            $this->add_route($router, ":module/federation/newsletters/:newsletterID/delete/", "admin-federation-newsletters", "delete");
+            $this->add_route($router, ":module/federation/newsletters/add/", "admin-federation-newsletters", "add");
+            $this->add_route($router, ":module/federation/photos/", "admin-federation-photos", "index");
+            $this->add_route($router, ":module/federation/photos/:photoID/", "admin-federation-photos", "single");
+            $this->add_route($router, ":module/federation/photos/:photoID/edit/", "admin-federation-photos", "edit");
+            $this->add_route($router, ":module/federation/photos/:photoID/delete/", "admin-federation-photos", "delete");
+            $this->add_route($router, ":module/federation/photos/add/", "admin-federation-photos", "add");
+            $this->add_route($router, ":module/federation/magazines/", "admin-federation-magazines", "index");
+            $this->add_route($router, ":module/federation/magazines/:magazineID/", "admin-federation-magazines", "single");
+            $this->add_route($router, ":module/federation/magazines/:magazineID/edit/", "admin-federation-magazines", "edit");
+            $this->add_route($router, ":module/federation/magazines/:magazineID/delete/", "admin-federation-magazines", "delete");
+            $this->add_route($router, ":module/federation/magazines/add/", "admin-federation-magazines", "add");
+            $this->add_route($router, ":module/federation/bylaws/", "admin-federation-bylaws", "index");
+            $this->add_route($router, ":module/federation/bylaws/:bylawID/", "admin-federation-bylaws", "single");
+            $this->add_route($router, ":module/federation/bylaws/:bylawID/edit/", "admin-federation-bylaws", "edit");
+            $this->add_route($router, ":module/federation/bylaws/:bylawID/delete/", "admin-federation-bylaws", "delete");
+            $this->add_route($router, ":module/federation/bylaws/add/", "admin-federation-bylaws", "add");
 
-//            $this->add_static_route($router, "federation", ":module/federation", "federation", true);
-//            $this->addRecordRoute($router, "federation_newsletter", "federation-newsletters", ":module/federation/newsletters", "newsletterID");
-//            $this->addRecordRoute($router, "federation_photo", "federation-photos", ":module/federation/photos", "photoID");
-//            $this->addRecordRoute($router, "federation_magazine", "federation-magazines", ":module/federation/magazines", "magazineID");
-//            $this->addRecordRoute($router, "federation_bylaw", "federation-bylaws", ":module/federation/bylaws", "bylawID");
-//
-//            $this->add_static_route($router, "debug", ":module/debug", "debug", true);
+            // Route: /debug/
+            $this->add_route($router, ":module/debug/", "admin-debug", "index");
 //            $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
 //            $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
 //            $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);

@@ -336,6 +336,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
             // Route: /debug/
             $this->add_route($router, ":module/debug/", "admin-debug", "index");
+//            $this->add_route($router, ":module/debug/purge/all", "admin-debug", "debug-purge-all");
 //            $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
 //            $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
 //            $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);

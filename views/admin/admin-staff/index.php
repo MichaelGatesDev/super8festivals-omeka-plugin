@@ -27,9 +27,9 @@ $rootURL = "/admin/super-eight-festivals/staff";
     <div class="row">
         <div class="col">
             <?php
-            $staff = SuperEightFestivalsStaff::get_all();
+            $staffs = SuperEightFestivalsStaff::get_all();
             ?>
-            <?php if (count($staff) == 0): ?>
+            <?php if (count($staffs) == 0): ?>
                 <p>There are no staff available.</p>
             <?php else: ?>
                 <table id="staff" class="table table-striped table-hover">
@@ -41,23 +41,26 @@ $rootURL = "/admin/super-eight-festivals/staff";
                         <td>Organization</td>
                         <td>Email</td>
                         <td>Role</td>
-                        <td style="width: 1px;"></td>
-                        <td style="width: 1px;"></td>
+                        <td>Actions</td>
                     </tr>
                     </thead>
-                    <?php foreach ($staff as $contributor): ?>
+                    <?php foreach ($staffs as $staff): ?>
                         <?php
-                        $recordRootURL = "$rootURL/" . $contributor->id;
+                        $recordRootURL = "$rootURL/" . $staff->id;
                         ?>
                         <tr>
-                            <td style="cursor: pointer;"><span class="title"><?= $contributor->id; ?></span></td>
-                            <td style="cursor: pointer;"><span class="title"><?= $contributor->first_name; ?></span></td>
-                            <td style="cursor: pointer;"><span class="title"><?= $contributor->last_name; ?></span></td>
-                            <td style="cursor: pointer;"><span class="title"><?= $contributor->organization_name; ?></span></td>
-                            <td style="cursor: pointer;"><span class="title"><?= $contributor->email; ?></span></td>
-                            <td style="cursor: pointer;"><span class="title"><?= $contributor->role; ?></span></td>
-                            <td><a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/<?= $contributor->id; ?>/edit">Edit</a></td>
-                            <td><a class="btn btn-danger btn-sm" href="<?= $rootURL; ?>/<?= $contributor->id; ?>/delete">Delete</a></td>
+                            <td style="cursor: pointer;"><span class="title"><?= $staff->id; ?></span></td>
+                            <td style="cursor: pointer;"><span class="title"><?= $staff->first_name; ?></span></td>
+                            <td style="cursor: pointer;"><span class="title"><?= $staff->last_name; ?></span></td>
+                            <td style="cursor: pointer;"><span class="title"><?= $staff->organization_name; ?></span></td>
+                            <td style="cursor: pointer;"><span class="title"><?= $staff->email; ?></span></td>
+                            <td style="cursor: pointer;"><span class="title"><?= $staff->role; ?></span></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/<?= $staff->id; ?>/edit">Edit</a>
+                                    <a class="btn btn-danger btn-sm" href="<?= $rootURL; ?>/<?= $staff->id; ?>/delete">Delete</a>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

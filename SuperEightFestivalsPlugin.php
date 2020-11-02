@@ -302,9 +302,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 //            $this->add_static_route($router, "debug_delete_all_thumbnails", ":module/debug/delete-all-thumbnails", "debug-delete-all-thumbnails", true);
 //            $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
 //            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
-//
-//            $this->addRecordRoute($router, "staff", "staff", ":module/staff", "staffID");
-//            $this->addRecordRoute($router, "contributor", "contributors", ":module/contributors", "contributorID");
 
             // Route: /staff/
             $this->add_route($router, ":module/staff/", "admin-staff", "index");
@@ -312,6 +309,13 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/staff/:staffID/edit", "admin-staff", "edit");
             $this->add_route($router, ":module/staff/:staffID/delete/", "admin-staff", "delete");
             $this->add_route($router, ":module/staff/add/", "admin-staff", "add");
+
+            // Route: /contributor/
+            $this->add_route($router, ":module/contributors/", "admin-contributors", "index");
+            $this->add_route($router, ":module/contributors/:contributorID/", "admin-contributors", "single");
+            $this->add_route($router, ":module/contributors/:contributorID/edit", "admin-contributors", "edit");
+            $this->add_route($router, ":module/contributors/:contributorID/delete/", "admin-contributors", "delete");
+            $this->add_route($router, ":module/contributors/add/", "admin-contributors", "add");
 
 
         } else {

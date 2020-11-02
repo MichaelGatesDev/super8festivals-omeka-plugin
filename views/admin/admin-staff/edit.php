@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Edit Contributor: ' . ucwords($staff->get_display_name()),
+    'title' => 'Edit Staff: ' . ucwords($staff->get_display_name()),
 ));
 ?>
 

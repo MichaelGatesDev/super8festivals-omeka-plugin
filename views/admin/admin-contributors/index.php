@@ -41,13 +41,12 @@ $rootURL = "/admin/super-eight-festivals/contributors";
                 <table id="contributors" class="table table-striped table-hover">
                     <thead>
                     <tr>
-                        <td style="width: 1px;">ID</td>
+                        <td>ID</td>
                         <td>First Name</td>
                         <td>Last Name</td>
                         <td>Organization</td>
                         <td>Email</td>
-                        <td style="width: 1px;"></td>
-                        <td style="width: 1px;"></td>
+                        <td>Actions</td>
                     </tr>
                     </thead>
                     <?php foreach ($contributors as $contributor): ?>
@@ -60,8 +59,12 @@ $rootURL = "/admin/super-eight-festivals/contributors";
                             <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $contributor->last_name; ?></span></td>
                             <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $contributor->organization_name; ?></span></td>
                             <td onclick="window.location.href = '<?= $recordRootURL; ?>';" style="cursor: pointer;"><span class="title"><?= $contributor->email; ?></span></td>
-                            <td><a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/<?= $contributor->id; ?>/edit">Edit</a></td>
-                            <td><a class="btn btn-danger btn-sm" href="<?= $rootURL; ?>/<?= $contributor->id; ?>/delete">Delete</a></td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary btn-sm" href="<?= $rootURL; ?>/<?= $contributor->id; ?>/edit">Edit</a>
+                                    <a class="btn btn-danger btn-sm" href="<?= $rootURL; ?>/<?= $contributor->id; ?>/delete">Delete</a>
+                                </div>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </table>

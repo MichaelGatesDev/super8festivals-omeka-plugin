@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => 'Delete Contributor: ' . ucwords($staff->get_display_name()),
+    'title' => 'Delete Staff: ' . ucwords($staff->get_display_name()),
 ));
 ?>
 

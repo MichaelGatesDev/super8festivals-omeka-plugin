@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "bootstrap": "./bootstrap.js",
+    "haunted": "./haunted.js",
+    "jquery": "./jquery.js",
+    "lit-element": "./lit-element.js",
+    "lit-html": "./lit-html.js",
+    "lit-html/directives/repeat": "./lit-html/directives/repeat.js",
+    "popper.js": "./popperjs.js"
+  }
+}

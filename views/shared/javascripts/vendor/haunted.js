@@ -1,19 +1,15 @@
-import { directive, render } from './lit-html/lit-html.js';
-
-export { html, render } from './lit-html/lit-html.js';
+import { d as directive, r as render } from './common/lit-html-da587ac9.js';
+export { h as html, r as render } from './common/lit-html-da587ac9.js';
 
 let current;
 let currentId = 0;
-
 function setCurrent(state) {
     current = state;
 }
-
 function clear() {
     current = null;
     currentId = 0;
 }
-
 function notify() {
     return currentId++;
 }
@@ -34,14 +30,12 @@ class State {
         this[effectsSymbol] = [];
         this[layoutEffectsSymbol] = [];
     }
-
     run(cb) {
         setCurrent(this);
         let res = cb();
         clear();
         return res;
     }
-
     _runEffects(phase) {
         let effects = this[phase];
         setCurrent(this);
@@ -50,15 +44,12 @@ class State {
         }
         clear();
     }
-
     runEffects() {
         this._runEffects(effectsSymbol);
     }
-
     runLayoutEffects() {
         this._runEffects(layoutEffectsSymbol);
     }
-
     teardown() {
         let hooks = this[hookSymbol];
         hooks.forEach(hook => {
@@ -70,11 +61,9 @@ class State {
 }
 
 const defer = Promise.resolve().then.bind(Promise.resolve());
-
 function runner() {
     let tasks = [];
     let id;
-
     function runTasks() {
         id = null;
         let t = tasks;
@@ -83,7 +72,6 @@ function runner() {
             t[i]();
         }
     }
-
     return function (task) {
         tasks.push(task);
         if (id == null) {
@@ -91,10 +79,8 @@ function runner() {
         }
     };
 }
-
 const read = runner();
 const write = runner();
-
 class BaseScheduler {
     constructor(renderer, host) {
         this.renderer = renderer;
@@ -103,7 +89,6 @@ class BaseScheduler {
         this[phaseSymbol] = null;
         this._updateQueued = false;
     }
-
     update() {
         if (this._updateQueued)
             return;
@@ -119,7 +104,6 @@ class BaseScheduler {
         });
         this._updateQueued = true;
     }
-
     handlePhase(phase, arg) {
         this[phaseSymbol] = phase;
         switch (phase) {
@@ -127,68 +111,56 @@ class BaseScheduler {
                 this.commit(arg);
                 this.runEffects(layoutEffectsSymbol);
                 return;
-            case updateSymbol:
-                return this.render();
-            case effectsSymbol:
-                return this.runEffects(effectsSymbol);
+            case updateSymbol: return this.render();
+            case effectsSymbol: return this.runEffects(effectsSymbol);
         }
         this[phaseSymbol] = null;
     }
-
     render() {
         return this.state.run(() => this.renderer.call(this.host, this.host));
     }
-
     runEffects(phase) {
         this.state._runEffects(phase);
     }
-
     teardown() {
         this.state.teardown();
     }
 }
 
 const toCamelCase = (val = '') => val.replace(/-+([a-z])?/g, (_, char) => char ? char.toUpperCase() : '');
-
 function makeComponent(render) {
     class Scheduler extends BaseScheduler {
         constructor(renderer, frag, host) {
             super(renderer, host || frag);
             this.frag = frag;
         }
-
         commit(result) {
             render(result, this.frag);
         }
     }
-
     function component(renderer, baseElementOrOptions, options) {
         const BaseElement = (options || baseElementOrOptions || {}).baseElement || HTMLElement;
         const { observedAttributes = [], useShadowDOM = true, shadowRootInit = {} } = options || baseElementOrOptions || {};
-
         class Element extends BaseElement {
             constructor() {
                 super();
                 if (useShadowDOM === false) {
                     this._scheduler = new Scheduler(renderer, this);
-                } else {
+                }
+                else {
                     this.attachShadow({ mode: 'open', ...shadowRootInit });
                     this._scheduler = new Scheduler(renderer, this.shadowRoot, this);
                 }
             }
-
             static get observedAttributes() {
                 return renderer.observedAttributes || observedAttributes || [];
             }
-
             connectedCallback() {
                 this._scheduler.update();
             }
-
             disconnectedCallback() {
                 this._scheduler.teardown();
             }
-
             attributeChangedCallback(name, oldValue, newValue) {
                 if (oldValue === newValue) {
                     return;
@@ -197,7 +169,6 @@ function makeComponent(render) {
                 Reflect.set(this, toCamelCase(name), val);
             }
         }
-
         function reflectiveProp(initialValue) {
             let value = initialValue;
             return Object.freeze({
@@ -212,7 +183,6 @@ function makeComponent(render) {
                 }
             });
         }
-
         const proto = new Proxy(BaseElement.prototype, {
             getPrototypeOf(target) {
                 return target;
@@ -234,7 +204,8 @@ function makeComponent(render) {
                         writable: true,
                         value
                     };
-                } else {
+                }
+                else {
                     desc = reflectiveProp(value);
                 }
                 Object.defineProperty(receiver, key, desc);
@@ -247,7 +218,6 @@ function makeComponent(render) {
         Object.setPrototypeOf(Element.prototype, proto);
         return Element;
     }
-
     return component;
 }
 
@@ -257,7 +227,6 @@ class Hook {
         this.state = state;
     }
 }
-
 function use(Hook, ...args) {
     let id = notify();
     let hooks = current[hookSymbol];
@@ -268,7 +237,6 @@ function use(Hook, ...args) {
     }
     return hook.update(...args);
 }
-
 function hook(Hook) {
     return use.bind(null, Hook);
 }
@@ -279,30 +247,25 @@ function createEffect(setEffects) {
             super(id, state);
             setEffects(state, this);
         }
-
         update(callback, values) {
             this.callback = callback;
             this.lastValues = this.values;
             this.values = values;
         }
-
         call() {
             if (!this.values || this.hasChanged()) {
                 this.run();
             }
         }
-
         run() {
             this.teardown();
             this._teardown = this.callback.call(this.state);
         }
-
         teardown() {
             if (typeof this._teardown === 'function') {
                 this._teardown();
             }
         }
-
         hasChanged() {
             return !this.lastValues || this.values.some((value, i) => this.lastValues[i] !== value);
         }
@@ -312,7 +275,6 @@ function createEffect(setEffects) {
 function setEffects(state, cb) {
     state[effectsSymbol].push(cb);
 }
-
 const useEffect = createEffect(setEffects);
 
 const useContext = hook(class extends Hook {
@@ -323,7 +285,6 @@ const useContext = hook(class extends Hook {
         this._unsubscribe = null;
         setEffects(state, this);
     }
-
     update(Context) {
         if (this.state.virtual) {
             throw new Error('can\'t be used with virtual components');
@@ -334,7 +295,6 @@ const useContext = hook(class extends Hook {
         }
         return this.value;
     }
-
     call() {
         if (!this._ranEffect) {
             this._ranEffect = true;
@@ -344,12 +304,10 @@ const useContext = hook(class extends Hook {
             this.state.update();
         }
     }
-
     _updater(value) {
         this.value = value;
         this.state.update();
     }
-
     _subscribe(Context) {
         const detail = { Context, callback: this._updater };
         this.state.host.dispatchEvent(new CustomEvent(contextEvent, {
@@ -362,7 +320,6 @@ const useContext = hook(class extends Hook {
         this.value = unsubscribe ? value : Context.defaultValue;
         this._unsubscribe = unsubscribe;
     }
-
     teardown() {
         if (this._unsubscribe) {
             this._unsubscribe();
@@ -379,11 +336,9 @@ function makeContext(component) {
                     this.listeners = new Set();
                     this.addEventListener(contextEvent, this);
                 }
-
                 disconnectedCallback() {
                     this.removeEventListener(contextEvent, this);
                 }
-
                 handleEvent(event) {
                     const { detail } = event;
                     if (detail.Context === Context) {
@@ -393,18 +348,15 @@ function makeContext(component) {
                         event.stopPropagation();
                     }
                 }
-
                 unsubscribe(callback) {
                     this.listeners.delete(callback);
                 }
-
                 set value(value) {
                     this._value = value;
                     for (let callback of this.listeners) {
                         callback(value);
                     }
                 }
-
                 get value() {
                     return this._value;
                 }
@@ -425,7 +377,6 @@ const useMemo = hook(class extends Hook {
         this.value = fn();
         this.values = values;
     }
-
     update(fn, values) {
         if (this.hasChanged(values)) {
             this.values = values;
@@ -433,7 +384,6 @@ const useMemo = hook(class extends Hook {
         }
         return this.value;
     }
-
     hasChanged(values = []) {
         return values.some((value, i) => this.values[i] !== value);
     }
@@ -444,7 +394,6 @@ const useCallback = (fn, inputs) => useMemo(() => fn, inputs);
 function setLayoutEffects(state, cb) {
     state[layoutEffectsSymbol].push(cb);
 }
-
 const useLayoutEffect = createEffect(setLayoutEffects);
 
 const useState = hook(class extends Hook {
@@ -456,11 +405,9 @@ const useState = hook(class extends Hook {
         }
         this.makeArgs(initialValue);
     }
-
     update() {
         return this.args;
     }
-
     updater(value) {
         if (typeof value === 'function') {
             const updaterFn = value;
@@ -470,7 +417,6 @@ const useState = hook(class extends Hook {
         this.makeArgs(value);
         this.state.update();
     }
-
     makeArgs(value) {
         this.args = Object.freeze([value, this.updater]);
     }
@@ -482,12 +428,10 @@ const useReducer = hook(class extends Hook {
         this.dispatch = this.dispatch.bind(this);
         this.currentState = init !== undefined ? init(initialState) : initialState;
     }
-
     update(reducer) {
         this.reducer = reducer;
         return [this.currentState, this.dispatch];
     }
-
     dispatch(action) {
         this.currentState = this.reducer(this.currentState, action);
         this.state.update();
@@ -505,33 +449,27 @@ function haunted({ render }) {
 }
 
 const includes = Array.prototype.includes;
-
 function makeVirtual() {
     const partToScheduler = new WeakMap();
     const schedulerToPart = new WeakMap();
-
     class Scheduler extends BaseScheduler {
         constructor(renderer, part) {
             super(renderer, part);
             this.state.virtual = true;
         }
-
         render() {
             return this.state.run(() => this.renderer.apply(this.host, this.args));
         }
-
         commit(result) {
             this.host.setValue(result);
             this.host.commit();
         }
-
         teardown() {
             super.teardown();
             let part = schedulerToPart.get(this);
             partToScheduler.delete(part);
         }
     }
-
     function virtual(renderer) {
         function factory(...args) {
             return (part) => {
@@ -546,13 +484,10 @@ function makeVirtual() {
                 cont.update();
             };
         }
-
         return directive(factory);
     }
-
     return virtual;
 }
-
 function teardownOnRemove(cont, part, node = part.startNode) {
     let frag = node.parentNode;
     let mo = new MutationObserver(mutations => {
@@ -561,11 +496,13 @@ function teardownOnRemove(cont, part, node = part.startNode) {
                 mo.disconnect();
                 if (node.parentNode instanceof ShadowRoot) {
                     teardownOnRemove(cont, part);
-                } else {
+                }
+                else {
                     cont.teardown();
                 }
                 break;
-            } else if (includes.call(mutation.addedNodes, node.nextSibling)) {
+            }
+            else if (includes.call(mutation.addedNodes, node.nextSibling)) {
                 mo.disconnect();
                 teardownOnRemove(cont, part, node.nextSibling || undefined);
                 break;

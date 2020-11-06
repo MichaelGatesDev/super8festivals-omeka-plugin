@@ -1,9 +1,10 @@
+import Popper from './popperjs.js';
+
 /*!
   * Bootstrap v5.0.0-alpha1 (https://getbootstrap.com/)
   * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
-import Popper from './popper.js';
 
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
@@ -5035,4 +5036,3 @@ if ($$b) {
 }
 
 export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Popover, ScrollSpy, Tab, Toast, Tooltip };
-//# sourceMappingURL=bootstrap.esm.js.map

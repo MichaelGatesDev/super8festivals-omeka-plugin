@@ -1,3 +1,5 @@
+import { d as directive, N as NodePart, e as createMarker, f as reparentNodes, b as removeNodes } from '../../common/lit-html-da587ac9.js';
+
 /**
  * @license
  * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
@@ -11,7 +13,6 @@
  * subject to an additional IP rights grant found at
  * http://polymer.github.io/PATENTS.txt
  */
-import { createMarker, directive, NodePart, removeNodes, reparentNodes } from '../lit-html.js';
 // Helper functions for manipulating parts
 // TODO(kschaaf): Refactor into Part API?
 const createAndInsertPart = (containerPart, beforePart) => {
@@ -72,7 +73,7 @@ const keyListCache = new WeakMap();
  * If no `keyFn` is provided, this directive will perform similar to mapping
  * items to values, and DOM will be reused against potentially different items.
  */
-export const repeat = directive((items, keyFnOrTemplate, template) => {
+const repeat = directive((items, keyFnOrTemplate, template) => {
     let keyFn;
     if (template === undefined) {
         template = keyFnOrTemplate;
@@ -412,4 +413,5 @@ export const repeat = directive((items, keyFnOrTemplate, template) => {
         keyListCache.set(containerPart, newKeys);
     };
 });
-//# sourceMappingURL=repeat.js.map
+
+export { repeat };

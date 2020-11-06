@@ -1,4 +1,4 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
+import { html, nothing } from '../../../shared/javascripts/vendor/lit-html.js';
 import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
 
 import Alerts from "../utils/alerts.js";

@@ -28,4 +28,6 @@ echo head(array(
 
 </section>
 
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
+
 <?php echo foot(); ?>

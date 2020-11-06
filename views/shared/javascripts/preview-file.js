@@ -1,3 +1,5 @@
+import jQuery from "./vendor/jquery.js";
+
 jQuery(document).ready(() => {
     jQuery("#file").change(function () {
         jQuery('#file + embed').remove();

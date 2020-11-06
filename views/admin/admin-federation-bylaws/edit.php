@@ -1,6 +1,4 @@
 <?php
-queue_js_file("preview-file");
-queue_js_file("sort-selects");
 echo head(array(
     'title' => 'Edit Federation By-Law: ' . (strlen($federation_bylaw->title) > 0 ? ucwords($federation_bylaw->title) : "Untitled"),
 ));
@@ -29,4 +27,9 @@ echo head(array(
     </div>
 
 </section>
+
+
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/sort-selects.js'></script>
+
 <?php echo foot(); ?>

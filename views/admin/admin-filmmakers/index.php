@@ -34,5 +34,7 @@ echo head(array(
 
 </section>
 
+<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-filmmakers-table.js'></script>
+
 <?php echo foot(); ?>
 

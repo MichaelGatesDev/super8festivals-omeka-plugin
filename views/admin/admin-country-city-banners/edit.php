@@ -1,6 +1,4 @@
 <?php
-queue_js_file("preview-file");
-
 echo head(array(
     'title' => 'Edit City Banner for ' . $city->name,
 ));
@@ -29,5 +27,7 @@ echo head(array(
     </div>
 
 </section>
+
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
 
 <?php echo foot(); ?>

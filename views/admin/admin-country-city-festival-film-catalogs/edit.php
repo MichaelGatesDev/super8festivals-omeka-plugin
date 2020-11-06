@@ -1,6 +1,4 @@
 <?php
-queue_js_file("preview-file");
-queue_js_file("sort-selects");
 echo head(array(
     'title' => 'Edit Film Catalog: ' . (strlen($film_catalog->title) > 0 ? ucwords($film_catalog->title) : "Untitled"),
 ));
@@ -29,5 +27,8 @@ echo head(array(
     </div>
 
 </section>
+
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/sort-selects.js'></script>
 
 <?php echo foot(); ?>

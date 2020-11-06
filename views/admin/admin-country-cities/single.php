@@ -73,6 +73,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
 
 </section>
 
+<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>
 
 <?php echo foot(); ?>
 

@@ -8,5 +8,26 @@
     "lit-element": "^2.4.0",
     "lit-html": "^1.3.0",
     "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "snowpack": "^2.16.1"
+  },
+  "scripts": {
+    "package": "snowpack install --config package.json"
+  },
+  "snowpack": {
+    "installOptions": {
+      "dest": "views/shared/javascripts/vendor",
+      "sourceMaps": true
+    },
+    "install": [
+      "bootstrap",
+      "haunted",
+      "jquery",
+      "lit-element",
+      "lit-html",
+      "lit-html/directives/repeat",
+      "popper.js"
+    ]
   }
 }

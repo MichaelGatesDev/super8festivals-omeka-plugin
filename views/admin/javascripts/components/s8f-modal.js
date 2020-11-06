@@ -1,4 +1,4 @@
-import { html } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
+import { html } from '../../../shared/javascripts/vendor/lit-html.js';
 import { component, useState, useEffect } from '../../../shared/javascripts/vendor/haunted.js';
 
 function Modal(element) {

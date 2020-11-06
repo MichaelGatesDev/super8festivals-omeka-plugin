@@ -31,4 +31,7 @@ echo head(array(
 </section>
 
 
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
+<script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/sort-selects.js'></script>
+
 <?php echo foot(); ?>

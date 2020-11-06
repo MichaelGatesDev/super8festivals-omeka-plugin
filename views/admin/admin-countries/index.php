@@ -34,5 +34,7 @@ echo head(array(
 
 </section>
 
+<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-countries-table.js'></script>
+
 <?php echo foot(); ?>
 

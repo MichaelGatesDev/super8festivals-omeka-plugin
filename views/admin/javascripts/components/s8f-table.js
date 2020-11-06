@@ -1,6 +1,6 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html/lit-html.js';
+import { html } from '../../../shared/javascripts/vendor/lit-html.js';
 import { repeat } from '../../../shared/javascripts/vendor/lit-html/directives/repeat.js';
-import { component, useState, useEffect } from '../../../shared/javascripts/vendor/haunted.js';
+import { component } from '../../../shared/javascripts/vendor/haunted.js';
 
 function Table(element) {
     const tableHeaderTemplate = (header) => {

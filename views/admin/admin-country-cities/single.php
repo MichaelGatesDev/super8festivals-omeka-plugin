@@ -18,7 +18,10 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
 
     <div class="row">
         <div class="col">
-            <h2 class="text-capitalize"><?= $city->name; ?> <span class="text-muted">(<?= $country->name; ?>)</span></h2>
+            <h2 class="text-capitalize">
+                <?= $city->name; ?>&nbsp;
+                <span class="text-muted">(<?= $country->name; ?>)</span>
+            </h2>
         </div>
     </div>
 
@@ -54,7 +57,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
                 <a class="btn btn-success" href="<?= $rootURL; ?>/banners/add">Add City Banner</a>
             <?php else: ?>
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="<?= get_relative_path($city_banner->get_thumbnail_path()); ?>" alt="<?= $city_banner->title; ?>" loading="lazy"/>
+                    <img class="card-img-top" src="<?= get_relative_path($city_banner->get_file()->get_thumbnail_path()); ?>" alt="<?= $city_banner->title; ?>" loading="lazy"/>
                     <div class="card-body">
                         <a class="btn btn-primary" href="<?= $rootURL; ?>/banners/<?= $city_banner->id; ?>/edit">Edit</a>
                         <a class="btn btn-danger" href="<?= $rootURL; ?>/banners/<?= $city_banner->id; ?>/delete">Delete</a>

@@ -98,7 +98,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     public static function get_by_id($search_id)
     {
-        return get_db()->getTable(get_called_class())->find($search_id);
+        $res = get_db()->getTable(get_called_class())->find($search_id);
+        if (!($res instanceof Super8FestivalsRecord)) {
+            return null;
+        }
+        return $res;
     }
 
     public static function get_by_param($param_name, $param_value, $limit = null)

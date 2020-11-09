@@ -28,7 +28,6 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
 
         // Create new banner
         $banner = new SuperEightFestivalsCityBanner();
-        $banner->country_id = $country->id;
         $banner->city_id = $city->id;
         $form = $this->_getForm($banner);
         $this->view->form = $form;
@@ -80,7 +79,7 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The banner image file",
-                'required' => $banner == null || $banner->file_name == "" || !file_exists($banner->get_path()),
+                'required' => $banner == null || $banner->get_file() == null || !file_exists($banner->get_file()->file_name),
                 'accept' => get_form_accept_string(get_image_types()),
             )
         );
@@ -99,69 +98,49 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
                     $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
                     return;
                 }
-                try {
-                    // delete
-                    if ($action == 'delete') {
-                        $banner->delete();
-                        $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been deleted.", 'success');
-                    } //add
-                    else if ($action == 'add') {
-                        $banner->setPostData($_POST);
-                        if ($banner->save()) {
-                            // do file upload
-                            $this->upload_file($banner);
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been added.", 'success');
-                        }
-                    } //edit
-                    else if ($action == 'edit') {
-                        // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = SuperEightFestivalsCityBanner::get_by_id($banner->id);
-                        // set the data of the record according to what was submitted in the form
-                        $banner->setPostData($_POST);
-                        // if there is no pending upload, use the old files
-                        if (!has_temporary_file('file')) {
-                            $banner->file_name = $originalRecord->file_name;
-                            $banner->thumbnail_file_name = $originalRecord->thumbnail_file_name;
-                        } else {
-                            // temporarily set banner file name to uploaded file name
-                            $banner->file_name = get_temporary_file("file")[0];
-                        }
-                        if ($banner->save()) {
-                            // only change files if there is a file waiting
-                            if (has_temporary_file('file')) {
-                                // delete old files
-                                if ($originalRecord != null) {
-                                    $originalRecord->delete_files();
-                                }
-                                // do file upload
-                                $this->upload_file($banner);
-                            }
-                            // display result dialog
-                            $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been edited.", 'success');
-                        }
+                // delete
+                if ($action == 'delete') {
+                    $banner->delete();
+                    $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been deleted.", 'success');
+                } //add
+                else if ($action == 'add') {
+                    $banner->setPostData($_POST);
+                    if ($banner->save()) {
+                        // do file upload
+                        $banner->upload();
+                        $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been added.", 'success');
                     }
-
-
-                    $this->redirect("/super-eight-festivals/countries/" . urlencode($banner->get_country()->name) . "/cities/" . urlencode($banner->get_city()->name));
-                } catch (Omeka_Validate_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                } catch (Omeka_Record_Exception $e) {
-                    $this->_helper->flashMessenger($e);
+                } //edit
+                else if ($action == 'edit') {
+                    // get the original so that we can use old information which doesn't persist well (e.g. files)
+                    $originalRecord = SuperEightFestivalsCityBanner::get_by_id($banner->id);
+                    $originalFile = $originalRecord->get_file();
+                    // set the data of the record according to what was submitted in the form
+                    $banner->setPostData($_POST);
+                    $banner->file_id = $originalRecord->file_id;
+                    if ($banner->save()) {
+                        // only change files if there is a file waiting
+                        if (has_temporary_file('file')) {
+                            // delete old files
+                            if ($originalRecord != null) {
+                                $originalFile->delete_files();
+                            }
+                            // do file upload
+                            $banner->upload();
+                        }
+                        // display result dialog
+                        $this->_helper->flashMessenger("The banner for " . $banner->get_city()->name . " has been edited.", 'success');
+                    }
                 }
+
+                $this->redirect("/super-eight-festivals/countries/" . urlencode($banner->get_country()->name) . "/cities/" . urlencode($banner->get_city()->name));
+            } catch (Omeka_Validate_Exception $e) {
+                $this->_helper->flashMessenger($e);
+            } catch (Omeka_Record_Exception $e) {
+                $this->_helper->flashMessenger($e);
             } catch (Zend_Form_Exception $e) {
                 $this->_helper->flashMessenger($e);
             }
         }
     }
-
-    private function upload_file(SuperEightFestivalsCityBanner $city_banner)
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($city_banner->get_internal_prefix() . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $city_banner->file_name = $newFileName;
-        $city_banner->create_thumbnail();
-        $city_banner->save();
-    }
-
 }

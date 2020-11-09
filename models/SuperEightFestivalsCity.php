@@ -107,7 +107,8 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
 
     public function get_banner(): ?SuperEightFestivalsCityBanner
     {
-        return SuperEightFestivalsCityBanner::get_by_param('city_id', $this->id, 1)[0];
+        $results = SuperEightFestivalsCityBanner::get_by_param('city_id', $this->id, 1);
+        return count($results) > 0 ? $results[0] : null;
     }
 
     public function get_filmmakers()

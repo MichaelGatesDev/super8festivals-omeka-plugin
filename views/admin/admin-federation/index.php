@@ -48,12 +48,15 @@ $photos = SuperEightFestivalsFederationPhoto::get_all();
                 </thead>
                 <tbody>
                 <?php foreach ($bylaws as $bylaw): ?>
+                    <?php
+                    $file = $bylaw->get_file();
+                    ?>
                     <tr>
                         <td><?= $bylaw->id; ?></td>
-                        <td><?= html_escape($bylaw->title); ?></td>
-                        <td><?= html_escape($bylaw->description); ?></td>
-                        <td><a href="<?= get_relative_path($bylaw->get_path()) ?>" target="_blank"><?= $bylaw->file_name; ?></a></td>
-                        <td><a href="<?= get_relative_path($bylaw->get_thumbnail_path()) ?>" target="_blank"><?= $bylaw->thumbnail_file_name; ?></a></td>
+                        <td><?= html_escape($file->title); ?></td>
+                        <td><?= html_escape($file->description); ?></td>
+                        <td><a href="<?= get_relative_path($file->get_path()) ?>" target="_blank"><?= $file->file_name; ?></a></td>
+                        <td><a href="<?= get_relative_path($file->get_thumbnail_path()) ?>" target="_blank"><?= $file->thumbnail_file_name; ?></a></td>
                         <td>
                             <div class="btn-group">
                                 <a class="btn btn-sm btn-primary" href="/admin/super-eight-festivals/federation/bylaws/<?= $bylaw->id; ?>/edit/">Edit</a>

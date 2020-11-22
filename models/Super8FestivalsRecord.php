@@ -121,12 +121,14 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     {
     }
 
-    public function upload_file($formInputName)
+    public function upload_file($formInputName, $title = "", $description = "")
     {
         $file_relationship = $this->_createRelationship();
         if ($file_relationship->save()) {
             $file = new SuperEightFestivalsFile();
             $file->resource_relationship_id = $file_relationship->id;
+            $file->title = $title;
+            $file->description = $description;
 
             list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
             $uniqueFileName = uniqid() . "." . $extension;

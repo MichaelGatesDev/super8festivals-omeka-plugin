@@ -15,6 +15,7 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
     public string $description = "";
 
     public int $resource_relationship_id = 0;
+    public int $contributor_id = 0;
 
     public function get_db_columns()
     {
@@ -27,12 +28,13 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
                 "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
                 "`modified_at`                  VARCHAR(255) NOT NULL",
 
-                "`resource_relationship_id`     INT(10) UNSIGNED NOT NULL",
-
                 "`file_name`                    VARCHAR(255)",
                 "`thumbnail_file_name`          VARCHAR(255)",
                 "`title`                        VARCHAR(255)",
                 "`description`                  TEXT(65535)",
+
+                "`resource_relationship_id`     INT(10) UNSIGNED NOT NULL",
+                "`contributor_id`               INT(10) UNSIGNED NOT NULL",
             ),
         );
     }

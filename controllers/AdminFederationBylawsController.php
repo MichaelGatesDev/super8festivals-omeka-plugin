@@ -11,8 +11,6 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
 
     public function indexAction()
     {
-        $request = $this->getRequest();
-
         $this->redirect("/super-eight-festivals/federation/");
     }
 
@@ -61,6 +59,8 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
 
         $form = new Omeka_Form_Admin($formOptions);
 
+        $file = $federation_bylaw->get_file();
+
         $form->addElementToEditGroup(
             'select', 'contributor_id',
             array(
@@ -68,7 +68,7 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => get_parent_contributor_options(),
-                'value' => $federation_bylaw->contributor_id,
+                'value' => $file ? $file->contributor_id : null,
                 'required' => false,
             )
         );
@@ -79,7 +79,7 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
                 'id' => 'title',
                 'label' => 'Title',
                 'description' => "The federation bylaw's title",
-                'value' => $federation_bylaw->title,
+                'value' => $file ? $file->title : "",
                 'required' => false,
             )
         );
@@ -90,7 +90,7 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
                 'id' => 'description',
                 'label' => 'Description',
                 'description' => "The federation bylaw's description",
-                'value' => $federation_bylaw->description,
+                'value' => $file ? $file->description : "",
                 'required' => false,
             )
         );
@@ -100,8 +100,8 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
             array(
                 'id' => 'file',
                 'label' => 'File',
-                'description' => "The federation bylaw file",
-                'required' => $federation_bylaw->file_name == "" || !file_exists($federation_bylaw->get_path()),
+                'description' => "The document/image file",
+                'required' => !$file || $file->file_name == "" || !file_exists($file->get_path()),
                 'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
@@ -109,77 +109,69 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationBylaw $federation_bylaw, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationBylaw $banner, Zend_Form $form, $action)
     {
-        $this->view->federation_bylaw = $federation_bylaw;
+        $this->view->banner = $banner;
 
-        if ($this->getRequest()->isPost()) {
-            try {
-                if (!$form->isValid($_POST)) {
-                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
-                    return;
-                }
-                try {
-                    // delete
-                    if ($action == 'delete') {
-                        $federation_bylaw->delete();
-                        $this->_helper->flashMessenger("The federation bylaw '" . $federation_bylaw->title . "' has been deleted.", 'success');
-                    } // add
-                    else if ($action == 'add') {
-                        $federation_bylaw->setPostData($_POST);
-                        if ($federation_bylaw->save()) {
-                            // do file upload
-                            $this->upload_file($federation_bylaw);
-                            $this->_helper->flashMessenger("The federation bylaw '" . $federation_bylaw->title . "' has been added.", 'success');
-                        }
-                    } // edit
-                    else if ($action == 'edit') {
-                        // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($federation_bylaw->id);
-                        // set the data of the record according to what was submitted in the form
-                        $federation_bylaw->setPostData($_POST);
-                        // if there is no pending upload, use the old files
-                        if (!has_temporary_file('file')) {
-                            $federation_bylaw->file_name = $originalRecord->file_name;
-                            $federation_bylaw->thumbnail_file_name = $originalRecord->thumbnail_file_name;
-                        } else {
-                            // temporarily set file name to uploaded file name
-                            $federation_bylaw->file_name = get_temporary_file("file")[0];
-                        }
-                        if ($federation_bylaw->save()) {
-                            // only change files if there is a file waiting
-                            if (has_temporary_file('file')) {
-                                // delete old files
-                                $originalRecord->delete_files();
-                                // do file upload
-                                $this->upload_file($federation_bylaw);
-                            }
-                            // display result dialog
-                            $this->_helper->flashMessenger("The federation bylaw '" . $federation_bylaw->title . "' has been edited.", 'success');
-                        }
-                    }
-
-
-                    $this->redirect("/super-eight-festivals/federation");
-                } catch (Omeka_Validate_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                } catch (Omeka_Record_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                }
-            } catch (Zend_Form_Exception $e) {
-                $this->_helper->flashMessenger($e);
-            }
+        // form can only be processed by POST request
+        if (!$this->getRequest()->isPost()) {
+            return;
         }
-    }
 
-    private function upload_file(SuperEightFestivalsFederationBylaw $federation_bylaw)
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($federation_bylaw->get_internal_prefix() . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $federation_bylaw->file_name = $newFileName;
-        $federation_bylaw->create_thumbnail();
-        $federation_bylaw->save();
+        // Validate form
+        try {
+            if (!$form->isValid($_POST)) {
+                $this->_helper->flashMessenger('Invalid form data', 'error');
+                return;
+            }
+        } catch (Zend_Form_Exception $e) {
+            $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+        }
+
+        $fileInputName = "file";
+        try {
+            switch ($action) {
+                case "add":
+                    $banner->setPostData($_POST);
+                    if ($banner->save()) {
+                        $banner->upload_file($fileInputName, $this->getParam("title", ""), $this->getParam("description", ""));
+                        $this->_helper->flashMessenger("Federation By-Law successfully added.", 'success');
+                    }
+                    break;
+                case "edit":
+                    $banner->setPostData($_POST);
+
+                    if ($banner->save()) {
+                        // get the original record so that we can use old information which doesn't persist (e.g. files)
+                        $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($banner->id);
+                        $banner->file_id = $originalRecord->file_id;
+
+                        // only change files if there is a file waiting
+                        if (has_temporary_file($fileInputName)) {
+                            // delete old files
+                            $originalFile = $originalRecord->get_file();
+                            $originalFile->delete_files();
+
+                            // upload new file
+                            $banner->upload_file($fileInputName, $this->getParam("title", ""), $this->getParam("description", ""));
+                        }
+
+                        // display result dialog
+                        $this->_helper->flashMessenger("Federation By-Law successfully updated.", 'success');
+                    }
+                    break;
+                case "delete":
+                    $banner->delete();
+                    $this->_helper->flashMessenger("Federation By-Law successfully deleted.", 'success');
+                    break;
+            }
+        } catch (Omeka_Record_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        } catch (Omeka_Validate_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        }
+
+        $this->redirect("/super-eight-festivals/federation/");
     }
 
 }

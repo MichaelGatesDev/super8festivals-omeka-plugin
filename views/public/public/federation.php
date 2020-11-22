@@ -32,7 +32,7 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
 <div class="container-fluid overflow-hidden" id="landing">
     <div class="row">
         <div class="col">
-            <h2 class="text-center py-2 title">Federation</h2>
+            <h2 class="text-center mb-4 title">Federation</h2>
         </div>
     </div>
     <div class="row">
@@ -49,8 +49,8 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
             </div>
         </div>
 
-        <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 mb-4 d-flex flex-column">
-            <div id="carousel" class="carousel slide container" data-ride="carousel">
+        <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 d-flex flex-column">
+            <div id="carousel" class="carousel slide container mb-4" data-ride="carousel">
                 <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) > 0): ?>
                     <ol class="carousel-indicators">
                         <?php foreach ($records as $index => $record): ?>

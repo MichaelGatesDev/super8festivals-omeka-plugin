@@ -50,11 +50,11 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
         </div>
 
         <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 mb-4 d-flex flex-column">
-            <div id="carouselIndicators" class="carousel slide container" data-ride="carousel">
+            <div id="carousel" class="carousel slide container" data-ride="carousel">
                 <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) > 0): ?>
                     <ol class="carousel-indicators">
                         <?php foreach ($records as $index => $record): ?>
-                            <li data-target="#carouselIndicators" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? "active " : "" ?>"></li>
+                            <li data-target="#carousel" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? "active " : "" ?>"></li>
                         <?php endforeach; ?>
                     </ol>
                 <?php endif; ?>
@@ -65,21 +65,24 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
                         </div>
                     <?php else: ?>
                         <?php foreach ($records as $index => $record): ?>
-                            <div class="carousel-item <?= $index == 0 ? "active " : "" ?>" style="background-image: url(<?= get_relative_path($record->get_path()); ?>);">
-                                <img class="d-block w-100" src="<?= get_relative_path($record->get_path()); ?>" alt="<?= $record->title; ?>">
+                            <?php
+                            $file = $record->get_file();
+                            ?>
+                            <div class="carousel-item <?= $index == 0 ? "active " : "" ?>">
+                                <img class="d-block w-100" src="<?= get_relative_path($file->get_path()); ?>" alt="<?= $file->title; ?>">
                                 <div class="carousel-caption d-none d-md-block" style="background: rgba(0,0,0,0.5);">
-                                    <h5><?= $record->get_meta_title() ?></h5>
-                                    <p><?= $record->description; ?></p>
+                                    <h5><?= $file->title; ?></h5>
+                                    <p><?= $file->description; ?></p>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
-                <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
@@ -101,19 +104,20 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
     </div>
 </div>
 
-<section class="container" id="countries-list">
+<section class="container">
 
 
-    <?= $this->partial("__components/federation-records-page.php", array(
-        "admin" => false,
-//            "root_url" => $root_url,
-        "records" => array(
-            "newsletters" => $newsletters,
-            "photos" => $photos,
-            "magazines" => $magazines,
-            "by_laws" => $by_laws,
-        )
-    ));
+    <?php
+//    echo $this->partial("__components/federation-records-page.php", array(
+//        "admin" => false,
+////            "root_url" => $root_url,
+//        "records" => array(
+//            "newsletters" => $newsletters,
+//            "photos" => $photos,
+//            "magazines" => $magazines,
+//            "by_laws" => $by_laws,
+//        )
+//    ));
     ?>
 
 </section>

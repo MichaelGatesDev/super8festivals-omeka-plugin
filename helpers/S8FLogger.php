@@ -30,7 +30,7 @@ function logger_log($level, $msg)
 
     $log_path = get_logs_dir() . "/" . date("Ymd") . ".txt";
 
-    $current = file_get_contents($log_path);
+    $current = file_exists($log_path) ? file_get_contents($log_path) : "";
     $current .= "$timestamp$levelStr: $msg\n";
     file_put_contents($log_path, $current);
 }

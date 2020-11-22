@@ -119,26 +119,34 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     protected function _createRelationship()
     {
+        return null;
     }
 
-    public function upload_file($formInputName, $title = "", $description = "")
+    public function upload_file($formInputName)
     {
         $file_relationship = $this->_createRelationship();
-        if ($file_relationship->save()) {
-            $file = new SuperEightFestivalsFile();
-            $file->resource_relationship_id = $file_relationship->id;
-            $file->title = $title;
-            $file->description = $description;
+        if($file_relationship == null) return null;
+        if (!$file_relationship->save()) return null;
 
-            list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
-            $uniqueFileName = uniqid() . "." . $extension;
-            move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
-            $file->file_name = $uniqueFileName;
-            $file->create_thumbnail();
+        $file = new SuperEightFestivalsFile();
+        $file->resource_relationship_id = $file_relationship->id;
 
-            $this->file_id = $file->id;
+        list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
+        $uniqueFileName = uniqid() . "." . $extension;
+        move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
+        $file->file_name = $uniqueFileName;
+        $file->create_thumbnail();
+
+        $this->file_id = $file->id;
+        try {
             $this->save();
+            return $file;
+        } catch (Omeka_Record_Exception $e) {
+            logger_log(LogLevel::Info, $e->getMessage());
+        } catch (Omeka_Validate_Exception $e) {
+            logger_log(LogLevel::Info, $e->getMessage());
         }
+        return null;
     }
 
     // ======================================================================================================================== \\

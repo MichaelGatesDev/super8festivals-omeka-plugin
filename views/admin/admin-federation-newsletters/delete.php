@@ -1,6 +1,8 @@
 <?php
+$title = "Untitled";
+if (strlen($record->title) > 0) $title = $record->title;
 echo head(array(
-    'title' => 'Delete Federation Newsletter: ' . (strlen($federation_newsletter->title) > 0 ? ucwords($federation_newsletter->title) : "Untitled"),
+    'title' => "Delete Federation Newsletter: {$title}",
 ));
 ?>
 

@@ -19,12 +19,12 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
 
-        // Create new banner
-        $banner = new SuperEightFestivalsCityBanner();
-        $banner->city_id = $city->id;
-        $form = $this->_getForm($banner);
+        // Create new record
+        $record = new SuperEightFestivalsCityBanner();
+        $record->city_id = $city->id;
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->_processForm($banner, $form, 'add');
+        $this->_processForm($record, $form, 'add');
     }
 
     public function editAction()
@@ -34,12 +34,12 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
 
-        $banner = $city->get_banner();
-        $this->view->banner = $banner;
+        $record = $city->get_banner();
+        $this->view->record = $record;
 
-        $form = $this->_getForm($banner);
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->_processForm($banner, $form, 'edit');
+        $this->_processForm($record, $form, 'edit');
     }
 
 
@@ -50,29 +50,43 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
 
-        $banner = $city->get_banner();
-        $this->view->banner = $banner;
+        $record = $city->get_banner();
+        $this->view->record = $record;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($banner, $form, 'delete');
+        $this->_processForm($record, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsCityBanner $banner = null)
+    protected function _getForm(SuperEightFestivalsCityBanner $record = null)
     {
         $formOptions = array(
-            'type' => 'super_eight_festivals_city_banner'
+            'type' => 'super_eight_festivals_city_record'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
+
+        $file = $record->get_file();
+
+        $form->addElementToEditGroup(
+            'select', 'contributor_id',
+            array(
+                'id' => 'contributor_id',
+                'label' => 'Contributor',
+                'description' => "The person who contributed the item",
+                'multiOptions' => get_parent_contributor_options(),
+                'value' => $file ? $file->contributor_id : null,
+                'required' => false,
+            )
+        );
 
         $form->addElementToEditGroup(
             'file', 'file',
             array(
                 'id' => 'file',
                 'label' => 'File',
-                'description' => "The banner image file",
-                'required' => $banner == null || $banner->get_file() == null || !file_exists($banner->get_file()->file_name),
+                'description' => "The record image file",
+                'required' => $record == null || $record->get_file() == null || !file_exists($record->get_file()->file_name),
                 'accept' => get_form_accept_string(get_image_types()),
             )
         );
@@ -81,9 +95,9 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
     }
 
 
-    private function _processForm(SuperEightFestivalsCityBanner $banner, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsCityBanner $record, Zend_Form $form, $action)
     {
-        $this->view->banner = $banner;
+        $this->view->record = $record;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -104,36 +118,45 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
         try {
             switch ($action) {
                 case "add":
-                    $banner->setPostData($_POST);
-                    if ($banner->save()) {
-                        $banner->upload_file($fileInputName);
-                        $this->_helper->flashMessenger("City Banner successfully added.", 'success');
-                    }
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    $file = $record->upload_file($fileInputName);
+                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->save();
+
+                    $this->_helper->flashMessenger("City Banner successfully added.", 'success');
                     break;
                 case "edit":
-                    $banner->setPostData($_POST);
+                    $record->setPostData($_POST);
+                    $record->save(true);
 
-                    if ($banner->save()) {
-                        // get the original record so that we can use old information which doesn't persist (e.g. files)
-                        $originalRecord = SuperEightFestivalsCityBanner::get_by_id($banner->id);
-                        $banner->file_id = $originalRecord->file_id;
+                    // get the original record so that we can use old information which doesn't persist (e.g. files)
+                    $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($record->id);
+                    $record->file_id = $originalRecord->file_id;
 
-                        // only change files if there is a file waiting
-                        if (has_temporary_file($fileInputName)) {
-                            // delete old files
-                            $originalFile = $originalRecord->get_file();
-                            $originalFile->delete_files();
+                    // only change files if there is a file waiting
+                    if (has_temporary_file($fileInputName)) {
+                        // delete old files
+                        $originalFile = $originalRecord->get_file();
+                        $originalFile->delete_files();
 
-                            // upload new file
-                            $banner->upload_file($fileInputName);
-                        }
-
-                        // display result dialog
-                        $this->_helper->flashMessenger("City Banner successfully updated.", 'success');
+                        // upload new file
+                        $file = $record->upload_file($fileInputName);
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->save();
+                    } else {
+                        $file = $originalRecord->get_file();
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->save();
                     }
+
+                    // display result dialog
+                    $this->_helper->flashMessenger("City Banner successfully updated.", 'success');
+
                     break;
                 case "delete":
-                    $banner->delete();
+                    $record->delete();
                     $this->_helper->flashMessenger("City Banner successfully deleted.", 'success');
                     break;
             }
@@ -143,6 +166,6 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
             $this->_helper->flashMessenger($e->getMessage(), 'error');
         }
 
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($banner->get_country()->name) . "/cities/" . urlencode($banner->get_city()->name));
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($record->get_country()->name) . "/cities/" . urlencode($record->get_city()->name));
     }
 }

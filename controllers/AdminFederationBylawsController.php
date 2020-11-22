@@ -2,12 +2,6 @@
 
 class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controller_AbstractActionController
 {
-    public function init()
-    {
-        // Set the model class so this controller can perform some functions,
-        // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFederationBylaw');
-    }
 
     public function indexAction()
     {
@@ -18,11 +12,11 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
     {
         $request = $this->getRequest();
 
-        $federation_bylaw = new SuperEightFestivalsFederationBylaw();
-        $form = $this->_getForm($federation_bylaw);
+        $record = new SuperEightFestivalsFederationBylaw();
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->view->bylaw = $federation_bylaw;
-        $this->_processForm($federation_bylaw, $form, 'add');
+        $this->view->record = $record;
+        $this->_processForm($record, $form, 'add');
     }
 
     public function editAction()
@@ -30,12 +24,12 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
         $request = $this->getRequest();
 
         $bylawID = $request->getParam('bylawID');
-        $federation_bylaw = SuperEightFestivalsFederationBylaw::get_by_id($bylawID);
-        $this->view->federation_bylaw = $federation_bylaw;
+        $record = SuperEightFestivalsFederationBylaw::get_by_id($bylawID);
+        $this->view->record = $record;
 
-        $form = $this->_getForm($federation_bylaw);
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->_processForm($federation_bylaw, $form, 'edit');
+        $this->_processForm($record, $form, 'edit');
     }
 
     public function deleteAction()
@@ -43,15 +37,15 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
         $request = $this->getRequest();
 
         $bylawID = $request->getParam('bylawID');
-        $federation_bylaw = SuperEightFestivalsFederationBylaw::get_by_id($bylawID);
-        $this->view->federation_bylaw = $federation_bylaw;
+        $record = SuperEightFestivalsFederationBylaw::get_by_id($bylawID);
+        $this->view->record = $record;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($federation_bylaw, $form, 'delete');
+        $this->_processForm($record, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFederationBylaw $federation_bylaw = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFederationBylaw $record = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_federation_bylaw'
@@ -59,7 +53,7 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $federation_bylaw->get_file();
+        $file = $record->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -109,9 +103,9 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationBylaw $banner, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationBylaw $record, Zend_Form $form, $action)
     {
-        $this->view->banner = $banner;
+        $this->view->record = $record;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -126,42 +120,58 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
             }
         } catch (Zend_Form_Exception $e) {
             $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+            return;
         }
 
         $fileInputName = "file";
         try {
             switch ($action) {
                 case "add":
-                    $banner->setPostData($_POST);
-                    if ($banner->save()) {
-                        $banner->upload_file($fileInputName, $this->getParam("title", ""), $this->getParam("description", ""));
-                        $this->_helper->flashMessenger("Federation By-Law successfully added.", 'success');
-                    }
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    $file = $record->upload_file($fileInputName);
+                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->title = $this->getParam("title", "");
+                    $file->description = $this->getParam("description", "");
+                    $file->save();
+
+                    $this->_helper->flashMessenger("Federation By-Law successfully added.", 'success');
                     break;
                 case "edit":
-                    $banner->setPostData($_POST);
+                    $record->setPostData($_POST);
+                    $record->save(true);
 
-                    if ($banner->save()) {
-                        // get the original record so that we can use old information which doesn't persist (e.g. files)
-                        $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($banner->id);
-                        $banner->file_id = $originalRecord->file_id;
+                    // get the original record so that we can use old information which doesn't persist (e.g. files)
+                    $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($record->id);
+                    $record->file_id = $originalRecord->file_id;
 
-                        // only change files if there is a file waiting
-                        if (has_temporary_file($fileInputName)) {
-                            // delete old files
-                            $originalFile = $originalRecord->get_file();
-                            $originalFile->delete_files();
+                    // only change files if there is a file waiting
+                    if (has_temporary_file($fileInputName)) {
+                        // delete old files
+                        $originalFile = $originalRecord->get_file();
+                        $originalFile->delete_files();
 
-                            // upload new file
-                            $banner->upload_file($fileInputName, $this->getParam("title", ""), $this->getParam("description", ""));
-                        }
-
-                        // display result dialog
-                        $this->_helper->flashMessenger("Federation By-Law successfully updated.", 'success');
+                        // upload new file
+                        $file = $record->upload_file($fileInputName);
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
+                    } else {
+                        $file = $originalRecord->get_file();
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
                     }
+
+                    // display result dialog
+                    $this->_helper->flashMessenger("Federation By-Law successfully updated.", 'success');
+
                     break;
                 case "delete":
-                    $banner->delete();
+                    $record->delete();
                     $this->_helper->flashMessenger("Federation By-Law successfully deleted.", 'success');
                     break;
             }

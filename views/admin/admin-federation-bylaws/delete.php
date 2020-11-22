@@ -1,6 +1,8 @@
 <?php
+$title = "Untitled";
+if (strlen($record->title) > 0) $title = $record->title;
 echo head(array(
-    'title' => 'Delete Federation By-Law: ' . (strlen($federation_bylaw->title) > 0 ? ucwords($federation_bylaw->title) : "Untitled"),
+    'title' => "Delete Federation By-Law: {$title}",
 ));
 ?>
 

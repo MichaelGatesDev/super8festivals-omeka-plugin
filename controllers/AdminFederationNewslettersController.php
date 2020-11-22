@@ -2,17 +2,9 @@
 
 class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Controller_AbstractActionController
 {
-    public function init()
-    {
-        // Set the model class so this controller can perform some functions,
-        // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFederationNewsletter');
-    }
 
     public function indexAction()
     {
-        $request = $this->getRequest();
-
         $this->redirect("/super-eight-festivals/federation/");
     }
 
@@ -20,11 +12,11 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
     {
         $request = $this->getRequest();
 
-        $federation_newsletter = new SuperEightFestivalsFederationNewsletter();
-        $form = $this->_getForm($federation_newsletter);
+        $record = new SuperEightFestivalsFederationNewsletter();
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->view->newsletter = $federation_newsletter;
-        $this->_processForm($federation_newsletter, $form, 'add');
+        $this->view->record = $record;
+        $this->_processForm($record, $form, 'add');
     }
 
     public function editAction()
@@ -32,12 +24,12 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         $request = $this->getRequest();
 
         $newsletterID = $request->getParam('newsletterID');
-        $federation_newsletter = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
-        $this->view->federation_newsletter = $federation_newsletter;
+        $record = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
+        $this->view->record = $record;
 
-        $form = $this->_getForm($federation_newsletter);
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->_processForm($federation_newsletter, $form, 'edit');
+        $this->_processForm($record, $form, 'edit');
     }
 
     public function deleteAction()
@@ -45,21 +37,23 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         $request = $this->getRequest();
 
         $newsletterID = $request->getParam('newsletterID');
-        $federation_newsletter = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
-        $this->view->federation_newsletter = $federation_newsletter;
+        $record = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
+        $this->view->record = $record;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($federation_newsletter, $form, 'delete');
+        $this->_processForm($record, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFederationNewsletter $federation_newsletter = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFederationNewsletter $record = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_federation_newsletter'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
+
+        $file = $record->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -68,7 +62,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => get_parent_contributor_options(),
-                'value' => $federation_newsletter->contributor_id,
+                'value' => $file ? $file->contributor_id : null,
                 'required' => false,
             )
         );
@@ -79,7 +73,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
                 'id' => 'title',
                 'label' => 'Title',
                 'description' => "The federation newsletter's title",
-                'value' => $federation_newsletter->title,
+                'value' => $file ? $file->title : "",
                 'required' => false,
             )
         );
@@ -90,7 +84,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
                 'id' => 'description',
                 'label' => 'Description',
                 'description' => "The federation newsletter's description",
-                'value' => $federation_newsletter->description,
+                'value' => $file ? $file->description : "",
                 'required' => false,
             )
         );
@@ -100,8 +94,8 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
             array(
                 'id' => 'file',
                 'label' => 'File',
-                'description' => "The federation newsletter file",
-                'required' => $federation_newsletter->file_name == "" || !file_exists($federation_newsletter->get_path()),
+                'description' => "The document/image file",
+                'required' => !$file || $file->file_name == "" || !file_exists($file->get_path()),
                 'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
@@ -109,77 +103,84 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationNewsletter $federation_newsletter, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationNewsletter $record, Zend_Form $form, $action)
     {
-        $this->view->federation_newsletter = $federation_newsletter;
+        $this->view->record = $record;
 
-        if ($this->getRequest()->isPost()) {
-            try {
-                if (!$form->isValid($_POST)) {
-                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
-                    return;
-                }
-                try {
-                    // delete
-                    if ($action == 'delete') {
-                        $federation_newsletter->delete();
-                        $this->_helper->flashMessenger("The federation newsletter '" . $federation_newsletter->title . "' has been deleted.", 'success');
-                    } // add
-                    else if ($action == 'add') {
-                        $federation_newsletter->setPostData($_POST);
-                        if ($federation_newsletter->save()) {
-                            // do file upload
-                            $this->upload_file($federation_newsletter);
-                            $this->_helper->flashMessenger("The federation newsletter '" . $federation_newsletter->title . "' has been added.", 'success');
-                        }
-                    } // edit
-                    else if ($action == 'edit') {
-                        // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = SuperEightFestivalsFederationNewsletter::get_by_id($federation_newsletter->id);
-                        // set the data of the record according to what was submitted in the form
-                        $federation_newsletter->setPostData($_POST);
-                        // if there is no pending upload, use the old files
-                        if (!has_temporary_file('file')) {
-                            $federation_newsletter->file_name = $originalRecord->file_name;
-                            $federation_newsletter->thumbnail_file_name = $originalRecord->thumbnail_file_name;
-                        } else {
-                            // temporarily set file name to uploaded file name
-                            $federation_newsletter->file_name = get_temporary_file("file")[0];
-                        }
-                        if ($federation_newsletter->save()) {
-                            // only change files if there is a file waiting
-                            if (has_temporary_file('file')) {
-                                // delete old files
-                                $originalRecord->delete_files();
-                                // do file upload
-                                $this->upload_file($federation_newsletter);
-                            }
-                            // display result dialog
-                            $this->_helper->flashMessenger("The federation newsletter '" . $federation_newsletter->title . "' has been edited.", 'success');
-                        }
+        // form can only be processed by POST request
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+
+        // Validate form
+        try {
+            if (!$form->isValid($_POST)) {
+                $this->_helper->flashMessenger('Invalid form data', 'error');
+                return;
+            }
+        } catch (Zend_Form_Exception $e) {
+            $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+        }
+
+        $fileInputName = "file";
+        try {
+            switch ($action) {
+                case "add":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    $file = $record->upload_file($fileInputName);
+                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->title = $this->getParam("title", "");
+                    $file->description = $this->getParam("description", "");
+                    $file->save();
+
+                    $this->_helper->flashMessenger("Federation Newsletter successfully added.", 'success');
+                    break;
+                case "edit":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    // get the original record so that we can use old information which doesn't persist (e.g. files)
+                    $originalRecord = SuperEightFestivalsFederationNewsletter::get_by_id($record->id);
+                    $record->file_id = $originalRecord->file_id;
+
+                    // only change files if there is a file waiting
+                    if (has_temporary_file($fileInputName)) {
+                        // delete old files
+                        $originalFile = $originalRecord->get_file();
+                        $originalFile->delete_files();
+
+                        // upload new file
+                        $file = $record->upload_file($fileInputName);
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
+                    } else {
+                        $file = $originalRecord->get_file();
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
                     }
 
+                    // display result dialog
+                    $this->_helper->flashMessenger("Federation Newsletter successfully updated.", 'success');
 
-                    $this->redirect("/super-eight-festivals/federation");
-                } catch (Omeka_Validate_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                } catch (Omeka_Record_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                }
-            } catch (Zend_Form_Exception $e) {
-                $this->_helper->flashMessenger($e);
+                    break;
+                case "delete":
+                    $record->delete();
+                    $this->_helper->flashMessenger("Federation Newsletter successfully deleted.", 'success');
+                    break;
             }
+        } catch (Omeka_Record_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        } catch (Omeka_Validate_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
         }
-    }
 
-    private function upload_file(SuperEightFestivalsFederationNewsletter $federation_newsletter)
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($federation_newsletter->get_internal_prefix() . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $federation_newsletter->file_name = $newFileName;
-        $federation_newsletter->create_thumbnail();
-        $federation_newsletter->save();
+        $this->redirect("/super-eight-festivals/federation/");
     }
 
 }

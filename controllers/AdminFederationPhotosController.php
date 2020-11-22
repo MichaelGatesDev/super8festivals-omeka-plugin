@@ -2,17 +2,9 @@
 
 class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controller_AbstractActionController
 {
-    public function init()
-    {
-        // Set the model class so this controller can perform some functions,
-        // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFederationPhoto');
-    }
 
     public function indexAction()
     {
-        $request = $this->getRequest();
-
         $this->redirect("/super-eight-festivals/federation/");
     }
 
@@ -20,11 +12,11 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
     {
         $request = $this->getRequest();
 
-        $federation_photo = new SuperEightFestivalsFederationPhoto();
-        $form = $this->_getForm($federation_photo);
+        $record = new SuperEightFestivalsFederationPhoto();
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->view->photo = $federation_photo;
-        $this->_processForm($federation_photo, $form, 'add');
+        $this->view->record = $record;
+        $this->_processForm($record, $form, 'add');
     }
 
     public function editAction()
@@ -32,12 +24,12 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
         $request = $this->getRequest();
 
         $photoID = $request->getParam('photoID');
-        $federation_photo = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
-        $this->view->federation_photo = $federation_photo;
+        $record = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
+        $this->view->record = $record;
 
-        $form = $this->_getForm($federation_photo);
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->_processForm($federation_photo, $form, 'edit');
+        $this->_processForm($record, $form, 'edit');
     }
 
     public function deleteAction()
@@ -45,21 +37,23 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
         $request = $this->getRequest();
 
         $photoID = $request->getParam('photoID');
-        $federation_photo = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
-        $this->view->federation_photo = $federation_photo;
+        $record = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
+        $this->view->record = $record;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($federation_photo, $form, 'delete');
+        $this->_processForm($record, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFederationPhoto $federation_photo = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFederationPhoto $record = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_federation_photo'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
+
+        $file = $record->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -68,7 +62,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => get_parent_contributor_options(),
-                'value' => $federation_photo->contributor_id,
+                'value' => $file ? $file->contributor_id : null,
                 'required' => false,
             )
         );
@@ -79,7 +73,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                 'id' => 'title',
                 'label' => 'Title',
                 'description' => "The federation photo's title",
-                'value' => $federation_photo->title,
+                'value' => $file ? $file->title : "",
                 'required' => false,
             )
         );
@@ -90,7 +84,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                 'id' => 'description',
                 'label' => 'Description',
                 'description' => "The federation photo's description",
-                'value' => $federation_photo->description,
+                'value' => $file ? $file->description : "",
                 'required' => false,
             )
         );
@@ -100,84 +94,93 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
             array(
                 'id' => 'file',
                 'label' => 'File',
-                'description' => "The federation photo file",
-                'required' => $federation_photo->file_name == "" || !file_exists($federation_photo->get_path()),
-                'accept' => get_form_accept_string(get_image_types()),
+                'description' => "The document/image file",
+                'required' => !$file || $file->file_name == "" || !file_exists($file->get_path()),
+                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
 
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationPhoto $federation_photo, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationPhoto $record, Zend_Form $form, $action)
     {
-        $this->view->federation_photo = $federation_photo;
+        $this->view->record = $record;
 
-        if ($this->getRequest()->isPost()) {
-            try {
-                if (!$form->isValid($_POST)) {
-                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
-                    return;
-                }
-                try {
-                    // delete
-                    if ($action == 'delete') {
-                        $federation_photo->delete();
-                        $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been deleted.", 'success');
-                    } else if ($action == 'add') {
-                        $federation_photo->setPostData($_POST);
-                        if ($federation_photo->save()) {
-                            // do file upload
-                            $this->upload_file($federation_photo);
-                            $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been added.", 'success');
-                        }
-                    } else if ($action == 'edit') {
-                        // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = SuperEightFestivalsFederationPhoto::get_by_id($federation_photo->id);
-                        // set the data of the record according to what was submitted in the form
-                        $federation_photo->setPostData($_POST);
-                        // if there is no pending upload, use the old files
-                        if (!has_temporary_file('file')) {
-                            $federation_photo->file_name = $originalRecord->file_name;
-                            $federation_photo->thumbnail_file_name = $originalRecord->thumbnail_file_name;
-                        } else {
-                            // temporarily set file name to uploaded file name
-                            $federation_photo->file_name = get_temporary_file("file")[0];
-                        }
-                        if ($federation_photo->save()) {
-                            // only change files if there is a file waiting
-                            if (has_temporary_file('file')) {
-                                // delete old files
-                                $originalRecord->delete_files();
-                                // do file upload
-                                $this->upload_file($federation_photo);
-                            }
-                            // display result dialog
-                            $this->_helper->flashMessenger("The federation photo '" . $federation_photo->title . "' has been edited.", 'success');
-                        }
+        // form can only be processed by POST request
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+
+        // Validate form
+        try {
+            if (!$form->isValid($_POST)) {
+                $this->_helper->flashMessenger('Invalid form data', 'error');
+                return;
+            }
+        } catch (Zend_Form_Exception $e) {
+            $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+        }
+
+        $fileInputName = "file";
+        try {
+            switch ($action) {
+                case "add":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    $file = $record->upload_file($fileInputName);
+                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->title = $this->getParam("title", "");
+                    $file->description = $this->getParam("description", "");
+                    $file->save();
+
+                    $this->_helper->flashMessenger("Federation Photo successfully added.", 'success');
+                    break;
+                case "edit":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    // get the original record so that we can use old information which doesn't persist (e.g. files)
+                    $originalRecord = SuperEightFestivalsFederationPhoto::get_by_id($record->id);
+                    $record->file_id = $originalRecord->file_id;
+
+                    // only change files if there is a file waiting
+                    if (has_temporary_file($fileInputName)) {
+                        // delete old files
+                        $originalFile = $originalRecord->get_file();
+                        $originalFile->delete_files();
+
+                        // upload new file
+                        $file = $record->upload_file($fileInputName);
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
+                    } else {
+                        $file = $originalRecord->get_file();
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
                     }
 
+                    // display result dialog
+                    $this->_helper->flashMessenger("Federation Photo successfully updated.", 'success');
 
-                    $this->redirect("/super-eight-festivals/federation");
-                } catch (Omeka_Validate_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                } catch (Omeka_Record_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                }
-            } catch (Zend_Form_Exception $e) {
-                $this->_helper->flashMessenger($e);
+                    break;
+                case "delete":
+                    $record->delete();
+                    $this->_helper->flashMessenger("Federation Photo successfully deleted.", 'success');
+                    break;
             }
+        } catch (Omeka_Record_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        } catch (Omeka_Validate_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
         }
-    }
 
-    private function upload_file(SuperEightFestivalsFederationPhoto $federation_photo)
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($federation_photo->get_internal_prefix() . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $federation_photo->file_name = $newFileName;
-        $federation_photo->create_thumbnail();
-        $federation_photo->save();
+        $this->redirect("/super-eight-festivals/federation/");
     }
 
 }

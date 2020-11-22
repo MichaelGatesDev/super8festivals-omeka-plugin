@@ -93,12 +93,15 @@ $photos = SuperEightFestivalsFederationPhoto::get_all();
                 </thead>
                 <tbody>
                 <?php foreach ($magazines as $magazine): ?>
+                    <?php
+                    $file = $magazine->get_file();
+                    ?>
                     <tr>
                         <td><?= $magazine->id; ?></td>
-                        <td><?= html_escape($magazine->title); ?></td>
-                        <td><?= html_escape($magazine->description); ?></td>
-                        <td><a href="<?= get_relative_path($magazine->get_path()) ?>" target="_blank"><?= $magazine->file_name; ?></a></td>
-                        <td><a href="<?= get_relative_path($magazine->get_thumbnail_path()) ?>" target="_blank"><?= $magazine->thumbnail_file_name; ?></a></td>
+                        <td><?= html_escape($file->title); ?></td>
+                        <td><?= html_escape($file->description); ?></td>
+                        <td><a href="<?= get_relative_path($file->get_path()) ?>" target="_blank"><?= $file->file_name; ?></a></td>
+                        <td><a href="<?= get_relative_path($file->get_thumbnail_path()) ?>" target="_blank"><?= $file->thumbnail_file_name; ?></a></td>
                         <td>
                             <div class="btn-group">
                                 <a class="btn btn-sm btn-primary" href="/admin/super-eight-festivals/federation/magazines/<?= $magazine->id; ?>/edit/">Edit</a>
@@ -136,12 +139,15 @@ $photos = SuperEightFestivalsFederationPhoto::get_all();
                 </thead>
                 <tbody>
                 <?php foreach ($newsletters as $newsletter): ?>
+                    <?php
+                    $file = $newsletter->get_file();
+                    ?>
                     <tr>
                         <td><?= $newsletter->id; ?></td>
-                        <td><?= html_escape($newsletter->title); ?></td>
-                        <td><?= html_escape($newsletter->description); ?></td>
-                        <td><a href="<?= get_relative_path($newsletter->get_path()) ?>" target="_blank"><?= $newsletter->file_name; ?></a></td>
-                        <td><a href="<?= get_relative_path($newsletter->get_thumbnail_path()) ?>" target="_blank"><?= $newsletter->thumbnail_file_name; ?></a></td>
+                        <td><?= html_escape($file->title); ?></td>
+                        <td><?= html_escape($file->description); ?></td>
+                        <td><a href="<?= get_relative_path($file->get_path()) ?>" target="_blank"><?= $file->file_name; ?></a></td>
+                        <td><a href="<?= get_relative_path($file->get_thumbnail_path()) ?>" target="_blank"><?= $file->thumbnail_file_name; ?></a></td>
                         <td>
                             <div class="btn-group">
                                 <a class="btn btn-sm btn-primary" href="/admin/super-eight-festivals/federation/newsletters/<?= $newsletter->id; ?>/edit/">Edit</a>
@@ -178,12 +184,15 @@ $photos = SuperEightFestivalsFederationPhoto::get_all();
                 </thead>
                 <tbody>
                 <?php foreach ($photos as $photo): ?>
+                    <?php
+                    $file = $photo->get_file();
+                    ?>
                     <tr>
                         <td><?= $photo->id; ?></td>
-                        <td><?= html_escape($photo->title); ?></td>
-                        <td><?= html_escape($photo->description); ?></td>
-                        <td><a href="<?= get_relative_path($photo->get_path()) ?>" target="_blank"><?= $photo->file_name; ?></a></td>
-                        <td><a href="<?= get_relative_path($photo->get_thumbnail_path()) ?>" target="_blank"><?= $photo->thumbnail_file_name; ?></a></td>
+                        <td><?= html_escape($file->title); ?></td>
+                        <td><?= html_escape($file->description); ?></td>
+                        <td><a href="<?= get_relative_path($file->get_path()) ?>" target="_blank"><?= $file->file_name; ?></a></td>
+                        <td><a href="<?= get_relative_path($file->get_thumbnail_path()) ?>" target="_blank"><?= $file->thumbnail_file_name; ?></a></td>
                         <td>
                             <div class="btn-group">
                                 <a class="btn btn-sm btn-primary" href="/admin/super-eight-festivals/federation/photos/<?= $photo->id; ?>/edit/">Edit</a>

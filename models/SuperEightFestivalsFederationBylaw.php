@@ -62,6 +62,5 @@ class SuperEightFestivalsFederationBylaw extends Super8FestivalsRecord
         return SuperEightFestivalsFile::get_by_id($this->file_id);
     }
 
-
     // ======================================================================================================================== \\
 }

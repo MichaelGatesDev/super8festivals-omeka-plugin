@@ -23,12 +23,6 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         return "id";
     }
 
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        $this->get_file()->delete();
-    }
-
     /**
      * @param $search_id
      * @return SuperEightFestivalsCityBanner|null
@@ -46,25 +40,21 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    public function upload()
-    {
+    protected function _createRelationship() {
         $file_relationship = new SuperEightFestivalsResourceRelationship();
         $file_relationship->city_banner_id = $this->id;
-        if ($file_relationship->save()) {
-            $file = new SuperEightFestivalsFile();
-            $file->resource_relationship_id = $file_relationship->id;
-            $file->upload_from_post("file", $this->get_internal_prefix());
-            $this->file_id = $file->id;
-            $this->save();
-        }
+        return $file_relationship;
     }
 
     // ======================================================================================================================== \\
 
-    public function get_internal_prefix(): string
+    protected function afterDelete()
     {
-        return "city_banner";
+        parent::afterDelete();
+        $this->get_file()->delete();
     }
+
+    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsCity|null

@@ -116,4 +116,28 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     }
 
     // ======================================================================================================================== \\
+
+    protected function _createRelationship()
+    {
+    }
+
+    public function upload_file($formInputName)
+    {
+        $file_relationship = $this->_createRelationship();
+        if ($file_relationship->save()) {
+            $file = new SuperEightFestivalsFile();
+            $file->resource_relationship_id = $file_relationship->id;
+
+            list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
+            $uniqueFileName = uniqid() . "." . $extension;
+            move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
+            $file->file_name = $uniqueFileName;
+            $file->create_thumbnail();
+
+            $this->file_id = $file->id;
+            $this->save();
+        }
+    }
+
+    // ======================================================================================================================== \\
 }

@@ -4,15 +4,17 @@
 class SuperEightFestivalsFile extends Super8FestivalsRecord
 {
     public int $created_by_id = 0;
-    public int $last_modified_by_id = 0;
-    public int $resource_relationship_id = 0;
-
     public string $created_at = "";
+
+    public int $last_modified_by_id = 0;
     public string $modified_at = "";
+
     public string $file_name = "";
     public string $thumbnail_file_name = "";
     public string $title = "";
     public string $description = "";
+
+    public int $resource_relationship_id = 0;
 
     public function get_db_columns()
     {
@@ -20,11 +22,13 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
             array(
                 "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
                 "`created_by_id`                INT(10) UNSIGNED NOT NULL",
+                "`created_at`                   VARCHAR(255) NOT NULL",
+
                 "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
+                "`modified_at`                  VARCHAR(255) NOT NULL",
+
                 "`resource_relationship_id`     INT(10) UNSIGNED NOT NULL",
 
-                "`created_at`                   VARCHAR(255) NOT NULL",
-                "`modified_at`                  VARCHAR(255) NOT NULL",
                 "`file_name`                    VARCHAR(255)",
                 "`thumbnail_file_name`          VARCHAR(255)",
                 "`title`                        VARCHAR(255)",
@@ -38,6 +42,22 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
         return "id";
     }
 
+    protected function beforeSave($args)
+    {
+        if (array_key_exists("record", $args)) {
+            $record = $args['record'];
+        }
+        if (array_key_exists("insert", $args)) {
+            $insert = $args['insert'];
+            if ($insert) {
+                $this->created_at = date('Y-m-d H:i:s');
+            }
+            else {
+                $this->modified_at = date('Y-m-d H:i:s');
+            }
+        }
+        parent::beforeSave($args);
+    }
     protected function beforeDelete()
     {
         parent::beforeDelete();

@@ -1,6 +1,6 @@
 <?php
 echo head(array(
-    'title' => ucwords($country->name),
+    'title' => ucwords($country->get_location()->name),
 ));
 ?>
 

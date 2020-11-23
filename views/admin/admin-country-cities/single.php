@@ -1,9 +1,9 @@
 <?php
 echo head(array(
-    'title' => ucwords($city->name) . ", " . ucwords($country->name),
+    'title' => ucwords($city->get_location()->name) . ", " . ucwords($country->get_location()->name),
 ));
 
-$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
+$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->get_location()->name) . "/cities/" . urlencode($city->get_location()->name);
 ?>
 
 <section class="container">

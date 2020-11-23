@@ -5,6 +5,14 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 {
     // ======================================================================================================================== \\
 
+    public int $created_by_id = 0;
+    public string $created_at = "";
+
+    public int $last_modified_by_id = 0;
+    public string $modified_at = "";
+
+    // ======================================================================================================================== \\
+
     public function getResourceId()
     {
         return Inflector::tableize(get_called_class());
@@ -20,8 +28,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         if (array_key_exists("insert", $args)) {
             $insert = $args['insert'];
             if ($insert) {
+                $this->created_at = date('Y-m-d H:i:s');
+                $this->modified_at = date('Y-m-d H:i:s');
                 logger_log(LogLevel::Info, "Creating new ${cname}");
             } else {
+                $this->modified_at = date('Y-m-d H:i:s');
                 logger_log(LogLevel::Info, "Updating ${cname} (ID: {$this->id})");
             }
         }
@@ -87,9 +98,21 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         );
     }
 
-    public abstract function get_db_columns();
+    public function get_db_columns()
+    {
+        return array(
+            "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+            "`created_by_id`                INT(10) UNSIGNED NOT NULL",
+            "`created_at`                   VARCHAR(255) NOT NULL",
+            "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
+            "`modified_at`                  VARCHAR(255) NOT NULL",
+        );
+    }
 
-    public abstract function get_table_pk();
+    public function get_table_pk()
+    {
+        return "id";
+    }
 
     public static function get_all()
     {
@@ -115,6 +138,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         return get_db()->getTable(get_called_class())->findBy($params_arr, $limit);
     }
 
+    public function to_dict()
+    {
+        return json_decode(json_encode($this), true);
+    }
+
     // ======================================================================================================================== \\
 
     protected function _createRelationship()
@@ -124,12 +152,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     public function upload_file($formInputName)
     {
-        $file_relationship = $this->_createRelationship();
-        if($file_relationship == null) return null;
-        if (!$file_relationship->save()) return null;
-
         $file = new SuperEightFestivalsFile();
-        $file->resource_relationship_id = $file_relationship->id;
 
         list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
         $uniqueFileName = uniqid() . "." . $extension;

@@ -2,13 +2,6 @@
 
 class SuperEightFestivals_AdminCountryCityFestivalPrintMediaController extends Omeka_Controller_AbstractActionController
 {
-    public function init()
-    {
-        // Set the model class so this controller can perform some functions,
-        // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFestivalPrintMedia');
-    }
-
     public function indexAction()
     {
         $request = $this->getRequest();
@@ -64,13 +57,15 @@ class SuperEightFestivals_AdminCountryCityFestivalPrintMediaController extends O
         $this->_processForm($print_media, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalPrintMedia $print_media = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalPrintMedia $record = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_festival_print_media'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
+
+        $file = $record->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -79,7 +74,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPrintMediaController extends O
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => get_parent_contributor_options(),
-                'value' => $print_media->contributor_id,
+                'value' => $file ? $file->contributor_id : null,
                 'required' => false,
             )
         );
@@ -89,8 +84,8 @@ class SuperEightFestivals_AdminCountryCityFestivalPrintMediaController extends O
             array(
                 'id' => 'title',
                 'label' => 'Title',
-                'description' => "The media's title",
-                'value' => $print_media->title,
+                'description' => "The federation bylaw's title",
+                'value' => $file ? $file->title : "",
                 'required' => false,
             )
         );
@@ -100,8 +95,8 @@ class SuperEightFestivals_AdminCountryCityFestivalPrintMediaController extends O
             array(
                 'id' => 'description',
                 'label' => 'Description',
-                'description' => "The media's description",
-                'value' => $print_media->description,
+                'description' => "The federation bylaw's description",
+                'value' => $file ? $file->description : "",
                 'required' => false,
             )
         );
@@ -112,85 +107,99 @@ class SuperEightFestivals_AdminCountryCityFestivalPrintMediaController extends O
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The print media file",
-                'required' => $print_media->file_name == "" || !file_exists($print_media->get_path()),
-                'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
+                'required' => $file->file_name == "" || !file_exists($file->get_path()),
+                'accept' => get_form_accept_string(get_image_types()),
             )
         );
 
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalPrintMedia $print_media, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalPrintMedia $record, Zend_Form $form, $action)
     {
-        $this->view->print_media = $print_media;
+        $this->view->print_media = $record;
 
-        if ($this->getRequest()->isPost()) {
-            try {
-                if (!$form->isValid($_POST)) {
-                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
-                    return;
-                }
-                try {
-                    // delete
-                    if ($action == 'delete') {
-                        $print_media->delete();
-                        $this->_helper->flashMessenger("The print media for " . $print_media->get_city()->name . " has been deleted.", 'success');
-                    } // add
-                    else if ($action == 'add') {
-                        $print_media->setPostData($_POST);
-                        if ($print_media->save()) {
-                            // do file upload
-                            $this->upload_file($print_media);
-                            $this->_helper->flashMessenger("The print media for " . $print_media->get_city()->name . " has been added.", 'success');
-                        }
-                    } // edit
-                    else if ($action == 'edit') {
-                        // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = SuperEightFestivalsFestivalPrintMedia::get_by_id($print_media->id);
-                        // set the data of the record according to what was submitted in the form
-                        $print_media->setPostData($_POST);
-                        // if there is no pending upload, use the old files
-                        if (!has_temporary_file('file')) {
-                            $print_media->file_name = $originalRecord->file_name;
-                            $print_media->thumbnail_file_name = $originalRecord->thumbnail_file_name;
-                        } else {
-                            // temporarily set file name to uploaded file name
-                            $print_media->file_name = get_temporary_file("file")[0];
-                        }
-                        if ($print_media->save()) {
-                            // only change files if there is a file waiting
-                            if (has_temporary_file('file')) {
-                                // delete old files
-                                $originalRecord->delete_files();
-                                // do file upload
-                                $this->upload_file($print_media);
-                            }
-                            // display result dialog
-                            $this->_helper->flashMessenger("The print media for " . $print_media->get_city()->name . " has been edited.", 'success');
-                        }
+        // form can only be processed by POST request
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
+
+        // Validate form
+        try {
+            if (!$form->isValid($_POST)) {
+                $this->_helper->flashMessenger('Invalid form data', 'error');
+                return;
+            }
+        } catch (Zend_Form_Exception $e) {
+            $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+        }
+
+        $fileInputName = "file";
+        try {
+            switch ($action) {
+                case "add":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    $file = $record->upload_file($fileInputName);
+                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->save();
+
+                    $this->_helper->flashMessenger("Print Media successfully added.", 'success');
+                    break;
+                case "edit":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    // get the original record so that we can use old information which doesn't persist (e.g. files)
+                    $originalRecord = SuperEightFestivalsFestivalPrintMedia::get_by_id($record->id);
+                    $record->file_id = $originalRecord->file_id;
+
+                    // only change files if there is a file waiting
+                    if (has_temporary_file($fileInputName)) {
+                        // delete old files
+                        $originalFile = $originalRecord->get_file();
+                        $originalFile->delete_files();
+
+                        // upload new file
+                        $file = $record->upload_file($fileInputName);
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
+                    } else {
+                        $file = $originalRecord->get_file();
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
                     }
 
-
-                    $this->redirect("/super-eight-festivals/countries/" . urlencode($print_media->get_country()->name) . "/cities/" . urlencode($print_media->get_city()->name) . "/festivals/" . $print_media->festival_id);
-                } catch (Omeka_Validate_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                } catch (Omeka_Record_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                }
-            } catch (Zend_Form_Exception $e) {
-                $this->_helper->flashMessenger($e);
+                    // display result dialog
+                    $this->_helper->flashMessenger("Print Media successfully updated.", 'success');
+                    break;
+                case "delete":
+                    $record->delete();
+                    $this->_helper->flashMessenger("Print Media successfully deleted.", 'success');
+                    break;
             }
-        }
-    }
 
-    private function upload_file(SuperEightFestivalsFestivalPrintMedia $print_media)
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($print_media->get_internal_prefix() . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $print_media->file_name = $newFileName;
-        $print_media->create_thumbnail();
-        $print_media->save();
+            $festival = $record->get_festival();
+            $country = $festival->get_country();
+            $city = $festival->get_city();
+            $this->redirect(
+                "/super-eight-festivals/countries/"
+                . urlencode($country->get_location()->name)
+                . "/cities/"
+                . urlencode($city->get_location()->name)
+                . "/festivals/"
+                . $festival->id
+            );
+        } catch (Omeka_Record_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        } catch (Omeka_Validate_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        }
     }
 
 }

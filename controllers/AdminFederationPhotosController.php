@@ -120,6 +120,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
             }
         } catch (Zend_Form_Exception $e) {
             $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+            return;
         }
 
         $fileInputName = "file";
@@ -142,7 +143,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                     $record->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFederationPhoto::get_by_id($record->id);
+                    $originalRecord = SuperEightFestivalsFederationPhoto ::get_by_id($record->id);
                     $record->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
@@ -167,7 +168,6 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
 
                     // display result dialog
                     $this->_helper->flashMessenger("Federation Photo successfully updated.", 'success');
-
                     break;
                 case "delete":
                     $record->delete();

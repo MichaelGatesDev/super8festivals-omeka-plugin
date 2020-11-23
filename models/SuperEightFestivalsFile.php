@@ -3,75 +3,41 @@
 
 class SuperEightFestivalsFile extends Super8FestivalsRecord
 {
-    public int $created_by_id = 0;
-    public string $created_at = "";
-
-    public int $last_modified_by_id = 0;
-    public string $modified_at = "";
+    // ======================================================================================================================== \\
 
     public string $file_name = "";
     public string $thumbnail_file_name = "";
     public string $title = "";
     public string $description = "";
 
-    public int $resource_relationship_id = 0;
     public int $contributor_id = 0;
+
+    // ======================================================================================================================== \\
 
     public function get_db_columns()
     {
         return array_merge(
             array(
-                "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
-                "`created_by_id`                INT(10) UNSIGNED NOT NULL",
-                "`created_at`                   VARCHAR(255) NOT NULL",
-
-                "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
-                "`modified_at`                  VARCHAR(255) NOT NULL",
-
                 "`file_name`                    VARCHAR(255)",
                 "`thumbnail_file_name`          VARCHAR(255)",
                 "`title`                        VARCHAR(255)",
                 "`description`                  TEXT(65535)",
 
-                "`resource_relationship_id`     INT(10) UNSIGNED NOT NULL",
                 "`contributor_id`               INT(10) UNSIGNED NOT NULL",
             ),
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
-    {
-        return "id";
-    }
-
-    protected function beforeSave($args)
-    {
-        if (array_key_exists("record", $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists("insert", $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                $this->created_at = date('Y-m-d H:i:s');
-            }
-            else {
-                $this->modified_at = date('Y-m-d H:i:s');
-            }
-        }
-        parent::beforeSave($args);
-    }
-    protected function beforeDelete()
-    {
-        parent::beforeDelete();
-        if($this->getRelationship())
-        $this->getRelationship()->delete();
-    }
+    // ======================================================================================================================== \\
 
     protected function afterDelete()
     {
         parent::afterDelete();
         $this->delete_files();
     }
+
+    // ======================================================================================================================== \\
 
     /**
      * @return string The absolute path to the resource
@@ -105,12 +71,10 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
     {
         // no file to create a thumbnail from
         if ($this->file_name === null || $this->file_name === "" || $this->get_path() === "" || is_dir($this->get_path()) || !file_exists($this->get_path())) {
-            error_log("Failed to create thumbnail: file does not exist or is a directory!");
-            return false;
+            throw new Error("Failed to create thumbnail: file does not exist or is a directory!");
         }
         if ($this->has_thumbnail()) {
-            error_log("Failed to create thumbnail: a thumbnail already exists!");
-            return false;
+            throw new Error("Failed to create thumbnail: a thumbnail already exists!");
         }
 
         try {
@@ -126,9 +90,7 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
             $this->save();
             return true;
         } catch (ImagickException $e) {
-            error_log("Failed to create thumbnail (original: $this->file_name)");
-            error_log($e);
-            return false;
+            throw new Error("Failed to create thumbnail (original: $this->file_name)");
         }
     }
 
@@ -147,6 +109,8 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
         $this->create_thumbnail();
     }
 
+    // ======================================================================================================================== \\
+
     /**
      * @return SuperEightFestivalsFile[]
      */
@@ -155,10 +119,5 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    public function getRelationship()
-    {
-        $relationship = SuperEightFestivalsResourceRelationship::get_by_id(($this->resource_relationship_id));
-        if (!$relationship) return null;
-        return $relationship;
-    }
+    // ======================================================================================================================== \\
 }

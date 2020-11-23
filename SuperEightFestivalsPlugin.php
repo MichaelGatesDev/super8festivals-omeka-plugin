@@ -49,9 +49,12 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                 list($countryName, $lat, $long) = explode(",", trim($result));
                 try {
                     $country = new SuperEightFestivalsCountry();
-                    $country->name = $countryName;
-                    $country->latitude = $lat;
-                    $country->longitude = $long;
+                    $location = new SuperEightFestivalsLocation();
+                    $location->name = $countryName;
+                    $location->latitude = $lat;
+                    $location->longitude = $long;
+                    $location->save();
+                    $country->location_id = $location->id;
                     $country->save();
                 } catch (Throwable $e) {
                     logger_log(LogLevel::Error, "Failed to add country. " . $e->getMessage());
@@ -74,9 +77,12 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
                         continue;
                     }
                     $city->country_id = $country->id;
-                    $city->name = $cityName;
-                    $city->latitude = $lat;
-                    $city->longitude = $long;
+                    $location = new SuperEightFestivalsLocation();
+                    $location->name = $countryName;
+                    $location->latitude = $lat;
+                    $location->longitude = $long;
+                    $location->save();
+                    $city->location_id = $location->id;
                     $city->save();
                 } catch (Throwable $e) {
                     logger_log(LogLevel::Error, "Failed to add city. " . $e->getMessage());

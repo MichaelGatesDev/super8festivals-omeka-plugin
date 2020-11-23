@@ -1,19 +1,27 @@
 <?php
 
-trait S8FLocation
+
+class SuperEightFestivalsLocation extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public $name = "";
-    public $latitude = 0;
-    public $longitude = 0;
+    public float $latitude = 0;
+    public float $longitude = 0;
+    public string $name = "";
+    public string $description = "";
 
-    public static function get_db_columns()
+    // ======================================================================================================================== \\
+
+    public function get_db_columns()
     {
-        return array(
-            "`name`         VARCHAR(255)     NOT NULL",
-            "`latitude`     FLOAT(8, 4)",
-            "`longitude`    FLOAT(8, 4)",
+        return array_merge(
+            array(
+                "`latitude`                     FLOAT(8, 4)",
+                "`longitude`                    FLOAT(8, 4)",
+                "`name`                         VARCHAR(255)",
+                "`description`                  TEXT(65535)",
+            ),
+            parent::get_db_columns()
         );
     }
 
@@ -39,6 +47,16 @@ trait S8FLocation
         $this->longitude = intval($this->longitude * 1e4) / 1e4;
 
         return true;
+    }
+
+    // ======================================================================================================================== \\
+
+    /**
+     * @return SuperEightFestivalsLocation[]
+     */
+    public static function get_all()
+    {
+        return parent::get_all();
     }
 
     // ======================================================================================================================== \\

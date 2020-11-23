@@ -11,17 +11,22 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
 
     public function get_db_columns()
     {
-        return array(
-            "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
-            "`city_id`   INT(10) UNSIGNED NOT NULL",
-            "`file_id`   INT(10) UNSIGNED NOT NULL",
+        return array_merge(
+            array(
+                "`city_id`   INT(10) UNSIGNED NOT NULL",
+                "`file_id`   INT(10) UNSIGNED NOT NULL",
+            ),
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        $this->get_file()->delete();
     }
+
+    // ======================================================================================================================== \\
 
     /**
      * @param $search_id
@@ -39,22 +44,6 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
     {
         return parent::get_all();
     }
-
-    protected function _createRelationship() {
-        $file_relationship = new SuperEightFestivalsResourceRelationship();
-        $file_relationship->city_banner_id = $this->id;
-        return $file_relationship;
-    }
-
-    // ======================================================================================================================== \\
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        $this->get_file()->delete();
-    }
-
-    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsCity|null

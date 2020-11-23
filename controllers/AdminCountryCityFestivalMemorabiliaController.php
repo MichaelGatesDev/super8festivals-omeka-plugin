@@ -2,13 +2,6 @@
 
 class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends Omeka_Controller_AbstractActionController
 {
-    public function init()
-    {
-        // Set the model class so this controller can perform some functions,
-        // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFestivalMemorabilia');
-    }
-
     public function indexAction()
     {
         $request = $this->getRequest();
@@ -28,12 +21,12 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         $this->view->city = $city = get_request_param_city($request);
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
 
-        $memorabilia = new SuperEightFestivalsFestivalMemorabilia();
-        $memorabilia->festival_id = $festival->id;
-        $form = $this->_getForm($memorabilia);
+        $record = new SuperEightFestivalsFestivalMemorabilia();
+        $record->festival_id = $festival->id;
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->view->memorabilia = $memorabilia;
-        $this->_processForm($memorabilia, $form, 'add');
+        $this->view->memorabilia = $record;
+        $this->_processForm($record, $form, 'add');
     }
 
     public function editAction()
@@ -43,11 +36,11 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
-        $this->view->memorabilia = $memorabilia = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
+        $this->view->memorabilia = $record = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
 
-        $form = $this->_getForm($memorabilia);
+        $form = $this->_getForm($record);
         $this->view->form = $form;
-        $this->_processForm($memorabilia, $form, 'edit');
+        $this->_processForm($record, $form, 'edit');
     }
 
     public function deleteAction()
@@ -57,20 +50,22 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
-        $this->view->memorabilia = $memorabilia = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
+        $this->view->memorabilia = $record = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($memorabilia, $form, 'delete');
+        $this->_processForm($record, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalMemorabilia $memorabilia = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalMemorabilia $record = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_festival_memorabilia'
         );
 
         $form = new Omeka_Form_Admin($formOptions);
+
+        $file = $record->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -79,7 +74,7 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
                 'label' => 'Contributor',
                 'description' => "The person who contributed the item",
                 'multiOptions' => get_parent_contributor_options(),
-                'value' => $memorabilia->contributor_id,
+                'value' => $file ? $file->contributor_id : null,
                 'required' => false,
             )
         );
@@ -89,8 +84,8 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
             array(
                 'id' => 'title',
                 'label' => 'Title',
-                'description' => "The memorabilia's title",
-                'value' => $memorabilia->title,
+                'description' => "The federation bylaw's title",
+                'value' => $file ? $file->title : "",
                 'required' => false,
             )
         );
@@ -100,8 +95,8 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
             array(
                 'id' => 'description',
                 'label' => 'Description',
-                'description' => "The memorabilia's description",
-                'value' => $memorabilia->description,
+                'description' => "The federation bylaw's description",
+                'value' => $file ? $file->description : "",
                 'required' => false,
             )
         );
@@ -112,7 +107,7 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The memorabilia file",
-                'required' => $memorabilia->file_name == "" || !file_exists($memorabilia->get_path()),
+                'required' => $file->file_name == "" || !file_exists($file->get_path()),
                 'accept' => get_form_accept_string(array_merge(get_image_types(), get_document_types())),
             )
         );
@@ -120,75 +115,91 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalMemorabilia $memorabilia, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalMemorabilia $record, Zend_Form $form, $action)
     {
-        $this->view->memorabilia = $memorabilia;
+        $this->view->memorabilia = $record;
 
-        if ($this->getRequest()->isPost()) {
-            try {
-                if (!$form->isValid($_POST)) {
-                    $this->_helper->flashMessenger('There was an error on the form. Please try again.', 'error');
-                    return;
-                }
+        // form can only be processed by POST request
+        if (!$this->getRequest()->isPost()) {
+            return;
+        }
 
-                try {
-                    if ($action == 'delete') {
-                        $memorabilia->delete();
-                        $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been deleted.", 'success');
-                    } else if ($action == 'add') {
-                        $memorabilia->setPostData($_POST);
-                        if ($memorabilia->save()) {
-                            // do file upload
-                            $this->upload_file($memorabilia);
-                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been added.", 'success');
-                        }
-                    } else if ($action == 'edit') {
-                        // get the original so that we can use old information which doesn't persist well (e.g. files)
-                        $originalRecord = SuperEightFestivalsFestivalMemorabilia::get_by_id($memorabilia->id);
-                        // set the data of the record according to what was submitted in the form
-                        $memorabilia->setPostData($_POST);
-                        // if there is no pending upload, use the old files
-                        if (!has_temporary_file('file')) {
-                            $memorabilia->file_name = $originalRecord->file_name;
-                            $memorabilia->thumbnail_file_name = $originalRecord->thumbnail_file_name;
-                        } else {
-                            // temporarily set file name to uploaded file name
-                            $memorabilia->file_name = get_temporary_file("file")[0];
-                        }
-                        if ($memorabilia->save()) {
-                            // only change files if there is a file waiting
-                            if (has_temporary_file('file')) {
-                                // delete old files
-                                $originalRecord->delete_files();
-                                // do file upload
-                                $this->upload_file($memorabilia);
-                            }
-                            // display result dialog
-                            $this->_helper->flashMessenger("The memorabilia for " . $memorabilia->get_city()->name . " has been edited.", 'success');
-                        }
+        // Validate form
+        try {
+            if (!$form->isValid($_POST)) {
+                $this->_helper->flashMessenger('Invalid form data', 'error');
+                return;
+            }
+        } catch (Zend_Form_Exception $e) {
+            $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+        }
+
+        $fileInputName = "file";
+        try {
+            switch ($action) {
+                case "add":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    $file = $record->upload_file($fileInputName);
+                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->save();
+
+                    $this->_helper->flashMessenger("Memorabilia successfully added.", 'success');
+                    break;
+                case "edit":
+                    $record->setPostData($_POST);
+                    $record->save(true);
+
+                    // get the original record so that we can use old information which doesn't persist (e.g. files)
+                    $originalRecord = SuperEightFestivalsFestivalMemorabilia::get_by_id($record->id);
+                    $record->file_id = $originalRecord->file_id;
+
+                    // only change files if there is a file waiting
+                    if (has_temporary_file($fileInputName)) {
+                        // delete old files
+                        $originalFile = $originalRecord->get_file();
+                        $originalFile->delete_files();
+
+                        // upload new file
+                        $file = $record->upload_file($fileInputName);
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
+                    } else {
+                        $file = $originalRecord->get_file();
+                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->title = $this->getParam("title", "");
+                        $file->description = $this->getParam("description", "");
+                        $file->save();
                     }
 
-
-                    $this->redirect("/super-eight-festivals/countries/" . urlencode($memorabilia->get_country()->name) . "/cities/" . urlencode($memorabilia->get_city()->name) . "/festivals/" . $memorabilia->festival_id);
-                } catch (Omeka_Validate_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                } catch (Omeka_Record_Exception $e) {
-                    $this->_helper->flashMessenger($e);
-                }
-            } catch (Zend_Form_Exception $e) {
-                $this->_helper->flashMessenger($e);
+                    // display result dialog
+                    $this->_helper->flashMessenger("Memorabilia successfully updated.", 'success');
+                    break;
+                case "delete":
+                    $record->delete();
+                    $this->_helper->flashMessenger("Memorabilia successfully deleted.", 'success');
+                    break;
             }
-        }
-    }
 
-    private function upload_file(SuperEightFestivalsFestivalMemorabilia $memorabilia)
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file("file");
-        $newFileName = uniqid($memorabilia->get_internal_prefix() . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $memorabilia->file_name = $newFileName;
-        $memorabilia->create_thumbnail();
-        $memorabilia->save();
+            $festival = $record->get_festival();
+            $country = $festival->get_country();
+            $city = $festival->get_city();
+            $this->redirect(
+                "/super-eight-festivals/countries/"
+                . urlencode($country->get_location()->name)
+                . "/cities/"
+                . urlencode($city->get_location()->name)
+                . "/festivals/"
+                . $festival->id
+            );
+        } catch (Omeka_Record_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        } catch (Omeka_Validate_Exception $e) {
+            $this->_helper->flashMessenger($e->getMessage(), 'error');
+        }
     }
 
 }

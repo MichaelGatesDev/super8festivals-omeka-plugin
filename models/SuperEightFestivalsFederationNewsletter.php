@@ -10,20 +10,25 @@ class SuperEightFestivalsFederationNewsletter extends Super8FestivalsRecord
 
     public function get_db_columns()
     {
-        return array(
-            "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
-            "`file_id`   INT(10) UNSIGNED NOT NULL",
+        return array_merge(
+            array(
+                "`file_id`   INT(10) UNSIGNED NOT NULL",
+            ),
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        $this->get_file()->delete();
     }
+
+    // ======================================================================================================================== \\
 
     /**
      * @param $search_id
-     * @return SuperEightFestivalsFederationBylaw|null
+     * @return SuperEightFestivalsFederationNewsletter|null
      */
     public static function get_by_id($search_id)
     {
@@ -31,28 +36,12 @@ class SuperEightFestivalsFederationNewsletter extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsFederationBylaw[]
+     * @return SuperEightFestivalsFederationNewsletter[]
      */
     public static function get_all()
     {
         return parent::get_all();
     }
-
-    protected function _createRelationship() {
-        $file_relationship = new SuperEightFestivalsResourceRelationship();
-        $file_relationship->federation_newsletter_id = $this->id;
-        return $file_relationship;
-    }
-
-    // ======================================================================================================================== \\
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
-        $this->get_file()->delete();
-    }
-
-    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsFile|null

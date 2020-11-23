@@ -4,9 +4,8 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public $country_id = 0;
-    public $description = "";
-    use S8FLocation;
+    public int $country_id = 0;
+    public int $location_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -14,26 +13,11 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
-                "`country_id`   INT(10) UNSIGNED NOT NULL",
-                "`description`  TEXT(65535)",
+                "`country_id`       INT(10) UNSIGNED NOT NULL",
+                "`location_id`      INT(10) UNSIGNED NOT NULL",
             ),
-            S8FLocation::get_db_columns()
+            parent::get_db_columns()
         );
-    }
-
-    public function get_table_pk()
-    {
-        return "id";
-    }
-
-    protected function _validate()
-    {
-        parent::_validate();
-        $this->__validate();
-        if (($found = SuperEightFestivalsCountry::get_by_params(['country_id' => $this->country_id, 'name' => $this->name])) && count($found) > 0 && $found[0]->id !== $this->id) {
-            throw new Error("Country already contains a city with that name!");
-        }
     }
 
     protected function afterSave($args)
@@ -74,6 +58,15 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         }
     }
 
+    public function to_dict()
+    {
+        $res = $this->get_location()->to_dict();
+        $res['country'] = $this->get_country()->to_dict();
+        return $res;
+    }
+
+    // ======================================================================================================================== \\
+
     /**
      * @return SuperEightFestivalsCity[]
      */
@@ -81,8 +74,6 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         return parent::get_all();
     }
-
-    // ======================================================================================================================== \\
 
     public static function get_by_name($name): ?SuperEightFestivalsCity
     {
@@ -121,6 +112,14 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
             }
         }
         return $results;
+    }
+
+    /**
+     * @return SuperEightFestivalsLocation|null
+     */
+    public function get_location()
+    {
+        return SuperEightFestivalsLocation::get_by_id($this->location_id);
     }
 
     // ======================================================================================================================== \\

@@ -4,7 +4,7 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FFilmmakerImage;
+    public int $file_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,33 +12,27 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`file_id`   INT(10) UNSIGNED NOT NULL",
             ),
-            S8FFilmmakerImage::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        $this->get_file()->delete();
     }
 
-    protected function _validate()
-    {
-        parent::_validate();
-        if (empty($this->filmmaker_id) || !is_numeric($this->filmmaker_id)) {
-            $this->addError('filmmaker_id', 'You must select a valid city!');
-        }
-    }
+    // ======================================================================================================================== \\
 
-    protected function afterSave($args)
+    /**
+     * @param $search_id
+     * @return SuperEightFestivalsFilmmakerPhoto|null
+     */
+    public static function get_by_id($search_id)
     {
-        parent::beforeSave($args);
-    }
-
-    protected function afterDelete()
-    {
-        parent::afterDelete();
+        return parent::get_by_id($search_id);
     }
 
     /**
@@ -49,11 +43,12 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public function get_internal_prefix(): string
+    /**
+     * @return SuperEightFestivalsFile|null
+     */
+    public function get_file()
     {
-        return "festival_filmmaker_photo";
+        return SuperEightFestivalsFile::get_by_id($this->file_id);
     }
 
     // ======================================================================================================================== \\

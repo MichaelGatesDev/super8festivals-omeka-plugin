@@ -120,6 +120,7 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
             }
         } catch (Zend_Form_Exception $e) {
             $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+            return;
         }
 
         $fileInputName = "file";
@@ -135,7 +136,7 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
                     $file->description = $this->getParam("description", "");
                     $file->save();
 
-                    $this->_helper->flashMessenger("Federation Magazine successfully added.", 'success');
+                    $this->_helper->flashMessenger("Federation By-Law successfully added.", 'success');
                     break;
                 case "edit":
                     $record->setPostData($_POST);
@@ -166,12 +167,11 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
                     }
 
                     // display result dialog
-                    $this->_helper->flashMessenger("Federation Magazine successfully updated.", 'success');
-
+                    $this->_helper->flashMessenger("Federation By-Law successfully updated.", 'success');
                     break;
                 case "delete":
                     $record->delete();
-                    $this->_helper->flashMessenger("Federation Magazine successfully deleted.", 'success');
+                    $this->_helper->flashMessenger("Federation By-Law successfully deleted.", 'success');
                     break;
             }
         } catch (Omeka_Record_Exception $e) {

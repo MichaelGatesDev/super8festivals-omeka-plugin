@@ -2,13 +2,6 @@
 
 class SuperEightFestivals_AdminFilmmakerPhotosController extends Omeka_Controller_AbstractActionController
 {
-    public function init()
-    {
-        // Set the model class so this controller can perform some functions,
-        // such as $this->findById()
-        $this->_helper->db->setDefaultModelName('SuperEightFestivalsFilmmakerPhoto');
-    }
-
     public function indexAction()
     {
         $request = $this->getRequest();

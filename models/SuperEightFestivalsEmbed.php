@@ -1,10 +1,15 @@
 <?php
 
-class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
+
+class SuperEightFestivalsEmbed extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $person_id = 0;
+    public string $embed = "";
+    public string $title = "";
+    public string $description = "";
+
+    public int $contributor_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,7 +17,11 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`person_id`   INT(10) UNSIGNED NOT NULL",
+                "`embed`                        TEXT(65535)",
+                "`title`                        VARCHAR(255)",
+                "`description`                  TEXT(65535)",
+
+                "`contributor_id`               INT(10) UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
         );
@@ -21,27 +30,11 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     // ======================================================================================================================== \\
 
     /**
-     * @return SuperEightFestivalsFilmmaker[]
+     * @return SuperEightFestivalsFile[]
      */
     public static function get_all()
     {
         return parent::get_all();
-    }
-
-    /**
-     * @return SuperEightFestivalsFestivalFilm[]
-     */
-    public function get_films()
-    {
-        return SuperEightFestivalsFestivalFilm::get_by_param('filmmaker_id', $this->id);
-    }
-
-    /**
-     * @return SuperEightFestivalsFilmmakerPhoto[]
-     */
-    public function get_photos()
-    {
-        return SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $this->id);
     }
 
     // ======================================================================================================================== \\

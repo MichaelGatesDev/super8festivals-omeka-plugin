@@ -9,7 +9,7 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
         $country = get_request_param_country($request);
         $city = get_request_param_city($request);
 
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name));
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($record->get_country()->get_location()->name) . "/cities/" . urlencode($record->get_city()->get_location()->name));
     }
 
     public function addAction()
@@ -19,7 +19,6 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
 
-        // Create new record
         $record = new SuperEightFestivalsCityBanner();
         $record->city_id = $city->id;
         $form = $this->_getForm($record);
@@ -166,6 +165,6 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
             $this->_helper->flashMessenger($e->getMessage(), 'error');
         }
 
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($record->get_country()->name) . "/cities/" . urlencode($record->get_city()->name));
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($record->get_country()->get_location()->name) . "/cities/" . urlencode($record->get_city()->get_location()->name));
     }
 }

@@ -168,7 +168,6 @@ class SuperEightFestivals_AdminFederationBylawsController extends Omeka_Controll
 
                     // display result dialog
                     $this->_helper->flashMessenger("Federation By-Law successfully updated.", 'success');
-
                     break;
                 case "delete":
                     $record->delete();

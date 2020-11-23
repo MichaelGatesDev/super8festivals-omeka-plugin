@@ -4,8 +4,8 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public $city_id = 0;
-    public $year = 0;
+    public int $city_id = 0;
+    public int $year = 0;
 
     // ======================================================================================================================== \\
 
@@ -13,16 +13,11 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
                 "`city_id`      INT(10) UNSIGNED NOT NULL",
                 "`year`         INT(4)           NOT NULL",
             ),
+            parent::get_db_columns()
         );
-    }
-
-    public function get_table_pk()
-    {
-        return "id";
     }
 
     protected function _validate()
@@ -35,11 +30,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
             throw new Error("A festival with that year already exists!");
         }
         return true;
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
     }
 
     protected function afterDelete()
@@ -58,6 +48,9 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->delete();
     }
 
+
+    // ======================================================================================================================== \\
+
     /**
      * @return SuperEightFestivalsFestival[]
      */
@@ -65,8 +58,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         return parent::get_all();
     }
-
-    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsCity|null

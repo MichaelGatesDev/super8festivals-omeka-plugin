@@ -112,7 +112,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function allCountriesAction()
     {
         try {
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all countries", SuperEightFestivalsCountry::get_all()));
+            $countries = [];
+            foreach (SuperEightFestivalsCountry::get_all() as $country) {
+                array_push($countries, $country->to_dict());
+            }
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all countries", $countries));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
@@ -126,7 +130,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $country = get_request_param_country($request);
 
             if ($request->isGet()) {
-                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched country", $country));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched country", $country->to_dict()));
             } else {
                 if ($user->role !== "super") {
                     $this->_helper->json($this->getJsonResponse("error", "You must be signed in to do this."));
@@ -142,10 +146,10 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $country->longitude = $json['longitude'];
                     $country->save();
 
-                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated country", $country));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated country", $country->to_dict()));
                 } else if ($request->isDelete()) {
                     $country->delete();
-                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted country", $country));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted country", $country->to_dict()));
                 }
             }
         } catch (Throwable $e) {
@@ -178,7 +182,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $country->longitude = $json['longitude'];
             $country->save();
 
-            $this->_helper->json($this->getJsonResponse("success", "Successfully created country", $country));
+            $this->_helper->json($this->getJsonResponse("success", "Successfully created country", $country->to_dict()));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
@@ -189,9 +193,9 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function allCitiesAction()
     {
         try {
-            $cities = SuperEightFestivalsCity::get_all();
-            foreach ($cities as $city) {
-                $city['country'] = $city->get_country();
+            $cities = [];
+            foreach (SuperEightFestivalsCity::get_all() as $city) {
+                array_push($cities, $city->to_dict());
             }
             $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", $cities));
         } catch (Throwable $e) {
@@ -206,7 +210,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $city = get_request_param_city($request);
 
             if ($request->isGet()) {
-                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city->to_dict()));
             } else {
                 $user = current_user();
                 if ($user->role !== "super") {
@@ -225,10 +229,10 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $city->description = $json['description'];
                     $city->save();
 
-                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city->to_dict()));
                 } else if ($request->isDelete()) {
                     $city->delete();
-                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city->to_dict()));
                 }
             }
         } catch (Throwable $e) {
@@ -241,7 +245,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         try {
             $request = $this->getRequest();
             $country = get_request_param_country($request);
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities for country", $country->get_cities()));
+            $cities = [];
+            foreach ($country->get_cities() as $city) {
+                array_push($cities, $city->to_dict());
+            }
+            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities for country", $cities));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
@@ -254,7 +262,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $city = get_request_param_city($request);
 
             if ($request->isGet()) {
-                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city->to_dict()));
             } else {
                 $user = current_user();
                 if ($user->role !== "super") {
@@ -273,10 +281,10 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $city->description = $json['description'];
                     $city->save();
 
-                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city->to_dict()));
                 } else if ($request->isDelete()) {
                     $city->delete();
-                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city));
+                    $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city->to_dict()));
                 }
             }
         } catch (Throwable $e) {
@@ -311,7 +319,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $city->description = $json['description'];
             $city->save();
 
-            $this->_helper->json($this->getJsonResponse("success", "Successfully created city", $city));
+            $this->_helper->json($this->getJsonResponse("success", "Successfully created city", $city->to_dict()));
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }

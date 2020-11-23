@@ -120,6 +120,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
             }
         } catch (Zend_Form_Exception $e) {
             $this->_helper->flashMessenger("An error occurred while submitting the form: {$e->getMessage()}", 'error');
+            return;
         }
 
         $fileInputName = "file";
@@ -167,7 +168,6 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
 
                     // display result dialog
                     $this->_helper->flashMessenger("Federation Newsletter successfully updated.", 'success');
-
                     break;
                 case "delete":
                     $record->delete();

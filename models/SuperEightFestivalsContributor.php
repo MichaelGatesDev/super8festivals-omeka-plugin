@@ -4,7 +4,7 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FPerson;
+    public int $person_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,16 +12,13 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`person_id`   INT(10) UNSIGNED NOT NULL",
             ),
-            S8FPerson::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
-    {
-        return "id";
-    }
+    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsContributor[]

@@ -27,13 +27,17 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         }
         if (array_key_exists("insert", $args)) {
             $insert = $args['insert'];
+            $user = current_user();
             if ($insert) {
                 $this->created_at = date('Y-m-d H:i:s');
+                $this->created_by_id = $user->id;
                 $this->modified_at = date('Y-m-d H:i:s');
-                logger_log(LogLevel::Info, "Creating new ${cname}");
+                $this->last_modified_by_id = $user->id;
+                logger_log(LogLevel::Debug, "{$user->name} began creating new {$cname}...");
             } else {
                 $this->modified_at = date('Y-m-d H:i:s');
-                logger_log(LogLevel::Info, "Updating ${cname} (ID: {$this->id})");
+                $this->last_modified_by_id = $user->id;
+                logger_log(LogLevel::Debug, "{$user->name} began updating {$cname} (ID: {$this->id})...");
             }
         }
     }
@@ -47,10 +51,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         }
         if (array_key_exists("insert", $args)) {
             $insert = $args['insert'];
+            $user = current_user();
             if ($insert) {
-                logger_log(LogLevel::Info, "Created new ${cname}");
+                logger_log(LogLevel::Info, "{$user->name} successfully created new {$cname} (ID: {$this->id})");
             } else {
-                logger_log(LogLevel::Info, "Updated ${cname} (ID: {$this->id})");
+                logger_log(LogLevel::Info, "{$user->name} successfully updated {$cname} (ID: {$this->id})");
             }
         }
     }
@@ -58,15 +63,17 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     protected function beforeDelete()
     {
         parent::beforeDelete();
+        $user = current_user();
         $cname = get_called_class();
-        logger_log(LogLevel::Info, "Deleting ${cname} (ID: {$this->id})");
+        logger_log(LogLevel::Debug, "{$user->name} began deleting {$cname} (ID: {$this->id})...");
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
+        $user = current_user();
         $cname = get_called_class();
-        logger_log(LogLevel::Info, "Deleted ${cname}");
+        logger_log(LogLevel::Info, "{$user->name} successfully deleted {$cname}");
     }
 
     // ======================================================================================================================== \\
@@ -144,11 +151,6 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     }
 
     // ======================================================================================================================== \\
-
-    protected function _createRelationship()
-    {
-        return null;
-    }
 
     public function upload_file($formInputName)
     {

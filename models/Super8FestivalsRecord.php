@@ -76,6 +76,15 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         logger_log(LogLevel::Info, "{$user->name} successfully deleted {$cname}");
     }
 
+    public function toArray()
+    {
+        return array_merge(
+            parent::toArray(),
+            ["created_by" => $this->get_created_by()],
+            ["last_modified_by" => $this->get_last_modified_by()],
+        );
+    }
+
     // ======================================================================================================================== \\
 
     public function create_table()
@@ -145,12 +154,17 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         return get_db()->getTable(get_called_class())->findBy($params_arr, $limit);
     }
 
-    public function to_dict()
+    // ======================================================================================================================== \\
+
+    public function get_created_by()
     {
-        return json_decode(json_encode($this), true);
+        return get_db()->getTable("User")->find($this->created_by_id);
     }
 
-    // ======================================================================================================================== \\
+    public function get_last_modified_by()
+    {
+        return get_db()->getTable("User")->find($this->last_modified_by_id);
+    }
 
     public function upload_file($formInputName)
     {

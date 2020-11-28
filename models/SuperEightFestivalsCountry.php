@@ -31,9 +31,12 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         }
     }
 
-    public function to_dict()
+    public function toArray()
     {
-        return $this->get_location()->to_dict();
+        return array_merge(
+            parent::toArray(),
+            ["location" => $this->get_location()],
+        );
     }
 
     // ======================================================================================================================== \\
@@ -47,16 +50,17 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsLocation|null
+     * @param $name string name of the country
+     * @return SuperEightFestivalsCountry|null
      */
-    public static function get_by_name($name)
+    public static function get_by_name(string $name)
     {
         $all = SuperEightFestivalsCountry::get_all();
         foreach ($all as $single) {
             $single->get_location();
+            if ($single->get_location()->name === $name) return $single;
         }
-        $results = SuperEightFestivalsCountry::get_by_param('name', $name, 1);
-        return count($results) > 0 ? $results[0] : null;
+        return null;
     }
 
     /**

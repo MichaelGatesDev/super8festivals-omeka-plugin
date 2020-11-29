@@ -58,7 +58,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPhotosController extends Omeka
         $this->_processForm($photo, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalPhoto $record = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalPhoto $photo = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_festival_photo'
@@ -66,7 +66,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPhotosController extends Omeka
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $record->get_file();
+        $file = $photo->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -116,9 +116,9 @@ class SuperEightFestivals_AdminCountryCityFestivalPhotosController extends Omeka
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalPhoto $record, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalPhoto $photo, Zend_Form $form, $action)
     {
-        $this->view->photo = $record;
+        $this->view->photo = $photo;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -139,22 +139,22 @@ class SuperEightFestivals_AdminCountryCityFestivalPhotosController extends Omeka
         try {
             switch ($action) {
                 case "add":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $photo->setPostData($_POST);
+                    $photo->save(true);
 
-                    $file = $record->upload_file($fileInputName);
+                    $file = $photo->upload_file($fileInputName);
                     $file->contributor_id = $this->getParam("contributor", 0);
                     $file->save();
 
                     $this->_helper->flashMessenger("Photo successfully added.", 'success');
                     break;
                 case "edit":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $photo->setPostData($_POST);
+                    $photo->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFestivalPhoto::get_by_id($record->id);
-                    $record->file_id = $originalRecord->file_id;
+                    $originalRecord = SuperEightFestivalsFestivalPhoto::get_by_id($photo->id);
+                    $photo->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
                     if (has_temporary_file($fileInputName)) {
@@ -163,7 +163,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPhotosController extends Omeka
                         $originalFile->delete_files();
 
                         // upload new file
-                        $file = $record->upload_file($fileInputName);
+                        $file = $photo->upload_file($fileInputName);
                         $file->contributor_id = $this->getParam("contributor", 0);
                         $file->title = $this->getParam("title", "");
                         $file->description = $this->getParam("description", "");
@@ -180,12 +180,12 @@ class SuperEightFestivals_AdminCountryCityFestivalPhotosController extends Omeka
                     $this->_helper->flashMessenger("Photo successfully updated.", 'success');
                     break;
                 case "delete":
-                    $record->delete();
+                    $photo->delete();
                     $this->_helper->flashMessenger("Photo successfully deleted.", 'success');
                     break;
             }
 
-            $festival = $record->get_festival();
+            $festival = $photo->get_festival();
             $country = $festival->get_country();
             $city = $festival->get_city();
             $this->redirect(

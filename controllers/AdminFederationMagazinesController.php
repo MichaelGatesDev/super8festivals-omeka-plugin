@@ -12,11 +12,11 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
     {
         $request = $this->getRequest();
 
-        $record = new SuperEightFestivalsFederationMagazine();
-        $form = $this->_getForm($record);
+        $magazine = new SuperEightFestivalsFederationMagazine();
+        $form = $this->_getForm($magazine);
         $this->view->form = $form;
-        $this->view->record = $record;
-        $this->_processForm($record, $form, 'add');
+        $this->view->magazine = $magazine;
+        $this->_processForm($magazine, $form, 'add');
     }
 
     public function editAction()
@@ -24,12 +24,12 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
         $request = $this->getRequest();
 
         $magazineID = $request->getParam('magazineID');
-        $record = SuperEightFestivalsFederationMagazine::get_by_id($magazineID);
-        $this->view->record = $record;
+        $magazine = SuperEightFestivalsFederationMagazine::get_by_id($magazineID);
+        $this->view->magazine = $magazine;
 
-        $form = $this->_getForm($record);
+        $form = $this->_getForm($magazine);
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'edit');
+        $this->_processForm($magazine, $form, 'edit');
     }
 
     public function deleteAction()
@@ -37,15 +37,15 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
         $request = $this->getRequest();
 
         $magazineID = $request->getParam('magazineID');
-        $record = SuperEightFestivalsFederationMagazine::get_by_id($magazineID);
-        $this->view->record = $record;
+        $magazine = SuperEightFestivalsFederationMagazine::get_by_id($magazineID);
+        $this->view->magazine = $magazine;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'delete');
+        $this->_processForm($magazine, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFederationMagazine $record = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFederationMagazine $magazine = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_federation_magazine'
@@ -53,7 +53,7 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $record->get_file();
+        $file = $magazine->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -103,9 +103,9 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationMagazine $record, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationMagazine $magazine, Zend_Form $form, $action)
     {
-        $this->view->record = $record;
+        $this->view->magazine = $magazine;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -127,10 +127,10 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
         try {
             switch ($action) {
                 case "add":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $magazine->setPostData($_POST);
+                    $magazine->save(true);
 
-                    $file = $record->upload_file($fileInputName);
+                    $file = $magazine->upload_file($fileInputName);
                     $file->contributor_id = $this->getParam("contributor", 0);
                     $file->title = $this->getParam("title", "");
                     $file->description = $this->getParam("description", "");
@@ -139,12 +139,12 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
                     $this->_helper->flashMessenger("Federation By-Law successfully added.", 'success');
                     break;
                 case "edit":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $magazine->setPostData($_POST);
+                    $magazine->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFederationMagazine::get_by_id($record->id);
-                    $record->file_id = $originalRecord->file_id;
+                    $originalRecord = SuperEightFestivalsFederationMagazine::get_by_id($magazine->id);
+                    $magazine->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
                     if (has_temporary_file($fileInputName)) {
@@ -153,7 +153,7 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
                         $originalFile->delete_files();
 
                         // upload new file
-                        $file = $record->upload_file($fileInputName);
+                        $file = $magazine->upload_file($fileInputName);
                         $file->contributor_id = $this->getParam("contributor", 0);
                         $file->title = $this->getParam("title", "");
                         $file->description = $this->getParam("description", "");
@@ -170,7 +170,7 @@ class SuperEightFestivals_AdminFederationMagazinesController extends Omeka_Contr
                     $this->_helper->flashMessenger("Federation By-Law successfully updated.", 'success');
                     break;
                 case "delete":
-                    $record->delete();
+                    $magazine->delete();
                     $this->_helper->flashMessenger("Federation By-Law successfully deleted.", 'success');
                     break;
             }

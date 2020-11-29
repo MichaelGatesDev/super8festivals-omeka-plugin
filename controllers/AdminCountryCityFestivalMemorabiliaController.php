@@ -21,12 +21,12 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         $this->view->city = $city = get_request_param_city($request);
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
 
-        $record = new SuperEightFestivalsFestivalMemorabilia();
-        $record->festival_id = $festival->id;
-        $form = $this->_getForm($record);
+        $memorabilia = new SuperEightFestivalsFestivalMemorabilia();
+        $memorabilia->festival_id = $festival->id;
+        $form = $this->_getForm($memorabilia);
         $this->view->form = $form;
-        $this->view->memorabilia = $record;
-        $this->_processForm($record, $form, 'add');
+        $this->view->memorabilia = $memorabilia;
+        $this->_processForm($memorabilia, $form, 'add');
     }
 
     public function editAction()
@@ -36,11 +36,11 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
-        $this->view->memorabilia = $record = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
+        $this->view->memorabilia = $memorabilia = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
 
-        $form = $this->_getForm($record);
+        $form = $this->_getForm($memorabilia);
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'edit');
+        $this->_processForm($memorabilia, $form, 'edit');
     }
 
     public function deleteAction()
@@ -50,14 +50,14 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
-        $this->view->memorabilia = $record = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
+        $this->view->memorabilia = $memorabilia = get_request_param_by_id($request, SuperEightFestivalsFestivalMemorabilia::class, "memorabiliaID");
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'delete');
+        $this->_processForm($memorabilia, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalMemorabilia $record = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalMemorabilia $memorabilia = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_festival_memorabilia'
@@ -65,7 +65,7 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $record->get_file();
+        $file = $memorabilia->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -115,9 +115,9 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalMemorabilia $record, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalMemorabilia $memorabilia, Zend_Form $form, $action)
     {
-        $this->view->memorabilia = $record;
+        $this->view->memorabilia = $memorabilia;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -138,22 +138,22 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
         try {
             switch ($action) {
                 case "add":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $memorabilia->setPostData($_POST);
+                    $memorabilia->save(true);
 
-                    $file = $record->upload_file($fileInputName);
+                    $file = $memorabilia->upload_file($fileInputName);
                     $file->contributor_id = $this->getParam("contributor", 0);
                     $file->save();
 
                     $this->_helper->flashMessenger("Memorabilia successfully added.", 'success');
                     break;
                 case "edit":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $memorabilia->setPostData($_POST);
+                    $memorabilia->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFestivalMemorabilia::get_by_id($record->id);
-                    $record->file_id = $originalRecord->file_id;
+                    $originalRecord = SuperEightFestivalsFestivalMemorabilia::get_by_id($memorabilia->id);
+                    $memorabilia->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
                     if (has_temporary_file($fileInputName)) {
@@ -162,7 +162,7 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
                         $originalFile->delete_files();
 
                         // upload new file
-                        $file = $record->upload_file($fileInputName);
+                        $file = $memorabilia->upload_file($fileInputName);
                         $file->contributor_id = $this->getParam("contributor", 0);
                         $file->title = $this->getParam("title", "");
                         $file->description = $this->getParam("description", "");
@@ -179,12 +179,12 @@ class SuperEightFestivals_AdminCountryCityFestivalMemorabiliaController extends 
                     $this->_helper->flashMessenger("Memorabilia successfully updated.", 'success');
                     break;
                 case "delete":
-                    $record->delete();
+                    $memorabilia->delete();
                     $this->_helper->flashMessenger("Memorabilia successfully deleted.", 'success');
                     break;
             }
 
-            $festival = $record->get_festival();
+            $festival = $memorabilia->get_festival();
             $country = $festival->get_country();
             $city = $festival->get_city();
             $this->redirect(

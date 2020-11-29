@@ -29,14 +29,17 @@ echo head(array(
     <div class="row">
         <div class="col">
             <h2 class="text-capitalize mb-4">
-                <?= $country->name; ?>
+                <?= $country->get_location()->name; ?>
             </h2>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
-            <s8f-cities-table country-id="<?= $country->id; ?>"></s8f-cities-table>
+            <s8f-cities-table
+                    country-id="<?= $country->id; ?>"
+            >
+            </s8f-cities-table>
         </div>
     </div>
 

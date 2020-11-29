@@ -27,6 +27,7 @@ function CitiesTable(element) {
 
     const fetchCountry = async () => {
         try {
+            console.log(element);
             const country = await API.getCountry(element.countryId);
             setCountry(country);
             console.debug("Fetched country");
@@ -54,7 +55,7 @@ function CitiesTable(element) {
     const addCity = async (cityToAddObj) => {
         try {
             const city = await API.addCityToCountry(country.id, cityToAddObj);
-            Alerts.success("alerts", html`<strong>Success</strong> - Added City`, `Successfully added city "${city.name}" to the database.`);
+            Alerts.success("alerts", html`<strong>Success</strong> - Added City`, `Successfully added city "${city.location.name}" to the database.`);
             console.debug(`Added city: ${JSON.stringify(city)}`);
             await fetchCities();
         } catch (err) {
@@ -69,7 +70,7 @@ function CitiesTable(element) {
     const updateCity = async (cityToUpdateObj) => {
         try {
             const city = await API.updateCityInCountry(country.id, cityToUpdateObj);
-            Alerts.success("alerts", html`<strong>Success</strong> - Edited City`, `Successfully edited city "${city.name}" in the database.`);
+            Alerts.success("alerts", html`<strong>Success</strong> - Edited City`, `Successfully edited city "${city.location.name}" in the database.`);
             console.debug(`Edited city: ${JSON.stringify(city)}`);
             await fetchCities();
         } catch (err) {
@@ -84,7 +85,7 @@ function CitiesTable(element) {
     const deleteCity = async (cityToDeleteID) => {
         try {
             const city = await API.deleteCityFromCountry(country.id, cityToDeleteID);
-            Alerts.success("alerts", html`<strong>Success</strong> - Deleted City`, `Successfully deleted city "${city.name}" from the database.`);
+            Alerts.success("alerts", html`<strong>Success</strong> - Deleted City`, `Successfully deleted city "${city.location.name}" from the database.`);
             console.debug(`Deleted city: ${JSON.stringify(city)}`);
             await fetchCities();
         } catch (err) {
@@ -145,7 +146,7 @@ function CitiesTable(element) {
                     id="name" 
                     name="name"
                     placeholder=""
-                    .value=${city ? city.name : ""}
+                    .value=${city ? city.location.name : ""}
                 >
             </div>
             <div class="mb-3">
@@ -158,7 +159,7 @@ function CitiesTable(element) {
                     name="latitude" 
                     aria-describedby="formCityHelp" 
                     placeholder="-4.567"
-                    .value=${city ? city.latitude : 0.00}
+                    .value=${city ? city.location.latitude : 0.00}
                  >
             </div>
             <div class="mb-3">
@@ -171,7 +172,7 @@ function CitiesTable(element) {
                     name="longitude" 
                     aria-describedby="formCityHelp" 
                     placeholder="-4.567"
-                    .value=${city ? city.longitude : 0.00}
+                    .value=${city ? city.location.longitude : 0.00}
                  >
             </div>
             <div class="mb-3">
@@ -182,7 +183,7 @@ function CitiesTable(element) {
                     name="description" 
                     aria-describedby="formCityHelp" 
                     placeholder="Enter a description or history about the city here. You can use HTML and CSS as well."
-                    .value=${city ? city.description : ""}
+                    .value=${city ? city.location.description : ""}
                  >
             </div>
         </form>
@@ -225,12 +226,12 @@ function CitiesTable(element) {
     const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Description", "Actions"];
     const getTableRows = () => cities.map((city) => [
         city.id,
-        city.name,
-        city.latitude,
-        city.longitude,
-        city.description,
+        city.location.name,
+        city.location.latitude,
+        city.location.longitude,
+        city.location.description,
         html`
-            <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/" class="btn btn-info btn-sm">View</a>
+            <a href="/admin/super-eight-festivals/countries/${country.location.name}/cities/${city.location.name}/" class="btn btn-info btn-sm">View</a>
             <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(city); }}>Edit</button>
             <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(city); }}>Delete</button>
         `

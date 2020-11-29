@@ -58,7 +58,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
         $this->_processForm($poster, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFestivalPoster $record = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFestivalPoster $poster = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_festival_poster'
@@ -66,7 +66,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $record->get_file();
+        $file = $poster->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -116,9 +116,9 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFestivalPoster $record, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFestivalPoster $poster, Zend_Form $form, $action)
     {
-        $this->view->poster = $record;
+        $this->view->poster = $poster;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -139,22 +139,22 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
         try {
             switch ($action) {
                 case "add":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $poster->setPostData($_POST);
+                    $poster->save(true);
 
-                    $file = $record->upload_file($fileInputName);
+                    $file = $poster->upload_file($fileInputName);
                     $file->contributor_id = $this->getParam("contributor", 0);
                     $file->save();
 
                     $this->_helper->flashMessenger("Poster successfully added.", 'success');
                     break;
                 case "edit":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $poster->setPostData($_POST);
+                    $poster->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFestivalPoster::get_by_id($record->id);
-                    $record->file_id = $originalRecord->file_id;
+                    $originalRecord = SuperEightFestivalsFestivalPoster::get_by_id($poster->id);
+                    $poster->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
                     if (has_temporary_file($fileInputName)) {
@@ -163,7 +163,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
                         $originalFile->delete_files();
 
                         // upload new file
-                        $file = $record->upload_file($fileInputName);
+                        $file = $poster->upload_file($fileInputName);
                         $file->contributor_id = $this->getParam("contributor", 0);
                         $file->title = $this->getParam("title", "");
                         $file->description = $this->getParam("description", "");
@@ -180,12 +180,12 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
                     $this->_helper->flashMessenger("Poster successfully updated.", 'success');
                     break;
                 case "delete":
-                    $record->delete();
+                    $poster->delete();
                     $this->_helper->flashMessenger("Poster successfully deleted.", 'success');
                     break;
             }
 
-            $festival = $record->get_festival();
+            $festival = $poster->get_festival();
             $country = $festival->get_country();
             $city = $festival->get_city();
             $this->redirect(

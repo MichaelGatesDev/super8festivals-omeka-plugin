@@ -49,6 +49,13 @@ class SuperEightFestivalsLocation extends Super8FestivalsRecord
         return true;
     }
 
+    public static function create($arr)
+    {
+        $location = new SuperEightFestivalsLocation();
+        $location->update($arr);
+        return $location;
+    }
+
     // ======================================================================================================================== \\
 
     /**

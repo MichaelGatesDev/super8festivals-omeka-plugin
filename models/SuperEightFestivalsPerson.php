@@ -33,6 +33,10 @@ class SuperEightFestivalsPerson extends Super8FestivalsRecord
         return parent::get_all();
     }
 
+    public static function create($arr = [])
+    {
+    }
+
     // ======================================================================================================================== \\
 
     public function get_display_name()

@@ -12,11 +12,11 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
     {
         $request = $this->getRequest();
 
-        $record = new SuperEightFestivalsFederationPhoto();
-        $form = $this->_getForm($record);
+        $photo = new SuperEightFestivalsFederationPhoto();
+        $form = $this->_getForm($photo);
         $this->view->form = $form;
-        $this->view->record = $record;
-        $this->_processForm($record, $form, 'add');
+        $this->view->photo = $photo;
+        $this->_processForm($photo, $form, 'add');
     }
 
     public function editAction()
@@ -24,12 +24,12 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
         $request = $this->getRequest();
 
         $photoID = $request->getParam('photoID');
-        $record = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
-        $this->view->record = $record;
+        $photo = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
+        $this->view->photo = $photo;
 
-        $form = $this->_getForm($record);
+        $form = $this->_getForm($photo);
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'edit');
+        $this->_processForm($photo, $form, 'edit');
     }
 
     public function deleteAction()
@@ -37,15 +37,15 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
         $request = $this->getRequest();
 
         $photoID = $request->getParam('photoID');
-        $record = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
-        $this->view->record = $record;
+        $photo = SuperEightFestivalsFederationPhoto::get_by_id($photoID);
+        $this->view->photo = $photo;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'delete');
+        $this->_processForm($photo, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFederationPhoto $record = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFederationPhoto $photo = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_federation_photo'
@@ -53,7 +53,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $record->get_file();
+        $file = $photo->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -103,9 +103,9 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationPhoto $record, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationPhoto $photo, Zend_Form $form, $action)
     {
-        $this->view->record = $record;
+        $this->view->photo = $photo;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -127,10 +127,10 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
         try {
             switch ($action) {
                 case "add":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $photo->setPostData($_POST);
+                    $photo->save(true);
 
-                    $file = $record->upload_file($fileInputName);
+                    $file = $photo->upload_file($fileInputName);
                     $file->contributor_id = $this->getParam("contributor", 0);
                     $file->title = $this->getParam("title", "");
                     $file->description = $this->getParam("description", "");
@@ -139,12 +139,12 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                     $this->_helper->flashMessenger("Federation Photo successfully added.", 'success');
                     break;
                 case "edit":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $photo->setPostData($_POST);
+                    $photo->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFederationPhoto ::get_by_id($record->id);
-                    $record->file_id = $originalRecord->file_id;
+                    $originalRecord = SuperEightFestivalsFederationPhoto ::get_by_id($photo->id);
+                    $photo->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
                     if (has_temporary_file($fileInputName)) {
@@ -153,7 +153,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                         $originalFile->delete_files();
 
                         // upload new file
-                        $file = $record->upload_file($fileInputName);
+                        $file = $photo->upload_file($fileInputName);
                         $file->contributor_id = $this->getParam("contributor", 0);
                         $file->title = $this->getParam("title", "");
                         $file->description = $this->getParam("description", "");
@@ -170,7 +170,7 @@ class SuperEightFestivals_AdminFederationPhotosController extends Omeka_Controll
                     $this->_helper->flashMessenger("Federation Photo successfully updated.", 'success');
                     break;
                 case "delete":
-                    $record->delete();
+                    $photo->delete();
                     $this->_helper->flashMessenger("Federation Photo successfully deleted.", 'success');
                     break;
             }

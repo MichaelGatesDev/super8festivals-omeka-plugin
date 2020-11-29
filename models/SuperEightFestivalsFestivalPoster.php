@@ -26,6 +26,14 @@ class SuperEightFestivalsFestivalPoster extends Super8FestivalsRecord
         $this->get_file()->delete();
     }
 
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        parent::update($arr, $save);
+    }
     // ======================================================================================================================== \\
 
     /**

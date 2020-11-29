@@ -31,12 +31,31 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         }
     }
 
-    public function toArray()
+    public function to_array()
     {
         return array_merge(
-            parent::toArray(),
+            parent::to_array(),
             ["location" => $this->get_location()],
         );
+    }
+
+    /**
+     * @param array $arr ["location" => ["name", ...]]
+     * @return SuperEightFestivalsCountry|null
+     * @throws Omeka_Record_Exception
+     */
+    public static function create($arr = [])
+    {
+        $country = new SuperEightFestivalsCountry();
+        $location = SuperEightFestivalsLocation::create($arr['location']);
+        $country->location_id = $location->id;
+        try {
+            $country->save(true);
+            return $country;
+        } catch (Exception $e) {
+            $location->delete();
+            return null;
+        }
     }
 
     // ======================================================================================================================== \\
@@ -57,7 +76,6 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
     {
         $all = SuperEightFestivalsCountry::get_all();
         foreach ($all as $single) {
-            $single->get_location();
             if ($single->get_location()->name === $name) return $single;
         }
         return null;

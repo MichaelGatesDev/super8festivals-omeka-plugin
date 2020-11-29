@@ -22,6 +22,14 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
         );
     }
 
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        parent::update($arr, $save);
+    }
     // ======================================================================================================================== \\
 
     /**

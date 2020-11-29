@@ -76,12 +76,12 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         logger_log(LogLevel::Info, "{$user->name} successfully deleted {$cname}");
     }
 
-    public function toArray()
+    public function to_array()
     {
         return array_merge(
             parent::toArray(),
-            ["created_by" => $this->get_created_by()],
-            ["last_modified_by" => $this->get_last_modified_by()],
+            ["created_by" => filter_array($this->get_created_by(), ["password", "salt"])],
+            ["last_modified_by" => filter_array($this->get_last_modified_by(), ["password", "salt"])],
         );
     }
 
@@ -186,6 +186,16 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
             logger_log(LogLevel::Info, $e->getMessage());
         }
         return null;
+    }
+
+    public static abstract function create($arr);
+
+    public function update($arr, $save = true)
+    {
+        foreach ($arr as $key => $value) {
+            $this[$key] = $value;
+        }
+        if ($save) $this->save(true);
     }
 
     // ======================================================================================================================== \\

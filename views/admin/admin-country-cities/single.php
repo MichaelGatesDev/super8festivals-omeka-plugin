@@ -1,9 +1,13 @@
 <?php
+
+$country_loc = $country->get_location();
+$city_loc = $city->get_location();
+
 echo head(array(
-    'title' => ucwords($city->get_location()->name) . ", " . ucwords($country->get_location()->name),
+    'title' => ucwords($city_loc->name) . ", " . ucwords($country_loc->name),
 ));
 
-$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->get_location()->name) . "/cities/" . urlencode($city->get_location()->name);
+$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->name) . "/cities/" . urlencode($city_loc->name);
 ?>
 
 <section class="container">
@@ -19,8 +23,8 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->get_l
     <div class="row">
         <div class="col">
             <h2 class="text-capitalize">
-                <?= $city->name; ?>&nbsp;
-                <span class="text-muted">(<?= $country->name; ?>)</span>
+                <?= $city_loc->name; ?>&nbsp;
+                <span class="text-muted">(<?= $country_loc->name; ?>)</span>
             </h2>
         </div>
     </div>
@@ -36,7 +40,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->get_l
     <div class="row my-5">
         <div class="col">
             <h3>Description</h3>
-            <?php $description = $city->description; ?>
+            <?php $description = $city_loc->description; ?>
             <?php if ($description == null): ?>
                 <p>There is no description available for this city.</p>
             <?php else: ?>
@@ -69,7 +73,11 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->get_l
 
     <div class="row my-5">
         <div class="col">
-            <s8f-festivals-table country-id="<?= $country->id; ?>" city-id="<?= $city->id; ?>"></s8f-festivals-table>
+            <s8f-festivals-table
+                    country-id="<?= $country->id; ?>"
+                    city-id="<?= $city->id; ?>"
+            >
+            </s8f-festivals-table>
         </div>
     </div>
 

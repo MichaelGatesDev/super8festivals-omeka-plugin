@@ -33,7 +33,8 @@ function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
     return substr($base_url, 0, strlen($base_url) - 1);
 }
 
-function alpha_only($string) {
+function alpha_only($string)
+{
     $string = str_replace(' ', ' ', $string);
     $string = preg_replace('/[^A-Za-z\-]/', ' ', $string);
     return $string;
@@ -115,6 +116,15 @@ function get_parent_contributor_options(): array
     return $results;
 }
 
-function get_all_users (){
+function get_all_users()
+{
     return get_db()->getTable("User")->findAll();
+}
+
+function filter_array($arr, $propertiesToRemove)
+{
+    foreach ($propertiesToRemove as $prop) {
+        unset($arr[$prop]);
+    }
+    return $arr;
 }

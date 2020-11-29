@@ -6,27 +6,33 @@ function get_request_param_by_id($request, $clazz, $param_name)
     $result = $clazz::get_by_id($id);
 
     if (!$result) {
-        throw new Omeka_Controller_Exception_404("No such ${clazz} exists with that ID: '${$id}'.");
+        throw new Exception("No such {$clazz} exists with that ID: {$id}");
     }
     return $result;
 }
 
 function get_request_param_country($request): SuperEightFestivalsCountry
 {
-    $country_param = $request->getParam('country');
-    $country = is_numeric($country_param) ? SuperEightFestivalsCountry::get_by_id($country_param) : SuperEightFestivalsCountry::get_by_name($country_param);
+    $country_param = $request->getParam("country");
+
+    if (is_numeric($country_param)) return get_request_param_by_id($request, SuperEightFestivalsCountry::class, "country");
+
+    $country = SuperEightFestivalsCountry::get_by_name($country_param);
     if (!$country) {
-        throw new Omeka_Controller_Exception_404("No country exists with that name/ID: '${$country_param}'.");
+        throw new Exception("No country exists with that name/ID: {$country_param}");
     }
     return $country;
 }
 
 function get_request_param_city($request): SuperEightFestivalsCity
 {
-    $city_param = $request->getParam('city');
-    $city = is_numeric($city_param) ? SuperEightFestivalsCity::get_by_id($city_param) : SuperEightFestivalsCity::get_by_name($city_param);
+    $city_param = $request->getParam("city");
+
+    if (is_numeric($city_param)) return get_request_param_by_id($request, SuperEightFestivalsCity::class, "city");
+
+    $city = SuperEightFestivalsCity::get_by_name($city_param);
     if (!$city) {
-        throw new Omeka_Controller_Exception_404("No city exists with that name/ID: '${city_param}'.");
+        throw new Exception("No city exists with that name/ID: {$city_param}");
     }
     return $city;
 }

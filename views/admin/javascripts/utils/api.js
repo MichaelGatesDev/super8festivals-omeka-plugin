@@ -5,46 +5,41 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * Returns a promise, whose success result is an array of country objects.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker objects.
      */
     static async getAllFilmmakers() {
         return Rest.get("/rest-api/filmmakers/");
     }
 
     /**
-     * Returns a promise, whose success result is a country object.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is a filmmaker object.
      */
     static async getFilmmaker(filmmakerID) {
-        return Rest.get(`/rest-api/countries/${filmmakerID}/`);
+        return Rest.get(`/rest-api/filmmakers/${filmmakerID}/`);
     }
 
     /**
-     * Creates a new country object in the database based on info from the passed object.
-     * Returns a promise, whose success result is the created country object
+     * Creates a new filmmaker object in the database based on info from the passed object.
      * @param filmmakerObj - The object to take the info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the created filmmaker object.
      */
     static async addFilmmaker(filmmakerObj) {
-        return Rest.post("/rest-api/filmmakers/add/", filmmakerObj);
+        return Rest.post("/rest-api/filmmakers/", filmmakerObj);
     }
 
     /**
-     * Updates a country object in the database based on info from the passed object.
-     * Returns a promise, whose success result is the updated country object.
+     * Updates a filmmaker object in the database based on info from the passed object.
      * @param filmmakerObj - The object to take updated info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker object.
      */
     static async updateFilmmaker(filmmakerObj) {
         return Rest.post(`/rest-api/filmmakers/${filmmakerObj.id}/`, filmmakerObj);
     }
 
     /**
-     * Deletes a country object from the database.
-     * Returns a promise, whose success result is the deleted country object.
-     * @param filmmakerID - The ID of the country to delete.
-     * @returns {Promise<* | void>}
+     * Deletes a filmmaker object from the database.
+     * @param filmmakerID - The ID of the filmmaker to delete.
+     * @returns {Promise<* | void>} a promise, whose success result is the deleted filmmaker object.
      */
     static async deleteFilmmaker(filmmakerID) {
         return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/`);
@@ -53,16 +48,14 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * Returns a promise, whose success result is an array of country objects.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is an array of country objects.
      */
-    static async getAllCountries() {
+    static async getCountries() {
         return Rest.get("/rest-api/countries/");
     }
 
     /**
-     * Returns a promise, whose success result is a country object.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is a country object.
      */
     static async getCountry(countryID) {
         return Rest.get(`/rest-api/countries/${countryID}/`);
@@ -70,19 +63,17 @@ export default class API {
 
     /**
      * Creates a new country object in the database based on info from the passed object.
-     * Returns a promise, whose success result is the created country object
      * @param countryObj - The object to take the info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the created country object.
      */
     static async addCountry(countryObj) {
-        return Rest.post("/rest-api/countries/add/", countryObj);
+        return Rest.post("/rest-api/countries/", countryObj);
     }
 
     /**
      * Updates a country object in the database based on info from the passed object.
-     * Returns a promise, whose success result is the updated country object.
      * @param countryObj - The object to take updated info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the updated country object.
      */
     static async updateCountry(countryObj) {
         return Rest.post(`/rest-api/countries/${countryObj.id}/`, countryObj);
@@ -90,9 +81,8 @@ export default class API {
 
     /**
      * Deletes a country object from the database.
-     * Returns a promise, whose success result is the deleted country object.
      * @param countryID - The ID of the country to delete.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the deleted country object.
      */
     static async deleteCountry(countryID) {
         return Rest.delete(`/rest-api/countries/${countryID}/`);
@@ -101,47 +91,42 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * Returns a promise, whose success result is an array of all city objects in the database.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is an array of all city objects in the database.
      */
-    static async getAllCities() {
+    static async getCities() {
         return Rest.get("/rest-api/cities/");
     }
 
     /**
-     * Returns a promise, whose success result is an array of city objects for the specified country.
-     * @param countryID - The ID of the country in which the cities exist.
-     * @returns {Promise<* | void>}
+     * @param countryID - The ID of the country to fetch the cities from.
+     * @returns {Promise<* | void>} a promise, whose success result is an array of city objects for the specified country.
      */
     static async getCitiesInCountry(countryID) {
         return Rest.get(`/rest-api/countries/${countryID}/cities/`);
     }
 
     /**
-     * Returns a promise, whose success result is a city object for the specified country ID and city ID.
-     * @param countryID - The ID of the country in which the city exists.
+     * @param countryID - The ID of the country to fetch the city from.
      * @param cityID - The ID of the city.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is a city object for the specified country ID and city ID.
      */
     static async getCityInCountry(countryID, cityID) {
         return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}/`);
     }
 
     /**
-     * Returns a promise, whose success result is the added city object.
-     * @param countryID - The ID of the country in which the city exists.
+     * @param countryID - The ID of the country to fetch the city from.
      * @param cityObj - The object to take info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the added city object.
      */
     static async addCityToCountry(countryID, cityObj) {
-        return Rest.post(`/rest-api/countries/${countryID}/cities/add/`, cityObj);
+        return Rest.post(`/rest-api/countries/${countryID}/cities/`, cityObj);
     }
 
     /**
-     * Returns a promise, whose success result is the updated city object.
-     * @param countryID - The ID of the country in which the city exists.
+     * @param countryID - The ID of the country to fetch the city from.
      * @param cityObj - The object to take updated info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the updated city object.
      */
     static async updateCityInCountry(countryID, cityObj) {
         return Rest.post(`/rest-api/countries/${countryID}/cities/${cityObj.id}/`, cityObj);
@@ -149,10 +134,9 @@ export default class API {
 
     /**
      * Deletes a city object from the database.
-     * Returns a promise, whose success result is the deleted city object.
      * @param countryID - The ID of the country to delete.
      * @param cityID - The ID of the city to delete.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the deleted city object.
      */
     static async deleteCityFromCountry(countryID, cityID) {
         return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}/`);
@@ -161,45 +145,40 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * Returns a promise, whose success result is an array of all city objects in the database.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is an array of all city objects in the database.
      */
-    static async getAllFestivals() {
+    static async getFestivals() {
         return Rest.get("/rest-api/festivals/");
     }
 
     /**
-     * Returns a promise, whose success result is an array of city objects for the specified country.
-     * @param cityID - The ID of the city in which the festivals exist.
-     * @returns {Promise<* | void>}
+     * @param cityID - The ID of the city to fetch the festivals from.
+     * @returns {Promise<* | void>} a promise, whose success result is an array of city objects for the specified country.
      */
-    static async getAllFestivalsInCity(cityID) {
+    static async getFestivalsInCity(cityID) {
         return Rest.get(`/rest-api/cities/${cityID}/festivals/`);
     }
 
     /**
-     * Returns a promise, whose success result is the added festival object.
-     * @param cityID - The ID of the city in which the festival exists.
+     * @param cityID - The ID of the city to fetch the festival from.
      * @param festivalObj - The object to take info from.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the added festival object.
      */
     static async addFestival(cityID, festivalObj) {
-        return Rest.post(`/rest-api/cities/${cityID}/festivals/add/`, festivalObj);
+        return Rest.post(`/rest-api/cities/${cityID}/festivals/`, festivalObj);
     }
 
     /**
-     * Returns a promise, whose success result is the updated festival object.
      * @param festivalObj - The updated festival object.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the updated festival object.
      */
     static async updateFestival(festivalObj) {
         return Rest.post(`/rest-api/festivals/${festivalObj.id}`, festivalObj);
     }
 
     /**
-     * Returns a promise, whose success result is the deleted festival object.
      * @param festivalID - The festival ID to delete.
-     * @returns {Promise<* | void>}
+     * @returns {Promise<* | void>} a promise, whose success result is the deleted festival object.
      */
     static async deleteFestival(festivalID) {
         return Rest.delete(`/rest-api/festivals/${festivalID}/`);

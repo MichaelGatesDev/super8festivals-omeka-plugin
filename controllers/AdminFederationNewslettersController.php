@@ -12,11 +12,11 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
     {
         $request = $this->getRequest();
 
-        $record = new SuperEightFestivalsFederationNewsletter();
-        $form = $this->_getForm($record);
+        $newsletter = new SuperEightFestivalsFederationNewsletter();
+        $form = $this->_getForm($newsletter);
         $this->view->form = $form;
-        $this->view->record = $record;
-        $this->_processForm($record, $form, 'add');
+        $this->view->newsletter = $newsletter;
+        $this->_processForm($newsletter, $form, 'add');
     }
 
     public function editAction()
@@ -24,12 +24,12 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         $request = $this->getRequest();
 
         $newsletterID = $request->getParam('newsletterID');
-        $record = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
-        $this->view->record = $record;
+        $newsletter = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
+        $this->view->newsletter = $newsletter;
 
-        $form = $this->_getForm($record);
+        $form = $this->_getForm($newsletter);
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'edit');
+        $this->_processForm($newsletter, $form, 'edit');
     }
 
     public function deleteAction()
@@ -37,15 +37,15 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         $request = $this->getRequest();
 
         $newsletterID = $request->getParam('newsletterID');
-        $record = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
-        $this->view->record = $record;
+        $newsletter = SuperEightFestivalsFederationNewsletter::get_by_id($newsletterID);
+        $this->view->newsletter = $newsletter;
 
         $form = $this->_getDeleteForm();
         $this->view->form = $form;
-        $this->_processForm($record, $form, 'delete');
+        $this->_processForm($newsletter, $form, 'delete');
     }
 
-    protected function _getForm(SuperEightFestivalsFederationNewsletter $record = null): Omeka_Form_Admin
+    protected function _getForm(SuperEightFestivalsFederationNewsletter $newsletter = null): Omeka_Form_Admin
     {
         $formOptions = array(
             'type' => 'super_eight_festivals_federation_newsletter'
@@ -53,7 +53,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
 
         $form = new Omeka_Form_Admin($formOptions);
 
-        $file = $record->get_file();
+        $file = $newsletter->get_file();
 
         $form->addElementToEditGroup(
             'select', 'contributor_id',
@@ -103,9 +103,9 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         return $form;
     }
 
-    private function _processForm(SuperEightFestivalsFederationNewsletter $record, Zend_Form $form, $action)
+    private function _processForm(SuperEightFestivalsFederationNewsletter $newsletter, Zend_Form $form, $action)
     {
-        $this->view->record = $record;
+        $this->view->newsletter = $newsletter;
 
         // form can only be processed by POST request
         if (!$this->getRequest()->isPost()) {
@@ -127,10 +127,10 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
         try {
             switch ($action) {
                 case "add":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $newsletter->setPostData($_POST);
+                    $newsletter->save(true);
 
-                    $file = $record->upload_file($fileInputName);
+                    $file = $newsletter->upload_file($fileInputName);
                     $file->contributor_id = $this->getParam("contributor", 0);
                     $file->title = $this->getParam("title", "");
                     $file->description = $this->getParam("description", "");
@@ -139,12 +139,12 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
                     $this->_helper->flashMessenger("Federation Newsletter successfully added.", 'success');
                     break;
                 case "edit":
-                    $record->setPostData($_POST);
-                    $record->save(true);
+                    $newsletter->setPostData($_POST);
+                    $newsletter->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFederationNewsletter::get_by_id($record->id);
-                    $record->file_id = $originalRecord->file_id;
+                    $originalRecord = SuperEightFestivalsFederationNewsletter::get_by_id($newsletter->id);
+                    $newsletter->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
                     if (has_temporary_file($fileInputName)) {
@@ -153,7 +153,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
                         $originalFile->delete_files();
 
                         // upload new file
-                        $file = $record->upload_file($fileInputName);
+                        $file = $newsletter->upload_file($fileInputName);
                         $file->contributor_id = $this->getParam("contributor", 0);
                         $file->title = $this->getParam("title", "");
                         $file->description = $this->getParam("description", "");
@@ -170,7 +170,7 @@ class SuperEightFestivals_AdminFederationNewslettersController extends Omeka_Con
                     $this->_helper->flashMessenger("Federation Newsletter successfully updated.", 'success');
                     break;
                 case "delete":
-                    $record->delete();
+                    $newsletter->delete();
                     $this->_helper->flashMessenger("Federation Newsletter successfully deleted.", 'success');
                     break;
             }

@@ -29,6 +29,14 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
         );
     }
 
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        parent::update($arr, $save);
+    }
     // ======================================================================================================================== \\
 
     protected function afterDelete()

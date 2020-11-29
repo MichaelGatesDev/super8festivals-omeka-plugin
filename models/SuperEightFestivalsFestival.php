@@ -48,6 +48,14 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->delete();
     }
 
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        parent::update($arr, $save);
+    }
 
     // ======================================================================================================================== \\
 

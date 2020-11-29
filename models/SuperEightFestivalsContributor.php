@@ -18,6 +18,24 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
         );
     }
 
+    public function to_array()
+    {
+        return array_merge(
+            parent::to_array(),
+            ["person" => $this->get_person()],
+        );
+    }
+
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        if (!SuperEightFestivalsContributor::get_by_id($person_id = $arr['person_id'])) throw new Exception("No person exists with id {$person_id}");
+        parent::update($arr, $save);
+    }
+
     // ======================================================================================================================== \\
 
     /**
@@ -26,6 +44,14 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
     public static function get_all()
     {
         return parent::get_all();
+    }
+
+    /**
+     * @return SuperEightFestivalsPerson|null
+     */
+    public function get_person()
+    {
+        return SuperEightFestivalsPerson::get_by_id($this->person_id);
     }
 
     // ======================================================================================================================== \\

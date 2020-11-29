@@ -26,6 +26,25 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         $this->get_file()->delete();
     }
 
+    public function to_array()
+    {
+        return array_merge(
+            parent::to_array(),
+            ["city" => $this->get_city()],
+            ["file" => $this->get_file()],
+        );
+    }
+
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        if (!SuperEightFestivalsCityBanner::get_by_id($city_id = $arr['city_id'])) throw new Exception("No city exists with id {$city_id}");
+        parent::update($arr, $save);
+    }
+
     // ======================================================================================================================== \\
 
     /**

@@ -26,7 +26,7 @@ function CountriesTable() {
 
     const fetchCountries = async () => {
         try {
-            const countries = await API.getAllCountries();
+            const countries = await API.getCountries();
             setCountries(countries);
             console.debug("Fetched countries");
         } catch (err) {
@@ -42,15 +42,15 @@ function CountriesTable() {
     const addCountry = async (countryToAddObj) => {
         try {
             const country = await API.addCountry(countryToAddObj);
+            console.debug(`Added country: ${JSON.stringify(country)}`);
             Alerts.success(
                 "alerts",
                 html`
                     <strong>Success</strong> 
                     - Added Country
                 `,
-                `Successfully added country "${country.name}" to the database.`
+                `Successfully added country "${country.location.name}" to the database.`
             );
-            console.debug(`Added country: ${JSON.stringify(country)}`);
             await fetchCountries();
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Country`, err);
@@ -70,7 +70,7 @@ function CountriesTable() {
                     <strong>Success</strong> 
                     - Edited Country
                 `,
-                `Successfully edited country "${country.name}" in the database.`
+                `Successfully edited country "${country.location.name}" in the database.`
             );
             console.debug(`Edited country: ${JSON.stringify(country)}`);
             await fetchCountries();
@@ -153,7 +153,7 @@ function CountriesTable() {
                     id="name" 
                     name="name"
                     placeholder=""
-                    .value=${country ? country.name : ""}
+                    .value=${country ? country.location.name : ""}
                 >
             </div>
             <div class="mb-3">
@@ -166,7 +166,7 @@ function CountriesTable() {
                     name="latitude" 
                     aria-describedby="formCityHelp" 
                     placeholder="-4.567"
-                    .value=${country ? country.latitude : 0.00}
+                    .value=${country ? country.location.latitude : 0.00}
                  >
             </div>
             <div class="mb-3">
@@ -179,7 +179,7 @@ function CountriesTable() {
                     name="longitude" 
                     aria-describedby="formCityHelp" 
                     placeholder="-4.567"
-                    .value=${country ? country.longitude : 0.00}
+                    .value=${country ? country.location.longitude : 0.00}
                  >
             </div>
         </form>
@@ -222,11 +222,11 @@ function CountriesTable() {
     const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Actions"];
     const getTableRows = () => countries.map((country) => [
         country.id,
-        country.name,
-        country.latitude,
-        country.longitude,
+        country.location.name,
+        country.location.latitude,
+        country.location.longitude,
         html`
-            <a href="/admin/super-eight-festivals/countries/${country.name}/" class="btn btn-info btn-sm">View</a>
+            <a href="/admin/super-eight-festivals/countries/${country.location.name}/" class="btn btn-info btn-sm">View</a>
             <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(country); }}>Edit</button>
             <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(country); }}>Delete</button>
         `

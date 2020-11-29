@@ -26,8 +26,23 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
         );
     }
 
+    /**
+     * @param array $arr ["person" => ["first_name", ...]]
+     * @return SuperEightFestivalsContributor|null
+     * @throws Omeka_Record_Exception
+     */
     public static function create($arr = [])
     {
+        $contributor = new SuperEightFestivalsContributor();
+        $person = SuperEightFestivalsPerson::create($arr['person']);
+        $contributor->person_id = $person->id;
+        try {
+            $contributor->save(true);
+            return $contributor;
+        } catch (Exception $e) {
+            $person->delete();
+            return null;
+        }
     }
 
     public function update($arr, $save = true)

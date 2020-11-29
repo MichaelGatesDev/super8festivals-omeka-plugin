@@ -1,10 +1,11 @@
 import { html } from '../../../shared/javascripts/vendor/lit-html.js';
+import { Modal as BSModal } from '../../../shared/javascripts/vendor/bootstrap.js';
 import { component, useState, useEffect } from '../../../shared/javascripts/vendor/haunted.js';
 
 function Modal(element) {
     useEffect(() => {
         const modalElem = document.getElementById(element.modalId);
-        const modal = new bootstrap.Modal(modalElem);
+        const modal = new BSModal(modalElem);
 
         modalElem.addEventListener('modal-show', () => {
             modal.show();

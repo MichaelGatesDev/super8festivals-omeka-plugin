@@ -1,8 +1,4 @@
-<?php
-echo head(array(
-    'title' => 'Admin Panel',
-));
-?>
+<?= $this->partial("__partials/header.php", ["title" => "S8F Admin"]) ?>
 
 <section class="container">
 
@@ -38,5 +34,4 @@ echo head(array(
 
 </section>
 
-
-<?php echo foot(); ?>
+<?= $this->partial("__partials/footer.php") ?>

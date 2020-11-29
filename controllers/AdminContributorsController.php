@@ -11,7 +11,6 @@ class SuperEightFestivals_AdminContributorsController extends Omeka_Controller_A
 
     public function indexAction()
     {
-        return;
     }
 
     public function singleAction()
@@ -21,8 +20,6 @@ class SuperEightFestivals_AdminContributorsController extends Omeka_Controller_A
         $contributorID = $request->getParam('contributorID');
         $contributor = SuperEightFestivalsContributor::get_by_id($contributorID);
         $this->view->contributor = $contributor;
-
-        return;
     }
 
     public function addAction()

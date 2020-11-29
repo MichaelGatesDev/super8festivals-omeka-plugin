@@ -103,9 +103,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     function hookAdminHead()
     {
-        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-modal.js'></script>\n";
-        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-alerts-area.js'></script>\n";
-        echo "<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-table.js'></script>\n";
     }
 
     public function filterAdminNavigationMain($nav)
@@ -336,6 +333,9 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // filmmakers
         $this->add_api_route($router, "/rest-api/filmmakers/", "filmmakers");
         $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/", "filmmaker");
+        // contributors
+        $this->add_api_route($router, "/rest-api/contributors/", "contributors");
+        $this->add_api_route($router, "/rest-api/contributors/:contributor/", "contributor");
         // cities
         $this->add_api_route($router, "/rest-api/cities/", "cities");
         $this->add_api_route($router, "/rest-api/cities/:city/", "city");

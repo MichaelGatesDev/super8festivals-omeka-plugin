@@ -48,6 +48,49 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
+     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker objects.
+     */
+    static async getAllContributors() {
+        return Rest.get("/rest-api/contributors/");
+    }
+
+    /**
+     * @returns {Promise<* | void>} a promise, whose success result is a contributor object.
+     */
+    static async getContributor(contributorID) {
+        return Rest.get(`/rest-api/contributors/${contributorID}/`);
+    }
+
+    /**
+     * Creates a new contributor object in the database based on info from the passed object.
+     * @param contributorObj - The object to take the info from.
+     * @returns {Promise<* | void>} a promise, whose success result is the created contributor object.
+     */
+    static async addContributor(contributorObj) {
+        return Rest.post("/rest-api/contributors/", contributorObj);
+    }
+
+    /**
+     * Updates a contributor object in the database based on info from the passed object.
+     * @param contributorObj - The object to take updated info from.
+     * @returns {Promise<* | void>} a promise, whose success result is the updated contributor object.
+     */
+    static async updateContributor(contributorObj) {
+        return Rest.post(`/rest-api/contributors/${contributorObj.id}/`, contributorObj);
+    }
+
+    /**
+     * Deletes a contributor object from the database.
+     * @param contributorID - The ID of the contributor to delete.
+     * @returns {Promise<* | void>} a promise, whose success result is the deleted contributor object.
+     */
+    static async deleteContributor(contributorID) {
+        return Rest.delete(`/rest-api/contributors/${contributorID}/`);
+    }
+
+    // ===================================================================================================================================================== \\
+
+    /**
      * @returns {Promise<* | void>} a promise, whose success result is an array of country objects.
      */
     static async getCountries() {

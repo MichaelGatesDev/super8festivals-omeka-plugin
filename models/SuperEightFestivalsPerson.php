@@ -35,6 +35,9 @@ class SuperEightFestivalsPerson extends Super8FestivalsRecord
 
     public static function create($arr = [])
     {
+        $person = new SuperEightFestivalsPerson();
+        $person->update($arr);
+        return $person;
     }
 
     // ======================================================================================================================== \\

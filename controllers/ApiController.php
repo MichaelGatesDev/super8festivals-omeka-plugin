@@ -128,6 +128,68 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         }
     }
 
+    public function contributorsAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+
+            if ($request->isGet()) {
+                $contributors = [];
+                foreach (SuperEightFestivalsContributor::get_all() as $contributor) {
+                    array_push($contributors, $contributor->to_array());
+                }
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all contributors", $contributors));
+            } else if ($request->isPost()) {
+                $raw_json = file_get_contents('php://input');
+                $json = json_decode($raw_json, TRUE);
+
+                $contributor = SuperEightFestivalsContributor::create([
+                    "person" => [
+                        "first_name" => $json['first_name'],
+                        "last_name" => $json['last_name'],
+                        "email" => $json['email'],
+                        "organization_name" => $json['organization_name'],
+                    ],
+                ]);
+
+                $this->_helper->json($this->getJsonResponse("success", "Successfully created contributor", $contributor->to_array()));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    public function contributorAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $contributor = get_request_param_by_id($request, SuperEightFestivalsContributor::class, "contributor");
+
+            if ($request->isGet()) {
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched contributor", $contributor->to_array()));
+            } else if ($request->isPost()) {
+                $raw_json = file_get_contents('php://input');
+                $json = json_decode($raw_json, TRUE);
+
+                $contributor->get_person()->update([
+                    "first_name" => $json['first_name'],
+                    "last_name" => $json['last_name'],
+                    "email" => $json['email'],
+                    "organization_name" => $json['organization_name'],
+                ]);
+
+                $this->_helper->json($this->getJsonResponse("success", "Successfully updated contributor", $contributor->to_array()));
+            } else if ($request->isDelete()) {
+                $contributor->delete();
+                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted contributor", $contributor->to_array()));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
     public function citiesAction()
     {
         $this->authCheck();

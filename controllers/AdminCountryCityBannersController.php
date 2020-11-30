@@ -85,7 +85,7 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The record image file",
-                'required' => $banner == null || $banner->get_file() == null || !file_exists($banner->get_file()->file_name),
+                'required' => $banner == null || $banner->get_file() == null || !file_exists(get_uploads_dir() . "/" . $banner->get_file()->file_name),
                 'accept' => get_form_accept_string(get_image_types()),
             )
         );
@@ -121,7 +121,7 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
                     $banner->save(true);
 
                     $file = $banner->upload_file($fileInputName);
-                    $file->contributor_id = $this->getParam("contributor", 0);
+                    $file->contributor_id = $this->getParam("contributor_id", 0);
                     $file->save();
 
                     $this->_helper->flashMessenger("City Banner successfully added.", 'success');
@@ -131,7 +131,7 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
                     $banner->save(true);
 
                     // get the original record so that we can use old information which doesn't persist (e.g. files)
-                    $originalRecord = SuperEightFestivalsFederationBylaw::get_by_id($banner->id);
+                    $originalRecord = SuperEightFestivalsCityBanner::get_by_id($banner->id);
                     $banner->file_id = $originalRecord->file_id;
 
                     // only change files if there is a file waiting
@@ -142,11 +142,11 @@ class SuperEightFestivals_AdminCountryCityBannersController extends Omeka_Contro
 
                         // upload new file
                         $file = $banner->upload_file($fileInputName);
-                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->contributor_id = $this->getParam("contributor_id", 0);
                         $file->save();
                     } else {
                         $file = $originalRecord->get_file();
-                        $file->contributor_id = $this->getParam("contributor", 0);
+                        $file->contributor_id = $this->getParam("contributor_id", 0);
                         $file->save();
                     }
 

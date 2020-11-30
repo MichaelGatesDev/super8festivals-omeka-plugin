@@ -11,7 +11,6 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
         $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
 
         $this->redirect("/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name) . "/festivals/" . $festival->id);
-        return;
     }
 
     public function addAction()
@@ -108,7 +107,7 @@ class SuperEightFestivals_AdminCountryCityFestivalPostersController extends Omek
                 'id' => 'file',
                 'label' => 'File',
                 'description' => "The poster file",
-                'required' => $file->file_name == "" || !file_exists($file->get_path()),
+                'required' => $poster == null || $poster->get_file() == null || !file_exists(get_uploads_dir() . "/" . $poster->get_file()->file_name),
                 'accept' => get_form_accept_string(get_image_types()),
             )
         );

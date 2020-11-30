@@ -1,8 +1,4 @@
-<?php
-echo head(array(
-    'title' => 'Add Poster for ' . $festival->get_title(),
-));
-?>
+<?= $this->partial("__partials/header.php", ["title" => "Add Poster"]); ?>
 
 <section class="container">
 
@@ -32,4 +28,4 @@ echo head(array(
 <script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
 <script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/sort-selects.js'></script>
 
-<?php echo foot(); ?>
+<?= $this->partial("__partials/footer.php") ?>

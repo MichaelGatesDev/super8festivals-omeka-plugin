@@ -23,16 +23,15 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
     protected function beforeDelete()
     {
         parent::beforeDelete();
-        $this->get_file()->delete();
+        if ($file = $this->get_file()) $file->delete();
     }
 
     public function to_array()
     {
-        return array_merge(
-            parent::to_array(),
-            ["city" => $this->get_city()],
-            ["file" => $this->get_file()],
-        );
+        $res = parent::to_array();
+        if ($this->get_city()) $res = array_merge($res, ["city" => $this->get_city()->to_array()]);
+        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        return $res;
     }
 
     public static function create($arr = [])

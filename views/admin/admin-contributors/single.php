@@ -25,14 +25,20 @@
         <div class="row">
             <div class="col">
                 <h2 class="text-capitalize mb-4">
-                    Contributions
+                    <?= $contributor->get_person()->get_display_name(); ?>
                 </h2>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <p>TBD</p>
+                <h3>Contributions</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p>Placeholder</p>
             </div>
         </div>
 

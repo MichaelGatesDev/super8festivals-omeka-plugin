@@ -1,8 +1,4 @@
-<?php
-echo head(array(
-    'title' => 'Filmmakers',
-));
-?>
+<?= $this->partial("__partials/header.php", ["title" => "Filmmakers"]); ?>
 
 <section class="container">
 
@@ -36,5 +32,4 @@ echo head(array(
 
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-filmmakers-table.js'></script>
 
-<?php echo foot(); ?>
-
+<?= $this->partial("__partials/footer.php") ?>

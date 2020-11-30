@@ -100,7 +100,7 @@ function get_parent_filmmaker_options(): array
     $results[0] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsFilmmaker')->findAll();
     foreach ($potentialParents as $potentialParent) {
-        $results[$potentialParent->id] = $potentialParent->get_display_name();
+        $results[$potentialParent->id] = $potentialParent->get_person()->get_display_name();
     }
     return $results;
 }
@@ -111,7 +111,7 @@ function get_parent_contributor_options(): array
     $results[0] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsContributor')->findAll();
     foreach ($potentialParents as $potentialParent) {
-        $results[$potentialParent->id] = $potentialParent->get_display_name();
+        $results[$potentialParent->id] = $potentialParent->get_person()->get_display_name();
     }
     return $results;
 }

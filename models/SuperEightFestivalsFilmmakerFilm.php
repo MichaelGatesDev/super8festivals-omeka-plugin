@@ -1,11 +1,11 @@
 <?php
 
-class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
+class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
     public int $filmmaker_id = 0;
-    public int $file_id = 0;
+    public int $embed_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -14,7 +14,7 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
         return array_merge(
             array(
                 "`filmmaker_id`     INT(10) UNSIGNED NOT NULL",
-                "`file_id`          INT(10) UNSIGNED NOT NULL",
+                "`embed_id`         INT(10) UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
         );
@@ -23,27 +23,38 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     protected function beforeDelete()
     {
         parent::beforeDelete();
-        if ($file = $this->get_file()) $file->delete();
+        if ($embed = $this->get_embed()) $embed->delete();
     }
 
     public function to_array()
     {
         $res = parent::to_array();
         if ($this->get_filmmaker()) $res = array_merge($res, ["filmmaker" => $this->get_filmmaker()->to_array()]);
-        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        if ($this->get_embed()) $res = array_merge($res, ["embed" => $this->get_embed()->to_array()]);
         return $res;
     }
 
     public static function create($arr = [])
     {
+        $film = new SuperEightFestivalsFilmmakerFilm();
+        $embed = SuperEightFestivalsEmbed::create($arr['embed']);
+        $film->embed_id = $embed->id;
+        $film->update($arr, false);
+        try {
+            $film->save(true);
+            return $film;
+        } catch (Exception $e) {
+            $embed->delete();
+            throw $e;
+        }
     }
 
     public function update($arr, $save = true)
     {
         if (!SuperEightFestivalsFilmmaker::get_by_id($filmmaker_id = $arr['filmmaker_id'])) throw new Exception("No filmmaker exists with id {$filmmaker_id}");
 
-        if (isset($arr['file'])) {
-            $this->get_file()->update($arr['file']);
+        if (isset($arr['embed'])) {
+            $this->get_embed()->update($arr['embed']);
         }
 
         parent::update($arr, $save);
@@ -53,7 +64,7 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
 
     /**
      * @param $search_id
-     * @return SuperEightFestivalsFilmmakerPhoto|null
+     * @return SuperEightFestivalsFilmmakerFilm|null
      */
     public static function get_by_id($search_id)
     {
@@ -61,7 +72,7 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsFilmmakerPhoto[]
+     * @return SuperEightFestivalsFilmmakerFilm[]
      */
     public static function get_all()
     {
@@ -77,11 +88,11 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsFile|null
+     * @return SuperEightFestivalsEmbed|null
      */
-    public function get_file()
+    public function get_embed()
     {
-        return SuperEightFestivalsFile::get_by_id($this->file_id);
+        return SuperEightFestivalsEmbed::get_by_id($this->embed_id);
     }
 
     // ======================================================================================================================== \\

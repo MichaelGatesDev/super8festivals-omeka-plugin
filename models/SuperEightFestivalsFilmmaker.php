@@ -18,23 +18,46 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
         );
     }
 
+    protected function beforeDelete()
+    {
+        parent::beforeDelete();
+        if ($person = $this->get_person()) $person->delete();
+        foreach ($this->get_films() as $film) $film->delete();
+        foreach ($this->get_photos() as $photo) $photo->delete();
+    }
+
     public function to_array()
     {
-        return array_merge(
-            parent::to_array(),
-            ["person" => $this->get_person()],
-        );
+        $res = parent::to_array();
+        if ($this->get_person()) $res = array_merge($res, ["person" => $this->get_person()->to_array()]);
+        return $res;
     }
 
     public static function create($arr = [])
     {
+        $filmmaker = new SuperEightFestivalsFilmmaker();
+        $person = SuperEightFestivalsPerson::create($arr['person']);
+        $filmmaker->person_id = $person->id;
+        try {
+            $filmmaker->save(true);
+            return $filmmaker;
+        } catch (Exception $e) {
+            $person->delete();
+            throw $e;
+        }
     }
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsContributor::get_by_id($person_id = $arr['person_id'])) throw new Exception("No person exists with id {$person_id}");
+        if (!SuperEightFestivalsPerson::get_by_id($person_id = $arr['person_id'])) throw new Exception("No person exists with id {$person_id}");
+
+        if (isset($arr['person'])) {
+            $this->get_person()->update($arr['person']);
+        }
+
         parent::update($arr, $save);
     }
+
 
     // ======================================================================================================================== \\
 
@@ -55,11 +78,11 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsFestivalFilm[]
+     * @return SuperEightFestivalsFilmmakerFilm[]
      */
     public function get_films()
     {
-        return SuperEightFestivalsFestivalFilm::get_by_param('filmmaker_id', $this->id);
+        return SuperEightFestivalsFilmmakerFilm::get_by_param('filmmaker_id', $this->id);
     }
 
     /**

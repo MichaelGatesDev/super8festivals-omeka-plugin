@@ -20,7 +20,7 @@ function Table(element) {
     };
 
     return html`
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover align-middle">
         <thead>
             <tr>
                 ${repeat(element.headers, (header) => tableHeaderTemplate(header))}

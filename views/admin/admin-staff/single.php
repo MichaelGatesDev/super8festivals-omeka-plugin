@@ -1,4 +1,4 @@
-<?= $this->partial("__partials/header.php", ["title" => ucwords($country->get_location()->name)]); ?>
+<?= $this->partial("__partials/header.php", ["title" => "Staff: " . ucwords($staff->get_person()->get_display_name())]); ?>
 
     <section class="container">
 
@@ -25,22 +25,24 @@
         <div class="row">
             <div class="col">
                 <h2 class="text-capitalize mb-4">
-                    <?= $country->get_location()->name; ?>
+                    <?= $staff->get_person()->get_display_name(); ?>
                 </h2>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <s8f-cities-table
-                        country-id="<?= $country->id; ?>"
-                >
-                </s8f-cities-table>
+                <h3>Placeholder </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p>Placeholder</p>
             </div>
         </div>
 
     </section>
 
-    <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-cities-table.js'></script>
 
 <?= $this->partial("__partials/footer.php") ?>

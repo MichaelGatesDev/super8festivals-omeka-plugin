@@ -180,19 +180,25 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         try {
             $this->save();
             return $file;
-        } catch (Omeka_Record_Exception $e) {
+        } catch (Exception $e) {
             logger_log(LogLevel::Info, $e->getMessage());
-        } catch (Omeka_Validate_Exception $e) {
-            logger_log(LogLevel::Info, $e->getMessage());
+            $file->delete();
+            return null;
         }
-        return null;
     }
 
+    /**
+     * @param $arr
+     * @return Super8FestivalsRecord|null
+     */
     public static abstract function create($arr);
 
     public function update($arr, $save = true)
     {
         foreach ($arr as $key => $value) {
+            // we can not update nested objects
+            if (is_array($value)) continue;
+
             $this[$key] = $value;
         }
         if ($save) $this->save(true);

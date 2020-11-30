@@ -29,6 +29,9 @@ class SuperEightFestivalsEmbed extends Super8FestivalsRecord
 
     public static function create($arr = [])
     {
+        $embed = new SuperEightFestivalsEmbed();
+        $embed->update($arr);
+        return $embed;
     }
 
     public function update($arr, $save = true)

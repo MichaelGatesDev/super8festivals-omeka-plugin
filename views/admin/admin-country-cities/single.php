@@ -1,14 +1,10 @@
 <?php
-
 $country_loc = $country->get_location();
 $city_loc = $city->get_location();
-
-echo head(array(
-    'title' => ucwords($city_loc->name) . ", " . ucwords($country_loc->name),
-));
-
 $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->name) . "/cities/" . urlencode($city_loc->name);
 ?>
+
+<?= $this->partial("__partials/header.php", ["title" => ucwords($country_loc->name)]); ?>
 
 <section class="container">
 
@@ -86,5 +82,4 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
 
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>
 
-<?php echo foot(); ?>
-
+<?= $this->partial("__partials/footer.php") ?>

@@ -18,36 +18,41 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
         );
     }
 
-    public function to_array()
+    protected function beforeDelete()
     {
-        return array_merge(
-            parent::to_array(),
-            ["person" => $this->get_person()],
-        );
+        parent::beforeDelete();
+        if ($person = $this->get_person()) $person->delete();
     }
 
-    /**
-     * @param array $arr ["person" => ["first_name", ...]]
-     * @return SuperEightFestivalsContributor|null
-     * @throws Omeka_Record_Exception
-     */
+    public function to_array()
+    {
+        $res = parent::to_array();
+        if ($this->get_person()) $res = array_merge($res, ["person" => $this->get_person()->to_array()]);
+        return $res;
+    }
+
     public static function create($arr = [])
     {
-        $contributor = new SuperEightFestivalsContributor();
+        $staff = new SuperEightFestivalsContributor();
         $person = SuperEightFestivalsPerson::create($arr['person']);
-        $contributor->person_id = $person->id;
+        $staff->person_id = $person->id;
         try {
-            $contributor->save(true);
-            return $contributor;
+            $staff->save(true);
+            return $staff;
         } catch (Exception $e) {
             $person->delete();
-            return null;
+            throw $e;
         }
     }
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsContributor::get_by_id($person_id = $arr['person_id'])) throw new Exception("No person exists with id {$person_id}");
+        if (!SuperEightFestivalsPerson::get_by_id($person_id = $arr['person_id'])) throw new Exception("No person exists with id {$person_id}");
+
+        if (isset($arr['person'])) {
+            $this->get_person()->update($arr['person']);
+        }
+
         parent::update($arr, $save);
     }
 

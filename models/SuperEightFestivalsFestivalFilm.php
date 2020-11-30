@@ -5,8 +5,7 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     // ======================================================================================================================== \\
 
     public int $festival_id = 0;
-    public int $filmmaker_id = 0;
-    public int $embed_id = 0;
+    public int $filmmaker_film_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -14,9 +13,8 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`festival_id`      INT(10) UNSIGNED NOT NULL",
-                "`filmmaker_id`     INT(10) UNSIGNED NOT NULL",
-                "`embed_id`            INT(10) UNSIGNED NOT NULL",
+                "`festival_id`          INT(10) UNSIGNED NOT NULL",
+                "`filmmaker_film_id`    INT(10) UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
         );
@@ -30,6 +28,7 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     {
         parent::update($arr, $save);
     }
+
     // ======================================================================================================================== \\
 
     /**
@@ -41,14 +40,6 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsFilmmaker
-     */
-    function get_filmmaker()
-    {
-        return SuperEightFestivalsFilmmaker::get_by_id($this->filmmaker_id);
-    }
-
-    /**
      * @return SuperEightFestivalsFestival|null
      */
     public function get_festival()
@@ -57,19 +48,11 @@ class SuperEightFestivalsFestivalFilm extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsCountry|null
+     * @return SuperEightFestivalsFilmmakerFilm
      */
-    public function get_country()
+    function get_film()
     {
-        return SuperEightFestivalsCountry::get_by_id($this->get_festival()->get_country());
-    }
-
-    /**
-     * @return SuperEightFestivalsCity|null
-     */
-    public function get_city()
-    {
-        return SuperEightFestivalsCity::get_by_id($this->get_festival()->get_city());
+        return SuperEightFestivalsFilmmakerFilm::get_by_id($this->filmmaker_film_id);
     }
 
     // ======================================================================================================================== \\

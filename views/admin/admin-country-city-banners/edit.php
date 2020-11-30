@@ -1,8 +1,4 @@
-<?php
-echo head(array(
-    'title' => 'Edit City Banner for ' . $city->name,
-));
-?>
+<?= $this->partial("__partials/header.php", ["title" => "Edit City Banner"]); ?>
 
 <section class="container">
 
@@ -30,4 +26,4 @@ echo head(array(
 
 <script type='module' src='/plugins/SuperEightFestivals/views/shared/javascripts/preview-file.js'></script>
 
-<?php echo foot(); ?>
+<?= $this->partial("__partials/footer.php") ?>

@@ -11,8 +11,8 @@ const FormAction = {
     Update: "update",
 };
 
-function FilmmakersTable() {
-    const [filmmakers, setFilmmakers] = useState([]);
+function StaffTable() {
+    const [staff, setStaff] = useState([]);
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
     const [modalFooter, setModalFooter] = useState();
@@ -24,83 +24,83 @@ function FilmmakersTable() {
         });
     };
 
-    const fetchFilmmakers = async () => {
+    const fetchStaff = async () => {
         try {
-            const filmmakers = await API.getAllFilmmakers();
-            setFilmmakers(filmmakers);
-            console.debug("Fetched filmmakers");
+            const staffs = await API.getAllStaff();
+            setStaff(staffs);
+            console.debug("Fetched staff");
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmakers`, err);
-            console.error(`Error - Failed to Fetch Filmmakers: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Staffs`, err);
+            console.error(`Error - Failed to Fetch Staffs: ${err.message}`);
         }
     };
 
     useEffect(() => {
-        fetchFilmmakers();
+        fetchStaff();
     }, []);
 
-    const addFilmmaker = async (formData) => {
+    const addStaff = async (formData) => {
         try {
-            const filmmaker = await API.addFilmmaker(formData);
+            const staff = await API.addStaff(formData);
             Alerts.success(
                 "alerts",
                 html`
                     <strong>Success</strong> 
-                    - Added Filmmaker
+                    - Added Staff
                 `,
-                `Successfully added filmmaker "${filmmaker.person.first_name} ${filmmaker.person.last_name} (${filmmaker.person.email})" to the database.`,
+                `Successfully added staff "${staff.person.first_name} ${staff.person.last_name} (${staff.person.email})" to the database.`,
             );
-            console.debug(`Added filmmaker: ${JSON.stringify(filmmaker)}`);
-            await fetchFilmmakers();
+            console.debug(`Added staff: ${JSON.stringify(staff)}`);
+            await fetchStaff();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Filmmaker`, err);
-            console.error(`Error - Failed to Add Filmmaker: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Staff`, err);
+            console.error(`Error - Failed to Add Staff: ${err.message}`);
         } finally {
-            Modals.hide_custom("filmmaker-modal");
+            Modals.hide_custom("staff-modal");
             scrollToAlerts();
         }
     };
 
-    const updateFilmmaker = async (formData) => {
+    const updateStaff = async (formData) => {
         try {
-            const filmmaker = await API.updateFilmmaker(formData);
+            const staff = await API.updateStaff(formData);
             Alerts.success(
                 "alerts",
                 html`
                     <strong>Success</strong> 
-                    - Edited Filmmaker
+                    - Edited Staff
                 `,
-                `Successfully edited filmmaker "${filmmaker.person.first_name} ${filmmaker.person.last_name} (${filmmaker.person.email})" in the database.`,
+                `Successfully edited staff "${staff.person.first_name} ${staff.person.last_name} (${staff.person.email})" in the database.`,
             );
-            console.debug(`Edited filmmaker: ${JSON.stringify(filmmaker)}`);
-            await fetchFilmmakers();
+            console.debug(`Edited staff: ${JSON.stringify(staff)}`);
+            await fetchStaff();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Filmmaker`, err);
-            console.error(`Error - Failed to Edit Filmmaker: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Staff`, err);
+            console.error(`Error - Failed to Edit Staff: ${err.message}`);
         } finally {
-            Modals.hide_custom("filmmaker-modal");
+            Modals.hide_custom("staff-modal");
             scrollToAlerts();
         }
     };
 
-    const deleteFilmmaker = async (filmmakerID) => {
+    const deleteStaff = async (staffID) => {
         try {
-            const filmmaker = await API.deleteFilmmaker(filmmakerID);
+            const staff = await API.deleteStaff(staffID);
             Alerts.success(
                 "alerts",
                 html`
                     <strong>Success</strong> 
-                    - Deleted Filmmaker
+                    - Deleted Staff
                 `,
-                `Successfully deleted filmmaker "${filmmaker.person.first_name} ${filmmaker.person.last_name} (${filmmaker.person.email})" from the database.`,
+                `Successfully deleted staff "${staff.person.first_name} ${staff.person.last_name} (${staff.person.email})" from the database.`,
             );
-            console.debug(`Deleted filmmaker: ${JSON.stringify(filmmaker)}`);
-            await fetchFilmmakers();
+            console.debug(`Deleted staff: ${JSON.stringify(staff)}`);
+            await fetchStaff();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Filmmaker`, err);
-            console.error(`Error - Failed to Delete Filmmaker: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Staff`, err);
+            console.error(`Error - Failed to Delete Staff: ${err.message}`);
         } finally {
-            Modals.hide_custom("filmmaker-modal");
+            Modals.hide_custom("staff-modal");
             scrollToAlerts();
         }
     };
@@ -115,12 +115,12 @@ function FilmmakersTable() {
         }
 
         if (action === FormAction.Add) {
-            addFilmmaker(formData);
+            addStaff(formData);
             document.getElementById("form").reset();
         } else if (action === FormAction.Update) {
-            updateFilmmaker(formData);
+            updateStaff(formData);
         }
-        Modals.hide_custom("filmmaker-modal");
+        Modals.hide_custom("staff-modal");
     };
 
 
@@ -148,11 +148,11 @@ function FilmmakersTable() {
         return { valid: true };
     };
 
-    const getForm = (filmmaker = null) => {
+    const getForm = (staff = null) => {
         return html`
         <form id="form" method="POST" action="">
-            ${filmmaker ? html`<input type="text" class="d-none" name="id" value=${filmmaker.id} />` : nothing}
-            ${filmmaker && filmmaker.person ? html`<input type="text" class="d-none" name="person-id" value=${filmmaker.person.id} />` : nothing}
+            ${staff ? html`<input type="text" class="d-none" name="id" value=${staff.id} />` : nothing}
+            ${staff && staff.person ? html`<input type="text" class="d-none" name="person-id" value=${staff.person.id} />` : nothing}
             <div class="mb-3">
                 <label for="first-name" class="form-label">First Name</label>
                 <input 
@@ -160,7 +160,7 @@ function FilmmakersTable() {
                     class="form-control" 
                     id="first-name" 
                     name="first-name"
-                    .value=${filmmaker ? filmmaker.person.first_name : ""}
+                    .value=${staff ? staff.person.first_name : ""}
                 >
             </div>
             <div class="mb-3">
@@ -170,7 +170,7 @@ function FilmmakersTable() {
                     class="form-control" 
                     id="last-name" 
                     name="last-name"
-                    .value=${filmmaker ? filmmaker.person.last_name : ""}
+                    .value=${staff ? staff.person.last_name : ""}
                 >
             </div>
             <div class="mb-3">
@@ -180,7 +180,7 @@ function FilmmakersTable() {
                     class="form-control" 
                     id="organization-name" 
                     name="organization-name"
-                    .value=${filmmaker ? filmmaker.person.organization_name : ""}
+                    .value=${staff ? staff.person.organization_name : ""}
                 >
             </div>
             <div class="mb-3">
@@ -190,7 +190,27 @@ function FilmmakersTable() {
                     class="form-control" 
                     id="email" 
                     name="email"
-                    .value=${filmmaker ? filmmaker.person.email : ""}
+                    .value=${staff ? staff.person.email : ""}
+                >
+            </div>
+            <div class="mb-3">
+                <label for="role" class="form-label">Site Role</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="role" 
+                    name="role"
+                    .value=${staff ? staff.role : ""}
+                >
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">Photo</label>
+                <input 
+                    type="file" 
+                    class="form-control" 
+                    id="file" 
+                    name="file"
+                    accept="image/jpeg,image/png"
                 >
             </div>
         </form>
@@ -198,58 +218,64 @@ function FilmmakersTable() {
     };
 
     const btnAddClick = () => {
-        setModalTitle("Add Filmmaker");
+        setModalTitle("Add Staff");
         setModalBody(getForm());
         setModalFooter(html`
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
         `);
-        Modals.show_custom("filmmaker-modal");
+        Modals.show_custom("staff-modal");
     };
 
-    const btnEditClick = (filmmaker) => {
-        setModalTitle("Edit Filmmaker");
-        setModalBody(getForm(filmmaker));
+    const btnEditClick = (staff) => {
+        setModalTitle("Edit Staff");
+        setModalBody(getForm(staff));
         setModalFooter(html`
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
         `);
-        Modals.show_custom("filmmaker-modal");
+        Modals.show_custom("staff-modal");
     };
 
-    const btnDeleteClick = (filmmaker) => {
-        setModalTitle("Delete Filmmaker");
+    const btnDeleteClick = (staff) => {
+        setModalTitle("Delete Staff");
         setModalBody(html`
             <p>Are you sure you want to delete this?</p>
             <p class="text-danger">Warning: this can not be undone.</p>
         `);
         setModalFooter(html`
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { deleteFilmmaker(filmmaker.id); }}>Confirm</button>
+            <button type="button" class="btn btn-primary" @click=${() => { deleteStaff(staff.id); }}>Confirm</button>
         `);
-        Modals.show_custom("filmmaker-modal");
+        Modals.show_custom("staff-modal");
     };
 
-    const getTableHeaders = () => ["ID", "First Name", "Last Name", "Organization Name", "Email", "Actions"];
-    const getTableRows = () => filmmakers.map((filmmaker) => [
-        filmmaker.id,
-        filmmaker.person.first_name,
-        filmmaker.person.last_name,
-        filmmaker.person.organization_name,
-        filmmaker.person.email,
+    const getTableHeaders = () => ["Preview", "ID", "First Name", "Last Name", "Organization Name", "Email", "Role", "Actions"];
+    const getTableRows = () => staff.map((staff) => [
+        staff.file ? html`
+            <a href="${staff.file.file_path}" target="_blank" rel="noopener">
+                <img src="${staff.file.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        
+            </a>
+        ` : "",
+        staff.id,
+        staff.person.first_name,
+        staff.person.last_name,
+        staff.person.organization_name,
+        staff.person.email,
+        staff.role,
         html`
-            <a href="/admin/super-eight-festivals/filmmakers/${filmmaker.id}/" class="btn btn-info btn-sm">View</a>
+            <a href="/admin/super-eight-festivals/staff/${staff.id}/" class="btn btn-info btn-sm">View</a>
             <button 
                 type="button" 
                 class="btn btn-primary btn-sm" 
-                @click=${() => { btnEditClick(filmmaker); }}
+                @click=${() => { btnEditClick(staff); }}
             >
                 Edit
             </button>
             <button 
                 type="button" 
                 class="btn btn-danger btn-sm" 
-                @click=${() => { btnDeleteClick(filmmaker); }}
+                @click=${() => { btnDeleteClick(staff); }}
             >
                 Delete
             </button>
@@ -258,28 +284,29 @@ function FilmmakersTable() {
 
     return html`
     <s8f-modal 
-        modal-id="filmmaker-modal"
+        modal-id="staff-modal"
         .modal-title=${modalTitle}
         .modal-body=${modalBody}
         .modal-footer=${modalFooter}
     >
     </s8f-modal>
     <h2 class="mb-4">
-        Filmmakers 
+        Staffs 
         <button 
             type="button" 
             class="btn btn-success btn-sm"
             @click=${() => { btnAddClick(); }}
         >
-            Add Filmmaker
+            Add Staff
         </button>
     </h2>
     <s8f-table 
-        id="filmmakers-table"
+        id="staff-table"
         .headers=${getTableHeaders()}
         .rows=${getTableRows()}
     ></s8f-table>
     `;
 }
 
-customElements.define("s8f-filmmakers-table", component(FilmmakersTable, { useShadowDOM: false }));
+
+customElements.define("s8f-staff-table", component(StaffTable, { useShadowDOM: false }));

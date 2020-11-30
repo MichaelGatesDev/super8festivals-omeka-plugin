@@ -1,9 +1,7 @@
 <?php
-echo head(array(
-    'title' => $festival->id
-));
-
-$city_url = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
+$country_loc = $country->get_location();
+$city_loc = $city->get_location();
+$city_url = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->name) . "/cities/" . urlencode($city_loc->name);
 $root_url = $city_url . "/festivals/" . $festival->id;
 
 $film_catalogs = SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $festival->id);
@@ -14,6 +12,7 @@ $photos = SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $festiva
 $posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festival->id);
 ?>
 
+<?= $this->partial("__partials/header.php", ["title" => "Festival: {$festival->id}"]); ?>
 
 <style>
     iframe {
@@ -45,22 +44,22 @@ $posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festi
         </div>
     </div>
 
-    <?= $this->partial("__components/records-page.php", array(
-        "admin" => true,
-        "root_url" => $root_url,
-        "filmmakers_url" => $city_url . "/filmmakers",
-        "records" => array(
-            "posters" => $posters,
-            "photos" => $photos,
-            "print_media" => $print_medias,
-            "memorabilia" => $memorabilia,
-            "films" => $films,
-            "film_catalogs" => $film_catalogs,
-        )
-    ));
+    <?php
+//    $this->partial("__components/records-page.php", array(
+//        "admin" => true,
+//        "root_url" => $root_url,
+//        "filmmakers_url" => $city_url . "/filmmakers",
+//        "records" => array(
+//            "posters" => $posters,
+//            "photos" => $photos,
+//            "print_media" => $print_medias,
+//            "memorabilia" => $memorabilia,
+//            "films" => $films,
+//            "film_catalogs" => $film_catalogs,
+//        )
+//    ));
     ?>
 
 </section>
 
-<?php echo foot(); ?>
-
+<?= $this->partial("__partials/footer.php") ?>

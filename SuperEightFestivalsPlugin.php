@@ -107,16 +107,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
     public function filterAdminNavigationMain($nav)
     {
-        $nav = array_filter($nav, function ($k) {
-            $itemLabel = $k['label'];
-            return !in_array(strtolower($itemLabel), array(
-                "items",
-                "collections",
-                "item types",
-                "items",
-                "tags",
-            ));
-        });
         $nav[] = array(
             'label' => __('Super 8 Festivals'),
             'uri' => url('super-eight-festivals'),
@@ -193,6 +183,14 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $router = $args['router'];
 
         if (is_admin_theme()) {
+            // Route: /staff/
+            $this->add_route($router, ":module/staff/", "admin-staff", "index");
+            $this->add_route($router, ":module/staff/:staff/", "admin-staff", "single");
+
+            // Route: /contributor/
+            $this->add_route($router, ":module/contributors/", "admin-contributors", "index");
+            $this->add_route($router, ":module/contributors/:contributor/", "admin-contributors", "single");
+
             // Route: /countries/
             $this->add_route($router, ":module/countries/", "admin-countries", "index");
             // Route: /countries/[country]/
@@ -252,13 +250,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/filmmakers/", "admin-filmmakers", "index");
             // Route: /filmmakers/[filmmaker]/
             $this->add_route($router, ":module/filmmakers/:filmmakerID/", "admin-filmmakers", "single");
-            $this->add_route($router, ":module/filmmakers/:filmmakerID/edit/", "admin-filmmakers", "edit");
-            $this->add_route($router, ":module/filmmakers/:filmmakerID/delete/", "admin-filmmakers", "delete");
-            $this->add_route($router, ":module/filmmakers/add/", "admin-filmmakers", "add");
             $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/", "admin-filmmaker-photos", "index");
-            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/:filmmakerPhotoID/edit/", "admin-filmmaker-photos", "edit");
-            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/:filmmakerPhotoID/delete/", "admin-filmmaker-photos", "delete");
-            $this->add_route($router, ":module/filmmakers/:filmmakerID/photos/add/", "admin-filmmaker-photos", "add");
 
             // Route: /federation/
             $this->add_route($router, ":module/federation/", "admin-federation", "index");
@@ -297,19 +289,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 //            $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
 //            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
 
-            // Route: /staff/
-            $this->add_route($router, ":module/staff/", "admin-staff", "index");
-            $this->add_route($router, ":module/staff/:staffID/", "admin-staff", "single");
-            $this->add_route($router, ":module/staff/:staffID/edit", "admin-staff", "edit");
-            $this->add_route($router, ":module/staff/:staffID/delete/", "admin-staff", "delete");
-            $this->add_route($router, ":module/staff/add/", "admin-staff", "add");
-
-            // Route: /contributor/
-            $this->add_route($router, ":module/contributors/", "admin-contributors", "index");
-            $this->add_route($router, ":module/contributors/:contributorID/", "admin-contributors", "single");
-            $this->add_route($router, ":module/contributors/:contributorID/edit", "admin-contributors", "edit");
-            $this->add_route($router, ":module/contributors/:contributorID/delete/", "admin-contributors", "delete");
-            $this->add_route($router, ":module/contributors/add/", "admin-contributors", "add");
 
 
         } else {
@@ -333,9 +312,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // filmmakers
         $this->add_api_route($router, "/rest-api/filmmakers/", "filmmakers");
         $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/", "filmmaker");
+        $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/films/", "filmmaker-films");
+        $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/films/:film/", "filmmaker-film");
+        $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/photos/", "filmmaker-photos");
+        $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/photos/:photo/", "filmmaker-photo");
         // contributors
         $this->add_api_route($router, "/rest-api/contributors/", "contributors");
         $this->add_api_route($router, "/rest-api/contributors/:contributor/", "contributor");
+        // staff
+        $this->add_api_route($router, "/rest-api/staff/", "staffs");
+        $this->add_api_route($router, "/rest-api/staff/:staff/", "staff");
         // cities
         $this->add_api_route($router, "/rest-api/cities/", "cities");
         $this->add_api_route($router, "/rest-api/cities/:city/", "city");

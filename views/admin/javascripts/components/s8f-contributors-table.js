@@ -39,9 +39,9 @@ function ContributorsTable() {
         fetchContributors();
     }, []);
 
-    const addContributor = async (contributorToAddObj) => {
+    const addContributor = async (formData) => {
         try {
-            const contributor = await API.addContributor(contributorToAddObj);
+            const contributor = await API.addContributor(formData);
             Alerts.success(
                 "alerts",
                 html`
@@ -61,9 +61,9 @@ function ContributorsTable() {
         }
     };
 
-    const updateContributor = async (contributorToUpdateObj) => {
+    const updateContributor = async (formData) => {
         try {
-            const contributor = await API.updateContributor(contributorToUpdateObj);
+            const contributor = await API.updateContributor(formData);
             Alerts.success(
                 "alerts",
                 html`
@@ -114,19 +114,11 @@ function ContributorsTable() {
             return;
         }
 
-        const obj = {
-            id: formData.get("id"),
-            first_name: formData.get("first-name"),
-            last_name: formData.get("last-name"),
-            organization_name: formData.get("organization-name"),
-            email: formData.get("email"),
-        };
-
         if (action === FormAction.Add) {
-            addContributor(obj);
+            addContributor(formData);
             document.getElementById("form").reset();
         } else if (action === FormAction.Update) {
-            updateContributor(obj);
+            updateContributor(formData);
         }
         Modals.hide_custom("contributor-modal");
     };
@@ -160,6 +152,7 @@ function ContributorsTable() {
         return html`
         <form id="form" method="POST" action="">
             ${contributor ? html`<input type="text" class="d-none" name="id" value=${contributor.id} />` : nothing}
+            ${contributor && contributor.person ? html`<input type="text" class="d-none" name="person-id" value=${contributor.person.id} />` : nothing}
             <div class="mb-3">
                 <label for="first-name" class="form-label">First Name</label>
                 <input 

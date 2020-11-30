@@ -31,12 +31,24 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
 
     public static function create($arr = [])
     {
+//        $file = new SuperEightFestivalsFile();
+//        $file->update($arr);
+//        return $file;
     }
 
     public function update($arr, $save = true)
     {
         parent::update($arr, $save);
     }
+
+    public function to_array()
+    {
+        return array_merge([
+            "file_path" => get_relative_path($this->get_path()),
+            "thumbnail_file_path" => get_relative_path($this->get_thumbnail_path()),
+        ], parent::to_array());
+    }
+
     // ======================================================================================================================== \\
 
     protected function afterDelete()
@@ -104,17 +116,10 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
 
     public function delete_files()
     {
-        delete_file($this->get_path());
-        delete_file($this->get_thumbnail_path());
-    }
-
-    public function upload_from_post($formInputName = "file", $file_prefix = "")
-    {
-        list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
-        $newFileName = uniqid($file_prefix . "_") . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $newFileName, get_uploads_dir());
-        $this->file_name = $newFileName;
-        $this->create_thumbnail();
+        if (file_exists($this->get_path()))
+            delete_file($this->get_path());
+        if (file_exists($this->get_thumbnail_path()))
+            delete_file($this->get_thumbnail_path());
     }
 
     // ======================================================================================================================== \\

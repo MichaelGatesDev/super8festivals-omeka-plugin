@@ -33,10 +33,9 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
 
     public function to_array()
     {
-        return array_merge(
-            parent::to_array(),
-            ["location" => $this->get_location()],
-        );
+        $res = parent::to_array();
+        if ($this->get_location()) $res = array_merge($res, ["location" => $this->get_location()->to_array()]);
+        return $res;
     }
 
     /**

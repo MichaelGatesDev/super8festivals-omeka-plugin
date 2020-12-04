@@ -15,6 +15,7 @@
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-modal.js'></script>
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-alerts-area.js'></script>
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-table.js'></script>
+    <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-form.js'></script>
 </head>
 <body>
 

@@ -525,14 +525,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all countries", $countries));
             } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
                 $country = SuperEightFestivalsCountry::create([
                     "location" => [
-                        "name" => $json['name'],
-                        "latitude" => $json['latitude'],
-                        "longitude" => $json['longitude'],
+                        "name" => $request->getParam("name", ""),
+                        "latitude" => $request->getParam("latitude", 0),
+                        "longitude" => $request->getParam("longitude", 0),
                     ],
                 ]);
 
@@ -548,25 +545,24 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         $this->authCheck();
         try {
             $request = $this->getRequest();
-            $country = get_request_param_country($request);
+            $country = get_request_param_by_id($request, SuperEightFestivalsCountry::class, "country");
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched country", $country->to_array()));
             } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
-                $country->get_location()->update([
-                    "name" => $json['name'],
-                    "description" => $json['description'],
-                    "latitude" => $json['latitude'],
-                    "longitude" => $json['longitude'],
+                $country->update([
+                    "location" => [
+                        "name" => $request->getParam("name", ""),
+                        "latitude" => $request->getParam("latitude", 0),
+                        "longitude" => $request->getParam("longitude", 0),
+                    ],
                 ]);
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully updated country", $country->to_array()));
             } else if ($request->isDelete()) {
+                $arr = $country->to_array();
                 $country->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted country", $country->to_array()));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted country", $arr));
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));

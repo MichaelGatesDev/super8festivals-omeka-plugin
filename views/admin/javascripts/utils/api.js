@@ -238,20 +238,20 @@ export default class API {
 
     /**
      * Creates a new country object in the database based on info from the passed object.
-     * @param countryObj - The object to take the info from.
+     * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the created country object.
      */
-    static async addCountry(countryObj) {
-        return Rest.post("/rest-api/countries/", countryObj);
+    static async addCountry(formData) {
+        return Rest.post("/rest-api/countries/", formData);
     }
 
     /**
      * Updates a country object in the database based on info from the passed object.
-     * @param countryObj - The object to take updated info from.
+     * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the updated country object.
      */
-    static async updateCountry(countryObj) {
-        return Rest.post(`/rest-api/countries/${countryObj.id}/`, countryObj);
+    static async updateCountry(formData) {
+        return Rest.post(`/rest-api/countries/${formData.get("id")}/`, formData);
     }
 
     /**

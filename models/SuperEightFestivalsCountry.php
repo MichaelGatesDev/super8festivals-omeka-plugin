@@ -38,11 +38,6 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         return $res;
     }
 
-    /**
-     * @param array $arr ["location" => ["name", ...]]
-     * @return SuperEightFestivalsCountry|null
-     * @throws Omeka_Record_Exception
-     */
     public static function create($arr = [])
     {
         $country = new SuperEightFestivalsCountry();
@@ -55,6 +50,18 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
             $location->delete();
             return null;
         }
+    }
+
+    public function update($arr, $save = true)
+    {
+        $cname = get_called_class();
+        if (isset($arr['location'])) {
+            $loc = $this->get_location();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsLocation");
+            $loc->update($arr['location']);
+        }
+
+        parent::update($arr, $save);
     }
 
     // ======================================================================================================================== \\

@@ -5,7 +5,8 @@ import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
-import { FormAction, isValidFloat, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+
 
 function CountriesTable() {
     const [countries, setCountries] = useState([]);
@@ -140,18 +141,13 @@ function CountriesTable() {
         Modals.show_custom("form-modal");
     };
 
-    const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Actions"];
-    const getTableRows = () => countries.map((country) => [
-        country.id,
-        country.location.name,
-        country.location.latitude,
-        country.location.longitude,
-        html`
-            <a href="/admin/super-eight-festivals/countries/${country.location.name}/" class="btn btn-info btn-sm">View</a>
-            <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(country); }}>Edit</button>
-            <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(country); }}>Delete</button>
-        `,
-    ]);
+
+    const tableColumns = [
+        { title: "ID", accessor: "id" },
+        { title: "Name", accessor: "location.name" },
+        { title: "Latitude", accessor: "location.latitude" },
+        { title: "Longitude", accessor: "location.longitude" },
+    ];
 
     return html`
         <s8f-modal
@@ -170,11 +166,15 @@ function CountriesTable() {
                 Add Country
             </button>
         </h2>
-        <s8f-table
+        <s8f-records-table
             id="countries-table"
-            .headers=${getTableHeaders()}
-            .rows=${getTableRows()}
-        ></s8f-table>
+            .tableColumns=${tableColumns}
+            .tableRows=${countries}
+            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/countries/${record.location.name}/`); }}
+            .rowEditFunc=${(record) => { btnEditClick(record); }}
+            .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
+        >
+        </s8f-records-table>
     `;
 }
 

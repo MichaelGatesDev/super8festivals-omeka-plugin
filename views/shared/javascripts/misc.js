@@ -23,3 +23,7 @@ export const FormAction = {
     Update: "update",
     Delete: "delete",
 };
+
+export const openLink = (url, newTab = false) => {
+    window.open(url, newTab ? "_blank" : "_self");
+};

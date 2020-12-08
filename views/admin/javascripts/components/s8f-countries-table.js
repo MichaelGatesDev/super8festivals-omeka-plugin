@@ -57,7 +57,6 @@ function CountriesTable() {
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong>`, err);
         } finally {
-            Modals.hide_custom("form-modal");
             scrollTo("alerts");
         }
     };

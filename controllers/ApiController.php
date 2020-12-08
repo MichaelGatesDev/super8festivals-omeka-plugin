@@ -84,12 +84,15 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $contributor = SuperEightFestivalsContributor::create([
                     "role" => $request->getParam("role", ""),
                     "person" => [
-                        "first_name" => $request->getParam("first-name", ""),
-                        "last_name" => $request->getParam("last-name", ""),
+                        "first_name" => $request->getParam("first_name", ""),
+                        "last_name" => $request->getParam("last_name", ""),
                         "email" => $request->getParam("email", ""),
-                        "organization_name" => $request->getParam("organization-name", ""),
+                        "organization_name" => $request->getParam("organization_name", ""),
                     ],
                 ]);
+//                if (has_temporary_file("file")) {
+//                    $contributor->upload_file("file");
+//                }
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully created contributor", $contributor->to_array()));
             }
@@ -109,14 +112,18 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched contributor", $contributor->to_array()));
             } else if ($request->isPost()) {
                 $contributor->update([
-                    "person_id" => $request->getParam("person-id", ""),
+                    "role" => $request->getParam("role", ""),
                     "person" => [
-                        "first_name" => $request->getParam("first-name", ""),
-                        "last_name" => $request->getParam("last-name", ""),
+                        "first_name" => $request->getParam("first_name", ""),
+                        "last_name" => $request->getParam("last_name", ""),
                         "email" => $request->getParam("email", ""),
-                        "organization_name" => $request->getParam("organization-name", ""),
+                        "organization_name" => $request->getParam("organization_name", ""),
                     ],
                 ]);
+//                if (has_temporary_file("file")) {
+//                    if ($file = $contributor->get_file()) $file->delete();
+//                    $contributor->upload_file("file");
+//                }
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully updated contributor", $contributor->to_array()));
             } else if ($request->isDelete()) {

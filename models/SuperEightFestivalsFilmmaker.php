@@ -49,15 +49,15 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsPerson::get_by_id($person_id = $arr['person_id'])) throw new Exception("No person exists with id {$person_id}");
-
+        $cname = get_called_class();
         if (isset($arr['person'])) {
-            $this->get_person()->update($arr['person']);
+            $loc = $this->get_person();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsPerson");
+            $loc->update($arr['person']);
         }
 
         parent::update($arr, $save);
     }
-
 
     // ======================================================================================================================== \\
 

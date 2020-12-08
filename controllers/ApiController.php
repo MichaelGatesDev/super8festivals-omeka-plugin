@@ -223,12 +223,15 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             } else if ($request->isPost()) {
                 $filmmaker = SuperEightFestivalsFilmmaker::create([
                     "person" => [
-                        "first_name" => $request->getParam("first-name", ""),
-                        "last_name" => $request->getParam("last-name", ""),
+                        "first_name" => $request->getParam("first_name", ""),
+                        "last_name" => $request->getParam("last_name", ""),
                         "email" => $request->getParam("email", ""),
-                        "organization_name" => $request->getParam("organization-name", ""),
+                        "organization_name" => $request->getParam("organization_name", ""),
                     ],
                 ]);
+//                if (has_temporary_file("file")) {
+//                    $filmmaker->upload_file("file");
+//                }
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully created filmmaker", $filmmaker->to_array()));
             }
@@ -248,14 +251,17 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched filmmaker", $filmmaker->to_array()));
             } else if ($request->isPost()) {
                 $filmmaker->update([
-                    "person_id" => $request->getParam("person-id", ""),
                     "person" => [
-                        "first_name" => $request->getParam("first-name", ""),
-                        "last_name" => $request->getParam("last-name", ""),
+                        "first_name" => $request->getParam("first_name", ""),
+                        "last_name" => $request->getParam("last_name", ""),
                         "email" => $request->getParam("email", ""),
-                        "organization_name" => $request->getParam("organization-name", ""),
+                        "organization_name" => $request->getParam("organization_name", ""),
                     ],
                 ]);
+//                if (has_temporary_file("file")) {
+//                    if ($file = $filmmaker->get_file()) $file->delete();
+//                    $filmmaker->upload_file("file");
+//                }
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully updated filmmaker", $filmmaker->to_array()));
             } else if ($request->isDelete()) {

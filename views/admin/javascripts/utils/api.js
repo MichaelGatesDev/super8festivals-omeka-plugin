@@ -291,20 +291,20 @@ export default class API {
 
     /**
      * @param countryID - The ID of the country to fetch the city from.
-     * @param cityObj - The object to take info from.
+     * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the added city object.
      */
-    static async addCityToCountry(countryID, cityObj) {
-        return Rest.post(`/rest-api/countries/${countryID}/cities/`, cityObj);
+    static async addCityToCountry(countryID, formData) {
+        return Rest.post(`/rest-api/countries/${countryID}/cities/`, formData);
     }
 
     /**
      * @param countryID - The ID of the country to fetch the city from.
-     * @param cityObj - The object to take updated info from.
+     * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the updated city object.
      */
-    static async updateCityInCountry(countryID, cityObj) {
-        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityObj.id}/`, cityObj);
+    static async updateCityInCountry(countryID, formData) {
+        return Rest.post(`/rest-api/countries/${countryID}/cities/${formData.get("id")}/`, formData);
     }
 
     /**

@@ -44,7 +44,7 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         $location = SuperEightFestivalsLocation::create($arr['location']);
         $country->location_id = $location->id;
         try {
-            $country->save(true);
+            $country->save();
             return $country;
         } catch (Exception $e) {
             $location->delete();

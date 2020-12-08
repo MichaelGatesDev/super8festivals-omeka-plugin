@@ -583,16 +583,13 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", $cities));
             } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
                 $city = SuperEightFestivalsCity::create([
                     "country_id" => $country->id,
                     "location" => [
-                        "name" => $json['name'],
-                        "description" => $json['description'],
-                        "latitude" => $json['latitude'],
-                        "longitude" => $json['longitude'],
+                        "name" => $request->getParam('name', ""),
+                        "description" => $request->getParam('description', ""),
+                        "latitude" => $request->getParam('latitude', 0),
+                        "longitude" => $request->getParam('longitude', 0),
                     ],
                 ]);
 
@@ -614,14 +611,13 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city->to_array()));
             } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
-                $city->get_location()->update([
-                    "name" => $json['name'],
-                    "description" => $json['description'],
-                    "latitude" => $json['latitude'],
-                    "longitude" => $json['longitude'],
+                $city->update([
+                    "location" => [
+                        "name" => $request->getParam("name", ""),
+                        "description" => $request->getParam('description', ""),
+                        "latitude" => $request->getParam("latitude", 0),
+                        "longitude" => $request->getParam("longitude", 0),
+                    ],
                 ]);
 
                 $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city->to_array()));

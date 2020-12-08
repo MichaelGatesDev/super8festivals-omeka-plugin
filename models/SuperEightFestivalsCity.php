@@ -50,12 +50,6 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         foreach ($festivals as $festival) {
             $festival->delete();
         }
-
-        // filmmakers
-        $filmmakers = $this->get_filmmakers();
-        foreach ($filmmakers as $filmmaker) {
-            $filmmaker->delete();
-        }
     }
 
     public function to_array()
@@ -65,25 +59,17 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return $res;
     }
 
-    /**
-     * @param array $arr ["location" => ["name", ...]]
-     * @return SuperEightFestivalsCity|null
-     * @throws Omeka_Record_Exception
-     * @throws Exception
-     */
+
     public static function create($arr = [])
     {
         $city = new SuperEightFestivalsCity();
-
         $country_id = $arr['country_id'];
-        if (!SuperEightFestivalsCountry::get_by_id($country_id)) throw new Exception("No country exists with id {$country_id}");
-        $city->country_id = $arr['country_id'];
-
+        $city->country_id = $country_id;
         $location = SuperEightFestivalsLocation::create($arr['location']);
         $city->location_id = $location->id;
 
         try {
-            $city->save(true);
+            $city->save();
             return $city;
         } catch (Exception $e) {
             $location->delete();
@@ -93,7 +79,13 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsCountry::get_by_id($country_id = $arr['country_id'])) throw new Exception("No country exists with id {$country_id}");
+        $cname = get_called_class();
+        if (isset($arr['location'])) {
+            $loc = $this->get_location();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsLocation");
+            $loc->update($arr['location']);
+        }
+
         parent::update($arr, $save);
     }
 

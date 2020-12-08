@@ -4,12 +4,7 @@ import { component, useEffect, useState } from '../../../shared/javascripts/vend
 import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
 import Modals from "../utils/modals.js";
-
-
-const FormAction = {
-    Add: "add",
-    Update: "update",
-}
+import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 
 
 function FestivalsTable(element) {
@@ -18,23 +13,14 @@ function FestivalsTable(element) {
     const [festivals, setFestivals] = useState([]);
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
-    const [modalFooter, setModalFooter] = useState();
-
-    const scrollToAlerts = () => {
-        document.getElementById("alerts").scrollIntoView({
-            behavior: 'smooth', // smooth scroll
-            block: 'start' // the upper border of the element will be aligned at the top of the visible part of the window of the scrollable area.
-        });
-    };
 
     const fetchCountry = async () => {
         try {
             const country = await API.getCountry(element.countryId);
             setCountry(country);
-            console.debug("Fetched country");
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Country`, err);
-            console.error(`Error - Failed to Fetch Countries: ${err.message}`);
+            console.error(`Error - Failed to Fetch Country: ${err.message}`);
         }
     };
 
@@ -42,7 +28,6 @@ function FestivalsTable(element) {
         try {
             const city = await API.getCityInCountry(element.countryId, element.cityId);
             setCity(city);
-            console.debug("Fetched city");
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch City`, err);
             console.error(`Error - Failed to Fetch City: ${err.message}`);
@@ -51,9 +36,8 @@ function FestivalsTable(element) {
 
     const fetchFestivals = async () => {
         try {
-            const festivals = await API.getFestivalsInCity(element.cityId);
+            const festivals = await API.getFestivalsInCity(element.countryId, element.cityId);
             setFestivals(festivals);
-            console.debug("Fetched festivals in city");
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Festivals`, err);
             console.error(`Error - Failed to Fetch Festivals: ${err.message}`);
@@ -61,182 +45,147 @@ function FestivalsTable(element) {
     };
 
     useEffect(() => {
-        fetchCountry().then(() => {
-            return fetchCity();
-        }).then(() => {
-            return fetchFestivals();
-        });
+        fetchCountry();
+        fetchCity();
+        fetchFestivals();
     }, []);
 
-    const addFestival = async (festivalToAddObj) => {
+    const performRestAction = async (formData, action) => {
+        let promise = null;
+        switch (action) {
+            case FormAction.Add:
+                promise = API.addFestivalToCity(element.countryId, element.cityId, formData);
+                break;
+            case FormAction.Update:
+                promise = API.updateFestivalInCity(element.countryId, element.cityId, formData);
+                break;
+            case FormAction.Delete:
+                promise = API.deleteFestivalFromCity(element.countryId, element.cityId, formData.get("id"));
+                break;
+        }
+
+        let actionVerb = action === FormAction.Add ? "added" : action === FormAction.Update ? "updated" : "deleted";
+        let successMessage = `Successfully ${actionVerb} festival.`;
+
         try {
-            const festival = await API.addFestival(city.id, festivalToAddObj);
-            Alerts.success("alerts", html`<strong>Success</strong> - Added Festival`, `Successfully added festival "${festival.year}" to the database.`);
-            console.debug(`Added festival: ${JSON.stringify(festival)}`);
+            const result = await promise;
+            Alerts.success(
+                "alerts",
+                html`<strong>Success</strong>`,
+                successMessage,
+                false,
+                3000,
+            );
             await fetchFestivals();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Festival`, err);
-            console.error(`Error - Failed to Add Festival: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong>`, err);
         } finally {
-            Modals.hide_custom("festival-modal");
-            scrollToAlerts();
+            scrollTo("alerts");
         }
     };
 
-    const updateFestival = async (festivalToUpdateObj) => {
-        try {
-            const festival = await API.updateFestival(festivalToUpdateObj);
-            Alerts.success("alerts", html`<strong>Success</strong> - Edited Festival`, `Successfully edited festival "${festival.year}" in the database.`);
-            console.debug(`Edited festival: ${JSON.stringify(festival)}`);
-            await fetchFestivals();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Festival`, err);
-            console.error(`Error - Failed to Edit Festival: ${err.message}`);
-        } finally {
-            Modals.hide_custom("festival-modal");
-            scrollToAlerts();
-        }
+    const cancelForm = () => {
+        Modals.hide_custom("form-modal");
     };
 
-    const deleteFestival = async (festivalID) => {
-        try {
-            const festival = await API.deleteFestival(festivalID);
-            Alerts.success("alerts", html`<strong>Success</strong> - Deleted Festival`, `Successfully deleted festival "${festival.year}" from the database.`);
-            console.debug(`Deleted festival: ${JSON.stringify(festival)}`);
-            await fetchFestivals();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Festival`, err);
-            console.error(`Error - Failed to Delete Festival: ${err.message}`);
-        } finally {
-            Modals.hide_custom("festival-modal");
-            scrollToAlerts();
-        }
+    const submitForm = (formData, action) => {
+        performRestAction(formData, action).then(() => {
+            Modals.hide_custom("form-modal");
+        });
     };
 
-    const submitForm = (action) => {
-        const formData = new FormData(document.getElementById("form"))
-        const formResult = validateForm();
-        if (!formResult.valid) {
-            console.error(`${formResult.problematic_input}: ${formResult.message}`);
-            // TODO show validation results on form
-            return;
+    const validateForm = (formData) => {
+        const year = formData.get("year");
+        if (isNaN(year) || year.length !== 4) {
+            return { input_name: "name", message: "Year is invalid! Must be a 4-digit number." };
         }
-
-        const obj = {
-            id: formData.get('id'),
-            year: formData.get('year'),
-        };
-
-        if (action === FormAction.Add) {
-            addFestival(obj);
-            document.getElementById("form").reset();
-        } else if (action === FormAction.Update) {
-            updateFestival(obj);
-        }
-        Modals.hide_custom("festival-modal");
+        return null;
     };
 
-
-    const validateForm = () => {
-        const formData = new FormData(document.getElementById("form"))
-        // const id = formData.get('id');
-        const year = formData.get('year');
-        if (year != 0 && `${year}`.length != 4) {
-            return { valid: false, problematic_input: "year", message: "Invalid year!" };
+    const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
+    const getFormElements = (action, city = null) => {
+        let results = [];
+        if (city) {
+            results = [...results, recordIdElementObj(city)];
         }
-        return { valid: true };
+        if (action === FormAction.Add || action === FormAction.Update) {
+            results = [...results,
+                { label: "Year", type: "number", name: "year", placeholder: "", value: city ? city.year : null },
+            ];
+        } else if (action === FormAction.Delete) {
+            results = [...results,
+                { type: "description", value: "Are you sure you want to delete this?" },
+                { type: "description", styleClasses: ["text-danger"], value: "Warning: this can not be undone." },
+            ];
+        }
+        return results;
     };
 
-    const getForm = (festival = null) => {
+    const getForm = (action, record = null) => {
         return html`
-        <form id="form" method="POST" action="">
-            ${festival ? html`<input type="text" class="d-none" name="id" value=${festival.id} />` : nothing}
-            <div class="mb-3">
-                <label for="form-year" class="form-label">Festival Year</label>
-                <input 
-                    type="number" 
-                    class="form-control" 
-                    id="form-year" 
-                    name="year" 
-                    aria-describedby="formFestivalHelp"
-                    placeholder=""
-                    .value=${festival ? festival.year : 0}
-                >
-            </div>
-        </form>
+            <s8f-form
+                form-id="festival-form"
+                .elements=${getFormElements(action, record)}
+                .validateFunc=${action !== FormAction.Delete ? validateForm : undefined}
+                .resetOnSubmit=${action === FormAction.Add}
+                @cancel=${cancelForm}
+                @submit=${(e) => { submitForm(e.detail, action); }}
+            >
+            </s8f-form>
         `;
     };
 
     const btnAddClick = () => {
         setModalTitle("Add Festival");
-        setModalBody(getForm());
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
-        `);
-        Modals.show_custom("festival-modal");
+        setModalBody(getForm(FormAction.Add, null));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (festival) => {
         setModalTitle("Edit Festival");
-        setModalBody(getForm(festival));
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
-        `);
-        Modals.show_custom("festival-modal");
+        setModalBody(getForm(FormAction.Update, festival));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (festival) => {
         setModalTitle("Delete Festival");
-        setModalBody(html`
-            <p>Are you sure you want to delete this?</p>
-            <p class="text-danger">Warning: this can not be undone.</p>
-        `);
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { deleteFestival(festival.id); }}>Confirm</button>
-        `);
-        Modals.show_custom("festival-modal");
+        setModalBody(getForm(FormAction.Delete, festival));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
-    const getTableHeaders = () => ["ID", "Year", "Actions"];
-    const getTableRows = () => festivals.map((festival) => [
-        festival.id,
-        festival.year === 0 ? "N/A" : festival.year,
-        html`
-            <a href="/admin/super-eight-festivals/countries/${country.location.name}/cities/${city.location.name}/festivals/${festival.id}" class="btn btn-info btn-sm">View</a>
-            <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(festival); }}>Edit</button>
-            <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(festival); }}>Delete</button>
-        `
-    ]);
-
-
-    if (!country || !city) return html`Loading...`;
-
+    const tableColumns = [
+        { title: "ID", accessor: "id" },
+        { title: "Year", accessor: "year" },
+    ];
     return html`
-    <s8f-modal 
-        modal-id="festival-modal"
-        .modal-title=${modalTitle}
-        .modal-body=${modalBody}
-        .modal-footer=${modalFooter}
-    >
-    </s8f-modal>
-    <h3 class="mb-2">
-        Festivals
-        <button 
-            type="button" 
-            class="btn btn-success btn-sm"
-            @click=${() => { btnAddClick(); }}
+        <s8f-modal
+            modal-id="form-modal"
+            .modal-title=${modalTitle}
+            .modal-body=${modalBody}
         >
-            Add Festival
-        </button>
-    </h3>
-    <s8f-table 
-        id="festivals-table"
-        .headers=${getTableHeaders()}
-        .rows=${getTableRows()}
-    ></s8f-table>
+        </s8f-modal>
+        <h2 class="mb-4">
+            Festivals
+            <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click=${() => { btnAddClick(); }}
+            >
+                Add Festival
+            </button>
+        </h2>
+        <s8f-records-table
+            id="festivals-table"
+            .tableColumns=${tableColumns}
+            .tableRows=${festivals}
+            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/countries/${element.countryId}/cities/${element.cityId}/festivals/${record.id}/`); }}
+            .rowEditFunc=${(record) => { btnEditClick(record); }}
+            .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
+        >
+        </s8f-records-table>
     `;
 }
 

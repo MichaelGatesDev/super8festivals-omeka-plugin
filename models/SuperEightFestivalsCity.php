@@ -59,7 +59,6 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return $res;
     }
 
-
     public static function create($arr = [])
     {
         $city = new SuperEightFestivalsCity();

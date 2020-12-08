@@ -256,7 +256,7 @@ export default class API {
 
     /**
      * Deletes a country object from the database.
-     * @param countryID - The ID of the country to delete.
+     * @param {number} countryID - The ID of the country to delete.
      * @returns {Promise<* | void>} a promise, whose success result is the deleted country object.
      */
     static async deleteCountry(countryID) {
@@ -273,7 +273,7 @@ export default class API {
     }
 
     /**
-     * @param countryID - The ID of the country to fetch the cities from.
+     * @param {number} countryID - The ID of the country to fetch the cities from.
      * @returns {Promise<* | void>} a promise, whose success result is an array of city objects for the specified country.
      */
     static async getCitiesInCountry(countryID) {
@@ -281,8 +281,8 @@ export default class API {
     }
 
     /**
-     * @param countryID - The ID of the country to fetch the city from.
-     * @param cityID - The ID of the city.
+     * @param {number} countryID - The ID of the country to fetch the city from.
+     * @param {number} cityID - The ID of the city.
      * @returns {Promise<* | void>} a promise, whose success result is a city object for the specified country ID and city ID.
      */
     static async getCityInCountry(countryID, cityID) {
@@ -290,7 +290,7 @@ export default class API {
     }
 
     /**
-     * @param countryID - The ID of the country to fetch the city from.
+     * @param {number} countryID - The ID of the country to fetch the city from.
      * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the added city object.
      */
@@ -299,7 +299,7 @@ export default class API {
     }
 
     /**
-     * @param countryID - The ID of the country to fetch the city from.
+     * @param {number} countryID - The ID of the country to fetch the city from.
      * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the updated city object.
      */
@@ -309,8 +309,8 @@ export default class API {
 
     /**
      * Deletes a city object from the database.
-     * @param countryID - The ID of the country to delete.
-     * @param cityID - The ID of the city to delete.
+     * @param {number} countryID - The ID of the country to delete.
+     * @param {number} cityID - The ID of the city to delete.
      * @returns {Promise<* | void>} a promise, whose success result is the deleted city object.
      */
     static async deleteCityFromCountry(countryID, cityID) {
@@ -327,36 +327,42 @@ export default class API {
     }
 
     /**
-     * @param cityID - The ID of the city to fetch the festivals from.
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city to fetch the festivals from.
      * @returns {Promise<* | void>} a promise, whose success result is an array of city objects for the specified country.
      */
-    static async getFestivalsInCity(cityID) {
-        return Rest.get(`/rest-api/cities/${cityID}/festivals/`);
+    static async getFestivalsInCity(countryID, cityID) {
+        return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/`);
     }
 
     /**
-     * @param cityID - The ID of the city to fetch the festival from.
-     * @param festivalObj - The object to take info from.
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city to fetch the festival from.
+     * @param {FormData} formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the added festival object.
      */
-    static async addFestival(cityID, festivalObj) {
-        return Rest.post(`/rest-api/cities/${cityID}/festivals/`, festivalObj);
+    static async addFestivalToCity(countryID, cityID, formData) {
+        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/`, formData);
     }
 
     /**
-     * @param festivalObj - The updated festival object.
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city to fetch the festival from.
+     * @param {FormData} formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the updated festival object.
      */
-    static async updateFestival(festivalObj) {
-        return Rest.post(`/rest-api/festivals/${festivalObj.id}`, festivalObj);
+    static async updateFestivalInCity(countryID, cityID, formData) {
+        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${formData.get("id")}/`, formData);
     }
 
     /**
-     * @param festivalID - The festival ID to delete.
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city to fetch the festival from.
+     * @param festivalID - The ID of the festival to delete
      * @returns {Promise<* | void>} a promise, whose success result is the deleted festival object.
      */
-    static async deleteFestival(festivalID) {
-        return Rest.delete(`/rest-api/festivals/${festivalID}/`);
+    static async deleteFestivalFromCity(countryID, cityID, festivalID) {
+        return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${festivalID}/`);
     }
 
     // ===================================================================================================================================================== \\

@@ -20,16 +20,21 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         );
     }
 
-    protected function _validate()
+    protected function beforeDelete()
     {
-        parent::_validate();
-        if (!is_numeric($this->year) || ($this->year != 0 && strlen($this->year) != 4)) {
-            throw new Error("The year may only be a 4-digit numeric year (e.g. 1974)");
+        if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be deleted!");
+        parent::beforeDelete();
+    }
+
+    protected function beforeSave($args)
+    {
+        if (array_key_exists("insert", $args)) {
+            $insert = $args['insert'];
+            if (!$insert) {
+                if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be updated!");
+            }
         }
-        if (($found = SuperEightFestivalsFestival::get_by_params(['city_id' => $this->city_id, 'year' => $this->year])) && count($found) > 0 && $found[0]->id !== $this->id) {
-            throw new Error("A festival with that year already exists!");
-        }
-        return true;
+        parent::beforeSave($args);
     }
 
     protected function afterDelete()
@@ -50,6 +55,17 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     public static function create($arr = [])
     {
+        $festival = new SuperEightFestivalsFestival();
+        $festival->year = $arr['year'];
+        $city_id = $arr['city_id'];
+        $festival->city_id = $city_id;
+
+        try {
+            $festival->save();
+            return $festival;
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
     public function update($arr, $save = true)

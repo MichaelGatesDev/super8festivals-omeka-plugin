@@ -421,52 +421,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched city", $city->to_array()));
-            } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
-                $city->get_location()->update([
-                    "name" => $json['name'],
-                    "description" => $json['description'],
-                    "latitude" => $json['latitude'],
-                    "longitude" => $json['longitude'],
-                ]);
-
-                $this->_helper->json($this->getJsonResponse("success", "Successfully updated city", $city->to_array()));
-            } else if ($request->isDelete()) {
-                $city->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted city", $city->to_array()));
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
         }
     }
-
-    public function cityFestivalsAction()
-    {
-        $this->authCheck();
-        try {
-            $request = $this->getRequest();
-            $city = get_request_param_city($request);
-
-            $festivals = [];
-            foreach (SuperEightFestivalsFestival::get_by_param('city_id', $city->id) as $festival) {
-                array_push($festivals, $festival->to_array());
-            }
-            $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all festivals", $festivals));
-        } catch (Throwable $e) {
-            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
-        }
-    }
-
-    public function cityFestivalAction()
-    {
-        $this->authCheck();
-        $request = $this->getRequest();
-        $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
-        $this->redirect("/rest-api/festivals/{$festival->id}");
-    }
-
 
     public function festivalsAction()
     {
@@ -482,7 +441,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         }
     }
 
-
     public function festivalAction()
     {
         $this->authCheck();
@@ -492,18 +450,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
             if ($request->isGet()) {
                 $this->_helper->json($this->getJsonResponse("success", "Successfully fetched festival", $festival->to_array()));
-            } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
-                $festival->update([
-                    "year" => $json['year'],
-                ]);
-
-                $this->_helper->json($this->getJsonResponse("success", "Successfully updated festival", $festival->to_array()));
-            } else if ($request->isDelete()) {
-                $festival->delete();
-                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted festival", $festival->to_array()));
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
@@ -640,20 +586,17 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
             if ($request->isGet()) {
                 $festivals = [];
-                foreach (SuperEightFestivalsFestival::get_by_param('city_id', $city->id) as $festival) {
+                foreach ($city->get_festivals() as $festival) {
                     array_push($festivals, $festival->to_array());
                 }
-                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all festivals", $festivals));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched all cities", $festivals));
             } else if ($request->isPost()) {
-                $raw_json = file_get_contents('php://input');
-                $json = json_decode($raw_json, TRUE);
-
                 $festival = SuperEightFestivalsFestival::create([
                     "city_id" => $city->id,
-                    "year" => $json['year'],
+                    "year" => $request->getParam("year", 0),
                 ]);
 
-                $this->_helper->json($this->getJsonResponse("success", "Successfully created festival", $festival->to_array()));
+                $this->_helper->json($this->getJsonResponse("success", "Successfully updated festival", $festival->to_array()));
             }
         } catch (Throwable $e) {
             $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
@@ -663,9 +606,27 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     public function countryCityFestivalAction()
     {
         $this->authCheck();
-        $request = $this->getRequest();
-        $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
-        $this->redirect("/rest-api/festivals/{$festival->id}");
+        try {
+            $request = $this->getRequest();
+            $country = get_request_param_country($request);
+            $city = get_request_param_city($request);
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+
+            if ($request->isGet()) {
+                $this->_helper->json($this->getJsonResponse("success", "Successfully fetched festival", $festival->to_array()));
+            } else if ($request->isPost()) {
+                $festival->update([
+                    "year" => $request->getParam("year", 0),
+                ]);
+
+                $this->_helper->json($this->getJsonResponse("success", "Successfully updated festival", $festival->to_array()));
+            } else if ($request->isDelete()) {
+                $festival->delete();
+                $this->_helper->json($this->getJsonResponse("success", "Successfully deleted festival", $festival->to_array()));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
     }
 
     // ======================================================================================================================== \\

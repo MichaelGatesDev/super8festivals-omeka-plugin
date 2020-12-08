@@ -25,9 +25,6 @@ const S8FForm = (element) => {
             }
         }
 
-        if (element.resetOnSubmit) {
-            element.querySelector("form").reset();
-        }
         element.dispatchEvent(new CustomEvent("submit", {
             detail: formData,
         }));
@@ -116,7 +113,7 @@ const S8FForm = (element) => {
     return html`
         <s8f-alerts-area id="form-alerts"></s8f-alerts-area>
         <form id=${element.formId}>
-            ${repeat(element.elements, elem => formElementTemplate(elem))}
+            ${repeat(element.elements, e => e, elem => formElementTemplate(elem))}
             <div class="mb-3 float-right">
                 <button type="button" class="btn btn-secondary" @click=${triggerCancelEvent}>Cancel</button>
                 <button type="button" class="btn btn-primary" @click=${triggerSubmitEvent}>Submit</button>

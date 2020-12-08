@@ -96,8 +96,8 @@ function CountriesTable() {
         if (action === FormAction.Add || action === FormAction.Update) {
             results = [...results,
                 { label: "Name", type: "text", name: "name", placeholder: "", value: country ? country.location.name : "" },
-                { label: "Latitude", type: "number", name: "latitude", placeholder: "-1.234", value: country ? country.location.latitude : "" },
-                { label: "Longitude", type: "number", name: "longitude", placeholder: "-1.234", value: country ? country.location.longitude : "" },
+                { label: "Latitude", type: "number", name: "latitude", placeholder: "-1.234", value: country ? country.location.latitude : 0 },
+                { label: "Longitude", type: "number", name: "longitude", placeholder: "-1.234", value: country ? country.location.longitude : 0 },
             ];
         } else if (action === FormAction.Delete) {
             results = [...results,

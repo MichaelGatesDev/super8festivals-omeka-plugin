@@ -18,6 +18,9 @@ function RecordsTable(
 
     const getCellHtml = (obj, accessor) => {
         if (accessor === "file") {
+            if(!obj.file) {
+                return html`<span>N/A</span>`;
+            }
             let fileAnchorContent = obj.file.file_name;
             if (obj.file.thumbnail_file_name && obj.file.thumbnail_file_name !== "") {
                 fileAnchorContent = html`<img src="${obj.file.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        `;

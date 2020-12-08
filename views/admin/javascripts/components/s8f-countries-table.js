@@ -127,18 +127,21 @@ function CountriesTable() {
         setModalTitle("Add Country");
         setModalBody(getForm(FormAction.Add, null));
         Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (country) => {
         setModalTitle("Edit Country");
         setModalBody(getForm(FormAction.Update, country));
         Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (country) => {
         setModalTitle("Delete Country");
         setModalBody(getForm(FormAction.Delete, country));
         Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
 

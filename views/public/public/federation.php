@@ -108,16 +108,16 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
 
 
     <?php
-//    echo $this->partial("__components/federation-records-page.php", array(
-//        "admin" => false,
-////            "root_url" => $root_url,
-//        "records" => array(
-//            "newsletters" => $newsletters,
-//            "photos" => $photos,
-//            "magazines" => $magazines,
-//            "by_laws" => $by_laws,
-//        )
-//    ));
+    //    echo $this->partial("__components/federation-records-page.php", array(
+    //        "admin" => false,
+    ////            "root_url" => $root_url,
+    //        "records" => array(
+    //            "newsletters" => $newsletters,
+    //            "photos" => $photos,
+    //            "magazines" => $magazines,
+    //            "by_laws" => $by_laws,
+    //        )
+    //    ));
     ?>
 
 </section>

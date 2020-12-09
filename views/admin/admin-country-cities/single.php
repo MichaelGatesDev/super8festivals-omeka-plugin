@@ -70,8 +70,8 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
     <div class="row my-5">
         <div class="col">
             <s8f-festivals-table
-                    country-id="<?= $country->id; ?>"
-                    city-id="<?= $city->id; ?>"
+                country-id="<?= $country->id; ?>"
+                city-id="<?= $city->id; ?>"
             >
             </s8f-festivals-table>
         </div>

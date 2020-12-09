@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col">
                 <s8f-cities-table
-                        country-id="<?= $country->id; ?>"
+                    country-id="<?= $country->id; ?>"
                 >
                 </s8f-cities-table>
             </div>

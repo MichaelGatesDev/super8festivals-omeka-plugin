@@ -1,5 +1,5 @@
 import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
-import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import { component } from "../../../shared/javascripts/vendor/haunted.js";
 import { repeat } from "../../../shared/javascripts/vendor/lit-html/directives/repeat.js";
 
 import Alerts from "../utils/alerts.js";

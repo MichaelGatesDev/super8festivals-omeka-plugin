@@ -1,10 +1,10 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html.js';
-import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
+import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 
 
 function FestivalsTable(element) {
@@ -189,6 +189,6 @@ function FestivalsTable(element) {
     `;
 }
 
-FestivalsTable.observedAttributes = ['country-id', 'city-id'];
+FestivalsTable.observedAttributes = ["country-id", "city-id"];
 
-customElements.define('s8f-festivals-table', component(FestivalsTable, { useShadowDOM: false }));
+customElements.define("s8f-festivals-table", component(FestivalsTable, { useShadowDOM: false }));

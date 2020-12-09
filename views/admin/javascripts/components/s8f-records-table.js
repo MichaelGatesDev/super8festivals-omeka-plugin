@@ -1,5 +1,5 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
-import { unsafeHTML } from "../../../shared/javascripts/vendor/lit-html/directives/unsafe-html.js"
+import { unsafeHTML } from "../../../shared/javascripts/vendor/lit-html/directives/unsafe-html.js";
 import { component } from "../../../shared/javascripts/vendor/haunted.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
 
@@ -19,7 +19,7 @@ function RecordsTable(
 
     const getCellHtml = (obj, accessor) => {
         if (accessor === "file") {
-            if(!obj.file) {
+            if (!obj.file) {
                 return html`<span>N/A</span>`;
             }
             let fileAnchorContent = obj.file.file_name;
@@ -29,7 +29,7 @@ function RecordsTable(
             return html`<a href=${obj.file.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
         }
         if (accessor === "embed") {
-            if(!obj.embed) {
+            if (!obj.embed) {
                 return html`<span>N/A</span>`;
             }
             return html`<div>${unsafeHTML(obj.embed.embed)}</div>`;

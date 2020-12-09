@@ -1,6 +1,6 @@
 import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
 import { Modal as BSModal } from "../../../shared/javascripts/vendor/bootstrap.js";
-import { component, useState, useEffect } from "../../../shared/javascripts/vendor/haunted.js";
+import { component, useEffect } from "../../../shared/javascripts/vendor/haunted.js";
 
 function Modal(element) {
     useEffect(() => {
@@ -30,9 +30,9 @@ function Modal(element) {
                         ${element["modal-body"]}
                     </div>
                     ${footer ? html`
-                    <div class="modal-footer">
-                        ${footer}
-                    </div>
+                        <div class="modal-footer">
+                            ${footer}
+                        </div>
                     ` : nothing}
                 </div>
             </div>

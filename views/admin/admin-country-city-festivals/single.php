@@ -45,19 +45,19 @@ $posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festi
     </div>
 
     <?php
-//    $this->partial("__components/records-page.php", array(
-//        "admin" => true,
-//        "root_url" => $root_url,
-//        "filmmakers_url" => $city_url . "/filmmakers",
-//        "records" => array(
-//            "posters" => $posters,
-//            "photos" => $photos,
-//            "print_media" => $print_medias,
-//            "memorabilia" => $memorabilia,
-//            "films" => $films,
-//            "film_catalogs" => $film_catalogs,
-//        )
-//    ));
+    //    $this->partial("__components/records-page.php", array(
+    //        "admin" => true,
+    //        "root_url" => $root_url,
+    //        "filmmakers_url" => $city_url . "/filmmakers",
+    //        "records" => array(
+    //            "posters" => $posters,
+    //            "photos" => $photos,
+    //            "print_media" => $print_medias,
+    //            "memorabilia" => $memorabilia,
+    //            "films" => $films,
+    //            "film_catalogs" => $film_catalogs,
+    //        )
+    //    ));
     ?>
 
 </section>

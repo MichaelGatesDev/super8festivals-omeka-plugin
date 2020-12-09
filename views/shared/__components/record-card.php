@@ -33,11 +33,11 @@ if (!isset($link)) $link = "";
     <?php elseif ($thumbnail_path): ?>
         <a href="<?= $preview_path; ?>" data-fancybox="fb-<?= $fancybox_category; ?>">
             <img
-                    class="card-img-top"
-                    src="<?= $thumbnail_path; ?>"
-                    alt="<?= $thumbnail_alt ?? "" ?>"
-                    style="object-fit: cover; height: <?= $preview_height; ?>; width: <?= $preview_width; ?>; "
-                    loading="lazy"
+                class="card-img-top"
+                src="<?= $thumbnail_path; ?>"
+                alt="<?= $thumbnail_alt ?? "" ?>"
+                style="object-fit: cover; height: <?= $preview_height; ?>; width: <?= $preview_width; ?>; "
+                loading="lazy"
             />
         </a>
     <?php endif; ?>

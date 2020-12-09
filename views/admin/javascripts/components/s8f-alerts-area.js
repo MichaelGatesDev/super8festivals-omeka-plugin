@@ -1,5 +1,5 @@
 import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
-import { component, useState, useEffect } from "../../../shared/javascripts/vendor/haunted.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 function AlertsArea(element) {
     const [alerts, setAlerts] = useState([]);

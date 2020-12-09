@@ -46,49 +46,6 @@ export default class API {
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker photo objects.
-     */
-    static async getAllFilmmakerPhotos(filmmakerID) {
-        return Rest.get(`/rest-api/filmmakers/${filmmakerID}/photos/`);
-    }
-
-    /**
-     * @returns {Promise<* | void>} a promise, whose success result is a filmmaker photo object.
-     */
-    static async getFilmmakerPhoto(filmmakerID, filmmakerPhotoID) {
-        return Rest.get(`/rest-api/filmmakers/${filmmakerID}/photos/${filmmakerPhotoID}/`);
-    }
-
-    /**
-     * Creates a new filmmaker photo object in the database based on info from the passed object.
-     * @param filmmakerID - The ID of the filmmaker.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created filmmaker photo object.
-     */
-    static async addFilmmakerPhoto(filmmakerID, formData) {
-        return Rest.post(`/rest-api/filmmakers/${filmmakerID}/photos/`, formData);
-    }
-
-    /**
-     * Updates a filmmaker photo object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker photo object.
-     */
-    static async updateFilmmakerPhoto(formData) {
-        return Rest.post(`/rest-api/filmmakers/${formData.get("filmmaker-id")}/photos/${formData.get("id")}/`, formData);
-    }
-
-    /**
-     * Deletes a filmmaker photo object from the database.
-     * @param filmmakerID - The ID of the filmmaker.
-     * @param filmmakerPhotoID - The ID of the filmmaker photo to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted filmmaker photo object.
-     */
-    static async deleteFilmmakerPhoto(filmmakerID, filmmakerPhotoID) {
-        return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/photos/${filmmakerPhotoID}/`);
-    }
-
-    /**
      * @param filmmakerID - The ID of the filmmaker.
      * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker film objects.
      */
@@ -120,8 +77,8 @@ export default class API {
      * @param formData - FormData object
      * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker film object.
      */
-    static async updateFilmmakerFilm(formData) {
-        return Rest.post(`/rest-api/filmmakers/${formData.get("filmmaker-id")}/films/${formData.get("id")}/`, formData);
+    static async updateFilmmakerFilm(filmmakerID, formData) {
+        return Rest.post(`/rest-api/filmmakers/${filmmakerID}/films/${formData.get("id")}/`, formData);
     }
 
     /**
@@ -132,6 +89,49 @@ export default class API {
      */
     static async deleteFilmmakerFilm(filmmakerID, filmmakerFilmID) {
         return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/films/${filmmakerFilmID}/`);
+    }
+
+    /**
+     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker photo objects.
+     */
+    static async getAllFilmmakerPhotos(filmmakerID) {
+        return Rest.get(`/rest-api/filmmakers/${filmmakerID}/photos/`);
+    }
+
+    /**
+     * @returns {Promise<* | void>} a promise, whose success result is a filmmaker photo object.
+     */
+    static async getFilmmakerPhoto(filmmakerID, filmmakerPhotoID) {
+        return Rest.get(`/rest-api/filmmakers/${filmmakerID}/photos/${filmmakerPhotoID}/`);
+    }
+
+    /**
+     * Creates a new filmmaker photo object in the database based on info from the passed object.
+     * @param filmmakerID - The ID of the filmmaker.
+     * @param formData - FormData object
+     * @returns {Promise<* | void>} a promise, whose success result is the created filmmaker photo object.
+     */
+    static async addFilmmakerPhoto(filmmakerID, formData) {
+        return Rest.post(`/rest-api/filmmakers/${filmmakerID}/photos/`, formData);
+    }
+
+    /**
+     * Updates a filmmaker photo object in the database based on info from the passed object.
+     * @param formData - FormData object
+     * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker photo object.
+     */
+    static async updateFilmmakerPhoto(filmmakerID, formData) {
+        return Rest.post(`/rest-api/filmmakers/${filmmakerID}/photos/${formData.get("id")}/`, formData);
+    }
+
+    /**
+     * Deletes a filmmaker photo object from the database.
+     * @param filmmakerID - The ID of the filmmaker.
+     * @param filmmakerPhotoID - The ID of the filmmaker photo to delete.
+     * @returns {Promise<* | void>} a promise, whose success result is the deleted filmmaker photo object.
+     */
+    static async deleteFilmmakerPhoto(filmmakerID, filmmakerPhotoID) {
+        return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/photos/${filmmakerPhotoID}/`);
     }
 
     // ===================================================================================================================================================== \\

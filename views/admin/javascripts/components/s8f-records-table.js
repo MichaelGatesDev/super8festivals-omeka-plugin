@@ -1,4 +1,5 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { unsafeHTML } from "../../../shared/javascripts/vendor/lit-html/directives/unsafe-html.js"
 import { component } from "../../../shared/javascripts/vendor/haunted.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
 
@@ -27,6 +28,12 @@ function RecordsTable(
             }
             return html`<a href=${obj.file.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
         }
+        if (accessor === "embed") {
+            if(!obj.embed) {
+                return html`<span>N/A</span>`;
+            }
+            return html`<div>${unsafeHTML(obj.embed.embed)}</div>`;
+        }
         if (accessor === "actions") {
             return html`
                 <div class="btn-group">
@@ -43,6 +50,12 @@ function RecordsTable(
     const rows = tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor)));
 
     return html`
+        <style>
+            table td div iframe {
+                width: 240px;
+                height: 144px;
+            }
+        </style>
         <s8f-table
             id=${element.id}
             .headers=${headerTitles}

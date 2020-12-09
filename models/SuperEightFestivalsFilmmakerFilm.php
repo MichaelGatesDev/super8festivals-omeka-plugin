@@ -51,10 +51,11 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsFilmmaker::get_by_id($filmmaker_id = $arr['filmmaker_id'])) throw new Exception("No filmmaker exists with id {$filmmaker_id}");
-
+        $cname = get_called_class();
         if (isset($arr['embed'])) {
-            $this->get_embed()->update($arr['embed']);
+            $loc = $this->get_embed();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsEmbed");
+            $loc->update($arr['embed']);
         }
 
         parent::update($arr, $save);

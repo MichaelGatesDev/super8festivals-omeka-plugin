@@ -17,7 +17,6 @@ function FilmmakersTable() {
         try {
             const filmmakers = await API.getAllFilmmakers();
             setFilmmakers(filmmakers);
-            console.debug("Fetched filmmakers");
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmakers`, err);
             console.error(`Error - Failed to Fetch Filmmakers: ${err.message}`);

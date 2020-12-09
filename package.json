@@ -29,6 +29,9 @@
       "lit-element",
       "lit-html",
       "lit-html/directives/repeat",
+      "lit-html/directives/unsafe-html",
+      "lit-html/directives/unsafe-svg",
+      "lit-html/directives/until",
       "lodash",
       "popper.js"
     ]

@@ -1,6 +1,6 @@
 <?php
 
-class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
+class   SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
@@ -40,10 +40,11 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsFilmmaker::get_by_id($filmmaker_id = $arr['filmmaker_id'])) throw new Exception("No filmmaker exists with id {$filmmaker_id}");
-
+        $cname = get_called_class();
         if (isset($arr['file'])) {
-            $this->get_file()->update($arr['file']);
+            $loc = $this->get_file();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsFile");
+            $loc->update($arr['file']);
         }
 
         parent::update($arr, $save);

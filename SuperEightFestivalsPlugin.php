@@ -2,6 +2,7 @@
 
 ini_set('max_execution_time', 0);
 
+require_once dirname(__FILE__) . '/helpers/MigrationsHelper.php';
 require_once dirname(__FILE__) . '/helpers/S8FLogger.php';
 require_once dirname(__FILE__) . '/helpers/IOFunctions.php';
 require_once dirname(__FILE__) . '/helpers/SuperEightFestivalsFunctions.php';
@@ -306,6 +307,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
         // ADD API ROUTES
         $this->add_api_route($router, "/rest-api/", "index");
+        // debug
+        $this->add_api_route($router, "/rest-api/migrations/", "migrations");
         // users
         $this->add_api_route($router, "/rest-api/users/", "users");
         $this->add_api_route($router, "/rest-api/users/:user/", "user");

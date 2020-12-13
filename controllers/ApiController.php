@@ -68,6 +68,39 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     // ======================================================================================================================== \\
 
+    public function migrationsAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $migration_name = $request->getParam("migration-name");
+
+            $migration_script_file_path = __DIR__ . "/../migrations/" . $migration_name . "/" . "$migration_name.php";
+            if (!file_exists($migration_script_file_path)) {
+                throw new Exception("Migration file does not exist: {$migration_script_file_path}");
+            }
+
+            $class = "S8F_DB_Migration_" . $migration_name;
+            if (!class_exists($class)) {
+                throw new Exception("No class exists in file: ${migration_script_file_path}");
+            }
+
+            $reflect = new ReflectionClass($class);
+            if ($reflect->isAbstract() || !$reflect->isSubclassOf(S8FDatabaseMigration::class)) {
+                throw new Exception("Class is either abstract or is not subclass of S8FDatabaseMigration");
+            }
+
+            $instance = new $class;
+            $instance->run_migrations();
+
+            $this->_helper->json($this->getJsonResponse("success", "Performed migration $migration_name"));
+        } catch (Throwable $e) {
+            $this->_helper->json($this->getJsonResponse("error", $e->getMessage()));
+        }
+    }
+
+    // ======================================================================================================================== \\
+
     public function contributorsAction()
     {
         $this->authCheck();

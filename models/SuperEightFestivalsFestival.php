@@ -20,22 +20,22 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         );
     }
 
-    protected function beforeDelete()
-    {
-        if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be deleted!");
-        parent::beforeDelete();
-    }
-
-    protected function beforeSave($args)
-    {
-        if (array_key_exists("insert", $args)) {
-            $insert = $args['insert'];
-            if (!$insert) {
-                if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be updated!");
-            }
-        }
-        parent::beforeSave($args);
-    }
+//    protected function beforeDelete()
+//    {
+//        if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be deleted!");
+//        parent::beforeDelete();
+//    }
+//
+//    protected function beforeSave($args)
+//    {
+//        if (array_key_exists("insert", $args)) {
+//            $insert = $args['insert'];
+//            if (!$insert) {
+//                if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be updated!");
+//            }
+//        }
+//        parent::beforeSave($args);
+//    }
 
     protected function afterDelete()
     {

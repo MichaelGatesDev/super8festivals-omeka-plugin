@@ -33,11 +33,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
                 $this->created_by_id = $user->id;
                 $this->modified_at = date('Y-m-d H:i:s');
                 $this->last_modified_by_id = $user->id;
-                logger_log(LogLevel::Debug, "{$user->name} began creating new {$cname}...");
+//                logger_log(LogLevel::Debug, "{$user->name} began creating new {$cname}...");
             } else {
                 $this->modified_at = date('Y-m-d H:i:s');
                 $this->last_modified_by_id = $user->id;
-                logger_log(LogLevel::Debug, "{$user->name} began updating {$cname} (ID: {$this->id})...");
+//                logger_log(LogLevel::Debug, "{$user->name} began updating {$cname} (ID: {$this->id})...");
             }
         }
     }
@@ -65,7 +65,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         parent::beforeDelete();
         $user = current_user();
         $cname = get_called_class();
-        logger_log(LogLevel::Debug, "{$user->name} began deleting {$cname} (ID: {$this->id})...");
+//        logger_log(LogLevel::Debug, "{$user->name} began deleting {$cname} (ID: {$this->id})...");
     }
 
     protected function afterDelete()

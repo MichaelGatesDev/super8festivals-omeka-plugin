@@ -7,7 +7,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 8) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Staff");
                 continue;
             }
 
@@ -53,7 +53,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 5) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Contributors");
                 continue;
             }
 
@@ -88,7 +88,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 4) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Countries");
                 continue;
             }
 
@@ -121,7 +121,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 6) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Cities");
                 continue;
             }
 
@@ -158,7 +158,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 8) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: City Banners");
                 continue;
             }
 
@@ -198,7 +198,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 5) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festivals");
                 continue;
             }
 
@@ -383,7 +383,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 6) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Federation By-Laws");
                 continue;
             }
 
@@ -420,7 +420,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 6) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Federation Magazines");
                 continue;
             }
 
@@ -457,7 +457,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 6) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Federation Newsletters");
                 continue;
             }
 
@@ -494,7 +494,7 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         foreach ($csv_lines as $index => $line) {
             $exploded = explode("|", $line);
             if (count($exploded) != 6) {
-                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Festival Film Catalogs");
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Federation Photos");
                 continue;
             }
 
@@ -526,6 +526,127 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         }
     }
 
+    function migrate_filmmakers($csv_lines)
+    {
+        foreach ($csv_lines as $index => $line) {
+            $exploded = explode("|", $line);
+            if (count($exploded) != 6) {
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Filmmakers");
+                continue;
+            }
+
+            $id = $exploded[0];
+            $festival_id = $exploded[1];
+            $first_name = $exploded[2];
+            $last_name = $exploded[3];
+            $organization_name = $exploded[4];
+            $email = $exploded[5];
+
+            try {
+                $filmmaker = new SuperEightFestivalsFilmmaker();
+                $filmmaker->id = (int) $id;
+
+                $person = new SuperEightFestivalsPerson();
+                $person->first_name = (string) $first_name;
+                $person->last_name = (string) $last_name;
+                $person->organization_name = (string) $organization_name;
+                $person->email = (string) $email;
+                $person->save();
+                $filmmaker->person_id = $person->id;
+
+                $filmmaker->save();
+            } catch (Exception $e) {
+                if ($filmmaker) $filmmaker->delete();
+                if ($person) $person->delete();
+            }
+        }
+    }
+
+    function migrate_filmmaker_photos($csv_lines)
+    {
+        foreach ($csv_lines as $index => $line) {
+            $exploded = explode("|", $line);
+            if (count($exploded) != 7) {
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Filmmaker Photos");
+                continue;
+            }
+
+            $id = $exploded[0];
+            $filmmaker_id = $exploded[1];
+            $contributor_id = $exploded[2];
+            $title = $exploded[3];
+            $description = $exploded[4];
+            $thumbnail_file_name = $exploded[5];
+            $file_name = $exploded[6];
+
+            try {
+                $filmmaker_photo = new SuperEightFestivalsFilmmakerPhoto();
+                $filmmaker_photo->id = (int) $id;
+                $filmmaker_photo->filmmaker_id = (int) $filmmaker_id;
+
+                $file = new SuperEightFestivalsFile();
+                $file->title = (string) $title;
+                $file->description = (string) $description;
+                $file->file_name = (string) $file_name;
+                $file->thumbnail_file_name = (string) $thumbnail_file_name;
+                $file->contributor_id = (int) $contributor_id;
+                $file->save();
+                $filmmaker_photo->file_id = $file->id;
+
+                $filmmaker_photo->save();
+            } catch (Exception $e) {
+                if ($filmmaker_photo) $filmmaker_photo->delete();
+                if ($file) $file->delete();
+            }
+        }
+    }
+
+    function migrate_films($csv_lines)
+    {
+        foreach ($csv_lines as $index => $line) {
+            $exploded = explode("|", $line);
+            if (count($exploded) != 10) {
+                logger_log(LogLevel::Warning, "Malformed line size at line ${index} of: Films");
+                continue;
+            }
+            $id = $exploded[0];
+            $festival_id = $exploded[1];
+            $filmmaker_id = $exploded[2];
+            $contributor_id = $exploded[3];
+            $title = $exploded[4];
+            $description = $exploded[5];
+            $thumbnail_file_name = $exploded[6];
+            $thumbnail_url_web = $exploded[7];
+            $embed_src = $exploded[8];
+            $file_name = $exploded[9];
+
+            try {
+                $filmmaker_film = new SuperEightFestivalsFilmmakerFilm();
+                $filmmaker_film->id = (int) $id;
+                $filmmaker_film->filmmaker_id = (int) $filmmaker_id;
+
+                $embed = new SuperEightFestivalsEmbed();
+                $embed->title = (string) $title;
+                $embed->description = (string) $description;
+                $embed->contributor_id = (int) $contributor_id;
+                $embed->embed = $embed_src;
+                $embed->save();
+                $filmmaker_film->embed_id = $embed->id;
+
+                $filmmaker_film->save();
+
+                $festival_film = new SuperEightFestivalsFestivalFilm();
+                $festival_film->festival_id = $festival_id;
+                $festival_film->filmmaker_film_id = $filmmaker_film->id;
+                $festival_film->save();
+            } catch (Exception $e) {
+                if ($filmmaker_film) $filmmaker_film->delete();
+                if ($embed) $embed->delete();
+                if ($festival_film) $festival_film->delete();
+            }
+        }
+    }
+
     function run_migrations()
     {
         $this->migrate_contributors($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_contributors.csv"));
@@ -542,15 +663,8 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
         $this->migrate_festival_photos($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_festival_photos.csv"));
         $this->migrate_festival_posters($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_festival_posters.csv"));
         $this->migrate_festival_print_media($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_festival_print_medias.csv"));
-
-        /*
-         * TODO
-         *
-         * - festival films (now filmmaker films)
-         *
-         * - filmmakers (needs work, need to re-associate them to festivals?)
-         * - filmmaker films (needs work, can't strip quotes, lines may not match up
-         * - filmmaker photos
-         */
+        $this->migrate_filmmakers($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_filmmakers.csv"));
+        $this->migrate_filmmaker_photos($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_filmmaker_photos.csv"));
+        $this->migrate_films($this->get_csv_lines(__DIR__ . "/csv/superfes_om2_table_om_super_eight_festivals_festival_films.csv"));
     }
 }

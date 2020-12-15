@@ -217,7 +217,6 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
                 $festival->save();
             } catch (Exception $e) {
                 if ($festival) $festival->delete();
-                throw $e;
             }
         }
     }

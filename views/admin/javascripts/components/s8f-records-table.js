@@ -23,11 +23,11 @@ function RecordsTable(
             if (!accessed) {
                 return html`<span>N/A</span>`;
             }
-            let fileAnchorContent = file.file_name;
-            if (file.thumbnail_file_name && file.thumbnail_file_name !== "") {
-                fileAnchorContent = html`<img src="${file.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        `;
+            let fileAnchorContent = accessed.file_name;
+            if (accessed.thumbnail_file_name && accessed.thumbnail_file_name !== "") {
+                fileAnchorContent = html`<img src="${accessed.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        `;
             }
-            return html`<a href=${file.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
+            return html`<a href=${accessed.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
         }
         if (accessor.endsWith("embed")) {
             if (!accessed) {

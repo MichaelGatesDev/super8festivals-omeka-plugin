@@ -189,6 +189,9 @@ function FestivalsTable(element) {
     `;
 }
 
-FestivalsTable.observedAttributes = ["country-id", "city-id"];
+FestivalsTable.observedAttributes = [
+    "country-id",
+    "city-id",
+];
 
 customElements.define("s8f-festivals-table", component(FestivalsTable, { useShadowDOM: false }));

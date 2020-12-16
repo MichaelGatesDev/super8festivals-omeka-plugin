@@ -19,7 +19,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
     <div class="row">
         <div class="col">
             <h2 class="text-capitalize">
-                <?= $city_loc->name; ?>&nbsp;
+                <?= $city_loc->name; ?>
                 <span class="text-muted">(<?= $country_loc->name; ?>)</span>
             </h2>
         </div>

@@ -43,6 +43,13 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         $this->delete_children();
     }
 
+    public function to_array()
+    {
+        $res = parent::to_array();
+        if ($this->get_city()) $res = array_merge($res, ["city" => $this->get_city()->to_array()]);
+        return $res;
+    }
+
     public function delete_children()
     {
         foreach (SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id) as $record) $record->delete();
@@ -128,7 +135,8 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     public function get_title()
     {
-        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->get_city()->name . " uncategorized";
+        $year = $this->year != 0 ? $this->year : "uncategorized";
+        return "{$this->get_city()->get_location()->name} {$year} festival";
     }
 
     // ======================================================================================================================== \\

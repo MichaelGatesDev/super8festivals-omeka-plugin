@@ -18,23 +18,24 @@ function RecordsTable(
     const headerTitles = [...tableColumns, { title: "Actions", accessor: "actions" }].map((tc) => tc.title);
 
     const getCellHtml = (obj, accessor) => {
-        if (accessor === "file") {
-            if (!obj.file) {
+        const accessed = _.get(obj, accessor);
+        if (accessor.endsWith("file")) {
+            if (!accessed) {
                 return html`<span>N/A</span>`;
             }
-            let fileAnchorContent = obj.file.file_name;
-            if (obj.file.thumbnail_file_name && obj.file.thumbnail_file_name !== "") {
-                fileAnchorContent = html`<img src="${obj.file.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        `;
+            let fileAnchorContent = file.file_name;
+            if (file.thumbnail_file_name && file.thumbnail_file_name !== "") {
+                fileAnchorContent = html`<img src="${file.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        `;
             }
-            return html`<a href=${obj.file.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
+            return html`<a href=${file.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
         }
-        if (accessor === "embed") {
-            if (!obj.embed) {
+        if (accessor.endsWith("embed")) {
+            if (!accessed) {
                 return html`<span>N/A</span>`;
             }
-            return html`<div>${unsafeHTML(obj.embed.embed)}</div>`;
+            return html`<div>${unsafeHTML(accessed.embed)}</div>`;
         }
-        if (accessor === "actions") {
+        if (accessor.endsWith("actions")) {
             return html`
                 <div class="btn-group">
                     <button type="button" class="btn btn-info btn-sm" @click=${() => { rowViewFunc(obj); }}>View</button>

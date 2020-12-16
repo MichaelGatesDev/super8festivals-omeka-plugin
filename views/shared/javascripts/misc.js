@@ -18,6 +18,8 @@ export const scrollTo = (elemID) => {
  */
 export const isValidFloat = (input) => (!/^\s*$/.test(input) && !isNaN(input));
 
+export const isEmptyString = (input) => input.replace(/\s/g, "") === "";
+
 export const FormAction = {
     Add: "add",
     Update: "update",

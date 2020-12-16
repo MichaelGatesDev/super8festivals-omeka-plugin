@@ -209,43 +209,19 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             // Route: /countries/[country]/cities/[city]/festivals/
             $this->add_route($router, ":module/countries/:country/cities/:city/festivals/", "admin-country-city-festivals", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/", "admin-country-city-festivals", "single");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/", "admin-country-city-festivals", "single");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/film-catalogs/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/", "admin-country-city-festival-film-catalogs", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/:filmCatalogID/", "admin-country-city-festival-film-catalogs", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/:filmCatalogID/edit/", "admin-country-city-festival-film-catalogs", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/:filmCatalogID/delete/", "admin-country-city-festival-film-catalogs", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/film-catalogs/add/", "admin-country-city-festival-film-catalogs", "add");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/film-catalogs/", "admin-country-city-festival-film-catalogs", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/films/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/", "admin-country-city-festival-films", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/:filmID/", "admin-country-city-festival-films", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/:filmID/edit/", "admin-country-city-festival-films", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/:filmID/delete/", "admin-country-city-festival-films", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/films/add/", "admin-country-city-festival-films", "add");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/films/", "admin-country-city-festival-films", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/memorabilia/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/", "admin-country-city-festival-memorabilia", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/:memorabiliaID/", "admin-country-city-festival-memorabilia", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/:memorabiliaID/edit/", "admin-country-city-festival-memorabilia", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/:memorabiliaID/delete/", "admin-country-city-festival-memorabilia", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/memorabilia/add/", "admin-country-city-festival-memorabilia", "add");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/memorabilia/", "admin-country-city-festival-memorabilia", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/print-media/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/", "admin-country-city-festival-print-media", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/:printMediaID/", "admin-country-city-festival-print-media", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/:printMediaID/edit/", "admin-country-city-festival-print-media", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/:printMediaID/delete/", "admin-country-city-festival-print-media", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/print-media/add/", "admin-country-city-festival-print-media", "add");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/print-media/", "admin-country-city-festival-print-media", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/photos/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/", "admin-country-city-festival-photos", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/:photoID/", "admin-country-city-festival-photos", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/:photoID/edit/", "admin-country-city-festival-photos", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/:photoID/delete/", "admin-country-city-festival-photos", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/photos/add/", "admin-country-city-festival-photos", "add");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/photos/", "admin-country-city-festival-photos", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/posters/
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/", "admin-country-city-festival-posters", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/:posterID/", "admin-country-city-festival-posters", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/:posterID/edit/", "admin-country-city-festival-posters", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/:posterID/delete/", "admin-country-city-festival-posters", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festivalID/posters/add/", "admin-country-city-festival-posters", "add");
+            $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/posters/", "admin-country-city-festival-posters", "index");
 
             // Route: /filmmakers/
             $this->add_route($router, ":module/filmmakers/", "admin-filmmakers", "index");
@@ -290,8 +266,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 //            $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
 //            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
 
-
-
         } else {
 //            $this->add_public_static_route($router, "index", "", "index"); // commented out because the theme should handle the index
             $this->add_static_route($router, "search", "search", "search", false);
@@ -319,6 +293,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/films/:film/", "filmmaker-film");
         $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/photos/", "filmmaker-photos");
         $this->add_api_route($router, "/rest-api/filmmakers/:filmmaker/photos/:photo/", "filmmaker-photo");
+        // films
+        $this->add_api_route($router, "/rest-api/films/", "films");
         // contributors
         $this->add_api_route($router, "/rest-api/contributors/", "contributors");
         $this->add_api_route($router, "/rest-api/contributors/:contributor/", "contributor");
@@ -339,6 +315,16 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/", "country-city");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/", "country-city-festivals");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-festival");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/", "country-city-festival-films");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/:film/", "country-city-festival-film");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/film-catalogs/", "country-city-festival-film-catalogs");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/film-catalogs/:filmCatalogID/", "country-city-festival-film-catalog");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/photos/", "country-city-festival-photos");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/photos/:photoID/", "country-city-festival-photo");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/posters/", "country-city-festival-posters");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/posters/:posterID/", "country-city-festival-poster");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/print-media/", "country-city-festival-print-media");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/print-media/:printMediaID/", "country-city-festival-print-medium");
     }
 
 }

@@ -6,6 +6,7 @@ import API from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function CitiesTable(element) {
@@ -26,7 +27,7 @@ function CitiesTable(element) {
     const fetchCities = async () => {
         try {
             const cities = await API.getCitiesInCountry(element.countryId);
-            setCities(cities);
+            setCities(_.orderBy(cities, ["location.name", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Cities`, err);
             console.error(`Error - Failed to Fetch Cities: ${err.message}`);

@@ -91,8 +91,8 @@ const S8FForm = (element) => {
                         name=${elem.name}
                         .value=${elem.value}
                     >
-                        ${repeat(elem.options, option => (opt) => html`
-                            <option value=${opt.value} .selected=${option.selected}>${opt.label}</option>
+                        ${repeat(elem.options, (opt) => html`
+                            <option value=${opt.value} .selected=${opt.selected}>${opt.label}</option>
                         `)}
                     </select>
                 `;

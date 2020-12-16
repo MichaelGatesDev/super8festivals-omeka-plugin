@@ -40,7 +40,7 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
 
     public function update($arr, $save = true)
     {
-        if (!SuperEightFestivalsCityBanner::get_by_id($city_id = $arr['city_id'])) throw new Exception("No city exists with id {$city_id}");
+        if (!SuperEightFestivalsCity::get_by_id($city_id = $arr['city_id'])) throw new Exception("No city exists with id {$city_id}");
         parent::update($arr, $save);
     }
 

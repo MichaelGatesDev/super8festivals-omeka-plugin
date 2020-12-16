@@ -14,16 +14,6 @@ $posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festi
 
 <?= $this->partial("__partials/header.php", ["title" => "Festival: {$festival->id}"]); ?>
 
-<style>
-    iframe {
-        width: 100%;
-    }
-
-    .container > .row:not(:first-child):not(:nth-child(2)) {
-        margin: 3em 0;
-    }
-</style>
-
 <section class="container">
 
     <?= $this->partial("__partials/flash.php"); ?>
@@ -38,9 +28,25 @@ $posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festi
         <div class="col">
             <h2 class="text-capitalize">
                 <?= $festival->get_title(); ?>
-                <a class="btn btn-primary" href='<?= $root_url; ?>/edit'>Edit</a>
-                <a class="btn btn-danger" href='<?= $root_url; ?>/delete'>Delete</a>
             </h2>
+        </div>
+    </div>
+
+    <!-- S8F Alerts -->
+    <div class="row">
+        <div class="col">
+            <s8f-alerts-area id="alerts"></s8f-alerts-area>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <s8f-festival-films-table
+                country-id="<?= $country->id; ?>"
+                city-id="<?= $city->id; ?>"
+                festival-id="<?= $festival->id; ?>"
+            >
+            </s8f-festival-films-table>
         </div>
     </div>
 
@@ -61,5 +67,7 @@ $posters = SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $festi
     ?>
 
 </section>
+
+<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festival-films-table.js'></script>
 
 <?= $this->partial("__partials/footer.php") ?>

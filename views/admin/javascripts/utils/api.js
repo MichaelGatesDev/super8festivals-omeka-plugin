@@ -5,14 +5,14 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker objects.
+     * @returns {Promise<* | void>}
      */
     static async getAllFilmmakers() {
         return Rest.get("/rest-api/filmmakers/");
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is a filmmaker object.
+     * @returns {Promise<* | void>}
      */
     static async getFilmmaker(filmmakerID) {
         return Rest.get(`/rest-api/filmmakers/${filmmakerID}/`);
@@ -20,8 +20,8 @@ export default class API {
 
     /**
      * Creates a new filmmaker object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created filmmaker object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addFilmmaker(formData) {
         return Rest.post("/rest-api/filmmakers/", formData);
@@ -29,8 +29,8 @@ export default class API {
 
     /**
      * Updates a filmmaker object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateFilmmaker(formData) {
         return Rest.post(`/rest-api/filmmakers/${formData.get("id")}/`, formData);
@@ -39,7 +39,7 @@ export default class API {
     /**
      * Deletes a filmmaker object from the database.
      * @param filmmakerID - The ID of the filmmaker to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted filmmaker object.
+     * @returns {Promise<* | void>}
      */
     static async deleteFilmmaker(filmmakerID) {
         return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/`);
@@ -47,7 +47,7 @@ export default class API {
 
     /**
      * @param filmmakerID - The ID of the filmmaker.
-     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker film objects.
+     * @returns {Promise<* | void>}
      */
     static async getAllFilmmakerFilms(filmmakerID) {
         return Rest.get(`/rest-api/filmmakers/${filmmakerID}/films/`);
@@ -56,7 +56,7 @@ export default class API {
     /**
      * @param filmmakerID - The ID of the filmmaker.
      * @param filmmakerFilmID - The ID of the filmmaker film to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is a filmmaker film object.
+     * @returns {Promise<* | void>}
      */
     static async getFilmmakerFilm(filmmakerID, filmmakerFilmID) {
         return Rest.get(`/rest-api/filmmakers/${filmmakerID}/films/${filmmakerFilmID}/`);
@@ -65,8 +65,8 @@ export default class API {
     /**
      * Creates a new filmmaker film object in the database based on info from the passed object.
      * @param filmmakerID - The ID of the filmmaker.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created filmmaker film object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addFilmmakerFilm(filmmakerID, formData) {
         return Rest.post(`/rest-api/filmmakers/${filmmakerID}/films/`, formData);
@@ -74,8 +74,8 @@ export default class API {
 
     /**
      * Updates a filmmaker film object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker film object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateFilmmakerFilm(filmmakerID, formData) {
         return Rest.post(`/rest-api/filmmakers/${filmmakerID}/films/${formData.get("id")}/`, formData);
@@ -85,21 +85,21 @@ export default class API {
      * Deletes a filmmaker film object from the database.
      * @param filmmakerID - The ID of the filmmaker.
      * @param filmmakerFilmID - The ID of the filmmaker film to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted filmmaker film object.
+     * @returns {Promise<* | void>}
      */
     static async deleteFilmmakerFilm(filmmakerID, filmmakerFilmID) {
         return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/films/${filmmakerFilmID}/`);
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of filmmaker photo objects.
+     * @returns {Promise<* | void>}
      */
     static async getAllFilmmakerPhotos(filmmakerID) {
         return Rest.get(`/rest-api/filmmakers/${filmmakerID}/photos/`);
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is a filmmaker photo object.
+     * @returns {Promise<* | void>}
      */
     static async getFilmmakerPhoto(filmmakerID, filmmakerPhotoID) {
         return Rest.get(`/rest-api/filmmakers/${filmmakerID}/photos/${filmmakerPhotoID}/`);
@@ -108,8 +108,8 @@ export default class API {
     /**
      * Creates a new filmmaker photo object in the database based on info from the passed object.
      * @param filmmakerID - The ID of the filmmaker.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created filmmaker photo object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addFilmmakerPhoto(filmmakerID, formData) {
         return Rest.post(`/rest-api/filmmakers/${filmmakerID}/photos/`, formData);
@@ -117,8 +117,8 @@ export default class API {
 
     /**
      * Updates a filmmaker photo object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated filmmaker photo object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateFilmmakerPhoto(filmmakerID, formData) {
         return Rest.post(`/rest-api/filmmakers/${filmmakerID}/photos/${formData.get("id")}/`, formData);
@@ -128,7 +128,7 @@ export default class API {
      * Deletes a filmmaker photo object from the database.
      * @param filmmakerID - The ID of the filmmaker.
      * @param filmmakerPhotoID - The ID of the filmmaker photo to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted filmmaker photo object.
+     * @returns {Promise<* | void>}
      */
     static async deleteFilmmakerPhoto(filmmakerID, filmmakerPhotoID) {
         return Rest.delete(`/rest-api/filmmakers/${filmmakerID}/photos/${filmmakerPhotoID}/`);
@@ -137,14 +137,14 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of contributor objects.
+     * @returns {Promise<* | void>}
      */
     static async getAllContributors() {
         return Rest.get("/rest-api/contributors/");
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is a contributor object.
+     * @returns {Promise<* | void>}
      */
     static async getContributor(contributorID) {
         return Rest.get(`/rest-api/contributors/${contributorID}/`);
@@ -152,8 +152,8 @@ export default class API {
 
     /**
      * Creates a new contributor object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created contributor object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addContributor(formData) {
         return Rest.post("/rest-api/contributors/", formData);
@@ -161,8 +161,8 @@ export default class API {
 
     /**
      * Updates a contributor object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated contributor object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateContributor(formData) {
         return Rest.post(`/rest-api/contributors/${formData.get("id")}/`, formData);
@@ -171,7 +171,7 @@ export default class API {
     /**
      * Deletes a contributor object from the database.
      * @param contributorID - The ID of the contributor to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted contributor object.
+     * @returns {Promise<* | void>}
      */
     static async deleteContributor(contributorID) {
         return Rest.delete(`/rest-api/contributors/${contributorID}/`);
@@ -180,14 +180,14 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of staff objects.
+     * @returns {Promise<* | void>}
      */
     static async getAllStaff() {
         return Rest.get("/rest-api/staff/");
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is a staff object.
+     * @returns {Promise<* | void>}
      */
     static async getStaff(staffID) {
         return Rest.get(`/rest-api/staff/${staffID}/`);
@@ -195,8 +195,8 @@ export default class API {
 
     /**
      * Creates a new staff object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created staff object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addStaff(formData) {
         return Rest.post("/rest-api/staff/", formData);
@@ -204,8 +204,8 @@ export default class API {
 
     /**
      * Updates a staff object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated staff object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateStaff(formData) {
         return Rest.post(`/rest-api/staff/${formData.get("id")}/`, formData);
@@ -214,7 +214,7 @@ export default class API {
     /**
      * Deletes a staff object from the database.
      * @param staffID - The ID of the staff to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted staff object.
+     * @returns {Promise<* | void>}
      */
     static async deleteStaff(staffID) {
         return Rest.delete(`/rest-api/staff/${staffID}/`);
@@ -223,14 +223,14 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of country objects.
+     * @returns {Promise<* | void>}
      */
     static async getCountries() {
         return Rest.get("/rest-api/countries/");
     }
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is a country object.
+     * @returns {Promise<* | void>}
      */
     static async getCountry(countryID) {
         return Rest.get(`/rest-api/countries/${countryID}/`);
@@ -238,8 +238,8 @@ export default class API {
 
     /**
      * Creates a new country object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the created country object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addCountry(formData) {
         return Rest.post("/rest-api/countries/", formData);
@@ -247,8 +247,8 @@ export default class API {
 
     /**
      * Updates a country object in the database based on info from the passed object.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated country object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateCountry(formData) {
         return Rest.post(`/rest-api/countries/${formData.get("id")}/`, formData);
@@ -257,7 +257,7 @@ export default class API {
     /**
      * Deletes a country object from the database.
      * @param {number} countryID - The ID of the country to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted country object.
+     * @returns {Promise<* | void>}
      */
     static async deleteCountry(countryID) {
         return Rest.delete(`/rest-api/countries/${countryID}/`);
@@ -266,7 +266,7 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of all city objects in the database.
+     * @returns {Promise<* | void>}
      */
     static async getCities() {
         return Rest.get("/rest-api/cities/");
@@ -274,7 +274,7 @@ export default class API {
 
     /**
      * @param {number} countryID - The ID of the country to fetch the cities from.
-     * @returns {Promise<* | void>} a promise, whose success result is an array of city objects for the specified country.
+     * @returns {Promise<* | void>}
      */
     static async getCitiesInCountry(countryID) {
         return Rest.get(`/rest-api/countries/${countryID}/cities/`);
@@ -283,7 +283,7 @@ export default class API {
     /**
      * @param {number} countryID - The ID of the country to fetch the city from.
      * @param {number} cityID - The ID of the city.
-     * @returns {Promise<* | void>} a promise, whose success result is a city object for the specified country ID and city ID.
+     * @returns {Promise<* | void>}
      */
     static async getCityInCountry(countryID, cityID) {
         return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}/`);
@@ -291,8 +291,8 @@ export default class API {
 
     /**
      * @param {number} countryID - The ID of the country to fetch the city from.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the added city object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async addCityToCountry(countryID, formData) {
         return Rest.post(`/rest-api/countries/${countryID}/cities/`, formData);
@@ -300,8 +300,8 @@ export default class API {
 
     /**
      * @param {number} countryID - The ID of the country to fetch the city from.
-     * @param formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated city object.
+     * @param formData
+     * @returns {Promise<* | void>}
      */
     static async updateCityInCountry(countryID, formData) {
         return Rest.post(`/rest-api/countries/${countryID}/cities/${formData.get("id")}/`, formData);
@@ -311,7 +311,7 @@ export default class API {
      * Deletes a city object from the database.
      * @param {number} countryID - The ID of the country to delete.
      * @param {number} cityID - The ID of the city to delete.
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted city object.
+     * @returns {Promise<* | void>}
      */
     static async deleteCityFromCountry(countryID, cityID) {
         return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}/`);
@@ -320,7 +320,7 @@ export default class API {
     // ===================================================================================================================================================== \\
 
     /**
-     * @returns {Promise<* | void>} a promise, whose success result is an array of all city objects in the database.
+     * @returns {Promise<* | void>}
      */
     static async getFestivals() {
         return Rest.get("/rest-api/festivals/");
@@ -329,7 +329,7 @@ export default class API {
     /**
      * @param {number} countryID - The ID of the country the city exists in
      * @param {number} cityID - The ID of the city to fetch the festivals from.
-     * @returns {Promise<* | void>} a promise, whose success result is an array of city objects for the specified country.
+     * @returns {Promise<* | void>}
      */
     static async getFestivalsInCity(countryID, cityID) {
         return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/`);
@@ -338,8 +338,8 @@ export default class API {
     /**
      * @param {number} countryID - The ID of the country the city exists in
      * @param {number} cityID - The ID of the city to fetch the festival from.
-     * @param {FormData} formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the added festival object.
+     * @param {FormData} formData
+     * @returns {Promise<* | void>}
      */
     static async addFestivalToCity(countryID, cityID, formData) {
         return Rest.post(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/`, formData);
@@ -348,8 +348,8 @@ export default class API {
     /**
      * @param {number} countryID - The ID of the country the city exists in
      * @param {number} cityID - The ID of the city to fetch the festival from.
-     * @param {FormData} formData - FormData object
-     * @returns {Promise<* | void>} a promise, whose success result is the updated festival object.
+     * @param {FormData} formData
+     * @returns {Promise<* | void>}
      */
     static async updateFestivalInCity(countryID, cityID, formData) {
         return Rest.post(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${formData.get("id")}/`, formData);
@@ -359,10 +359,63 @@ export default class API {
      * @param {number} countryID - The ID of the country the city exists in
      * @param {number} cityID - The ID of the city to fetch the festival from.
      * @param festivalID - The ID of the festival to delete
-     * @returns {Promise<* | void>} a promise, whose success result is the deleted festival object.
+     * @returns {Promise<* | void>}
      */
     static async deleteFestivalFromCity(countryID, cityID, festivalID) {
         return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${festivalID}/`);
+    }
+
+    // ===================================================================================================================================================== \\
+
+    /**
+     * @returns {Promise<* | void>}
+     */
+    static async getAllFilms() {
+        return Rest.get(`/rest-api/films/`);
+    }
+
+
+    /**
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city the festival exists in
+     * @param {number} festivalID - The ID of the festival the films exist in
+     * @returns {Promise<* | void>}
+     */
+    static async getFilmsForFestival(countryID, cityID, festivalID) {
+        return Rest.get(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${festivalID}/films/`);
+    }
+
+    /**
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city the festival exists in
+     * @param {number} festivalID - The ID of the festival the films exist in
+     * @param {FormData} formData
+     * @returns {Promise<* | void>}
+     */
+    static async addFilmToFestival(countryID, cityID, festivalID, formData) {
+        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${festivalID}/films/`, formData);
+    }
+
+    /**
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city the festival exists in
+     * @param {number} festivalID - The ID of the festival the films exist in
+     * @param {FormData} formData
+     * @returns {Promise<* | void>}
+     */
+    static async updateFilmForFestival(countryID, cityID, festivalID, formData) {
+        return Rest.post(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${festivalID}/films/${formData.get("id")}/`, formData);
+    }
+
+    /**
+     * @param {number} countryID - The ID of the country the city exists in
+     * @param {number} cityID - The ID of the city the festival exists in
+     * @param {number} festivalID - The ID of the festival the films exist in
+     * @param filmID - The ID of the film to delete
+     * @returns {Promise<* | void>}
+     */
+    static async deleteFilmFromFestival(countryID, cityID, festivalID, filmID) {
+        return Rest.delete(`/rest-api/countries/${countryID}/cities/${cityID}/festivals/${festivalID}/films/${filmID}`);
     }
 
     // ===================================================================================================================================================== \\

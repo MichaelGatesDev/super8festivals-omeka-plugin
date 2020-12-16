@@ -1,13 +1,11 @@
 <?php
-echo head(array(
-    'title' => "Federation"
-));
-
 $bylaws = SuperEightFestivalsFederationBylaw::get_all();
 $magazines = SuperEightFestivalsFederationMagazine::get_all();
 $newsletters = SuperEightFestivalsFederationNewsletter::get_all();
 $photos = SuperEightFestivalsFederationPhoto::get_all();
 ?>
+
+<?= $this->partial("__partials/header.php", ["title" => "Federation"]); ?>
 
 <section class="container">
 
@@ -209,5 +207,4 @@ $photos = SuperEightFestivalsFederationPhoto::get_all();
 
 </section>
 
-<?php echo foot(); ?>
-
+<?= $this->partial("__partials/footer.php") ?>

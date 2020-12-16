@@ -15,6 +15,6 @@ class SuperEightFestivals_AdminCountryCityFestivalsController extends Omeka_Cont
         $request = $this->getRequest();
         $this->view->country = $country = get_request_param_country($request);
         $this->view->city = $city = get_request_param_city($request);
-        $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festivalID");
+        $this->view->festival = $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
     }
 }

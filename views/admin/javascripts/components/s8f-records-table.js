@@ -1,4 +1,4 @@
-import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
 import { unsafeHTML } from "../../../shared/javascripts/vendor/lit-html/directives/unsafe-html.js";
 import { component } from "../../../shared/javascripts/vendor/haunted.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
@@ -33,12 +33,15 @@ function RecordsTable(
             if (!accessed) {
                 return html`<span>N/A</span>`;
             }
-            return html`<div>${unsafeHTML(accessed.embed)}</div>`;
+            return html`
+                <div>${unsafeHTML(accessed.embed)}</div>`;
         }
         if (accessor.endsWith("actions")) {
             return html`
                 <div class="btn-group">
-                    <button type="button" class="btn btn-info btn-sm" @click=${() => { rowViewFunc(obj); }}>View</button>
+                    ${rowViewFunc ? html`
+                        <button type="button" class="btn btn-info btn-sm" @click=${() => { rowViewFunc(obj); }}>View</button>
+                    ` : nothing}
                     <button type="button" class="btn btn-primary btn-sm" @click=${() => { rowEditFunc(obj); }}>Edit</button>
                     <button type="button" class="btn btn-danger btn-sm" @click=${() => { rowDeleteFunc(obj); }}>Delete</button>
                 </div>

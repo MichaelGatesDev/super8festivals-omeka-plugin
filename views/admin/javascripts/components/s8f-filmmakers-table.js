@@ -5,7 +5,7 @@ import Alerts from "../utils/alerts.js";
 import API from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
-import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 
 
 function FilmmakersTable() {
@@ -72,18 +72,13 @@ function FilmmakersTable() {
     };
 
     const validateForm = (formData) => {
-        // const first_name = formData.get("first_name");
-        // if (first_name.replace(/\s/g, "") === "") {
-        //     return { input_name: "name", message: "First Name can not be blank!" };
-        // }
-        // const last_name = formData.get("last_name");
-        // if (last_name.replace(/\s/g, "") === "") {
-        //     return { input_name: "name", message: "Last Name can not be blank!" };
-        // }
-        // const email = formData.get("email");
-        // if (email.replace(/\s/g, "") === "") {
-        //     return { input_name: "name", message: "Email can not be blank!" };
-        // }
+        const first_name = formData.get("first_name");
+        const last_name = formData.get("last_name");
+        const organization_name = formData.get("organization_name");
+        const email = formData.get("email");
+        if (isEmptyString(first_name) && isEmptyString(last_name) && isEmptyString(organization_name) && isEmptyString(email)) {
+            return { input_name: "name", message: "Either a name or email is required!" };
+        }
         return null;
     };
 

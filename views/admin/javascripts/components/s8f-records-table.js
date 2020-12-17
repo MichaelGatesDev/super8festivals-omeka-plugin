@@ -51,7 +51,7 @@ function RecordsTable(
         return _.get(obj, accessor);
     };
 
-    const rows = tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor)));
+    const rowsTemplate = () => tableRows  ? tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor))) : [html`Loading...`];
 
     return html`
         <style>
@@ -63,7 +63,7 @@ function RecordsTable(
         <s8f-table
             id=${element.id}
             .headers=${headerTitles}
-            .rows=${rows}
+            .rows=${rowsTemplate()}
         ></s8f-table>
     `;
 }

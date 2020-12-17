@@ -45,7 +45,9 @@ function RecordsTable(
                     ${rowEditFunc ? html`
                         <button type="button" class="btn btn-primary btn-sm" @click=${() => { rowEditFunc(obj); }}>Edit</button>
                     ` : nothing}
-                    <button type="button" class="btn btn-danger btn-sm" @click=${() => { rowDeleteFunc(obj); }}>Delete</button>
+                    ${rowDeleteFunc ? html`
+                        <button type="button" class="btn btn-danger btn-sm" @click=${() => { rowDeleteFunc(obj); }}>Delete</button>
+                    ` : nothing}
                 </div>
             `;
         }

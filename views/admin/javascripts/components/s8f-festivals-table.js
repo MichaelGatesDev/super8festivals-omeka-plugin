@@ -2,7 +2,7 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 
@@ -16,7 +16,10 @@ function FestivalsTable(element) {
 
     const fetchCountry = async () => {
         try {
-            const country = await API.getCountry(element.countryId);
+            const country = await API.performRequest(API.constructURL([
+                "countries",
+                element.countryId,
+            ]), HTTPRequestMethod.GET);
             setCountry(country);
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Country`, err);
@@ -26,7 +29,12 @@ function FestivalsTable(element) {
 
     const fetchCity = async () => {
         try {
-            const city = await API.getCityInCountry(element.countryId, element.cityId);
+            const city = await API.performRequest(API.constructURL([
+                "countries",
+                element.countryId,
+                "cities",
+                element.cityId,
+            ]), HTTPRequestMethod.GET);
             setCity(city);
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch City`, err);
@@ -36,7 +44,13 @@ function FestivalsTable(element) {
 
     const fetchFestivals = async () => {
         try {
-            const festivals = await API.getFestivalsInCity(element.countryId, element.cityId);
+            const festivals = await API.performRequest(API.constructURL([
+                "countries",
+                element.countryId,
+                "cities",
+                element.cityId,
+                "festivals",
+            ]), HTTPRequestMethod.GET);
             setFestivals(festivals);
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Festivals`, err);

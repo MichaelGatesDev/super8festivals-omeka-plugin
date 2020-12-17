@@ -2,10 +2,11 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FilmmakersTable() {
@@ -15,8 +16,8 @@ function FilmmakersTable() {
 
     const fetchFilmmakers = async () => {
         try {
-            const filmmakers = await API.getAllFilmmakers();
-            setFilmmakers(filmmakers);
+            const filmmakers = await API.performRequest(API.constructURL(["filmmakers"]), HTTPRequestMethod.GET);
+            setFilmmakers(_.orderBy(filmmakers, ["person.first_name", "person.last_name"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmakers`, err);
             console.error(`Error - Failed to Fetch Filmmakers: ${err.message}`);
@@ -31,13 +32,13 @@ function FilmmakersTable() {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addFilmmaker(formData);
+                promise = API.performRequest(API.constructURL(["filmmakers"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateFilmmaker(formData);
+                promise = API.performRequest(API.constructURL(["filmmakers", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteFilmmaker(formData.get("id"));
+                promise = API.performRequest(API.constructURL(["filmmakers", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

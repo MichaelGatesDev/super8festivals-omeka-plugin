@@ -2,7 +2,7 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
@@ -16,7 +16,7 @@ function CountriesTable() {
 
     const fetchCountries = async () => {
         try {
-            const countries = await API.getCountries();
+            const countries = await API.performRequest(API.constructURL(["countries"]), HTTPRequestMethod.GET);
             setCountries(_.orderBy(countries, ["location.name", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Countries`, err);
@@ -32,13 +32,13 @@ function CountriesTable() {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addCountry(formData);
+                promise = API.performRequest(API.constructURL(["countries"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateCountry(formData);
+                promise = API.performRequest(API.constructURL(["countries", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteCountry(formData.get("id"));
+                promise = API.performRequest(API.constructURL(["countries", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

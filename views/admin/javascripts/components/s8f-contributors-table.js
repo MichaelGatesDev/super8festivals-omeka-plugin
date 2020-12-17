@@ -2,9 +2,10 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function ContributorsTable() {
@@ -15,8 +16,8 @@ function ContributorsTable() {
 
     const fetchContributors = async () => {
         try {
-            const contributors = await API.getAllContributors();
-            setContributors(contributors);
+            const contributors = await API.performRequest(API.constructURL(["contributors"]), HTTPRequestMethod.GET);
+            setContributors(_.orderBy(contributors, ["person.first_name", "person.last_name"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Contributors`, err);
             console.error(`Error - Failed to Fetch Contributors: ${err.message}`);
@@ -31,13 +32,13 @@ function ContributorsTable() {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addContributor(formData);
+                promise = API.performRequest(API.constructURL(["contributors"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateContributor(formData);
+                promise = API.performRequest(API.constructURL(["contributors", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteContributor(formData.get("id"));
+                promise = API.performRequest(API.constructURL(["contributors", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

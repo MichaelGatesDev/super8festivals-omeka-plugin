@@ -2,7 +2,7 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
@@ -17,7 +17,7 @@ function CitiesTable(element) {
 
     const fetchCountry = async () => {
         try {
-            const country = await API.getCountry(element.countryId);
+            const country = await API.performRequest(API.constructURL(["countries", element.countryId]), HTTPRequestMethod.GET);
             setCountry(country);
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Country`, err);
@@ -26,7 +26,7 @@ function CitiesTable(element) {
     };
     const fetchCities = async () => {
         try {
-            const cities = await API.getCitiesInCountry(element.countryId);
+            const cities = await API.performRequest(API.constructURL(["countries", element.countryId, "cities"]), HTTPRequestMethod.GET);
             setCities(_.orderBy(cities, ["location.name", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Cities`, err);
@@ -42,13 +42,13 @@ function CitiesTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addCityToCountry(element.countryId, formData);
+                promise = API.performRequest(API.constructURL(["countries", element.countryId, "cities"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateCityInCountry(element.countryId, formData);
+                promise = API.performRequest(API.constructURL(["countries", element.countryId, "cities", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteCityFromCountry(element.countryId, formData.get("id"));
+                promise = API.performRequest(API.constructURL(["countries", element.countryId, "cities", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

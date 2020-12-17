@@ -5,6 +5,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FederationPhotosTable(element) {
@@ -14,8 +15,8 @@ function FederationPhotosTable(element) {
 
     const fetchPhotos = async () => {
         try {
-            const photos = await API.submitRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
-            setPhotos(photos);
+            const photos = await API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
+            setPhotos(_.orderBy(photos, ["file.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Photos`, err);
             console.error(`Error - Failed to Fetch Photos: ${err.message}`);
@@ -30,13 +31,13 @@ function FederationPhotosTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.submitRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.submitRequest(API.constructURL(["federation", "photos", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "photos", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.submitRequest(API.constructURL(["federation", "photos", formData.get("id")]), HTTPRequestMethod.DELETE);
+                promise = API.performRequest(API.constructURL(["federation", "photos", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

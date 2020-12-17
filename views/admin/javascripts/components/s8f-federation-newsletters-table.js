@@ -5,6 +5,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FederationNewslettersTable(element) {
@@ -14,8 +15,8 @@ function FederationNewslettersTable(element) {
 
     const fetchNewsletters = async () => {
         try {
-            const newsletters = await API.submitRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
-            setNewsletters(newsletters);
+            const newsletters = await API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
+            setNewsletters(_.orderBy(newsletters, ["file.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Newsletters`, err);
             console.error(`Error - Failed to Fetch Newsletters: ${err.message}`);
@@ -30,13 +31,13 @@ function FederationNewslettersTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.submitRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.submitRequest(API.constructURL(["federation", "newsletters", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "newsletters", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.submitRequest(API.constructURL(["federation", "newsletters", formData.get("id")]), HTTPRequestMethod.DELETE);
+                promise = API.performRequest(API.constructURL(["federation", "newsletters", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

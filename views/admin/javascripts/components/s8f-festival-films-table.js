@@ -3,7 +3,7 @@ import { component, useEffect, useState } from "../../../shared/javascripts/vend
 import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 
@@ -16,7 +16,15 @@ function FestivalFilmsTable(element) {
 
     const fetchFilms = async () => {
         try {
-            const films = await API.getFilmsForFestival(element.countryId, element.cityId, element.festivalId);
+            const films = await API.performRequest(API.constructURL([
+                "countries",
+                element.countryId,
+                "cities",
+                element.cityId,
+                "festivals",
+                element.festivalId,
+                "films",
+            ]), HTTPRequestMethod.GET);
             setFilms(films);
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Festival Films`, err);
@@ -26,7 +34,9 @@ function FestivalFilmsTable(element) {
 
     const fetchAllFilms = async () => {
         try {
-            const films = await API.getAllFilms();
+            const films = await API.performRequest(API.constructURL([
+                "films",
+            ]), HTTPRequestMethod.GET);
             setAllFilms(_.orderBy(films, ["filmmaker.person.first_name", "embed.title"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmaker Films`, err);
@@ -43,13 +53,39 @@ function FestivalFilmsTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addFilmToFestival(element.countryId, element.cityId, element.festivalId, formData);
+                promise = API.performRequest(API.constructURL([
+                    "countries",
+                    element.countryId,
+                    "cities",
+                    element.cityId,
+                    "festivals",
+                    element.festivalId,
+                    "films",
+                ]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateFilmForFestival(element.countryId, element.cityId, element.festivalId, formData);
+                promise = API.performRequest(API.constructURL([
+                    "countries",
+                    element.countryId,
+                    "cities",
+                    element.cityId,
+                    "festivals",
+                    element.festivalId,
+                    "films",
+                    formData.get("id"),
+                ]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteFilmFromFestival(element.countryId, element.cityId, element.festivalId, formData.get("id"));
+                promise = API.performRequest(API.constructURL([
+                    "countries",
+                    element.countryId,
+                    "cities",
+                    element.cityId,
+                    "festivals",
+                    element.festivalId,
+                    "films",
+                    formData.get("id"),
+                ]), HTTPRequestMethod.DELETE);
                 break;
         }
 

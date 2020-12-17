@@ -5,6 +5,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FederationMagazinesTable(element) {
@@ -14,8 +15,8 @@ function FederationMagazinesTable(element) {
 
     const fetchMagazines = async () => {
         try {
-            const magazines = await API.submitRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.GET);
-            setMagazines(magazines);
+            const magazines = await API.performRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.GET);
+            setMagazines(_.orderBy(magazines, ["file.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Magazines`, err);
             console.error(`Error - Failed to Fetch Magazines: ${err.message}`);
@@ -30,13 +31,13 @@ function FederationMagazinesTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.submitRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.submitRequest(API.constructURL(["federation", "magazines", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "magazines", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.submitRequest(API.constructURL(["federation", "magazines", formData.get("id")]), HTTPRequestMethod.DELETE);
+                promise = API.performRequest(API.constructURL(["federation", "magazines", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

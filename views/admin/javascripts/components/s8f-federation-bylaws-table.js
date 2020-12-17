@@ -4,7 +4,8 @@ import { component, useEffect, useState } from "../../../shared/javascripts/vend
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FederationBylawsTable(element) {
@@ -14,8 +15,8 @@ function FederationBylawsTable(element) {
 
     const fetchBylaws = async () => {
         try {
-            const bylaws = await API.submitRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
-            setBylaws(bylaws);
+            const bylaws = await API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
+            setBylaws(_.orderBy(bylaws, ["file.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Bylaws`, err);
             console.error(`Error - Failed to Fetch Bylaws: ${err.message}`);
@@ -30,13 +31,13 @@ function FederationBylawsTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.submitRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.submitRequest(API.constructURL(["federation", "bylaws", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                promise = API.performRequest(API.constructURL(["federation", "bylaws", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.submitRequest(API.constructURL(["federation", "bylaws", formData.get("id")]), HTTPRequestMethod.DELETE);
+                promise = API.performRequest(API.constructURL(["federation", "bylaws", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

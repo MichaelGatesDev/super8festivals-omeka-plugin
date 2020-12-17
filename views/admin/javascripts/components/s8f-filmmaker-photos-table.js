@@ -2,9 +2,10 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FilmmakerPhotosTable(element) {
@@ -14,8 +15,8 @@ function FilmmakerPhotosTable(element) {
 
     const fetchPhotos = async () => {
         try {
-            const photos = await API.getAllFilmmakerPhotos(element.filmmakerId);
-            setPhotos(photos);
+            const photos = await API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "photos"]), HTTPRequestMethod.GET);
+            setPhotos(_.orderBy(photos, ["file.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Photos`, err);
             console.error(`Error - Failed to Fetch Photos: ${err.message}`);
@@ -30,13 +31,13 @@ function FilmmakerPhotosTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addFilmmakerPhoto(element.filmmakerId, formData);
+                promise = API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "photos"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateFilmmakerPhoto(element.filmmakerId, formData);
+                promise = API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "photos", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteFilmmakerPhoto(element.filmmakerId, formData.get("id"));
+                promise = API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "photos", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

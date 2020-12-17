@@ -2,10 +2,11 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 function StaffTable() {
     const [staff, setStaff] = useState([]);
@@ -14,8 +15,8 @@ function StaffTable() {
 
     const fetchStaff = async () => {
         try {
-            const staffs = await API.getAllStaff();
-            setStaff(staffs);
+            const staffs = await API.performRequest(API.constructURL(["staff"]), HTTPRequestMethod.GET);
+            setStaff(_.orderBy(staffs, ["person.first_name", "person.last_name"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Staffs`, err);
             console.error(`Error - Failed to Fetch Staffs: ${err.message}`);
@@ -30,13 +31,13 @@ function StaffTable() {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addStaff(formData);
+                promise = API.performRequest(API.constructURL(["staff"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateStaff(formData);
+                promise = API.performRequest(API.constructURL(["staff", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteStaff(formData.get("id"));
+                promise = API.performRequest(API.constructURL(["staff", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 

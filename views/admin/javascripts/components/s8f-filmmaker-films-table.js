@@ -2,9 +2,10 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FilmmakerFilmsTable(element) {
@@ -14,8 +15,8 @@ function FilmmakerFilmsTable(element) {
 
     const fetchFilms = async () => {
         try {
-            const films = await API.getAllFilmmakerFilms(element.filmmakerId);
-            setFilms(films);
+            const films = await API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "films"]), HTTPRequestMethod.GET);
+            setFilms(_.orderBy(films, ["embed.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Films`, err);
             console.error(`Error - Failed to Fetch Films: ${err.message}`);
@@ -30,13 +31,13 @@ function FilmmakerFilmsTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addFilmmakerFilm(element.filmmakerId, formData);
+                promise = API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "films"]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateFilmmakerFilm(element.filmmakerId, formData);
+                promise = API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "films", formData.get("id")]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteFilmmakerFilm(element.filmmakerId, formData.get("id"));
+                promise = API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "films", formData.get("id")]), HTTPRequestMethod.DELETE);
                 break;
         }
 
@@ -71,10 +72,10 @@ function FilmmakerFilmsTable(element) {
     };
 
     const validateForm = (formData) => {
-        // const first_name = formData.get("first_name");
-        // if (first_name.replace(/\s/g, "") === "") {
-        //     return { input_name: "name", message: "First Name can not be blank!" };
-        // }
+        const embed = formData.get("embed");
+        if (isEmptyString(embed)) {
+            return { input_name: "embed", message: "Embed can not be blank!" };
+        }
         return null;
     };
 

@@ -101,6 +101,288 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     // ======================================================================================================================== \\
 
+    public function federationNewslettersAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+
+            if ($request->isGet()) {
+                $newsletters = [];
+                foreach (SuperEightFestivalsFederationNewsletter::get_all() as $newsletter) {
+                    array_push($newsletters, $newsletter->to_array());
+                }
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation newsletters", $newsletters));
+            } else if ($request->isPost()) {
+
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $newsletter = new SuperEightFestivalsFederationNewsletter();
+                try {
+                    $newsletter->upload_file("file");
+                    $newsletter->update([
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created federation newsletter", $newsletter->to_array()));
+                } catch (Exception $e) {
+                    if ($newsletter->id !== 0) $newsletter->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationNewsletterAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $newsletter = get_request_param_by_id($request, SuperEightFestivalsFederationNewsletter::class, "newsletterID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation newsletter", $newsletter->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $newsletter->get_file()) $file->delete();
+                    $newsletter->upload_file("file");
+                }
+                $newsletter->update([
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation newsletter", $newsletter->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $newsletter->to_array();
+                $newsletter->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation newsletter", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationPhotosAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+
+            if ($request->isGet()) {
+                $photos = [];
+                foreach (SuperEightFestivalsFederationPhoto::get_all() as $photo) {
+                    array_push($photos, $photo->to_array());
+                }
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation photos", $photos));
+            } else if ($request->isPost()) {
+
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $photo = new SuperEightFestivalsFederationPhoto();
+                try {
+                    $photo->upload_file("file");
+                    $photo->update([
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created federation photo", $photo->to_array()));
+                } catch (Exception $e) {
+                    if ($photo->id !== 0) $photo->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationPhotoAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $photo = get_request_param_by_id($request, SuperEightFestivalsFederationPhoto::class, "photoID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation photo", $photo->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $photo->get_file()) $file->delete();
+                    $photo->upload_file("file");
+                }
+                $photo->update([
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation photo", $photo->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $photo->to_array();
+                $photo->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation photo", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationBylawsAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+
+            if ($request->isGet()) {
+                $bylaws = [];
+                foreach (SuperEightFestivalsFederationBylaw::get_all() as $bylaw) {
+                    array_push($bylaws, $bylaw->to_array());
+                }
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation by-laws", $bylaws));
+            } else if ($request->isPost()) {
+
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $bylaw = new SuperEightFestivalsFederationBylaw();
+                try {
+                    $bylaw->upload_file("file");
+                    $bylaw->update([
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created federation by-law", $bylaw->to_array()));
+                } catch (Exception $e) {
+                    if ($bylaw->id !== 0) $bylaw->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationBylawAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $bylaw = get_request_param_by_id($request, SuperEightFestivalsFederationBylaw::class, "bylawID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation by-law", $bylaw->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $bylaw->get_file()) $file->delete();
+                    $bylaw->upload_file("file");
+                }
+                $bylaw->update([
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation by-law", $bylaw->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $bylaw->to_array();
+                $bylaw->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation by-law", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationMagazinesAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+
+            if ($request->isGet()) {
+                $magazines = [];
+                foreach (SuperEightFestivalsFederationMagazine::get_all() as $magazine) {
+                    array_push($magazines, $magazine->to_array());
+                }
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation magazines", $magazines));
+            } else if ($request->isPost()) {
+
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $magazine = new SuperEightFestivalsFederationMagazine();
+                try {
+                    $magazine->upload_file("file");
+                    $magazine->update([
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created federation magazine", $magazine->to_array()));
+                } catch (Exception $e) {
+                    if ($magazine->id !== 0) $magazine->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function federationMagazineAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $magazine = get_request_param_by_id($request, SuperEightFestivalsFederationMagazine::class, "magazineID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation magazine", $magazine->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $magazine->get_file()) $file->delete();
+                    $magazine->upload_file("file");
+                }
+                $magazine->update([
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation magazine", $magazine->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $magazine->to_array();
+                $magazine->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation magazine", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    // ======================================================================================================================== \\
+
     public function contributorsAction()
     {
         $this->authCheck();

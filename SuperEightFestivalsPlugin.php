@@ -232,25 +232,9 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             // Route: /federation/
             $this->add_route($router, ":module/federation/", "admin-federation", "index");
             $this->add_route($router, ":module/federation/newsletters/", "admin-federation-newsletters", "index");
-            $this->add_route($router, ":module/federation/newsletters/:newsletterID/", "admin-federation-newsletters", "single");
-            $this->add_route($router, ":module/federation/newsletters/:newsletterID/edit/", "admin-federation-newsletters", "edit");
-            $this->add_route($router, ":module/federation/newsletters/:newsletterID/delete/", "admin-federation-newsletters", "delete");
-            $this->add_route($router, ":module/federation/newsletters/add/", "admin-federation-newsletters", "add");
             $this->add_route($router, ":module/federation/photos/", "admin-federation-photos", "index");
-            $this->add_route($router, ":module/federation/photos/:photoID/", "admin-federation-photos", "single");
-            $this->add_route($router, ":module/federation/photos/:photoID/edit/", "admin-federation-photos", "edit");
-            $this->add_route($router, ":module/federation/photos/:photoID/delete/", "admin-federation-photos", "delete");
-            $this->add_route($router, ":module/federation/photos/add/", "admin-federation-photos", "add");
             $this->add_route($router, ":module/federation/magazines/", "admin-federation-magazines", "index");
-            $this->add_route($router, ":module/federation/magazines/:magazineID/", "admin-federation-magazines", "single");
-            $this->add_route($router, ":module/federation/magazines/:magazineID/edit/", "admin-federation-magazines", "edit");
-            $this->add_route($router, ":module/federation/magazines/:magazineID/delete/", "admin-federation-magazines", "delete");
-            $this->add_route($router, ":module/federation/magazines/add/", "admin-federation-magazines", "add");
             $this->add_route($router, ":module/federation/bylaws/", "admin-federation-bylaws", "index");
-            $this->add_route($router, ":module/federation/bylaws/:bylawID/", "admin-federation-bylaws", "single");
-            $this->add_route($router, ":module/federation/bylaws/:bylawID/edit/", "admin-federation-bylaws", "edit");
-            $this->add_route($router, ":module/federation/bylaws/:bylawID/delete/", "admin-federation-bylaws", "delete");
-            $this->add_route($router, ":module/federation/bylaws/add/", "admin-federation-bylaws", "add");
 
             // Route: /debug/
             $this->add_route($router, ":module/debug/", "admin-debug", "index");
@@ -308,6 +292,15 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         // festivals
         $this->add_api_route($router, "/rest-api/festivals/", "festivals");
         $this->add_api_route($router, "/rest-api/festivals/:festival/", "festival");
+        // federation
+        $this->add_api_route($router, "/rest-api/federation/bylaws/", "federation-bylaws");
+        $this->add_api_route($router, "/rest-api/federation/bylaws/:bylawID", "federation-bylaw");
+        $this->add_api_route($router, "/rest-api/federation/magazines/", "federation-magazines");
+        $this->add_api_route($router, "/rest-api/federation/magazines/:magazineID", "federation-magazine");
+        $this->add_api_route($router, "/rest-api/federation/newsletters/", "federation-newsletters");
+        $this->add_api_route($router, "/rest-api/federation/newsletters/:newsletterID", "federation-newsletter");
+        $this->add_api_route($router, "/rest-api/federation/photos/", "federation-photos");
+        $this->add_api_route($router, "/rest-api/federation/photos/:photoID", "federation-photo");
         // country hierarchy api routes
         $this->add_api_route($router, "/rest-api/countries/", "countries");
         $this->add_api_route($router, "/rest-api/countries/:country/", "country");

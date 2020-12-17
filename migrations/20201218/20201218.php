@@ -572,12 +572,11 @@ class S8F_DB_Migration_20201218 extends S8FDatabaseMigration
 
             $id = $exploded[0];
             $filmmaker_id = $exploded[1];
-            $festival_id = $exploded[2];
-            $title = $exploded[3];
-            $description = $exploded[4];
-            $file_name = $exploded[5];
-            $thumbnail_file_name = $exploded[6];
-            $contributor_id = $exploded[7];
+            $title = $exploded[2];
+            $description = $exploded[3];
+            $file_name = $exploded[4];
+            $thumbnail_file_name = $exploded[5];
+            $contributor_id = $exploded[6];
 
             try {
                 $filmmaker_photo = new SuperEightFestivalsFilmmakerPhoto();

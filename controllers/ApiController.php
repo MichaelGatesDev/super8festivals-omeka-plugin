@@ -970,6 +970,9 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated festival", $festival->to_array()));
             } else if ($request->isDelete()) {
+                if($festival->year === 0) {
+                    throw new Exception("The default festival can not be deleted!");
+                }
                 $arr = $festival->to_array();
                 $festival->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted festival", $arr));

@@ -309,7 +309,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/", "country-city-festivals");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-festival");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/", "country-city-festival-films");
-        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/:film/", "country-city-festival-film");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/:filmID/", "country-city-festival-film");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/film-catalogs/", "country-city-festival-film-catalogs");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/film-catalogs/:filmCatalogID/", "country-city-festival-film-catalog");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/photos/", "country-city-festival-photos");
@@ -318,6 +318,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/posters/:posterID/", "country-city-festival-poster");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/print-media/", "country-city-festival-print-media");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/print-media/:printMediaID/", "country-city-festival-print-medium");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/memorabilia/", "country-city-festival-memorabilia");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/memorabilia/:memorabiliaID/", "country-city-festival-memorabilium");
     }
 
 }

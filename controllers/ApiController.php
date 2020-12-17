@@ -982,6 +982,232 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         }
     }
 
+    public function countryCityFestivalPostersAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+
+            if ($request->isGet()) {
+                $posters = [];
+                foreach ($festival->get_posters() as $film) {
+                    array_push($posters, $film->to_array());
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival posters", $posters));
+            } else if ($request->isPost()) {
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $poster = new SuperEightFestivalsFestivalPoster();
+                try {
+                    $poster->upload_file("file");
+                    $poster->update([
+                        "festival_id" => $festival->id,
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created festival poster", $poster->to_array()));
+                } catch (Exception $e) {
+                    if ($poster->id !== 0) $poster->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFestivalPosterAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+            $poster = get_request_param_by_id($request, SuperEightFestivalsFestivalPoster::class, "posterID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched poster", $poster->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $poster->get_file()) $file->delete();
+                    $poster->upload_file("file");
+                }
+                $poster->update([
+                    "festival_id" => $festival->id,
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated poster", $poster->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $poster->to_array();
+                $poster->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted poster", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFestivalPhotosAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+
+            if ($request->isGet()) {
+                $photos = [];
+                foreach ($festival->get_photos() as $film) {
+                    array_push($photos, $film->to_array());
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival photos", $photos));
+            } else if ($request->isPost()) {
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $photo = new SuperEightFestivalsFestivalPhoto();
+                try {
+                    $photo->upload_file("file");
+                    $photo->update([
+                        "festival_id" => $festival->id,
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created festival photo", $photo->to_array()));
+                } catch (Exception $e) {
+                    if ($photo->id !== 0) $photo->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFestivalPhotoAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+            $photo = get_request_param_by_id($request, SuperEightFestivalsFestivalPhoto::class, "photoID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched photo", $photo->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $photo->get_file()) $file->delete();
+                    $photo->upload_file("file");
+                }
+                $photo->update([
+                    "festival_id" => $festival->id,
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated photo", $photo->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $photo->to_array();
+                $photo->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted photo", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFestivalPrintMediaAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+
+            if ($request->isGet()) {
+                $print_media = [];
+                foreach ($festival->get_print_media() as $film) {
+                    array_push($print_media, $film->to_array());
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival print media", $print_media));
+            } else if ($request->isPost()) {
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $print_medium = new SuperEightFestivalsFestivalPrintMedia();
+                try {
+                    $print_medium->upload_file("file");
+                    $print_medium->update([
+                        "festival_id" => $festival->id,
+                        "file" => [
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created festival print medium", $print_medium->to_array()));
+                } catch (Exception $e) {
+                    if ($print_medium->id !== 0) $print_medium->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFestivalPrintMediumAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
+            $print_medium = get_request_param_by_id($request, SuperEightFestivalsFestivalPrintMedia::class, "printMediaID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched print medium", $print_medium->to_array()));
+            } else if ($request->isPost()) {
+                if (has_temporary_file("file")) {
+                    if ($file = $print_medium->get_file()) $file->delete();
+                    $print_medium->upload_file("file");
+                }
+                $print_medium->update([
+                    "festival_id" => $festival->id,
+                    "file" => [
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated print medium", $print_medium->to_array()));
+            } else if ($request->isDelete()) {
+                $arr = $print_medium->to_array();
+                $print_medium->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted print medium", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    //TODO print media
+    //TODO memorabilia
+
+
     public function countryCityFestivalFilmsAction()
     {
         $this->authCheck();
@@ -1014,7 +1240,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
-            $film = get_request_param_by_id($request, SuperEightFestivalsFestivalFilm::class, "film");
+            $film = get_request_param_by_id($request, SuperEightFestivalsFestivalFilm::class, "filmID");
 
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched festival film", $film->to_array()));
@@ -1034,6 +1260,8 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
         }
     }
+
+    //TODO filmmakers
 
     public function countryCityFestivalFilmCatalogsAction()
     {
@@ -1084,7 +1312,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $film_catalog = get_request_param_by_id($request, SuperEightFestivalsFestivalFilmCatalog::class, "filmCatalogID");
 
             if ($request->isGet()) {
-                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched filmmaker photo", $film_catalog->to_array()));
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched film catalog", $film_catalog->to_array()));
             } else if ($request->isPost()) {
                 if (has_temporary_file("file")) {
                     if ($file = $film_catalog->get_file()) $file->delete();
@@ -1098,11 +1326,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     ],
                 ]);
 
-                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated filmmaker photo", $film_catalog->to_array()));
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated film catalog", $film_catalog->to_array()));
             } else if ($request->isDelete()) {
                 $arr = $film_catalog->to_array();
                 $film_catalog->delete();
-                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted filmmaker photo", $arr));
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted film catalog", $arr));
             }
         } catch (Throwable $e) {
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));

@@ -1,52 +1,37 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
-import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../utils/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, isEmptyString, scrollTo } from "../../../shared/javascripts/misc.js";
 
 
-function FestivalFilmsTable(element) {
-    const [films, setFilms] = useState();
-    const [allFilms, setAllFilms] = useState();
+function FestivalPhotosTable(element) {
+    const [photos, setPhotos] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 
-    const fetchFilms = async () => {
+    const fetchPhotos = async () => {
         try {
-            const films = await API.performRequest(API.constructURL([
+            const photos = await API.performRequest(API.constructURL([
                 "countries",
                 element.countryId,
                 "cities",
                 element.cityId,
                 "festivals",
                 element.festivalId,
-                "films",
+                "photos",
             ]), HTTPRequestMethod.GET);
-            setFilms(films);
+            setPhotos(photos);
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Festival Films`, err);
-            console.error(`Error - Failed to Fetch Festival Films: ${err.message}`);
-        }
-    };
-
-    const fetchAllFilms = async () => {
-        try {
-            const films = await API.performRequest(API.constructURL([
-                "films",
-            ]), HTTPRequestMethod.GET);
-            setAllFilms(_.orderBy(films, ["filmmaker.person.first_name", "embed.title"]));
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmaker Films`, err);
-            console.error(`Error - Failed to Fetch Filmmaker Films: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Festival Photos`, err);
+            console.error(`Error - Failed to Fetch Festival Photos: ${err.message}`);
         }
     };
 
     useEffect(() => {
-        fetchFilms();
-        fetchAllFilms();
+        fetchPhotos();
     }, []);
 
     const performRestAction = async (formData, action) => {
@@ -60,7 +45,7 @@ function FestivalFilmsTable(element) {
                     element.cityId,
                     "festivals",
                     element.festivalId,
-                    "films",
+                    "photos",
                 ]), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
@@ -71,7 +56,7 @@ function FestivalFilmsTable(element) {
                     element.cityId,
                     "festivals",
                     element.festivalId,
-                    "films",
+                    "photos",
                     formData.get("id"),
                 ]), HTTPRequestMethod.POST, formData);
                 break;
@@ -83,14 +68,14 @@ function FestivalFilmsTable(element) {
                     element.cityId,
                     "festivals",
                     element.festivalId,
-                    "films",
+                    "photos",
                     formData.get("id"),
                 ]), HTTPRequestMethod.DELETE);
                 break;
         }
 
-        let actionVerb = action === FormAction.Add ? "added" : action === FormAction.Update ? "linked" : "unlinked";
-        let successMessage = `Successfully ${actionVerb} film.`;
+        let actionVerb = action === FormAction.Add ? "added" : action === FormAction.Update ? "updated" : "deleted";
+        let successMessage = `Successfully ${actionVerb} photo.`;
 
         try {
             const result = await promise;
@@ -101,7 +86,7 @@ function FestivalFilmsTable(element) {
                 false,
                 3000,
             );
-            await fetchFilms();
+            await fetchPhotos();
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong>`, err);
         } finally {
@@ -110,12 +95,12 @@ function FestivalFilmsTable(element) {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("films-form-modal");
+        Modals.hide_custom("photos-form-modal");
     };
 
     const submitForm = (formData, action) => {
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("films-form-modal");
+            Modals.hide_custom("photos-form-modal");
         });
     };
 
@@ -128,7 +113,7 @@ function FestivalFilmsTable(element) {
     };
 
     const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
-    const getFormElements = (action, film = null) => {
+    const getFormElements = (action, photo = null) => {
 
         const getPersonName = (person) => {
             let name = "";
@@ -146,20 +131,23 @@ function FestivalFilmsTable(element) {
         };
 
         let results = [];
-        if (film) {
-            results = [...results, recordIdElementObj(film)];
+        if (photo) {
+            results = [...results, recordIdElementObj(photo)];
         }
         if (action === FormAction.Add || action === FormAction.Update) {
             results = [...results,
-                {
-                    label: "Film", name: "filmmaker_film_id", type: "select", options: allFilms.map((filmmakerFilm) => {
-                        return {
-                            value: filmmakerFilm.id,
-                            label: `(${getPersonName(filmmakerFilm.filmmaker.person)}) ${isEmptyString(filmmakerFilm.embed.title) ? "Untitled" : filmmakerFilm.embed.title}`,
-                            selected: film ? film.filmmaker_film_id === filmmakerFilm.id : false,
-                        };
-                    }),
-                },
+                { label: "Title", type: "text", name: "title", placeholder: "", value: photo ? photo.file.title : "" },
+                { label: "Description", type: "text", name: "description", placeholder: "", value: photo ? photo.file.description : "" },
+                { label: "File", type: "file", name: "file" },
+                // {
+                //     label: "Photo", name: "photomaker_photo_id", type: "select", options: allPhotos.map((photomakerPhoto) => {
+                //         return {
+                //             value: photomakerPhoto.id,
+                //             label: `(${getPersonName(photomakerPhoto.photomaker.person)}) ${isEmptyString(photomakerPhoto.embed.title) ? "Untitled" : photomakerPhoto.embed.title}`,
+                //             selected: photo ? photo.photomaker_photo_id === photomakerPhoto.id : false,
+                //         };
+                //     }),
+                // },
             ];
         } else if (action === FormAction.Delete) {
             results = [...results,
@@ -173,7 +161,7 @@ function FestivalFilmsTable(element) {
     const getForm = (action, record = null) => {
         return html`
             <s8f-form
-                form-id="film-form"
+                form-id="photo-form"
                 .elements=${getFormElements(action, record)}
                 .validateFunc=${action !== FormAction.Delete ? validateForm : undefined}
                 .resetOnSubmit=${action === FormAction.Add}
@@ -185,56 +173,55 @@ function FestivalFilmsTable(element) {
     };
 
     const btnAddClick = () => {
-        setModalTitle("Add Film");
+        setModalTitle("Add Photo");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("films-form-modal");
+        Modals.show_custom("photos-form-modal");
         Alerts.clear("form-alerts");
     };
 
-    const btnEditClick = (film) => {
-        setModalTitle("Edit Film");
-        setModalBody(getForm(FormAction.Update, film));
-        Modals.show_custom("films-form-modal");
+    const btnEditClick = (photo) => {
+        setModalTitle("Edit Photo");
+        setModalBody(getForm(FormAction.Update, photo));
+        Modals.show_custom("photos-form-modal");
         Alerts.clear("form-alerts");
     };
 
-    const btnDeleteClick = (film) => {
-        setModalTitle("Delete Film");
-        setModalBody(getForm(FormAction.Delete, film));
-        Modals.show_custom("films-form-modal");
+    const btnDeleteClick = (photo) => {
+        setModalTitle("Delete Photo");
+        setModalBody(getForm(FormAction.Delete, photo));
+        Modals.show_custom("photos-form-modal");
         Alerts.clear("form-alerts");
     };
 
 
     const tableColumns = [
         { title: "ID", accessor: "id" },
-        { title: "Filmmaker Film ID", accessor: "filmmaker_film.id" },
-        { title: "Preview", accessor: "filmmaker_film.embed" },
-        { title: "Title", accessor: "filmmaker_film.embed.title" },
-        { title: "Description", accessor: "filmmaker_film.embed.description" },
+        { title: "Preview", accessor: "file" },
+        { title: "Title", accessor: "file.title" },
+        { title: "Description", accessor: "file.description" },
     ];
 
     return html`
         <s8f-modal
-            modal-id="films-form-modal"
+            modal-id="photos-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >
         </s8f-modal>
         <h2 class="mb-4">
-            Films
+            Photos
             <button
                 type="button"
                 class="btn btn-success btn-sm"
                 @click=${() => { btnAddClick(); }}
             >
-                Add Film
+                Add Photo
             </button>
         </h2>
         <s8f-records-table
-            id="film-table"
+            id="photo-table"
             .tableColumns=${tableColumns}
-            .tableRows=${films}
+            .tableRows=${photos}
             .rowEditFunc=${(record) => { btnEditClick(record); }}
             .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
         >
@@ -242,10 +229,10 @@ function FestivalFilmsTable(element) {
     `;
 }
 
-FestivalFilmsTable.observedAttributes = [
+FestivalPhotosTable.observedAttributes = [
     "country-id",
     "city-id",
     "festival-id",
 ];
 
-customElements.define("s8f-festival-films-table", component(FestivalFilmsTable, { useShadowDOM: false }));
+customElements.define("s8f-festival-photos-table", component(FestivalPhotosTable, { useShadowDOM: false }));

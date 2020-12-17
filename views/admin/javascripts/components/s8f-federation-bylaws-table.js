@@ -163,7 +163,6 @@ function FederationBylawsTable(element) {
             id="film-table"
             .tableColumns=${tableColumns}
             .tableRows=${bylaws}
-            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/federation/bylaws/${record.id}/`); }}
             .rowEditFunc=${(record) => { btnEditClick(record); }}
             .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
         >

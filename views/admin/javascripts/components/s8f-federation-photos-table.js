@@ -163,7 +163,6 @@ function FederationPhotosTable(element) {
             id="photo-table"
             .tableColumns=${tableColumns}
             .tableRows=${photos}
-            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/federation/photos/${record.id}/`); }}
             .rowEditFunc=${(record) => { btnEditClick(record); }}
             .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
         >

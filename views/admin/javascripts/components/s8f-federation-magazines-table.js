@@ -163,7 +163,6 @@ function FederationMagazinesTable(element) {
             id="film-table"
             .tableColumns=${tableColumns}
             .tableRows=${magazines}
-            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/federation/magazines/${record.id}/`); }}
             .rowEditFunc=${(record) => { btnEditClick(record); }}
             .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
         >

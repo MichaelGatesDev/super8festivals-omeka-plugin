@@ -163,7 +163,6 @@ function FederationNewslettersTable(element) {
             id="newsletter-table"
             .tableColumns=${tableColumns}
             .tableRows=${newsletters}
-            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/federation/newsletters/${record.id}/`); }}
             .rowEditFunc=${(record) => { btnEditClick(record); }}
             .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
         >

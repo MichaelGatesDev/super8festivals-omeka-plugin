@@ -68,13 +68,30 @@ function FestivalsTable(element) {
         let promise = null;
         switch (action) {
             case FormAction.Add:
-                promise = API.addFestivalToCity(element.countryId, element.cityId, formData);
+                promise = API.performRequest(API.constructURL(["countries",
+                    element.countryId,
+                    "cities",
+                    element.cityId,
+                    "festivals"],
+                ), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Update:
-                promise = API.updateFestivalInCity(element.countryId, element.cityId, formData);
+                promise = API.performRequest(API.constructURL(["countries",
+                    element.countryId,
+                    "cities",
+                    element.cityId,
+                    "festivals",
+                    formData.get("id")],
+                ), HTTPRequestMethod.POST, formData);
                 break;
             case FormAction.Delete:
-                promise = API.deleteFestivalFromCity(element.countryId, element.cityId, formData.get("id"));
+                promise = API.performRequest(API.constructURL(["countries",
+                    element.countryId,
+                    "cities",
+                    element.cityId,
+                    "festivals",
+                    formData.get("id")],
+                ), HTTPRequestMethod.DELETE);
                 break;
         }
 
@@ -111,7 +128,7 @@ function FestivalsTable(element) {
     const validateForm = (formData) => {
         const year = formData.get("year");
         if (isNaN(year) || year.length !== 4) {
-            return { input_name: "name", message: "Year is invalid! Must be a 4-digit number." };
+            return { input_name: "year", message: "Year is invalid! Must be a 4-digit number." };
         }
         return null;
     };
@@ -196,7 +213,6 @@ function FestivalsTable(element) {
             .tableColumns=${tableColumns}
             .tableRows=${festivals}
             .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/countries/${element.countryId}/cities/${element.cityId}/festivals/${record.id}/`); }}
-            .rowEditFunc=${(record) => { btnEditClick(record); }}
             .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
         >
         </s8f-records-table>

@@ -1205,8 +1205,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     }
 
     //TODO print media
-    //TODO memorabilia
-
 
     public function countryCityFestivalFilmsAction()
     {

@@ -122,11 +122,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id);
     }
 
-    public function get_memorabilia()
-    {
-        return SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $this->id);
-    }
-
     public function get_films()
     {
         return SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id);

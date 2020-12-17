@@ -6,7 +6,6 @@ if (!isset($filmmakers_url)) $filmmakers_url = "add";
 $posters = array_key_exists("posters", $records) ? $records["posters"] : array();
 $photos = array_key_exists("photos", $records) ? $records["photos"] : array();
 $print_media = array_key_exists("print_media", $records) ? $records["print_media"] : array();
-$memorabilia = array_key_exists("memorabilia", $records) ? $records["memorabilia"] : array();
 $films = array_key_exists("films", $records) ? $records["films"] : array();
 $filmmakers = array_key_exists("filmmakers", $records) ? $records["filmmakers"] : array();
 $film_catalogs = array_key_exists("film_catalogs", $records) ? $records["film_catalogs"] : array();
@@ -162,58 +161,6 @@ $film_catalogs = array_key_exists("film_catalogs", $records) ? $records["film_ca
                     'admin' => $admin,
                     'edit_url' => $root_url . '/print-media/' . $print_medium->id . "/edit",
                     'delete_url' => $root_url . '/print-media/' . $print_medium->id . "/delete",
-                )); ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-</div>
-
-<!-- Memorabilia -->
-<div class="row" id="memorabilia">
-    <div class="col">
-        <h3>
-            Memorabilia (<?= count($memorabilia); ?>)
-            <?php if ($admin): ?>
-                <a class="btn btn-success btn-sm" href="<?= $root_url; ?>/memorabilia/add">Add Memorabilia</a>
-            <?php endif; ?>
-        </h3>
-        <?php if (count($memorabilia) == 0): ?>
-            <p>There are no memorabilia available.</p>
-        <?php else: ?>
-            <?php foreach ($memorabilia as $memorabilium): ?>
-                <?php
-                $information = array();
-                array_push($information, array(
-                    "key" => "title",
-                    "value" => $memorabilium->title == "" ? "Untitled" : $memorabilium->title,
-                ));
-                array_push($information, array(
-                    "key" => "description",
-                    "value" => $memorabilium->description == "" ? "No description" : $memorabilium->description,
-                ));
-                array_push($information, array(
-                    "key" => "festival",
-                    "value" => $memorabilium->get_festival()->year == 0 ? "Uncategorized" : $memorabilium->get_festival()->year,
-                ));
-                $contributor = $memorabilium->get_contributor();
-                $contributor_id = $memorabilium->contributor_id;
-                if ($memorabilium->contributor_id != 0 && $contributor != null) {
-                    array_push($information, array(
-                        "key" => "contributor",
-                        "value" => $memorabilium->contributor_id === 0 ? "No contributor" : $memorabilium->get_contributor()->get_display_name(),
-                    ));
-                }
-                echo $this->partial("__components/record-card.php", array(
-                    'card_width' => '300px',
-                    'preview_height' => '300px',
-                    // 'embed' => $film->embed,
-                    'thumbnail_path' => get_relative_path($memorabilium->get_thumbnail_path()),
-                    'preview_path' => get_relative_path($memorabilium->get_path()),
-                    'fancybox_category' => 'memorabilia',
-                    'information' => $information,
-                    'admin' => $admin,
-                    'edit_url' => $root_url . '/memorabilia/' . $memorabilium->id . "/edit",
-                    'delete_url' => $root_url . '/memorabilia/' . $memorabilium->id . "/delete",
                 )); ?>
             <?php endforeach; ?>
         <?php endif; ?>

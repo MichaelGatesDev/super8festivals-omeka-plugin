@@ -20,9 +20,6 @@ foreach ($festivals as $festival) $photos = array_merge($photos, $festival->get_
 $print_medias = array();
 foreach ($festivals as $festival) $print_medias = array_merge($print_medias, $festival->get_print_media());
 
-$memorabilia = array();
-foreach ($festivals as $festival) $memorabilia = array_merge($memorabilia, $festival->get_memorabilia());
-
 $films = array();
 foreach ($festivals as $festival) $films = array_merge($films, $festival->get_films());
 
@@ -33,7 +30,7 @@ foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $
 ?>
 
 <style>
-    #about, #posters, #photos, #print-media, #memorabilia, #films, #filmmakers, #film-catalogs {
+    #about, #posters, #photos, #print-media, #films, #filmmakers, #film-catalogs {
         margin: 4em auto;
     }
 </style>
@@ -78,8 +75,8 @@ foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $
         <div class="col-6 order-3 col-lg-3 order-lg-3">
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#memorabilia" role="button"
-                       style="height: 100px;">Memorabilia</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#nearby-festivals" role="button"
+                       style="height: 100px;">Nearby Festivals</a>
                 </div>
             </div>
             <div class="row button-row">
@@ -128,7 +125,6 @@ foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $
             "posters" => $posters,
             "photos" => $photos,
             "print_media" => $print_medias,
-            "memorabilia" => $memorabilia,
             "films" => $films,
             "filmmakers" => $filmmakers,
             "film_catalogs" => $film_catalogs,

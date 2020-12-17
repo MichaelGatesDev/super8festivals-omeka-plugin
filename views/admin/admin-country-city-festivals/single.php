@@ -67,17 +67,6 @@ $root_url = $city_url . "/festivals/" . $festival->id;
 
     <div class="row my-5">
         <div class="col">
-            <s8f-festival-memorabilia-table
-                country-id="<?= $country->id; ?>"
-                city-id="<?= $city->id; ?>"
-                festival-id="<?= $festival->id; ?>"
-            >
-            </s8f-festival-memorabilia-table>
-        </div>
-    </div>
-
-    <div class="row my-5">
-        <div class="col">
             <s8f-festival-films-table
                 country-id="<?= $country->id; ?>"
                 city-id="<?= $city->id; ?>"

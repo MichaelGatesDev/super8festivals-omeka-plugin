@@ -23,7 +23,6 @@ class SuperEightFestivals_AdminDebugController extends Omeka_Controller_Abstract
         foreach (SuperEightFestivalsFilmmaker::get_all() as $record) if ($record->get_city() === null) $record->delete();
 
         foreach (SuperEightFestivalsFestivalFilmCatalog::get_all() as $record) if ($record->get_festival() === null) $record->delete();
-        foreach (SuperEightFestivalsFestivalMemorabilia::get_all() as $record) if ($record->get_festival() === null) $record->delete();
         foreach (SuperEightFestivalsFestivalPhoto::get_all() as $record) if ($record->get_festival() === null) $record->delete();
         foreach (SuperEightFestivalsFestivalPoster::get_all() as $record) if ($record->get_festival() === null) $record->delete();
         foreach (SuperEightFestivalsFestivalPrintMedia::get_all() as $record) if ($record->get_festival() === null) $record->delete();

@@ -54,7 +54,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         foreach (SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id) as $record) $record->delete();
-        foreach (SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->delete();

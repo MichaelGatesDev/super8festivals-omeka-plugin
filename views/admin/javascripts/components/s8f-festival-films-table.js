@@ -9,8 +9,8 @@ import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/j
 
 
 function FestivalFilmsTable(element) {
-    const [films, setFilms] = useState([]);
-    const [allFilms, setAllFilms] = useState([]);
+    const [films, setFilms] = useState();
+    const [allFilms, setAllFilms] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

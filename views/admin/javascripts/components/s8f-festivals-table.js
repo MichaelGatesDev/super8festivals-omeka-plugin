@@ -10,7 +10,7 @@ import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc
 function FestivalsTable(element) {
     const [country, setCountry] = useState();
     const [city, setCity] = useState();
-    const [festivals, setFestivals] = useState([]);
+    const [festivals, setFestivals] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

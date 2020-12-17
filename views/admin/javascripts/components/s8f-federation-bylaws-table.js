@@ -9,7 +9,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FederationBylawsTable(element) {
-    const [bylaws, setBylaws] = useState([]);
+    const [bylaws, setBylaws] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

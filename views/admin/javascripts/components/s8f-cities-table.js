@@ -11,7 +11,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 function CitiesTable(element) {
     const [country, setCountry] = useState();
-    const [cities, setCities] = useState([]);
+    const [cities, setCities] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

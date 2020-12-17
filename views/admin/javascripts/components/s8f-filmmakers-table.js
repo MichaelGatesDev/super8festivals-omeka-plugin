@@ -10,7 +10,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FilmmakersTable() {
-    const [filmmakers, setFilmmakers] = useState([]);
+    const [filmmakers, setFilmmakers] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

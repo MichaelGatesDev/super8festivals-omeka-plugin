@@ -9,7 +9,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FederationNewslettersTable(element) {
-    const [newsletters, setNewsletters] = useState([]);
+    const [newsletters, setNewsletters] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

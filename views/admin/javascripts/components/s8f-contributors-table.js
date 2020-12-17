@@ -9,7 +9,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function ContributorsTable() {
-    const [contributors, setContributors] = useState([]);
+    const [contributors, setContributors] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
     const [modalFooter, setModalFooter] = useState();

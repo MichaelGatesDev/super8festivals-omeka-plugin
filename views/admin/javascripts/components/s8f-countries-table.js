@@ -10,7 +10,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function CountriesTable() {
-    const [countries, setCountries] = useState([]);
+    const [countries, setCountries] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
 

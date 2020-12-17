@@ -42,7 +42,9 @@ function RecordsTable(
                     ${rowViewFunc ? html`
                         <button type="button" class="btn btn-info btn-sm" @click=${() => { rowViewFunc(obj); }}>View</button>
                     ` : nothing}
-                    <button type="button" class="btn btn-primary btn-sm" @click=${() => { rowEditFunc(obj); }}>Edit</button>
+                    ${rowEditFunc ? html`
+                        <button type="button" class="btn btn-primary btn-sm" @click=${() => { rowEditFunc(obj); }}>Edit</button>
+                    ` : nothing}
                     <button type="button" class="btn btn-danger btn-sm" @click=${() => { rowDeleteFunc(obj); }}>Delete</button>
                 </div>
             `;

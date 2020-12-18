@@ -163,13 +163,13 @@ echo head($head);
                 document.getElementById("photos"),
             );
         });
-        fetchPhotos().then((magazines) => {
+        fetchMagazines().then((magazines) => {
             render(
                 html`<s8f-file-record-cards .files=${magazines}></s8f-file-record-cards>`,
                 document.getElementById("magazines"),
             );
         });
-        fetchPhotos().then((bylaws) => {
+        fetchBylaws().then((bylaws) => {
             render(
                 html`<s8f-file-record-cards .files=${bylaws}></s8f-file-record-cards>`,
                 document.getElementById("by-laws"),

@@ -44,7 +44,7 @@ function FileRecordCards(element) {
         </style>
         <div class="card-deck">
             ${!element.files || !Array.isArray(element.files) || element.files.length === 0 ? html`
-                <p>There are none available</p>
+                <p>There aren't any here yet.</p>
             ` : repeat(element.files, (fileRecord) => fileTemplate(fileRecord))}
         </div>
     `;

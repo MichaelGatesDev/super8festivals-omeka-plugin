@@ -46,7 +46,7 @@ function EmbedRecordCards(element) {
         </style>
         <div class="card-deck">
             ${!element.embeds || !Array.isArray(element.embeds) || element.embeds.length === 0 ? html`
-                <p>There are none available</p>
+                <p>There aren't any here yet.</p>
             ` : repeat(element.embeds, (embedRecord) => embedTemplate(embedRecord))}
         </div>
     `;

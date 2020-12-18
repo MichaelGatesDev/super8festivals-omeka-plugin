@@ -3,9 +3,6 @@ $head = array(
     'title' => "Filmmaker",
 );
 echo head($head);
-
-$films = $filmmaker->get_films();
-$photos = $filmmaker->get_photos();
 ?>
 
 <section class="container my-5" id="filmmaker">

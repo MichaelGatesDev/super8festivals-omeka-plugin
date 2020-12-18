@@ -7,11 +7,6 @@ queue_css_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.
 queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js");
 
 echo head($head);
-
-$newsletters = SuperEightFestivalsFederationNewsletter::get_all();
-$photos = SuperEightFestivalsFederationPhoto::get_all();
-$magazines = SuperEightFestivalsFederationPhoto::get_all();
-$by_laws = SuperEightFestivalsFederationBylaw::get_all();
 ?>
 
 <style>

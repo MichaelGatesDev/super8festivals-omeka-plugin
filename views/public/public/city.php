@@ -9,31 +9,7 @@ queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.f
 echo head($head);
 
 $banner = $city->get_banner();
-$festivals = SuperEightFestivalsFestival::get_by_param('city_id', $city->id);
-
-$posters = array();
-foreach ($festivals as $festival) $posters = array_merge($posters, $festival->get_posters());
-
-$photos = array();
-foreach ($festivals as $festival) $photos = array_merge($photos, $festival->get_photos());
-
-$print_medias = array();
-foreach ($festivals as $festival) $print_medias = array_merge($print_medias, $festival->get_print_media());
-
-$films = array();
-foreach ($festivals as $festival) $films = array_merge($films, $festival->get_films());
-
-$filmmakers = $city->get_filmmakers();
-
-$film_catalogs = array();
-foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $festival->get_film_catalogs());
 ?>
-
-<style>
-    #about, #posters, #photos, #print-media, #films, #filmmakers, #film-catalogs {
-        margin: 4em auto;
-    }
-</style>
 
 <div class="container-fluid" id="landing">
     <div class="row">
@@ -68,7 +44,7 @@ foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $
 
         <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 mb-4 d-flex flex-column justify-content-center align-items-center ">
             <div class="d-flex flex-column justify-content-center align-items-center bg-dark w-100 h-100" style="background-color:#2e2e2e; color: #FFFFFF;">
-                <img class="img-fluid d-none d-lg-block w-100" src="<?= $banner != null ? get_relative_path($banner->get_path()) : img("placeholder.svg") ?>" alt="Banner Image" loading="lazy"/>
+                <img class="img-fluid d-none d-lg-block w-100 city-banner" src="<?= $banner ? get_relative_path($banner->get_file()->get_path()) : img("placeholder.svg") ?>" alt="" loading="lazy"/>
             </div>
         </div>
 
@@ -99,7 +75,7 @@ foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $
     </div>
 </div>
 
-<div class="container px-0 py-5">
+<section class="container px-0 py-5" id="city">
 
     <!--About-->
     <div class="row" id="about">
@@ -117,22 +93,81 @@ foreach ($festivals as $festival) $film_catalogs = array_merge($film_catalogs, $
         </div>
     </div>
 
+    <div class="row">
+        <div class="col">
+            <h2 class="my-4">Federation</h2>
+        </div>
+    </div>
 
-    <?= $this->partial("__components/records-page.php", array(
-        "admin" => false,
-//        "root_url" => $root_url,
-        "records" => array(
-            "posters" => $posters,
-            "photos" => $photos,
-            "print_media" => $print_medias,
-            "films" => $films,
-            "filmmakers" => $filmmakers,
-            "film_catalogs" => $film_catalogs,
-        )
-    ));
-    ?>
+    <div class="row my-5" id="filmmaker-films">
+        <div class="col">
+            <h3>Newsletters</h3>
+            <div id="newsletters"></div>
+        </div>
+    </div>
 
-</div>
+    <div class="row my-5" id="filmmaker-photos">
+        <div class="col">
+            <h3>Photos</h3>
+            <div id="photos"></div>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-photos">
+        <div class="col">
+            <h3>Magazines</h3>
+            <div id="magazines"></div>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-photos">
+        <div class="col">
+            <h3>By-Laws</h3>
+            <div id="by-laws"></div>
+        </div>
+    </div>
+
+</section>
+
+
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>
+<script type="module">
+    import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
+    import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
+
+    const fetchNewsletters = () => API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
+    const fetchPhotos = () => API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
+    const fetchMagazines = () => API.performRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.GET);
+    const fetchBylaws = () => API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
+
+    $(() => {
+        fetchNewsletters().then((newsletters) => {
+            render(
+                html`<s8f-file-record-cards .files=${newsletters}></s8f-file-record-cards>`,
+                document.getElementById("newsletters"),
+            );
+        });
+        fetchPhotos().then((photos) => {
+            render(
+                html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
+                document.getElementById("photos"),
+            );
+        });
+        fetchPhotos().then((magazines) => {
+            render(
+                html`<s8f-file-record-cards .files=${magazines}></s8f-file-record-cards>`,
+                document.getElementById("magazines"),
+            );
+        });
+        fetchPhotos().then((bylaws) => {
+            render(
+                html`<s8f-file-record-cards .files=${bylaws}></s8f-file-record-cards>`,
+                document.getElementById("by-laws"),
+            );
+        });
+    });
+</script>
 
 
 <?php echo foot(); ?>

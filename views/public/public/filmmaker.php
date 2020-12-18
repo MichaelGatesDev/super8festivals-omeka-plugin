@@ -12,7 +12,7 @@ $photos = $filmmaker->get_photos();
 
     <div class="row">
         <div class="col">
-            <h2 class="my-4 text-capitalize"><?= html_escape($filmmaker->get_full_name()); ?></h2>
+            <h2 class="my-4 text-capitalize"><?= html_escape($filmmaker->get_person()->get_display_name()); ?></h2>
         </div>
     </div>
 
@@ -36,15 +36,7 @@ $photos = $filmmaker->get_photos();
                             "key" => "description",
                             "value" => $film->description == "" ? "No description" : html_escape($film->description),
                         ));
-                        array_push($information, array(
-                            "key" => "city",
-                            "value" => $film->get_festival()->get_city()->name,
-                        ));
-                        array_push($information, array(
-                            "key" => "festival",
-                            "value" => $film->get_festival()->year == 0 ? "uncategorized" : html_escape($film->get_festival()->year),
-                        ));
-                        $contributor = $film->get_contributor();
+                        $contributor = $film->get_embed()->get_contributor();
                         $contributor_id = $film->contributor_id;
                         if ($film->contributor_id != 0 && $contributor != null) {
                             array_push($information, array(
@@ -56,8 +48,8 @@ $photos = $filmmaker->get_photos();
                             'card_width' => '500px',
 //                            'preview_height' => '300px',
                             'embed' => $film->embed,
-//                            'thumbnail_path' => get_relative_path($poster->get_thumbnail_path()),
-//                            'preview_path' => get_relative_path($poster->get_path()),
+//                            'thumbnail_path' => get_relative_path($poster->get_file()->get_thumbnail_path()),
+//                            'preview_path' => get_relative_path($poster->get_file()->get_path()),
                             'fancybox_category' => 'films',
                             'information' => $information,
                             'admin' => false,
@@ -90,20 +82,20 @@ $photos = $filmmaker->get_photos();
                             "key" => "description",
                             "value" => $photo->description == "" ? "No description" : $photo->description,
                         ));
-                        $contributor = $photo->get_contributor();
+                        $contributor = $photo->get_file()->get_contributor();
                         $contributor_id = $photo->contributor_id;
                         if ($photo->contributor_id != 0 && $contributor != null) {
                             array_push($information, array(
                                 "key" => "contributor",
-                                "value" => $contributor == null || $photo->contributor_id == 0 ? "No contributor" : $photo->get_contributor()->get_display_name(),
+                                "value" => $contributor == null || $photo->contributor_id == 0 ? "No contributor" : $photo->get_file()->get_contributor()->get_display_name(),
                             ));
                         }
                         echo $this->partial("__components/record-card.php", array(
                             'card_width' => '300px',
                             'preview_height' => '300px',
                             // 'embed' => $film->embed,
-                            'thumbnail_path' => get_relative_path($photo->get_thumbnail_path()),
-                            'preview_path' => get_relative_path($photo->get_path()),
+                            'thumbnail_path' => get_relative_path($photo->get_file()->get_thumbnail_path()),
+                            'preview_path' => get_relative_path($photo->get_file()->get_path()),
                             'fancybox_category' => 'photos',
                             'information' => $information,
                             'admin' => false,

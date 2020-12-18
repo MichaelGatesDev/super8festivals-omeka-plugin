@@ -132,5 +132,13 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
         return parent::get_all();
     }
 
+    /**
+     * @return SuperEightFestivalsContributor|null
+     */
+    public function get_contributor()
+    {
+        return SuperEightFestivalsContributor::get_by_id($this->contributor_id);
+    }
+
     // ======================================================================================================================== \\
 }

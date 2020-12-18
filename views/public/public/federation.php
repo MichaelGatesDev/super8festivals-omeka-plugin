@@ -56,7 +56,7 @@ echo head($head);
                 <div class="carousel-inner">
                     <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) == 0): ?>
                         <div class="carousel-item active" style="background-image: url(http://placehold.it/400x400);">
-                            <img class="d-block w-100" src="http://placehold.it/400x400" alt="First slide" loading="lazy">
+                            <img class="d-block w-100" src="<?= img("placeholder.svg") ?>" alt="" loading="lazy">
                         </div>
                     <?php else: ?>
                         <?php foreach ($records as $index => $record): ?>
@@ -64,7 +64,7 @@ echo head($head);
                             $file = $record->get_file();
                             ?>
                             <div class="carousel-item <?= $index == 0 ? "active " : "" ?>">
-                                <img class="d-block w-100" src="<?= get_relative_path($file->get_path()); ?>" alt="<?= $file->title; ?>">
+                                <img class="d-block w-100" src="<?= get_relative_path($file->get_path()); ?>" alt="">
                                 <div class="carousel-caption d-none d-md-block" style="background: rgba(0,0,0,0.5);">
                                     <h5><?= $file->title; ?></h5>
                                     <p><?= $file->description; ?></p>

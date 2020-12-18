@@ -63,7 +63,7 @@ if ($sort_mode == "country") {
                     $country_code = get_country_code($country_loc->name);
                     ?>
                     <div class="card d-inline-block m-1" style="width: 15rem;">
-                        <img src="<?= $banner_file ? get_relative_path($banner_file->get_thumbnail_path()) : img("placeholder-200x200.svg") ?>" class="card-img-top" loading="lazy">
+                        <img src="<?= $banner_file ? get_relative_path($banner_file->get_thumbnail_path()) : img("placeholder-200x200.svg") ?>" class="card-img-top" alt="" loading="lazy">
                         <div class="card-body">
                             <h5 class="card-title text-capitalize"><?= $city_loc->name; ?></h5>
                         </div>

@@ -22,8 +22,8 @@ echo head($head);
                 <?php foreach ($records as $filmmaker): ?>
                     <div class="card d-inline-block mb-4">
                         <div class="card-body">
-                            <h5 class="card-title text-capitalize mb-3">
-                                <?= $filmmaker->get_full_name() == "" ? "No name" : html_escape($filmmaker->get_full_name()) ?>
+                            <h5 class="card-title mb-3">
+                                <?= $filmmaker->get_person()->get_display_name(); ?>
                             </h5>
                             <p class="card-text mb-1"><span class="font-weight-bold">Total films:</span> <?= count($filmmaker->get_films()); ?></p>
                             <p class="card-text mb-1"><span class="font-weight-bold">Organization:</span> <?= $filmmaker->organization_name != "" ? $filmmaker->organization_name : "N/A" ?></p>

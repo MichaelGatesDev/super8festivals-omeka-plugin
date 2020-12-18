@@ -6,7 +6,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function indexAction()
     {
-        $this->authCheck();
     }
 
     private function getJsonResponseArray($status, $message, $data = null)
@@ -31,7 +30,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function allUsersAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -42,6 +40,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all users", $users));
             } else if ($request->isPost()) {
+                $this->authCheck();
             }
         } catch (Throwable $e) {
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
@@ -50,7 +49,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function singleUserAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $user_id = $request->getParam("user");
@@ -59,7 +57,9 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched country", filter_array($user, ["password", "salt"])));
             } else if ($request->isPost()) {
+                $this->authCheck();
             } else if ($request->isDelete()) {
+                $this->authCheck();
             }
         } catch (Throwable $e) {
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
@@ -70,7 +70,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function migrationsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $migration_name = $request->getParam("migration-name");
@@ -103,7 +102,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationNewslettersAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -114,6 +112,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation newsletters", $newsletters));
             } else if ($request->isPost()) {
+                $this->authCheck();
 
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
@@ -141,7 +140,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationNewsletterAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $newsletter = get_request_param_by_id($request, SuperEightFestivalsFederationNewsletter::class, "newsletterID");
@@ -149,6 +147,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation newsletter", $newsletter->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $newsletter->get_file()) $file->delete();
                     $newsletter->upload_file("file");
@@ -162,6 +161,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation newsletter", $newsletter->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $newsletter->to_array();
                 $newsletter->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation newsletter", $arr));
@@ -173,7 +173,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationPhotosAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -184,6 +183,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation photos", $photos));
             } else if ($request->isPost()) {
+                $this->authCheck();
 
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
@@ -211,7 +211,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationPhotoAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $photo = get_request_param_by_id($request, SuperEightFestivalsFederationPhoto::class, "photoID");
@@ -219,6 +218,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation photo", $photo->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $photo->get_file()) $file->delete();
                     $photo->upload_file("file");
@@ -232,6 +232,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation photo", $photo->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $photo->to_array();
                 $photo->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation photo", $arr));
@@ -243,7 +244,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationBylawsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -254,6 +254,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation by-laws", $bylaws));
             } else if ($request->isPost()) {
+                $this->authCheck();
 
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
@@ -281,7 +282,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationBylawAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $bylaw = get_request_param_by_id($request, SuperEightFestivalsFederationBylaw::class, "bylawID");
@@ -289,6 +289,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation by-law", $bylaw->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $bylaw->get_file()) $file->delete();
                     $bylaw->upload_file("file");
@@ -302,6 +303,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation by-law", $bylaw->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $bylaw->to_array();
                 $bylaw->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation by-law", $arr));
@@ -313,7 +315,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationMagazinesAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -324,6 +325,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all federation magazines", $magazines));
             } else if ($request->isPost()) {
+                $this->authCheck();
 
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
@@ -351,7 +353,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function federationMagazineAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $magazine = get_request_param_by_id($request, SuperEightFestivalsFederationMagazine::class, "magazineID");
@@ -359,6 +360,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched federation magazine", $magazine->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $magazine->get_file()) $file->delete();
                     $magazine->upload_file("file");
@@ -372,6 +374,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated federation magazine", $magazine->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $magazine->to_array();
                 $magazine->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted federation magazine", $arr));
@@ -385,7 +388,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function contributorsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -396,6 +398,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all contributors", $contributors));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $contributor = SuperEightFestivalsContributor::create([
                     "role" => $request->getParam("role", ""),
                     "person" => [
@@ -418,7 +421,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function contributorAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $contributor = get_request_param_by_id($request, SuperEightFestivalsContributor::class, "contributor");
@@ -426,6 +428,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched contributor", $contributor->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $contributor->update([
                     "role" => $request->getParam("role", ""),
                     "person" => [
@@ -442,6 +445,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated contributor", $contributor->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $contributor->to_array();
                 $contributor->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted contributor", $arr));
@@ -455,7 +459,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function staffsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -466,6 +469,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all staff", $staffs));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $staff = SuperEightFestivalsStaff::create([
                     "role" => $request->getParam("role", ""),
                     "person" => [
@@ -488,7 +492,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function staffAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $staff = get_request_param_by_id($request, SuperEightFestivalsStaff::class, "staff");
@@ -496,6 +499,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched staff", $staff->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $staff->update([
                     "role" => $request->getParam("role", ""),
                     "person" => [
@@ -512,6 +516,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated staff", $staff->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $staff->to_array();
                 $staff->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted staff", $arr));
@@ -525,7 +530,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -543,7 +547,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmmakersAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -554,6 +557,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all filmmakers", $filmmakers));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $filmmaker = SuperEightFestivalsFilmmaker::create([
                     "person" => [
                         "first_name" => $request->getParam("first_name", ""),
@@ -575,7 +579,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmmakerAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmaker");
@@ -583,6 +586,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched filmmaker", $filmmaker->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $filmmaker->update([
                     "person" => [
                         "first_name" => $request->getParam("first_name", ""),
@@ -598,6 +602,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated filmmaker", $filmmaker->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $filmmaker->to_array();
                 $filmmaker->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted filmmaker", $arr));
@@ -609,7 +614,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmmakerPhotosAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmaker");
@@ -621,6 +625,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all filmmaker photos", $photos));
             } else if ($request->isPost()) {
+                $this->authCheck();
 
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
@@ -649,7 +654,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmmakerPhotoAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmaker");
@@ -658,6 +662,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched filmmaker photo", $photo->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $photo->get_file()) $file->delete();
                     $photo->upload_file("file");
@@ -672,6 +677,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated filmmaker photo", $photo->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $photo->to_array();
                 $photo->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted filmmaker photo", $arr));
@@ -683,7 +689,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmmakerFilmsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmaker");
@@ -695,6 +700,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all filmmaker films", $films));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $film = SuperEightFestivalsFilmmakerFilm::create([
                     "filmmaker_id" => $filmmaker->id,
                     "embed" => [
@@ -712,7 +718,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function filmmakerFilmAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $filmmaker = get_request_param_by_id($request, SuperEightFestivalsFilmmaker::class, "filmmaker");
@@ -721,6 +726,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched filmmaker film", $film->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $film->update([
                     "filmmaker_id" => $filmmaker->id,
                     "embed" => [
@@ -732,6 +738,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated filmmaker film", $film->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $film->to_array();
                 $film->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted filmmaker film", $arr));
@@ -745,7 +752,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function citiesAction()
     {
-        $this->authCheck();
         try {
             $cities = [];
             foreach (SuperEightFestivalsCity::get_all() as $city) {
@@ -759,7 +765,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function cityAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);
@@ -774,7 +779,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function festivalsAction()
     {
-        $this->authCheck();
         try {
             $cities = [];
             foreach (SuperEightFestivalsFestival::get_all() as $festival) {
@@ -788,7 +792,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function festivalAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -805,7 +808,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countriesAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
 
@@ -816,6 +818,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all countries", $countries));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $country = SuperEightFestivalsCountry::create([
                     "location" => [
                         "name" => $request->getParam("name", ""),
@@ -833,7 +836,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $country = get_request_param_country($request);
@@ -841,6 +843,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched country", $country->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $country->update([
                     "location" => [
                         "name" => $request->getParam("name", ""),
@@ -851,6 +854,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated country", $country->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $country->to_array();
                 $country->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted country", $arr));
@@ -862,7 +866,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCitiesAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $country = get_request_param_country($request);
@@ -874,6 +877,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all cities", $cities));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $city = SuperEightFestivalsCity::create([
                     "country_id" => $country->id,
                     "location" => [
@@ -893,7 +897,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $country = get_request_param_country($request);
@@ -902,6 +905,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched city", $city->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $city->update([
                     "location" => [
                         "name" => $request->getParam("name", ""),
@@ -913,6 +917,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated city", $city->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $city->to_array();
                 $city->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted city", $arr));
@@ -924,7 +929,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $country = get_request_param_country($request);
@@ -937,6 +941,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all cities", $festivals));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $festival = SuperEightFestivalsFestival::create([
                     "city_id" => $city->id,
                     "year" => $request->getParam("year", 0),
@@ -951,7 +956,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $country = get_request_param_country($request);
@@ -964,12 +968,14 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched festival", $festival->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $festival->update([
                     "year" => $request->getParam("year", 0),
                 ]);
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated festival", $festival->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 if ($festival->year === 0) {
                     throw new Exception("The default festival can not be deleted!");
                 }
@@ -984,7 +990,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalPostersAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -997,6 +1002,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival posters", $posters));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
                 }
@@ -1024,7 +1030,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalPosterAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1033,6 +1038,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched poster", $poster->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $poster->get_file()) $file->delete();
                     $poster->upload_file("file");
@@ -1047,6 +1053,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated poster", $poster->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $poster->to_array();
                 $poster->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted poster", $arr));
@@ -1058,7 +1065,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalPhotosAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1071,6 +1077,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival photos", $photos));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
                 }
@@ -1098,7 +1105,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalPhotoAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1107,6 +1113,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched photo", $photo->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $photo->get_file()) $file->delete();
                     $photo->upload_file("file");
@@ -1121,6 +1128,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated photo", $photo->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $photo->to_array();
                 $photo->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted photo", $arr));
@@ -1132,7 +1140,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalPrintMediaAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1145,6 +1152,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival print media", $print_media));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
                 }
@@ -1172,7 +1180,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalPrintMediumAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1181,6 +1188,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched print medium", $print_medium->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $print_medium->get_file()) $file->delete();
                     $print_medium->upload_file("file");
@@ -1195,6 +1203,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated print medium", $print_medium->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $print_medium->to_array();
                 $print_medium->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted print medium", $arr));
@@ -1208,7 +1217,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalFilmsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1220,6 +1228,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival films", $films));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $film = SuperEightFestivalsFestivalFilm::create([
                     "festival_id" => $festival->id,
                     "filmmaker_film_id" => $request->getParam("filmmaker_film_id", ""),
@@ -1234,7 +1243,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalFilmAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1243,6 +1251,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched festival film", $film->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 $film->update([
                     "festival_id" => $festival->id,
                     "filmmaker_film_id" => $request->getParam("filmmaker_film_id", ""),
@@ -1250,6 +1259,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated festival film", $film->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $film->to_array();
                 $film->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted festival film", $arr));
@@ -1263,7 +1273,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalFilmCatalogsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1276,6 +1285,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival film catalogs", $film_catalogs));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (!has_temporary_file("file")) {
                     throw new Error("There was no file selected for upload.");
                 }
@@ -1303,7 +1313,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFestivalFilmCatalogAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $festival = get_request_param_by_id($request, SuperEightFestivalsFestival::class, "festival");
@@ -1312,6 +1321,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             if ($request->isGet()) {
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched film catalog", $film_catalog->to_array()));
             } else if ($request->isPost()) {
+                $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $film_catalog->get_file()) $file->delete();
                     $film_catalog->upload_file("file");
@@ -1326,6 +1336,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated film catalog", $film_catalog->to_array()));
             } else if ($request->isDelete()) {
+                $this->authCheck();
                 $arr = $film_catalog->to_array();
                 $film_catalog->delete();
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted film catalog", $arr));
@@ -1339,7 +1350,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityPostersAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);
@@ -1361,7 +1371,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityPhotosAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);
@@ -1383,7 +1392,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityPrintMediaAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);
@@ -1405,7 +1413,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFilmsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);
@@ -1427,7 +1434,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFilmmakersAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);
@@ -1450,7 +1456,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
     public function countryCityFilmCatalogsAction()
     {
-        $this->authCheck();
         try {
             $request = $this->getRequest();
             $city = get_request_param_city($request);

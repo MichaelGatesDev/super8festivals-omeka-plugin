@@ -9,7 +9,7 @@ echo head($head);
 
     <div class="row">
         <div class="col">
-            <h2 class="my-4 text-capitalize"><?= html_escape($filmmaker->get_person()->get_display_name()); ?></h2>
+            <h2 class="my-4 text-capitalize"><?= html_escape($filmmaker->get_person()->get_name()); ?></h2>
         </div>
     </div>
 

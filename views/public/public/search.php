@@ -136,7 +136,7 @@ $query = trim($query); // trim blank
             <ul>
                 <?php foreach ($matching_contributors as $contributor): ?>
                     <li>
-                        <a href="/contributors/<?= $contributor->id ?>" class="title"><?= $contributor->get_display_name(); ?>&nbsp;<span class="text-lowercase">(<?= $contributor->email; ?>)</span></a>
+                        <a href="/contributors/<?= $contributor->id ?>" class="title"><?= $contributor->get_name(); ?>&nbsp;<span class="text-lowercase">(<?= $contributor->email; ?>)</span></a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -207,7 +207,7 @@ $query = trim($query); // trim blank
             <ul>
                 <?php foreach ($matching_festival_filmmakers as $filmmaker): ?>
                     <li>
-                        <a href="/filmmakers/<?= $filmmaker->id ?>" class="title"><?= $filmmaker->get_display_name(); ?>&nbsp;<span class="text-lowercase">(<?= $filmmaker->email; ?>)</span></a>
+                        <a href="/filmmakers/<?= $filmmaker->id ?>" class="title"><?= $filmmaker->get_name(); ?>&nbsp;<span class="text-lowercase">(<?= $filmmaker->email; ?>)</span></a>
                     </li>
                 <?php endforeach; ?>
             </ul>

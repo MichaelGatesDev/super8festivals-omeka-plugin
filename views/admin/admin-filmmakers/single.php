@@ -1,4 +1,4 @@
-<?= $this->partial("__partials/header.php", ["title" => "Staff: " . ucwords($filmmaker->get_person()->get_display_name())]); ?>
+<?= $this->partial("__partials/header.php", ["title" => "Staff: " . ucwords($filmmaker->get_person()->get_name())]); ?>
 
 <section class="container">
 
@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col">
-            <h2 class="text-capitalize"><?= $filmmaker->get_person()->get_display_name(); ?></h2>
+            <h2 class="text-capitalize"><?= $filmmaker->get_person()->get_name(); ?></h2>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-<?= $this->partial("__partials/header.php", ["title" => "Staff: " . ucwords($staff->get_person()->get_display_name())]); ?>
+<?= $this->partial("__partials/header.php", ["title" => "Staff: " . ucwords($staff->get_person()->get_name())]); ?>
 
     <section class="container">
 
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col">
                 <h2 class="text-capitalize mb-4">
-                    <?= $staff->get_person()->get_display_name(); ?>
+                    <?= $staff->get_person()->get_name(); ?>
                 </h2>
             </div>
         </div>

@@ -144,6 +144,7 @@ echo head($head);
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
+    import _ from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lodash.js";
 
     const fetchNewsletters = () => API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
     const fetchPhotos = () => API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
@@ -152,24 +153,28 @@ echo head($head);
 
     $(() => {
         fetchNewsletters().then((newsletters) => {
+            newsletters = _.sortBy(newsletters, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${newsletters}></s8f-file-record-cards>`,
                 document.getElementById("newsletters"),
             );
         });
         fetchPhotos().then((photos) => {
+            photos = _.sortBy(photos, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
                 document.getElementById("photos"),
             );
         });
         fetchMagazines().then((magazines) => {
+            magazines = _.sortBy(magazines, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${magazines}></s8f-file-record-cards>`,
                 document.getElementById("magazines"),
             );
         });
         fetchBylaws().then((bylaws) => {
+            bylaws = _.sortBy(bylaws, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${bylaws}></s8f-file-record-cards>`,
                 document.getElementById("by-laws"),

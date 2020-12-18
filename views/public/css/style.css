@@ -1,0 +1,10 @@
+img.card-img-top {
+    object-fit: cover;
+    width: 250px;
+    height: 150px;
+
+    background-color: #2e2e2e;
+    background-image: url("../images/placeholder-200x200.svg");
+    background-position: 50% 50%, 0 0;
+    background-repeat: no-repeat;
+}

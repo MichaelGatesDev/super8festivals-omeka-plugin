@@ -970,7 +970,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated festival", $festival->to_array()));
             } else if ($request->isDelete()) {
-                if($festival->year === 0) {
+                if ($festival->year === 0) {
                     throw new Exception("The default festival can not be deleted!");
                 }
                 $arr = $festival->to_array();
@@ -1336,4 +1336,140 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
     }
 
     // ======================================================================================================================== \\
+
+    public function countryCityPostersAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $posters = [];
+                foreach ($city->get_festivals() as $festival) {
+                    foreach ($festival->get_posters() as $poster) {
+                        array_push($posters, $poster->to_array());
+                    }
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city posters", $posters));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityPhotosAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $photos = [];
+                foreach ($city->get_festivals() as $festival) {
+                    foreach ($festival->get_photos() as $photo) {
+                        array_push($photos, $photo->to_array());
+                    }
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city photos", $photos));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityPrintMediaAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $print_medias = [];
+                foreach ($city->get_festivals() as $festival) {
+                    foreach ($festival->get_print_media() as $print_media) {
+                        array_push($print_medias, $print_media->to_array());
+                    }
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city print media", $print_medias));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFilmsAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $films = [];
+                foreach ($city->get_festivals() as $festival) {
+                    foreach ($festival->get_films() as $film) {
+                        array_push($films, $film->to_array());
+                    }
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city films", $films));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFilmmakersAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $filmmakers = [];
+                foreach ($city->get_festivals() as $festival) {
+                    foreach ($festival->get_filmmakers() as $filmmaker) {
+                        array_push($filmmakers, $filmmaker->to_array());
+                    }
+                }
+                $filmmakers = array_unique($filmmakers, SORT_REGULAR);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city filmmakers", $filmmakers));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityFilmCatalogsAction()
+    {
+        $this->authCheck();
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $film_catalogs = [];
+                foreach ($city->get_festivals() as $festival) {
+                    foreach ($festival->get_film_catalogs() as $film_catalog) {
+                        array_push($film_catalogs, $film_catalog->to_array());
+                    }
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city film catalogs", $film_catalogs));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    // ======================================================================================================================== \\
+
 }

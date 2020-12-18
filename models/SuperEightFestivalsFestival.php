@@ -126,6 +126,16 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id);
     }
 
+    public function get_filmmakers()
+    {
+        $all_films = $this->get_films();
+        $res = [];
+        foreach ($all_films as $film) {
+            array_push($res, $film->get_filmmaker_film()->get_filmmaker());
+        }
+        return $res;
+    }
+
     public function get_film_catalogs()
     {
         return SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id);

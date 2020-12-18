@@ -1,6 +1,6 @@
 <?php
 $head = array(
-    'title' => ucwords($city->name),
+    'title' => ucwords($city->get_location()->name),
 );
 
 queue_css_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
@@ -36,8 +36,7 @@ $banner = $city->get_banner();
             </div>
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#print-media" role="button" style="height: 100px;">Print
-                        Media</a>
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#print-media" role="button" style="height: 100px;">Print Media</a>
                 </div>
             </div>
         </div>
@@ -49,12 +48,6 @@ $banner = $city->get_banner();
         </div>
 
         <div class="col-6 order-3 col-lg-3 order-lg-3">
-            <div class="row">
-                <div class="col">
-                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#nearby-festivals" role="button"
-                       style="height: 100px;">Nearby Festivals</a>
-                </div>
-            </div>
             <div class="row button-row">
                 <div class="col">
                     <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#films" role="button" style="height: 100px;">Films</a>
@@ -71,11 +64,23 @@ $banner = $city->get_banner();
                         Catalogs</a>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <a class="btn btn-block btn-lg btn-dark pt-4 pb-4 mb-3 d-flex align-items-center justify-content-center" href="#nearby-festivals" role="button"
+                       style="height: 100px;">Nearby Festivals</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <section class="container px-0 py-5" id="city">
+
+    <div class="row">
+        <div class="col">
+            <h2 class="my-4 text-capitalize"><?= $city->get_location()->name; ?></h2>
+        </div>
+    </div>
 
     <!--About-->
     <div class="row" id="about">
@@ -93,37 +98,54 @@ $banner = $city->get_banner();
         </div>
     </div>
 
-    <div class="row">
+    <div class="row my-5">
         <div class="col">
-            <h2 class="my-4">Federation</h2>
+            <h3>Posters</h3>
+            <div id="posters"></div>
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-films">
-        <div class="col">
-            <h3>Newsletters</h3>
-            <div id="newsletters"></div>
-        </div>
-    </div>
-
-    <div class="row my-5" id="filmmaker-photos">
+    <div class="row my-5">
         <div class="col">
             <h3>Photos</h3>
             <div id="photos"></div>
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-photos">
+    <div class="row my-5">
         <div class="col">
-            <h3>Magazines</h3>
-            <div id="magazines"></div>
+            <h3>Print Media</h3>
+            <div id="print-media"></div>
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-photos">
+    <div class="row my-5">
         <div class="col">
-            <h3>By-Laws</h3>
-            <div id="by-laws"></div>
+            <h3>Films</h3>
+            <div id="films"></div>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <h3>Filmmakers</h3>
+            <div id="filmmakers"></div>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <h3>Film Catalogs</h3>
+            <div id="film-catalogs"></div>
+        </div>
+    </div>
+
+    <div class="row my-5">
+        <div class="col">
+            <h3>Nearby Festivals</h3>
+            <div id="nearby-festivals">
+                TBD
+            </div>
         </div>
     </div>
 
@@ -132,20 +154,23 @@ $banner = $city->get_banner();
 
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-person-record-cards.js"></script>
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
 
-    const fetchNewsletters = () => API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
-    const fetchPhotos = () => API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
-    const fetchMagazines = () => API.performRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.GET);
-    const fetchBylaws = () => API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
+    const fetchPosters = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "posters"]), HTTPRequestMethod.GET);
+    const fetchPhotos = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "photos"]), HTTPRequestMethod.GET);
+    const fetchPrintMedia = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "print-media"]), HTTPRequestMethod.GET);
+    const fetchFilmCatalogs = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "film-catalogs"]), HTTPRequestMethod.GET);
+    const fetchFilms = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "films"]), HTTPRequestMethod.GET);
+    const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
 
     $(() => {
-        fetchNewsletters().then((newsletters) => {
+        fetchPosters().then((posters) => {
             render(
-                html`<s8f-file-record-cards .files=${newsletters}></s8f-file-record-cards>`,
-                document.getElementById("newsletters"),
+                html`<s8f-file-record-cards .files=${posters}></s8f-file-record-cards>`,
+                document.getElementById("posters"),
             );
         });
         fetchPhotos().then((photos) => {
@@ -154,16 +179,28 @@ $banner = $city->get_banner();
                 document.getElementById("photos"),
             );
         });
-        fetchPhotos().then((magazines) => {
+        fetchPrintMedia().then((printMedia) => {
             render(
-                html`<s8f-file-record-cards .files=${magazines}></s8f-file-record-cards>`,
-                document.getElementById("magazines"),
+                html`<s8f-file-record-cards .files=${printMedia}></s8f-file-record-cards>`,
+                document.getElementById("print-media"),
             );
         });
-        fetchPhotos().then((bylaws) => {
+        fetchFilmCatalogs().then((filmCatalogs) => {
             render(
-                html`<s8f-file-record-cards .files=${bylaws}></s8f-file-record-cards>`,
-                document.getElementById("by-laws"),
+                html`<s8f-file-record-cards .files=${filmCatalogs}></s8f-file-record-cards>`,
+                document.getElementById("film-catalogs"),
+            );
+        });
+        fetchFilms().then((films) => {
+            render(
+                html`<s8f-embed-record-cards .embeds=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-embed-record-cards>`,
+                document.getElementById("films"),
+            );
+        });
+        fetchFilmmakers().then((filmmakers) => {
+            render(
+                html`<s8f-person-record-cards .persons=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-person-record-cards>`,
+                document.getElementById("filmmakers"),
             );
         });
     });

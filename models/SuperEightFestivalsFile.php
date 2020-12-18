@@ -43,10 +43,14 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
 
     public function to_array()
     {
-        return array_merge([
+        $res = parent::to_array();
+        if ($this->get_contributor()) $res = array_merge($res, ["contributor" => $this->get_contributor()->to_array()]);
+        $res = array_merge($res, [
             "file_path" => get_relative_path($this->get_path()),
             "thumbnail_file_path" => get_relative_path($this->get_thumbnail_path()),
-        ], parent::to_array());
+        ]);
+
+        return $res;
     }
 
     // ======================================================================================================================== \\

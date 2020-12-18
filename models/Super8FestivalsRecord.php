@@ -78,11 +78,10 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     public function to_array()
     {
-        return array_merge(
-            parent::toArray(),
-            ["created_by" => filter_array($this->get_created_by(), ["password", "salt"])],
-            ["last_modified_by" => filter_array($this->get_last_modified_by(), ["password", "salt"])],
-        );
+        $res = parent::toArray();
+        if ($this->get_created_by()) $res = array_merge($res, ["created_by" => filter_array($this->get_created_by(), ["password", "salt"])]);
+        if ($this->get_last_modified_by()) $res = array_merge($res, ["last_modified_by" => filter_array($this->get_last_modified_by(), ["password", "salt"])]);
+        return $res;
     }
 
     // ======================================================================================================================== \\

@@ -2,7 +2,7 @@ import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API, { HTTPRequestMethod } from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 

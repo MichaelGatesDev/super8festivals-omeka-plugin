@@ -29,3 +29,9 @@ export const FormAction = {
 export const openLink = (url, newTab = false) => {
     window.open(url, newTab ? "_blank" : "_self");
 };
+
+export const getAttributeFromElementStr = (elementStr, attr) => {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(elementStr, "text/html");
+    return htmlDoc.querySelector("iframe").getAttribute(attr);
+}

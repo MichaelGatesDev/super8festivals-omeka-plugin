@@ -1,4 +1,4 @@
-import Rest from "./rest.js";
+import Rest from "../../admin/javascripts/utils/rest.js";
 
 export const HTTPRequestMethod = {
     GET: "GET",

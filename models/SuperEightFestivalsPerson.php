@@ -42,7 +42,7 @@ class SuperEightFestivalsPerson extends Super8FestivalsRecord
 
     // ======================================================================================================================== \\
 
-    public function get_display_name($includeEmail = false)
+    public function get_name($includeEmail = false)
     {
         $name = "";
         if ($this->first_name != "") {

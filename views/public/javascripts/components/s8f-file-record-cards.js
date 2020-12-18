@@ -8,8 +8,8 @@ import { Person } from "../../../admin/javascripts/utils/s8f-records.js";
 function FileRecordCards(element) {
     const fileTemplate = fileRecord => html`
         <div class="card d-inline-block mb-1" style="width: 250px;">
+            <img src=${fileRecord.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="">
             <div class="card-body">
-                <img src=${fileRecord.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="">
                 <h5 class="card-title chomp-single" title=${fileRecord.file.title}>
                     ${isEmptyString(fileRecord.file.title) ? "Untitled" : fileRecord.file.title}
                 </h5>

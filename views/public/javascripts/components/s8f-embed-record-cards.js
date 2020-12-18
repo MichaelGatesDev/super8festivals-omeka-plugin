@@ -1,11 +1,23 @@
-import { html } from "../../../shared/javascripts/vendor/lit-html.js";
-import { component } from "../../../shared/javascripts/vendor/haunted.js";
+import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
+import { component, useState } from "../../../shared/javascripts/vendor/haunted.js";
 import { repeat } from "../../../shared/javascripts/vendor/lit-html/directives/repeat.js";
 
 import { getAttributeFromElementStr, isEmptyString } from "../../../shared/javascripts/misc.js";
 import { Person } from "../../../admin/javascripts/utils/s8f-records.js";
 
 function EmbedRecordCards(element) {
+
+    const [search, setSearch] = useState("");
+    const [filtersVisible, setFiltersVisible] = useState(false);
+
+    const filterRecords = (records) => {
+        if (isEmptyString(search)) return records;
+        return records.filter((r) =>
+            r.embed.title.toLowerCase().includes(search.toLowerCase())
+            || r.embed.description.toLowerCase().includes(search.toLowerCase()),
+        );
+    };
+
     const embedTemplate = embedRecord => html`
         <div class="card d-inline-block mb-1" style="width: 25rem;">
             <div class="card-body">
@@ -27,6 +39,7 @@ function EmbedRecordCards(element) {
         </div>
     `;
 
+    const filtered = element.embeds && Array.isArray(element.embeds) ? filterRecords(element.embeds) : [];
     return html`
         <style>
             .chomp-single {
@@ -45,9 +58,23 @@ function EmbedRecordCards(element) {
             }
         </style>
         <div class="card-deck">
-            ${!element.embeds || !Array.isArray(element.embeds) || element.embeds.length === 0 ? html`
-                <p>There aren't any here yet.</p>
-            ` : repeat(element.embeds, (embedRecord) => embedTemplate(embedRecord))}
+            <button type="button" class="btn btn-link d-block" @click=${() => { setFiltersVisible(!filtersVisible); }}>
+                ${filtersVisible ? "Hide" : "Show"} Filters
+            </button>
+            ${filtersVisible ? html`
+                <div class="d-flex my-2">
+                    <label class="mr-2">Search</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Enter Search Query" .value=${search} @keyup=${(e) => { setSearch(e.target.value); }}>
+                        <button class="btn btn-outline-secondary" type="button" @click=${() => { setSearch(""); }}>Clear</button>
+                    </div>
+                </div>
+            ` : nothing}
+            ${filtered.length === 0 ? html`
+                <p>No results found.</p>
+            ` : html`
+                ${repeat(filterRecords(element.embeds), (fileRecord) => embedTemplate(fileRecord))}
+            `}
         </div>
     `;
 }

@@ -104,22 +104,83 @@ $by_laws = SuperEightFestivalsFederationBylaw::get_all();
     </div>
 </div>
 
-<section class="container">
 
+<section class="container my-5" id="federation">
 
-    <?php
-    //    echo $this->partial("__components/federation-records-page.php", array(
-    //        "admin" => false,
-    ////            "root_url" => $root_url,
-    //        "records" => array(
-    //            "newsletters" => $newsletters,
-    //            "photos" => $photos,
-    //            "magazines" => $magazines,
-    //            "by_laws" => $by_laws,
-    //        )
-    //    ));
-    ?>
+    <div class="row">
+        <div class="col">
+            <h2 class="my-4">Federation</h2>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-films">
+        <div class="col">
+            <h3>Newsletters</h3>
+            <div id="newsletters"></div>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-photos">
+        <div class="col">
+            <h3>Photos</h3>
+            <div id="photos"></div>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-photos">
+        <div class="col">
+            <h3>Magazines</h3>
+            <div id="magazines"></div>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-photos">
+        <div class="col">
+            <h3>By-Laws</h3>
+            <div id="by-laws"></div>
+        </div>
+    </div>
 
 </section>
+
+
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>
+<script type="module">
+    import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
+    import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
+
+    const fetchNewsletters = () => API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
+    const fetchPhotos = () => API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
+    const fetchMagazines = () => API.performRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.GET);
+    const fetchBylaws = () => API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
+
+    $(() => {
+        fetchNewsletters().then((newsletters) => {
+            render(
+                html`<s8f-file-record-cards .files=${newsletters}></s8f-file-record-cards>`,
+                document.getElementById("newsletters"),
+            );
+        });
+        fetchPhotos().then((photos) => {
+            render(
+                html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
+                document.getElementById("photos"),
+            );
+        });
+        fetchPhotos().then((magazines) => {
+            render(
+                html`<s8f-file-record-cards .files=${magazines}></s8f-file-record-cards>`,
+                document.getElementById("magazines"),
+            );
+        });
+        fetchPhotos().then((bylaws) => {
+            render(
+                html`<s8f-file-record-cards .files=${bylaws}></s8f-file-record-cards>`,
+                document.getElementById("by-laws"),
+            );
+        });
+    });
+</script>
 
 <?php echo foot(); ?>

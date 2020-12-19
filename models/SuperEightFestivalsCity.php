@@ -56,6 +56,7 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         $res = parent::to_array();
         if ($this->get_location()) $res = array_merge($res, ["location" => $this->get_location()->to_array()]);
+        if ($this->get_country()) $res = array_merge($res, ["country" => $this->get_country()->to_array()]);
         return $res;
     }
 

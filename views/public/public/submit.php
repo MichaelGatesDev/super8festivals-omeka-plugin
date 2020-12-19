@@ -58,17 +58,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     We will email you back at <a href="mailto:<?= $email; ?>" class="alert-link"><?= $email; ?></a> as soon as we can.
                     <hr/>
                     <div class="row">
-                        <div class="col text-left">
+                        <div class="col text-start">
                             <p>Name: <?= $name ?></p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col text-left">
+                        <div class="col text-start">
                             <p>Material Type: <?= $materialType ?></p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col text-left">
+                        <div class="col text-start">
                             <p>Message: <?= $message ?></p>
                         </div>
                     </div>

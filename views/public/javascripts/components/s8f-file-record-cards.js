@@ -65,7 +65,7 @@ function FileRecordCards(element) {
             </button>
             ${filtersVisible ? html`
                 <div class="d-flex my-2">
-                    <span class="mr-2">Search</span>
+                    <span class="me-2">Search</span>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Enter Search Query" .value=${search} @keyup=${(e) => { setSearch(e.target.value); }}>
                         <button class="btn btn-outline-secondary" type="button" @click=${() => { setSearch(""); }}>Clear</button>

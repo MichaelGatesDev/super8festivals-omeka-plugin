@@ -64,7 +64,7 @@ function EmbedRecordCards(element) {
             </button>
             ${filtersVisible ? html`
                 <div class="d-flex my-2">
-                    <label class="mr-2">Search</label>
+                    <label class="me-2">Search</label>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Enter Search Query" .value=${search} @keyup=${(e) => { setSearch(e.target.value); }}>
                         <button class="btn btn-outline-secondary" type="button" @click=${() => { setSearch(""); }}>Clear</button>

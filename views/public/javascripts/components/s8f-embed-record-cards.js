@@ -14,7 +14,8 @@ function EmbedRecordCards(element) {
         if (isEmptyString(search)) return records;
         return records.filter((r) =>
             r.embed.title.toLowerCase().includes(search.toLowerCase())
-            || r.embed.description.toLowerCase().includes(search.toLowerCase()),
+            || r.embed.description.toLowerCase().includes(search.toLowerCase())
+            || (r.festival && r.festival.year.toString().includes(search.toLowerCase())),
         );
     };
 

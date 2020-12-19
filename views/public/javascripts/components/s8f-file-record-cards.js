@@ -15,7 +15,8 @@ function FileRecordCards(element) {
         if (isEmptyString(search)) return records;
         return records.filter((r) =>
             r.file.title.toLowerCase().includes(search.toLowerCase())
-            || r.file.description.toLowerCase().includes(search.toLowerCase()),
+            || r.file.description.toLowerCase().includes(search.toLowerCase())
+            || (r.festival && r.festival.year.toString().includes(search.toLowerCase()))
         );
     };
 

@@ -1,34 +1,23 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html.js';
-import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
+import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 
+import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
-const FormAction = {
-    Add: "add",
-    Update: "update",
-}
 
 function FilmmakersTable() {
-    const [filmmakers, setFilmmakers] = useState([]);
+    const [filmmakers, setFilmmakers] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
-    const [modalFooter, setModalFooter] = useState();
-
-    const scrollToAlerts = () => {
-        document.getElementById("alerts").scrollIntoView({
-            behavior: 'smooth', // smooth scroll
-            block: 'start' // the upper border of the element will be aligned at the top of the visible part of the window of the scrollable area.
-        });
-    };
 
     const fetchFilmmakers = async () => {
         try {
-            const filmmakers = await API.getAllFilmmakers();
-            setFilmmakers(filmmakers);
-            console.debug("Fetched filmmakers");
+            const filmmakers = await API.performRequest(API.constructURL(["filmmakers"]), HTTPRequestMethod.GET);
+            setFilmmakers(_.orderBy(filmmakers, ["person.first_name", "person.last_name"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmakers`, err);
             console.error(`Error - Failed to Fetch Filmmakers: ${err.message}`);
@@ -39,255 +28,156 @@ function FilmmakersTable() {
         fetchFilmmakers();
     }, []);
 
-    const addFilmmaker = async (filmmakerToAddObj) => {
+    const performRestAction = async (formData, action) => {
+        let promise = null;
+        switch (action) {
+            case FormAction.Add:
+                promise = API.performRequest(API.constructURL(["filmmakers"]), HTTPRequestMethod.POST, formData);
+                break;
+            case FormAction.Update:
+                promise = API.performRequest(API.constructURL(["filmmakers", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                break;
+            case FormAction.Delete:
+                promise = API.performRequest(API.constructURL(["filmmakers", formData.get("id")]), HTTPRequestMethod.DELETE);
+                break;
+        }
+
+        let actionVerb = action === FormAction.Add ? "added" : action === FormAction.Update ? "updated" : "deleted";
+        let successMessage = `Successfully ${actionVerb} filmmaker.`;
+
         try {
-            const filmmaker = await API.addFilmmaker(filmmakerToAddObj);
+            const result = await promise;
             Alerts.success(
                 "alerts",
-                html`
-                    <strong>Success</strong> 
-                    - Added Filmmaker
-                `,
-                `Successfully added filmmaker "${filmmaker.first_name} ${filmmaker.last_name} (${filmmaker.email})" to the database.`
+                html`<strong>Success</strong>`,
+                successMessage,
+                false,
+                3000,
             );
-            console.debug(`Added filmmaker: ${JSON.stringify(filmmaker)}`);
             await fetchFilmmakers();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Filmmaker`, err);
-            console.error(`Error - Failed to Add Filmmaker: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong>`, err);
         } finally {
-            Modals.hide_custom("filmmaker-modal");
-            scrollToAlerts();
+            scrollTo("alerts");
         }
     };
 
-    const updateFilmmaker = async (filmmakerToUpdateObj) => {
-        try {
-            const filmmaker = await API.updateFilmmaker(filmmakerToUpdateObj);
-            Alerts.success(
-                "alerts",
-                html`
-                    <strong>Success</strong> 
-                    - Edited Filmmaker
-                `,
-                `Successfully edited filmmaker "${filmmaker.first_name} ${filmmaker.last_name} (${filmmaker.email})" in the database.`
-            );
-            console.debug(`Edited filmmaker: ${JSON.stringify(filmmaker)}`);
-            await fetchFilmmakers();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Filmmaker`, err);
-            console.error(`Error - Failed to Edit Filmmaker: ${err.message}`);
-        } finally {
-            Modals.hide_custom("filmmaker-modal");
-            scrollToAlerts();
-        }
+    const cancelForm = () => {
+        Modals.hide_custom("form-modal");
     };
 
-    const deleteFilmmaker = async (filmmakerID) => {
-        try {
-            const filmmaker = await API.deleteFilmmaker(filmmakerID);
-            Alerts.success(
-                "alerts",
-                html`
-                    <strong>Success</strong> 
-                    - Deleted Filmmaker
-                `,
-                `Successfully deleted filmmaker "${filmmaker.first_name} ${filmmaker.last_name} (${filmmaker.email})" from the database.`
-            );
-            console.debug(`Deleted filmmaker: ${JSON.stringify(filmmaker)}`);
-            await fetchFilmmakers();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Filmmaker`, err);
-            console.error(`Error - Failed to Delete Filmmaker: ${err.message}`);
-        } finally {
-            Modals.hide_custom("filmmaker-modal");
-            scrollToAlerts();
-        }
+    const submitForm = (formData, action) => {
+        performRestAction(formData, action).then(() => {
+            Modals.hide_custom("form-modal");
+        });
     };
 
-    const submitForm = (action) => {
-        const formData = new FormData(document.getElementById("form"))
-        const formResult = validateForm();
-        if (!formResult.valid) {
-            console.error(`${formResult.problematic_input}: ${formResult.message}`);
-            // TODO show validation results on form
-            return;
+    const validateForm = (formData) => {
+        const first_name = formData.get("first_name");
+        const last_name = formData.get("last_name");
+        const organization_name = formData.get("organization_name");
+        const email = formData.get("email");
+        if (isEmptyString(first_name) && isEmptyString(last_name) && isEmptyString(organization_name) && isEmptyString(email)) {
+            return { input_name: "name", message: "Either a name or email is required!" };
         }
-
-        const obj = {
-            id: formData.get('id'),
-            first_name: formData.get('first-name'),
-            last_name: formData.get('last-name'),
-            organization_name: formData.get('organization-name'),
-            email: formData.get('email'),
-        };
-
-        if (action === FormAction.Add) {
-            addFilmmaker(obj);
-            document.getElementById("form").reset();
-        } else if (action === FormAction.Update) {
-            updateFilmmaker(obj);
-        }
-        Modals.hide_custom("filmmaker-modal");
+        return null;
     };
 
-
-    const validateForm = () => {
-        const formData = new FormData(document.getElementById("form"))
-        // const id = formData.get('id');
-        const first_name = formData.get('first-name');
-        const last_name = formData.get('last-name');
-        const organization_name = formData.get('organization-name');
-        const email = formData.get('email');
-        if (
-            first_name.replace(/\s/g, "") === "" &&
-            last_name.replace(/\s/g, "") === "" &&
-            organization_name.replace(/\s/g, "") === "" &&
-            email.replace(/\s/g, "") === ""
-        ) {
-            return { valid: false, problematic_input: "", message: "Form can not be blank" };
+    const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
+    const getFormElements = (action, filmmaker = null) => {
+        let results = [];
+        if (filmmaker) {
+            results = [...results, recordIdElementObj(filmmaker)];
         }
-        // if (organization_name.replace(/\s/g, "") === "") {
-        //     return { valid: false, problematic_input: "organization-name", message: "Can not be blank!" };
-        // }
-        // if (email.replace(/\s/g, "") === "") {
-        //     return { valid: false, problematic_input: "email", message: "Can not be blank!" };
-        // }
-        return { valid: true };
+        if (action === FormAction.Add || action === FormAction.Update) {
+            results = [...results,
+                { label: "First Name", type: "text", name: "first_name", placeholder: "", value: filmmaker ? filmmaker.person.first_name : "" },
+                { label: "Last Name", type: "text", name: "last_name", placeholder: "", value: filmmaker ? filmmaker.person.last_name : "" },
+                { label: "Organization Name", type: "text", name: "organization_name", placeholder: "", value: filmmaker ? filmmaker.person.organization_name : "" },
+                { label: "Email", type: "text", name: "email", placeholder: "", value: filmmaker ? filmmaker.person.email : "" },
+                // { label: "Photo", type: "file", name: "file" },
+            ];
+        } else if (action === FormAction.Delete) {
+            results = [...results,
+                { type: "description", value: "Are you sure you want to delete this?" },
+                { type: "description", styleClasses: ["text-danger"], value: "Warning: this can not be undone." },
+            ];
+        }
+        return results;
     };
 
-    const getForm = (filmmaker = null) => {
+    const getForm = (action, record = null) => {
         return html`
-        <form id="form" method="POST" action="">
-            ${filmmaker ? html`<input type="text" class="d-none" name="id" value=${filmmaker.id} />` : nothing}
-            <div class="mb-3">
-                <label for="first-name" class="form-label">First Name</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="first-name" 
-                    name="first-name"
-                    placeholder=""
-                    .value=${filmmaker ? filmmaker.first_name : ""}
-                >
-            </div>
-            <div class="mb-3">
-                <label for="first-name" class="form-label">Last Name</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="last-name" 
-                    name="last-name"
-                    .value=${filmmaker ? filmmaker.last_name : ""}
-                >
-            </div>
-            <div class="mb-3">
-                <label for="first-name" class="form-label">Organization Name</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="organization-name" 
-                    name="organization-name"
-                    .value=${filmmaker ? filmmaker.organization_name : ""}
-                >
-            </div>
-            <div class="mb-3">
-                <label for="first-name" class="form-label">Email</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="email" 
-                    name="email"
-                    .value=${filmmaker ? filmmaker.email : ""}
-                >
-            </div>
-        </form>
+            <s8f-form
+                form-id="filmmaker-form"
+                .elements=${getFormElements(action, record)}
+                .validateFunc=${action !== FormAction.Delete ? validateForm : undefined}
+                .resetOnSubmit=${action === FormAction.Add}
+                @cancel=${cancelForm}
+                @submit=${(e) => { submitForm(e.detail, action); }}
+            >
+            </s8f-form>
         `;
     };
 
     const btnAddClick = () => {
         setModalTitle("Add Filmmaker");
-        setModalBody(getForm());
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
-        `);
-        Modals.show_custom("filmmaker-modal");
+        setModalBody(getForm(FormAction.Add, null));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (filmmaker) => {
         setModalTitle("Edit Filmmaker");
-        setModalBody(getForm(filmmaker));
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
-        `);
-        Modals.show_custom("filmmaker-modal");
+        setModalBody(getForm(FormAction.Update, filmmaker));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (filmmaker) => {
         setModalTitle("Delete Filmmaker");
-        setModalBody(html`
-            <p>Are you sure you want to delete this?</p>
-            <p class="text-danger">Warning: this can not be undone.</p>
-        `);
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { deleteFilmmaker(filmmaker.id); }}>Confirm</button>
-        `);
-        Modals.show_custom("filmmaker-modal");
+        setModalBody(getForm(FormAction.Delete, filmmaker));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
-    const getTableHeaders = () => ["ID", "First Name", "Last Name", "Organization Name", "Email", "Actions"];
-    const getTableRows = () => filmmakers.map((filmmaker) => [
-        filmmaker.id,
-        filmmaker.first_name,
-        filmmaker.last_name,
-        filmmaker.organization_name,
-        filmmaker.email,
-        html`
-            <a href="/admin/super-eight-festivals/filmmakers/${filmmaker.id}/" class="btn btn-info btn-sm">View</a>
-            <button 
-                type="button" 
-                class="btn btn-primary btn-sm" 
-                @click=${() => { btnEditClick(filmmaker); }}
-            >
-                Edit
-            </button>
-            <button 
-                type="button" 
-                class="btn btn-danger btn-sm" 
-                @click=${() => { btnDeleteClick(filmmaker); }}
-            >
-                Delete
-            </button>
-        `
-    ]);
+
+    const tableColumns = [
+        { title: "ID", accessor: "id" },
+        // { title: "Preview", accessor: "file" },
+        { title: "First Name", accessor: "person.first_name" },
+        { title: "Last Name", accessor: "person.last_name" },
+        { title: "Organization Name", accessor: "person.organization_name" },
+        { title: "Email", accessor: "person.email" },
+    ];
 
     return html`
-    <s8f-modal 
-        modal-id="filmmaker-modal"
-        .modal-title=${modalTitle}
-        .modal-body=${modalBody}
-        .modal-footer=${modalFooter}
-    >
-    </s8f-modal>
-    <h2 class="mb-4">
-        Filmmakers 
-        <button 
-            type="button" 
-            class="btn btn-success btn-sm"
-            @click=${() => { btnAddClick(); }}
+        <s8f-modal
+            modal-id="form-modal"
+            .modal-title=${modalTitle}
+            .modal-body=${modalBody}
         >
-            Add Filmmaker
-        </button>
-    </h2>
-    <s8f-table 
-        id="filmmakers-table"
-        .headers=${getTableHeaders()}
-        .rows=${getTableRows()}
-    ></s8f-table>
+        </s8f-modal>
+        <h2 class="mb-4">
+            Filmmakers
+            <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click=${() => { btnAddClick(); }}
+            >
+                Add Filmmaker
+            </button>
+        </h2>
+        <s8f-records-table
+            id="filmmaker-table"
+            .tableColumns=${tableColumns}
+            .tableRows=${filmmakers}
+            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/filmmakers/${record.id}/`); }}
+            .rowEditFunc=${(record) => { btnEditClick(record); }}
+            .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
+        >
+        </s8f-records-table>
     `;
 }
 
-customElements.define('s8f-filmmakers-table', component(FilmmakersTable, { useShadowDOM: false }));
+customElements.define("s8f-filmmakers-table", component(FilmmakersTable, { useShadowDOM: false }));

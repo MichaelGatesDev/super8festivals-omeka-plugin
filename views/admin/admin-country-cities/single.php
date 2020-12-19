@@ -1,10 +1,10 @@
 <?php
-echo head(array(
-    'title' => ucwords($city->name) . ", " . ucwords($country->name),
-));
-
-$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name) . "/cities/" . urlencode($city->name);
+$country_loc = $country->get_location();
+$city_loc = $city->get_location();
+$rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->name) . "/cities/" . urlencode($city_loc->name);
 ?>
+
+<?= $this->partial("__partials/header.php", ["title" => ucwords($country_loc->name)]); ?>
 
 <section class="container">
 
@@ -18,7 +18,10 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
 
     <div class="row">
         <div class="col">
-            <h2 class="text-capitalize"><?= $city->name; ?> <span class="text-muted">(<?= $country->name; ?>)</span></h2>
+            <h2 class="text-capitalize">
+                <?= $city_loc->name; ?>
+                <span class="text-muted">(<?= $country_loc->name; ?>)</span>
+            </h2>
         </div>
     </div>
 
@@ -33,7 +36,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
     <div class="row my-5">
         <div class="col">
             <h3>Description</h3>
-            <?php $description = $city->description; ?>
+            <?php $description = $city_loc->description; ?>
             <?php if ($description == null): ?>
                 <p>There is no description available for this city.</p>
             <?php else: ?>
@@ -54,7 +57,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
                 <a class="btn btn-success" href="<?= $rootURL; ?>/banners/add">Add City Banner</a>
             <?php else: ?>
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="<?= get_relative_path($city_banner->get_thumbnail_path()); ?>" alt="<?= $city_banner->title; ?>" loading="lazy"/>
+                    <img class="card-img-top" src="<?= get_relative_path($city_banner->get_file()->get_thumbnail_path()); ?>" alt="<?= $city_banner->get_file()->title; ?>" loading="lazy"/>
                     <div class="card-body">
                         <a class="btn btn-primary" href="<?= $rootURL; ?>/banners/<?= $city_banner->id; ?>/edit">Edit</a>
                         <a class="btn btn-danger" href="<?= $rootURL; ?>/banners/<?= $city_banner->id; ?>/delete">Delete</a>
@@ -66,7 +69,11 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
 
     <div class="row my-5">
         <div class="col">
-            <s8f-festivals-table country-id="<?= $country->id; ?>" city-id="<?= $city->id; ?>"></s8f-festivals-table>
+            <s8f-festivals-table
+                country-id="<?= $country->id; ?>"
+                city-id="<?= $city->id; ?>"
+            >
+            </s8f-festivals-table>
         </div>
     </div>
 
@@ -75,5 +82,4 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country->name)
 
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>
 
-<?php echo foot(); ?>
-
+<?= $this->partial("__partials/footer.php") ?>

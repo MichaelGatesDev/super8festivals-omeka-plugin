@@ -23,7 +23,6 @@ function constructURLTrail($parts, $part)
 ?>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb my-4">
-        <span class="mr-2">Navigation:</span>
         <?php foreach ($parts = getUrlParts() as $part): ?>
             <li class="breadcrumb-item"><a href="<?= constructURLTrail($parts, $part); ?>"><?= urldecode($part); ?></a></li>
         <?php endforeach; ?>

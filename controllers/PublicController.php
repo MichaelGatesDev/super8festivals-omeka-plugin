@@ -10,7 +10,7 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
     {
         $request = $this->getRequest();
 
-        $query = $request->getParam("query");
+        $query = $request->getParam("query", "");
         $this->view->query = $query;
     }
 

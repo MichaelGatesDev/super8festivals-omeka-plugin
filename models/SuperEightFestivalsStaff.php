@@ -4,10 +4,9 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FPerson;
-    use S8FPreviewable;
-
-    public $role = "";
+    public int $person_id = 0;
+    public int $file_id = 0;
+    public string $role = "";
 
     // ======================================================================================================================== \\
 
@@ -15,64 +14,57 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
-                "`role`      TEXT(65535)",
+                "`person_id`    INT(10) UNSIGNED NOT NULL",
+                "`file_id`      INT(10) UNSIGNED NOT NULL",
+                "`role`         VARCHAR(255)",
             ),
-            S8FPerson::get_db_columns(),
-            S8FPreviewable::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        if ($person = $this->get_person()) $person->delete();
+        if ($file = $this->get_file()) $file->delete();
     }
 
-    protected function beforeSave($args)
+    public function to_array()
     {
-        parent::beforeSave($args);
-
-        if (array_key_exists('record', $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists('insert', $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Adding staff");
-            } else {
-                logger_log(LogLevel::Info, "Updating staff");
-            }
-        }
+        $res = parent::to_array();
+        if ($this->get_person()) $res = array_merge($res, ["person" => $this->get_person()->to_array()]);
+        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        return $res;
     }
 
-    protected function afterSave($args)
+    public static function create($arr = [])
     {
-        parent::afterSave($args);
-
-        if (array_key_exists('record', $args)) {
-            $record = $args['record'];
-        }
-        if (array_key_exists('insert', $args)) {
-            $insert = $args['insert'];
-            if ($insert) {
-                logger_log(LogLevel::Info, "Added staff");
-            } else {
-                logger_log(LogLevel::Info, "Updated staff");
-            }
+        $staff = new SuperEightFestivalsStaff();
+        $staff->role = $arr['role'];
+        $person = SuperEightFestivalsPerson::create($arr['person']);
+        $staff->person_id = $person->id;
+        try {
+            $staff->save(true);
+            return $staff;
+        } catch (Exception $e) {
+            $person->delete();
+            throw $e;
         }
     }
 
-    protected function afterDelete()
+    public function update($arr, $save = true)
     {
-        parent::afterDelete();
-        $this->delete_files();
-        logger_log(LogLevel::Info, "Deleted staff");
+        $cname = get_called_class();
+        if (isset($arr['person'])) {
+            $loc = $this->get_person();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsPerson");
+            $loc->update($arr['person']);
+        }
+
+        parent::update($arr, $save);
     }
 
-    protected function _validate()
-    {
-        parent::_validate();
-    }
+    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsStaff[]
@@ -80,6 +72,22 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
     public static function get_all()
     {
         return parent::get_all();
+    }
+
+    /**
+     * @return SuperEightFestivalsPerson|null
+     */
+    public function get_person()
+    {
+        return SuperEightFestivalsPerson::get_by_id($this->person_id);
+    }
+
+    /**
+     * @return SuperEightFestivalsFile|null
+     */
+    public function get_file()
+    {
+        return SuperEightFestivalsFile::get_by_id($this->file_id);
     }
 
     // ======================================================================================================================== \\

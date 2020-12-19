@@ -5,6 +5,14 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 {
     // ======================================================================================================================== \\
 
+    public int $created_by_id = 0;
+    public string $created_at = "";
+
+    public int $last_modified_by_id = 0;
+    public string $modified_at = "";
+
+    // ======================================================================================================================== \\
+
     public function getResourceId()
     {
         return Inflector::tableize(get_called_class());
@@ -19,10 +27,17 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         }
         if (array_key_exists("insert", $args)) {
             $insert = $args['insert'];
+            $user = current_user();
             if ($insert) {
-                logger_log(LogLevel::Info, "Creating new ${cname}");
+                $this->created_at = date('Y-m-d H:i:s');
+                $this->created_by_id = $user->id;
+                $this->modified_at = date('Y-m-d H:i:s');
+                $this->last_modified_by_id = $user->id;
+//                logger_log(LogLevel::Debug, "{$user->name} began creating new {$cname}...");
             } else {
-                logger_log(LogLevel::Info, "Updating ${cname} (ID: {$this->id})");
+                $this->modified_at = date('Y-m-d H:i:s');
+                $this->last_modified_by_id = $user->id;
+//                logger_log(LogLevel::Debug, "{$user->name} began updating {$cname} (ID: {$this->id})...");
             }
         }
     }
@@ -36,10 +51,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         }
         if (array_key_exists("insert", $args)) {
             $insert = $args['insert'];
+            $user = current_user();
             if ($insert) {
-                logger_log(LogLevel::Info, "Created new ${cname}");
+                logger_log(LogLevel::Info, "{$user->name} successfully created new {$cname} (ID: {$this->id})");
             } else {
-                logger_log(LogLevel::Info, "Updated ${cname} (ID: {$this->id})");
+                logger_log(LogLevel::Info, "{$user->name} successfully updated {$cname} (ID: {$this->id})");
             }
         }
     }
@@ -47,15 +63,25 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     protected function beforeDelete()
     {
         parent::beforeDelete();
+        $user = current_user();
         $cname = get_called_class();
-        logger_log(LogLevel::Info, "Deleting ${cname} (ID: {$this->id})");
+//        logger_log(LogLevel::Debug, "{$user->name} began deleting {$cname} (ID: {$this->id})...");
     }
 
     protected function afterDelete()
     {
         parent::afterDelete();
+        $user = current_user();
         $cname = get_called_class();
-        logger_log(LogLevel::Info, "Deleted ${cname}");
+        logger_log(LogLevel::Info, "{$user->name} successfully deleted {$cname}");
+    }
+
+    public function to_array()
+    {
+        $res = parent::toArray();
+        if ($this->get_created_by()) $res = array_merge($res, ["created_by" => filter_array($this->get_created_by(), ["password", "salt"])]);
+        if ($this->get_last_modified_by()) $res = array_merge($res, ["last_modified_by" => filter_array($this->get_last_modified_by(), ["password", "salt"])]);
+        return $res;
     }
 
     // ======================================================================================================================== \\
@@ -87,9 +113,21 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         );
     }
 
-    public abstract function get_db_columns();
+    public function get_db_columns()
+    {
+        return array(
+            "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE",
+            "`created_by_id`                INT(10) UNSIGNED NOT NULL",
+            "`created_at`                   VARCHAR(255) NOT NULL",
+            "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
+            "`modified_at`                  VARCHAR(255) NOT NULL",
+        );
+    }
 
-    public abstract function get_table_pk();
+    public function get_table_pk()
+    {
+        return "id";
+    }
 
     public static function get_all()
     {
@@ -98,7 +136,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     public static function get_by_id($search_id)
     {
-        return get_db()->getTable(get_called_class())->find($search_id);
+        $res = get_db()->getTable(get_called_class())->find($search_id);
+        if (!($res instanceof Super8FestivalsRecord)) {
+            return null;
+        }
+        return $res;
     }
 
     public static function get_by_param($param_name, $param_value, $limit = null)
@@ -109,6 +151,56 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     public static function get_by_params($params_arr, $limit = null)
     {
         return get_db()->getTable(get_called_class())->findBy($params_arr, $limit);
+    }
+
+    // ======================================================================================================================== \\
+
+    public function get_created_by()
+    {
+        return get_db()->getTable("User")->find($this->created_by_id);
+    }
+
+    public function get_last_modified_by()
+    {
+        return get_db()->getTable("User")->find($this->last_modified_by_id);
+    }
+
+    public function upload_file($formInputName)
+    {
+        $file = new SuperEightFestivalsFile();
+
+        list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
+        $uniqueFileName = uniqid() . "." . $extension;
+        move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
+        $file->file_name = $uniqueFileName;
+        $file->create_thumbnail();
+
+        $this->file_id = $file->id;
+        try {
+            $this->save();
+            return $file;
+        } catch (Exception $e) {
+            logger_log(LogLevel::Info, $e->getMessage());
+            $file->delete();
+            return null;
+        }
+    }
+
+    /**
+     * @param $arr
+     * @return Super8FestivalsRecord|null
+     */
+    public static abstract function create($arr);
+
+    public function update($arr, $save = true)
+    {
+        foreach ($arr as $key => $value) {
+            // we can not update nested objects
+            if (is_array($value)) continue;
+
+            $this[$key] = $value;
+        }
+        if ($save) $this->save();
     }
 
     // ======================================================================================================================== \\

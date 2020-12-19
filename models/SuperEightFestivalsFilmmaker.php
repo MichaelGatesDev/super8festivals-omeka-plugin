@@ -4,7 +4,7 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FPerson;
+    public int $person_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,37 +12,54 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`person_id`   INT(10) UNSIGNED NOT NULL",
             ),
-            S8FPerson::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        if ($person = $this->get_person()) $person->delete();
+        foreach ($this->get_films() as $film) $film->delete();
+        foreach ($this->get_photos() as $photo) $photo->delete();
     }
 
-    protected function _validate()
+    public function to_array()
     {
-        parent::_validate();
+        $res = parent::to_array();
+        if ($this->get_person()) $res = array_merge($res, ["person" => $this->get_person()->to_array()]);
+        return $res;
     }
 
-    protected function afterSave($args)
+    public static function create($arr = [])
     {
-        parent::afterSave($args);
+        $filmmaker = new SuperEightFestivalsFilmmaker();
+        $person = SuperEightFestivalsPerson::create($arr['person']);
+        $filmmaker->person_id = $person->id;
+        try {
+            $filmmaker->save(true);
+            return $filmmaker;
+        } catch (Exception $e) {
+            $person->delete();
+            throw $e;
+        }
     }
 
-    protected function afterDelete()
+    public function update($arr, $save = true)
     {
-        parent::afterDelete();
-        $this->delete_children();
+        $cname = get_called_class();
+        if (isset($arr['person'])) {
+            $loc = $this->get_person();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsPerson");
+            $loc->update($arr['person']);
+        }
+
+        parent::update($arr, $save);
     }
 
-    public function delete_children()
-    {
-        foreach (SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $this->id) as $record) $record->delete();
-    }
+    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsFilmmaker[]
@@ -52,13 +69,25 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public function get_films()
+    /**
+     * @return SuperEightFestivalsPerson|null
+     */
+    public function get_person()
     {
-        return SuperEightFestivalsFestivalFilm::get_by_param('filmmaker_id', $this->id);
+        return SuperEightFestivalsPerson::get_by_id($this->person_id);
     }
 
+    /**
+     * @return SuperEightFestivalsFilmmakerFilm[]
+     */
+    public function get_films()
+    {
+        return SuperEightFestivalsFilmmakerFilm::get_by_param('filmmaker_id', $this->id);
+    }
+
+    /**
+     * @return SuperEightFestivalsFilmmakerPhoto[]
+     */
     public function get_photos()
     {
         return SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $this->id);

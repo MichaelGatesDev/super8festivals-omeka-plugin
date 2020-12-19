@@ -1,10 +1,11 @@
 <?php
 
-class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
+class   SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FFilmmakerImage;
+    public int $filmmaker_id = 0;
+    public int $file_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,33 +13,52 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`filmmaker_id`     INT(10) UNSIGNED NOT NULL",
+                "`file_id`          INT(10) UNSIGNED NOT NULL",
             ),
-            S8FFilmmakerImage::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        if ($file = $this->get_file()) $file->delete();
     }
 
-    protected function _validate()
+    public function to_array()
     {
-        parent::_validate();
-        if (empty($this->filmmaker_id) || !is_numeric($this->filmmaker_id)) {
-            $this->addError('filmmaker_id', 'You must select a valid city!');
+        $res = parent::to_array();
+        if ($this->get_filmmaker()) $res = array_merge($res, ["filmmaker" => $this->get_filmmaker()->to_array()]);
+        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        return $res;
+    }
+
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        $cname = get_called_class();
+        if (isset($arr['file'])) {
+            $loc = $this->get_file();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsFile");
+            $loc->update($arr['file']);
         }
+
+        parent::update($arr, $save);
     }
 
-    protected function afterSave($args)
-    {
-        parent::beforeSave($args);
-    }
+    // ======================================================================================================================== \\
 
-    protected function afterDelete()
+    /**
+     * @param $search_id
+     * @return SuperEightFestivalsFilmmakerPhoto|null
+     */
+    public static function get_by_id($search_id)
     {
-        parent::afterDelete();
+        return parent::get_by_id($search_id);
     }
 
     /**
@@ -49,11 +69,20 @@ class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public function get_internal_prefix(): string
+    /**
+     * @return SuperEightFestivalsFilmmaker|null
+     */
+    public function get_filmmaker()
     {
-        return "festival_filmmaker_photo";
+        return SuperEightFestivalsFilmmaker::get_by_id($this->filmmaker_id);
+    }
+
+    /**
+     * @return SuperEightFestivalsFile|null
+     */
+    public function get_file()
+    {
+        return SuperEightFestivalsFile::get_by_id($this->file_id);
     }
 
     // ======================================================================================================================== \\

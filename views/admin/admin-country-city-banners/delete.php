@@ -1,8 +1,4 @@
-<?php
-echo head(array(
-    'title' => 'Delete City Banner for ' . $city->name,
-));
-?>
+<?= $this->partial("__partials/header.php", ["title" => "Delete City Banner"]); ?>
 
 <section class="container">
 
@@ -29,4 +25,4 @@ echo head(array(
 
 </section>
 
-<?php echo foot(); ?>
+<?= $this->partial("__partials/footer.php") ?>

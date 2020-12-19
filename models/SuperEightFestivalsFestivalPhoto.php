@@ -4,7 +4,8 @@ class SuperEightFestivalsFestivalPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FFestivalImage;
+    public int $festival_id = 0;
+    public int $file_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,21 +13,57 @@ class SuperEightFestivalsFestivalPhoto extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`festival_id`      INT(10) UNSIGNED NOT NULL",
+                "`file_id`          INT(10) UNSIGNED NOT NULL",
             ),
-            S8FFestivalImage::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        $this->get_file()->delete();
     }
 
-    protected function afterDelete()
+    public function to_array()
     {
-        parent::afterDelete();
-        $this->delete_files();
+        $res = parent::to_array();
+        if ($this->get_festival()) $res = array_merge($res, ["festival" => $this->get_festival()->to_array()]);
+        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        return $res;
+    }
+
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        $cname = get_called_class();
+        if (isset($arr['festival'])) {
+            $festival = $this->get_festival();
+            if (!$festival) throw new Exception("{$cname} is not associated with a SuperEightFestivalsFestival");
+            $festival->update($arr['festival']);
+        }
+        if (isset($arr['file'])) {
+            $file = $this->get_file();
+            if (!$file) throw new Exception("{$cname} is not associated with a SuperEightFestivalsFile");
+            $file->update($arr['file']);
+        }
+
+        parent::update($arr, $save);
+    }
+
+    // ======================================================================================================================== \\
+
+    /**
+     * @param $search_id
+     * @return SuperEightFestivalsFestivalPhoto|null
+     */
+    public static function get_by_id($search_id)
+    {
+        return parent::get_by_id($search_id);
     }
 
     /**
@@ -37,11 +74,36 @@ class SuperEightFestivalsFestivalPhoto extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public function get_internal_prefix(): string
+    /**
+     * @return SuperEightFestivalsFile|null
+     */
+    public function get_file()
     {
-        return "festival_photo";
+        return SuperEightFestivalsFile::get_by_id($this->file_id);
+    }
+
+    /**
+     * @return SuperEightFestivalsFestival|null
+     */
+    public function get_festival()
+    {
+        return SuperEightFestivalsFestival::get_by_id($this->festival_id);
+    }
+
+    /**
+     * @return SuperEightFestivalsCountry|null
+     */
+    public function get_country()
+    {
+        return SuperEightFestivalsCountry::get_by_id($this->get_festival()->get_country());
+    }
+
+    /**
+     * @return SuperEightFestivalsCity|null
+     */
+    public function get_city()
+    {
+        return SuperEightFestivalsCity::get_by_id($this->get_festival()->get_city());
     }
 
     // ======================================================================================================================== \\

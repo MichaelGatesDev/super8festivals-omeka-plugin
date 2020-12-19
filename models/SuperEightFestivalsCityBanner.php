@@ -4,8 +4,8 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public $city_id = 0;
-    use S8FPreviewable;
+    public int $city_id = 0;
+    public int $file_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -13,22 +13,46 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
                 "`city_id`   INT(10) UNSIGNED NOT NULL",
+                "`file_id`   INT(10) UNSIGNED NOT NULL",
             ),
-            S8FPreviewable::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        if ($file = $this->get_file()) $file->delete();
     }
 
-    protected function afterDelete()
+    public function to_array()
     {
-        parent::afterDelete();
-        $this->delete_files();
+        $res = parent::to_array();
+        if ($this->get_city()) $res = array_merge($res, ["city" => $this->get_city()->to_array()]);
+        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        return $res;
+    }
+
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        if (!SuperEightFestivalsCity::get_by_id($city_id = $arr['city_id'])) throw new Exception("No city exists with id {$city_id}");
+        parent::update($arr, $save);
+    }
+
+    // ======================================================================================================================== \\
+
+    /**
+     * @param $search_id
+     * @return SuperEightFestivalsCityBanner|null
+     */
+    public static function get_by_id($search_id)
+    {
+        return parent::get_by_id($search_id);
     }
 
     /**
@@ -39,22 +63,30 @@ class SuperEightFestivalsCityBanner extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public function get_internal_prefix(): string
+    /**
+     * @return SuperEightFestivalsCity|null
+     */
+    public function get_city()
     {
-        return "city_banner";
+        return SuperEightFestivalsCity::get_by_id($this->city_id);
     }
 
+    /**
+     * @return SuperEightFestivalsCountry|null
+     */
     public function get_country()
     {
         return $this->get_city()->get_country();
     }
 
-    public function get_city()
+    /**
+     * @return SuperEightFestivalsFile|null
+     */
+    public function get_file()
     {
-        return SuperEightFestivalsCity::get_by_id($this->city_id);
+        return SuperEightFestivalsFile::get_by_id($this->file_id);
     }
+
 
     // ======================================================================================================================== \\
 }

@@ -1,270 +1,195 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html.js';
-import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
+import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 
+import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
-const FormAction = {
-    Add: "add",
-    Update: "update",
-}
 
 function CitiesTable(element) {
     const [country, setCountry] = useState();
-    const [cities, setCities] = useState([]);
+    const [cities, setCities] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
-    const [modalFooter, setModalFooter] = useState();
-
-    const scrollToAlerts = () => {
-        document.getElementById("alerts").scrollIntoView({
-            behavior: 'smooth', // smooth scroll
-            block: 'start' // the upper border of the element will be aligned at the top of the visible part of the window of the scrollable area.
-        });
-    };
 
     const fetchCountry = async () => {
         try {
-            const country = await API.getCountry(element.countryId);
+            const country = await API.performRequest(API.constructURL(["countries", element.countryId]), HTTPRequestMethod.GET);
             setCountry(country);
-            console.debug("Fetched country");
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Countries`, err);
-            console.error(`Error - Failed to Fetch Countries: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Country`, err);
+            console.error(`Error - Failed to Fetch Country: ${err.message}`);
         }
     };
-
-    useEffect(() => {
-        fetchCountry().then(() => { fetchCities(); })
-    }, []);
-
     const fetchCities = async () => {
         try {
-            const cities = await API.getCitiesInCountry(element.countryId);
-            setCities(cities);
-            console.debug("Fetched cities in country");
+            const cities = await API.performRequest(API.constructURL(["countries", element.countryId, "cities"]), HTTPRequestMethod.GET);
+            setCities(_.orderBy(cities, ["location.name", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Cities`, err);
             console.error(`Error - Failed to Fetch Cities: ${err.message}`);
         }
     };
 
-    const addCity = async (cityToAddObj) => {
+    useEffect(() => {
+        fetchCountry().then(() => { fetchCities(); });
+    }, []);
+
+    const performRestAction = async (formData, action) => {
+        let promise = null;
+        switch (action) {
+            case FormAction.Add:
+                promise = API.performRequest(API.constructURL(["countries", element.countryId, "cities"]), HTTPRequestMethod.POST, formData);
+                break;
+            case FormAction.Update:
+                promise = API.performRequest(API.constructURL(["countries", element.countryId, "cities", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                break;
+            case FormAction.Delete:
+                promise = API.performRequest(API.constructURL(["countries", element.countryId, "cities", formData.get("id")]), HTTPRequestMethod.DELETE);
+                break;
+        }
+
+        let actionVerb = action === FormAction.Add ? "added" : action === FormAction.Update ? "updated" : "deleted";
+        let successMessage = `Successfully ${actionVerb} city.`;
+
         try {
-            const city = await API.addCityToCountry(country.id, cityToAddObj);
-            Alerts.success("alerts", html`<strong>Success</strong> - Added City`, `Successfully added city "${city.name}" to the database.`);
-            console.debug(`Added city: ${JSON.stringify(city)}`);
+            const result = await promise;
+            Alerts.success(
+                "alerts",
+                html`<strong>Success</strong>`,
+                successMessage,
+                false,
+                3000,
+            );
             await fetchCities();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add City`, err);
-            console.error(`Error - Failed to Add City: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong>`, err);
         } finally {
-            Modals.hide_custom("city-modal");
-            scrollToAlerts();
+            scrollTo("alerts");
         }
     };
 
-    const updateCity = async (cityToUpdateObj) => {
-        try {
-            const city = await API.updateCityInCountry(country.id, cityToUpdateObj);
-            Alerts.success("alerts", html`<strong>Success</strong> - Edited City`, `Successfully edited city "${city.name}" in the database.`);
-            console.debug(`Edited city: ${JSON.stringify(city)}`);
-            await fetchCities();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit City`, err);
-            console.error(`Error - Failed to Edit City: ${err.message}`);
-        } finally {
-            Modals.hide_custom("city-modal");
-            scrollToAlerts();
-        }
+    const cancelForm = () => {
+        Modals.hide_custom("form-modal");
     };
 
-    const deleteCity = async (cityToDeleteID) => {
-        try {
-            const city = await API.deleteCityFromCountry(country.id, cityToDeleteID);
-            Alerts.success("alerts", html`<strong>Success</strong> - Deleted City`, `Successfully deleted city "${city.name}" from the database.`);
-            console.debug(`Deleted city: ${JSON.stringify(city)}`);
-            await fetchCities();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete City`, err);
-            console.error(`Error - Failed to Delete City: ${err.message}`);
-        } finally {
-            Modals.hide_custom("city-modal");
-            scrollToAlerts();
-        }
+    const submitForm = (formData, action) => {
+        performRestAction(formData, action).then(() => {
+            Modals.hide_custom("form-modal");
+        });
     };
 
-    const submitForm = (action) => {
-        const formData = new FormData(document.getElementById("form"))
-        const formResult = validateForm();
-        if (!formResult.valid) {
-            console.error(`${formResult.problematic_input}: ${formResult.message}`);
-            // TODO show validation results on form
-            return;
-        }
-
-        const obj = {
-            id: formData.get('id'),
-            name: formData.get('name'),
-            latitude: formData.get('latitude'),
-            longitude: formData.get('longitude'),
-            description: formData.get('description'),
-        };
-
-        if (action === FormAction.Add) {
-            addCity(obj);
-            document.getElementById("form").reset();
-        } else if (action === FormAction.Update) {
-            updateCity(obj);
-        }
-        Modals.hide_custom("city-modal");
-    };
-
-
-    const validateForm = () => {
-        const formData = new FormData(document.getElementById("form"))
-        // const id = formData.get('id');
-        const name = formData.get('name');
+    const validateForm = (formData) => {
+        const name = formData.get("name");
         if (name.replace(/\s/g, "") === "") {
-            return { valid: false, problematic_input: "name", message: "Can not be blank!" };
+            return { input_name: "name", message: "Name can not be blank!" };
         }
-        return { valid: true };
+        const latitude = formData.get("latitude");
+        if (!isValidFloat(latitude)) {
+            return { input_name: "name", message: "Latitude is not a valid floating point number!" };
+        }
+        const longitude = formData.get("longitude");
+        if (!isValidFloat(longitude)) {
+            return { input_name: "name", message: "Longitude is not a valid floating point number!" };
+        }
+        return null;
     };
 
-    const getForm = (city = null) => {
+    const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
+    const getFormElements = (action, city = null) => {
+        let results = [];
+        if (city) {
+            results = [...results, recordIdElementObj(city)];
+        }
+        if (action === FormAction.Add || action === FormAction.Update) {
+            results = [...results,
+                { label: "Name", type: "text", name: "name", placeholder: "", value: city ? city.location.name : "" },
+                { label: "Latitude", type: "number", name: "latitude", placeholder: "-1.234", value: city ? city.location.latitude : 0 },
+                { label: "Longitude", type: "number", name: "longitude", placeholder: "-1.234", value: city ? city.location.longitude : 0 },
+                { label: "Description", type: "textarea", name: "description", placeholder: "Enter info about the city here", value: city ? city.location.description : "" },
+            ];
+        } else if (action === FormAction.Delete) {
+            results = [...results,
+                { type: "description", value: "Are you sure you want to delete this?" },
+                { type: "description", styleClasses: ["text-danger"], value: "Warning: this can not be undone." },
+            ];
+        }
+        return results;
+    };
+
+    const getForm = (action, record = null) => {
         return html`
-        <form id="form" method="POST" action="">
-            ${city ? html`<input type="text" class="d-none" name="id" value=${city.id} />` : nothing}
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="name" 
-                    name="name"
-                    placeholder=""
-                    .value=${city ? city.name : ""}
-                >
-            </div>
-            <div class="mb-3">
-                <label for="form-latitude" class="form-label">City Latitude</label>
-                <input 
-                    type="number"
-                    step="0.0001"
-                    class="form-control" 
-                    id="form-latitude"
-                    name="latitude" 
-                    aria-describedby="formCityHelp" 
-                    placeholder="-4.567"
-                    .value=${city ? city.latitude : 0.00}
-                 >
-            </div>
-            <div class="mb-3">
-                <label for="form-longitude" class="form-label">City Longitude</label>
-                <input 
-                    type="number"
-                    step="0.0001"
-                    class="form-control" 
-                    id="form-longitude"
-                    name="longitude" 
-                    aria-describedby="formCityHelp" 
-                    placeholder="-4.567"
-                    .value=${city ? city.longitude : 0.00}
-                 >
-            </div>
-            <div class="mb-3">
-                <label for="form-description" class="form-label">City Description</label>
-                <textarea 
-                    class="form-control" 
-                    id="form-description"
-                    name="description" 
-                    aria-describedby="formCityHelp" 
-                    placeholder="Enter a description or history about the city here. You can use HTML and CSS as well."
-                    .value=${city ? city.description : ""}
-                 >
-            </div>
-        </form>
+            <s8f-form
+                form-id="city-form"
+                .elements=${getFormElements(action, record)}
+                .validateFunc=${action !== FormAction.Delete ? validateForm : undefined}
+                .resetOnSubmit=${action === FormAction.Add}
+                @cancel=${cancelForm}
+                @submit=${(e) => { submitForm(e.detail, action); }}
+            >
+            </s8f-form>
         `;
     };
 
     const btnAddClick = () => {
         setModalTitle("Add City");
-        setModalBody(getForm());
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
-        `);
-        Modals.show_custom("city-modal");
+        setModalBody(getForm(FormAction.Add, null));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (city) => {
         setModalTitle("Edit City");
-        setModalBody(getForm(city));
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
-        `);
-        Modals.show_custom("city-modal");
+        setModalBody(getForm(FormAction.Update, city));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (city) => {
         setModalTitle("Delete City");
-        setModalBody(html`
-            <p>Are you sure you want to delete this?</p>
-            <p class="text-danger">Warning: this can not be undone.</p>
-        `);
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { deleteCity(city.id); }}>Confirm</button>
-        `);
-        Modals.show_custom("city-modal");
+        setModalBody(getForm(FormAction.Delete, city));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
-    const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Description", "Actions"];
-    const getTableRows = () => cities.map((city) => [
-        city.id,
-        city.name,
-        city.latitude,
-        city.longitude,
-        city.description,
-        html`
-            <a href="/admin/super-eight-festivals/countries/${country.name}/cities/${city.name}/" class="btn btn-info btn-sm">View</a>
-            <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(city); }}>Edit</button>
-            <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(city); }}>Delete</button>
-        `
-    ]);
-
-
-    if (country == null) return html`Loading...`;
-
+    const tableColumns = [
+        { title: "ID", accessor: "id" },
+        { title: "Name", accessor: "location.name" },
+        { title: "Latitude", accessor: "location.latitude" },
+        { title: "Longitude", accessor: "location.longitude" },
+    ];
     return html`
-    <s8f-modal 
-        modal-id="city-modal"
-        .modal-title=${modalTitle}
-        .modal-body=${modalBody}
-        .modal-footer=${modalFooter}
-    >
-    </s8f-modal>
-    <h3 class="mb-2">
-        Cities
-        <button 
-            type="button" 
-            class="btn btn-success btn-sm"
-            @click=${() => { btnAddClick(); }}
+        <s8f-modal
+            modal-id="form-modal"
+            .modal-title=${modalTitle}
+            .modal-body=${modalBody}
         >
-            Add City
-        </button>
-    </h3>
-    <s8f-table 
-        id="cities-table"
-        .headers=${getTableHeaders()}
-        .rows=${getTableRows()}
-    ></s8f-table>
+        </s8f-modal>
+        <h2 class="mb-4">
+            Cities
+            <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click=${() => { btnAddClick(); }}
+            >
+                Add City
+            </button>
+        </h2>
+        <s8f-records-table
+            id="cities-table"
+            .tableColumns=${tableColumns}
+            .tableRows=${cities}
+            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/countries/${element.countryId}/cities/${record.location.name}/`); }}
+            .rowEditFunc=${(record) => { btnEditClick(record); }}
+            .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
+        >
+        </s8f-records-table>
     `;
 }
 
-CitiesTable.observedAttributes = ['country-id'];
+CitiesTable.observedAttributes = ["country-id"];
 
-customElements.define('s8f-cities-table', component(CitiesTable, { useShadowDOM: false }));
+customElements.define("s8f-cities-table", component(CitiesTable, { useShadowDOM: false }));

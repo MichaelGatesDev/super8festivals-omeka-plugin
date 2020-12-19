@@ -1,34 +1,23 @@
-import { html, nothing } from '../../../shared/javascripts/vendor/lit-html.js';
-import { component, useEffect, useState } from '../../../shared/javascripts/vendor/haunted.js';
+import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 
 import Alerts from "../utils/alerts.js";
-import API from "../utils/api.js";
+import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 
+import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
-const FormAction = {
-    Add: "add",
-    Update: "update",
-}
 
 function CountriesTable() {
-    const [countries, setCountries] = useState([]);
+    const [countries, setCountries] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
-    const [modalFooter, setModalFooter] = useState();
-
-    const scrollToAlerts = () => {
-        document.getElementById("alerts").scrollIntoView({
-            behavior: 'smooth', // smooth scroll
-            block: 'start' // the upper border of the element will be aligned at the top of the visible part of the window of the scrollable area.
-        });
-    };
 
     const fetchCountries = async () => {
         try {
-            const countries = await API.getAllCountries();
-            setCountries(countries);
-            console.debug("Fetched countries");
+            const countries = await API.performRequest(API.constructURL(["countries"]), HTTPRequestMethod.GET);
+            setCountries(_.orderBy(countries, ["location.name", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Countries`, err);
             console.error(`Error - Failed to Fetch Countries: ${err.message}`);
@@ -39,223 +28,157 @@ function CountriesTable() {
         fetchCountries();
     }, []);
 
-    const addCountry = async (countryToAddObj) => {
+    const performRestAction = async (formData, action) => {
+        let promise = null;
+        switch (action) {
+            case FormAction.Add:
+                promise = API.performRequest(API.constructURL(["countries"]), HTTPRequestMethod.POST, formData);
+                break;
+            case FormAction.Update:
+                promise = API.performRequest(API.constructURL(["countries", formData.get("id")]), HTTPRequestMethod.POST, formData);
+                break;
+            case FormAction.Delete:
+                promise = API.performRequest(API.constructURL(["countries", formData.get("id")]), HTTPRequestMethod.DELETE);
+                break;
+        }
+
+        let actionVerb = action === FormAction.Add ? "added" : action === FormAction.Update ? "updated" : "deleted";
+        let successMessage = `Successfully ${actionVerb} country.`;
+
         try {
-            const country = await API.addCountry(countryToAddObj);
+            const result = await promise;
             Alerts.success(
                 "alerts",
-                html`
-                    <strong>Success</strong> 
-                    - Added Country
-                `,
-                `Successfully added country "${country.name}" to the database.`
+                html`<strong>Success</strong>`,
+                successMessage,
+                false,
+                3000,
             );
-            console.debug(`Added country: ${JSON.stringify(country)}`);
             await fetchCountries();
         } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Add Country`, err);
-            console.error(`Error - Failed to Add Country: ${err.message}`);
+            Alerts.error("alerts", html`<strong>Error</strong>`, err);
         } finally {
-            Modals.hide_custom("country-modal");
-            scrollToAlerts();
+            scrollTo("alerts");
         }
     };
 
-    const updateCountry = async (countryToUpdateObj) => {
-        try {
-            const country = await API.updateCountry(countryToUpdateObj);
-            Alerts.success(
-                "alerts",
-                html`
-                    <strong>Success</strong> 
-                    - Edited Country
-                `,
-                `Successfully edited country "${country.name}" in the database.`
-            );
-            console.debug(`Edited country: ${JSON.stringify(country)}`);
-            await fetchCountries();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Edit Country`, err);
-            console.error(`Error - Failed to Edit Country: ${err.message}`);
-        } finally {
-            Modals.hide_custom("country-modal");
-            scrollToAlerts();
-        }
+    const cancelForm = () => {
+        Modals.hide_custom("form-modal");
     };
 
-    const deleteCountry = async (countryID) => {
-        try {
-            const country = await API.deleteCountry(countryID);
-            Alerts.success(
-                "alerts",
-                html`
-                    <strong>Success</strong> 
-                    - Deleted Country
-                `,
-                `Successfully deleted country "${countryID}" from the database.`
-            );
-            console.debug(`Deleted country: ${JSON.stringify(country)}`);
-            await fetchCountries();
-        } catch (err) {
-            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Delete Country`, err);
-            console.error(`Error - Failed to Delete Country: ${err.message}`);
-        } finally {
-            Modals.hide_custom("country-modal");
-            scrollToAlerts();
-        }
+    const submitForm = (formData, action) => {
+        performRestAction(formData, action).then(() => {
+            Modals.hide_custom("form-modal");
+        });
     };
 
-    const submitForm = (action) => {
-        const formData = new FormData(document.getElementById("form"))
-        const formResult = validateForm();
-        if (!formResult.valid) {
-            console.error(`${formResult.problematic_input}: ${formResult.message}`);
-            // TODO show validation results on form
-            return;
-        }
-
-        const obj = {
-            id: formData.get('id'),
-            name: formData.get('name'),
-            latitude: formData.get('latitude'),
-            longitude: formData.get('longitude'),
-        };
-
-        if (action === FormAction.Add) {
-            addCountry(obj);
-            document.getElementById("form").reset();
-        } else if (action === FormAction.Update) {
-            updateCountry(obj);
-        }
-        Modals.hide_custom("country-modal");
-    };
-
-
-    const validateForm = () => {
-        const formData = new FormData(document.getElementById("form"))
-        // const id = formData.get('id');
-        const name = formData.get('name');
+    const validateForm = (formData) => {
+        const name = formData.get("name");
         if (name.replace(/\s/g, "") === "") {
-            return { valid: false, problematic_input: "name", message: "Can not be blank!" };
+            return { input_name: "name", message: "Name can not be blank!" };
         }
-        return { valid: true };
+        const latitude = formData.get("latitude");
+        if (!isValidFloat(latitude)) {
+            return { input_name: "name", message: "Latitude is not a valid floating point number!" };
+        }
+        const longitude = formData.get("longitude");
+        if (!isValidFloat(longitude)) {
+            return { input_name: "name", message: "Longitude is not a valid floating point number!" };
+        }
+        return null;
     };
 
-    const getForm = (country = null) => {
+    const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
+    const getFormElements = (action, country = null) => {
+        let results = [];
+        if (country) {
+            results = [...results, recordIdElementObj(country)];
+        }
+        if (action === FormAction.Add || action === FormAction.Update) {
+            results = [...results,
+                { label: "Name", type: "text", name: "name", placeholder: "", value: country ? country.location.name : "" },
+                { label: "Latitude", type: "number", name: "latitude", placeholder: "-1.234", value: country ? country.location.latitude : 0 },
+                { label: "Longitude", type: "number", name: "longitude", placeholder: "-1.234", value: country ? country.location.longitude : 0 },
+            ];
+        } else if (action === FormAction.Delete) {
+            results = [...results,
+                { type: "description", value: "Are you sure you want to delete this?" },
+                { type: "description", styleClasses: ["text-danger"], value: "Warning: this can not be undone." },
+            ];
+        }
+        return results;
+    };
+
+    const getForm = (action, record = null) => {
         return html`
-        <form id="form" method="POST" action="">
-            ${country ? html`<input type="text" class="d-none" name="id" value=${country.id} />` : nothing}
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input 
-                    type="text" 
-                    class="form-control" 
-                    id="name" 
-                    name="name"
-                    placeholder=""
-                    .value=${country ? country.name : ""}
-                >
-            </div>
-            <div class="mb-3">
-                <label for="form-latitude" class="form-label">City Latitude</label>
-                <input 
-                    type="number"
-                    step="0.0001"
-                    class="form-control" 
-                    id="form-latitude"
-                    name="latitude" 
-                    aria-describedby="formCityHelp" 
-                    placeholder="-4.567"
-                    .value=${country ? country.latitude : 0.00}
-                 >
-            </div>
-            <div class="mb-3">
-                <label for="form-longitude" class="form-label">City Longitude</label>
-                <input 
-                    type="number"
-                    step="0.0001"
-                    class="form-control" 
-                    id="form-longitude"
-                    name="longitude" 
-                    aria-describedby="formCityHelp" 
-                    placeholder="-4.567"
-                    .value=${country ? country.longitude : 0.00}
-                 >
-            </div>
-        </form>
+            <s8f-form
+                form-id="country-form"
+                .elements=${getFormElements(action, record)}
+                .validateFunc=${action !== FormAction.Delete ? validateForm : undefined}
+                .resetOnSubmit=${action === FormAction.Add}
+                @cancel=${cancelForm}
+                @submit=${(e) => { submitForm(e.detail, action); }}
+            >
+            </s8f-form>
         `;
     };
 
     const btnAddClick = () => {
         setModalTitle("Add Country");
-        setModalBody(getForm());
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Add); }}>Confirm</button>
-        `);
-        Modals.show_custom("country-modal");
+        setModalBody(getForm(FormAction.Add, null));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (country) => {
         setModalTitle("Edit Country");
-        setModalBody(getForm(country));
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { submitForm(FormAction.Update); }}>Confirm</button>
-        `);
-        Modals.show_custom("country-modal");
+        setModalBody(getForm(FormAction.Update, country));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (country) => {
         setModalTitle("Delete Country");
-        setModalBody(html`
-            <p>Are you sure you want to delete this?</p>
-            <p class="text-danger">Warning: this can not be undone.</p>
-        `);
-        setModalFooter(html`
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" @click=${() => { deleteCountry(country.id); }}>Confirm</button>
-        `);
-        Modals.show_custom("country-modal");
+        setModalBody(getForm(FormAction.Delete, country));
+        Modals.show_custom("form-modal");
+        Alerts.clear("form-alerts");
     };
 
-    const getTableHeaders = () => ["ID", "Name", "Latitude", "Longitude", "Actions"];
-    const getTableRows = () => countries.map((country) => [
-        country.id,
-        country.name,
-        country.latitude,
-        country.longitude,
-        html`
-            <a href="/admin/super-eight-festivals/countries/${country.name}/" class="btn btn-info btn-sm">View</a>
-            <button type="button" class="btn btn-primary btn-sm" @click=${() => { btnEditClick(country); }}>Edit</button>
-            <button type="button" class="btn btn-danger btn-sm" @click=${() => { btnDeleteClick(country); }}>Delete</button>
-        `
-    ]);
+
+    const tableColumns = [
+        { title: "ID", accessor: "id" },
+        { title: "Name", accessor: "location.name" },
+        { title: "Latitude", accessor: "location.latitude" },
+        { title: "Longitude", accessor: "location.longitude" },
+    ];
 
     return html`
-    <s8f-modal 
-        modal-id="country-modal"
-        .modal-title=${modalTitle}
-        .modal-body=${modalBody}
-        .modal-footer=${modalFooter}
-    >
-    </s8f-modal>
-    <h2 class="mb-4">
-        Countries 
-        <button 
-            type="button" 
-            class="btn btn-success btn-sm"
-            @click=${() => { btnAddClick(); }}
+        <s8f-modal
+            modal-id="form-modal"
+            .modal-title=${modalTitle}
+            .modal-body=${modalBody}
         >
-            Add Country
-        </button>
-    </h2>
-    <s8f-table 
-        id="countries-table"
-        .headers=${getTableHeaders()}
-        .rows=${getTableRows()}
-    ></s8f-table>
+        </s8f-modal>
+        <h2 class="mb-4">
+            Countries
+            <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click=${() => { btnAddClick(); }}
+            >
+                Add Country
+            </button>
+        </h2>
+        <s8f-records-table
+            id="countries-table"
+            .tableColumns=${tableColumns}
+            .tableRows=${countries}
+            .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/countries/${record.location.name}/`); }}
+            .rowEditFunc=${(record) => { btnEditClick(record); }}
+            .rowDeleteFunc=${(record) => { btnDeleteClick(record); }}
+        >
+        </s8f-records-table>
     `;
 }
 
-customElements.define('s8f-countries-table', component(CountriesTable, { useShadowDOM: false }));
+customElements.define("s8f-countries-table", component(CountriesTable, { useShadowDOM: false }));

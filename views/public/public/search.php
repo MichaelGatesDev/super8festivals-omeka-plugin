@@ -38,7 +38,6 @@ $query = trim($query); // trim blank
         $festival_films = SuperEightFestivalsFestivalFilm::get_all();
         $festival_film_catalogs = SuperEightFestivalsFestivalFilmCatalog::get_all();
         $filmmakers = SuperEightFestivalsFilmmaker::get_all();
-        $festival_memorabilia = SuperEightFestivalsFestivalMemorabilia::get_all();
         $festival_photos = SuperEightFestivalsFestivalPhoto::get_all();
         $festival_posters = SuperEightFestivalsFestivalPoster::get_all();
         $festival_print_media = SuperEightFestivalsFestivalPrintMedia::get_all();
@@ -52,7 +51,6 @@ $query = trim($query); // trim blank
         $matching_festival_films = array();
         $matching_festival_film_catalogs = array();
         $matching_festival_filmmakers = array();
-        $matching_festival_memorabilia = array();
         $matching_festival_photos = array();
         $matching_festival_posters = array();
         $matching_festival_print_media = array();
@@ -87,10 +85,6 @@ $query = trim($query); // trim blank
             search_records($filmmakers, "last_name", $part, $matching_festival_filmmakers);
             search_records($filmmakers, "organization_name", $part, $matching_festival_filmmakers);
             search_records($filmmakers, "email", $part, $matching_festival_filmmakers);
-
-            // search festival memorabilia metadata
-            search_records($festival_memorabilia, "title", $part, $matching_festival_memorabilia);
-            search_records($festival_memorabilia, "description", $part, $matching_festival_memorabilia);
 
             // search festival photos metadata
             search_records($festival_photos, "title", $part, $matching_festival_photos);
@@ -142,7 +136,7 @@ $query = trim($query); // trim blank
             <ul>
                 <?php foreach ($matching_contributors as $contributor): ?>
                     <li>
-                        <a href="/contributors/<?= $contributor->id ?>" class="title"><?= $contributor->get_display_name(); ?>&nbsp;<span class="text-lowercase">(<?= $contributor->email; ?>)</span></a>
+                        <a href="/contributors/<?= $contributor->id ?>" class="title"><?= $contributor->get_name(); ?>&nbsp;<span class="text-lowercase">(<?= $contributor->email; ?>)</span></a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -213,28 +207,7 @@ $query = trim($query); // trim blank
             <ul>
                 <?php foreach ($matching_festival_filmmakers as $filmmaker): ?>
                     <li>
-                        <a href="/filmmakers/<?= $filmmaker->id ?>" class="title"><?= $filmmaker->get_display_name(); ?>&nbsp;<span class="text-lowercase">(<?= $filmmaker->email; ?>)</span></a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        <?php endif; ?>
-
-        <!-- Matching Festival Memorabilia -->
-        <?php if (count($matching_festival_memorabilia) > 0): ?>
-            <h3>Festival Memorabilia</h3>
-            <ul>
-                <?php foreach ($matching_festival_memorabilia as $memorabilia): ?>
-                    <li>
-                        <a href="<?= get_relative_path($memorabilia->get_path()); ?>">
-                            <?php if (strlen($memorabilia->title) > 0): ?>
-                                <?= $memorabilia->title; ?>
-                            <?php else: ?>
-                                Untitled
-                            <?php endif; ?>
-                        </a>
-                        <?php if (strlen($memorabilia->description) > 0): ?>
-                            <p><?= $memorabilia->description; ?></p>
-                        <?php endif; ?>
+                        <a href="/filmmakers/<?= $filmmaker->id ?>" class="title"><?= $filmmaker->get_name(); ?>&nbsp;<span class="text-lowercase">(<?= $filmmaker->email; ?>)</span></a>
                     </li>
                 <?php endforeach; ?>
             </ul>

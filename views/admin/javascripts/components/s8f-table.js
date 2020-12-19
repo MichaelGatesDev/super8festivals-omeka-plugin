@@ -1,6 +1,6 @@
-import { html } from '../../../shared/javascripts/vendor/lit-html.js';
-import { repeat } from '../../../shared/javascripts/vendor/lit-html/directives/repeat.js';
-import { component } from '../../../shared/javascripts/vendor/haunted.js';
+import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import { repeat } from "../../../shared/javascripts/vendor/lit-html/directives/repeat.js";
+import { component } from "../../../shared/javascripts/vendor/haunted.js";
 
 function Table(element) {
     const tableHeaderTemplate = (header) => {
@@ -20,7 +20,7 @@ function Table(element) {
     };
 
     return html`
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover align-middle">
         <thead>
             <tr>
                 ${repeat(element.headers, (header) => tableHeaderTemplate(header))}
@@ -33,4 +33,4 @@ function Table(element) {
     `;
 }
 
-customElements.define('s8f-table', component(Table, { useShadowDOM: false }));
+customElements.define("s8f-table", component(Table, { useShadowDOM: false }));

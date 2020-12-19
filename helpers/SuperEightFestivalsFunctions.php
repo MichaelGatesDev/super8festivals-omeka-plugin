@@ -33,7 +33,8 @@ function base_url($atRoot = FALSE, $atCore = FALSE, $parse = FALSE)
     return substr($base_url, 0, strlen($base_url) - 1);
 }
 
-function alpha_only($string) {
+function alpha_only($string)
+{
     $string = str_replace(' ', ' ', $string);
     $string = preg_replace('/[^A-Za-z\-]/', ' ', $string);
     return $string;
@@ -99,7 +100,7 @@ function get_parent_filmmaker_options(): array
     $results[0] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsFilmmaker')->findAll();
     foreach ($potentialParents as $potentialParent) {
-        $results[$potentialParent->id] = $potentialParent->get_display_name();
+        $results[$potentialParent->id] = $potentialParent->get_person()->get_name();
     }
     return $results;
 }
@@ -110,11 +111,20 @@ function get_parent_contributor_options(): array
     $results[0] = "Select...";
     $potentialParents = get_db()->getTable('SuperEightFestivalsContributor')->findAll();
     foreach ($potentialParents as $potentialParent) {
-        $results[$potentialParent->id] = $potentialParent->get_display_name();
+        $results[$potentialParent->id] = $potentialParent->get_person()->get_name();
     }
     return $results;
 }
 
-function get_all_users (){
+function get_all_users()
+{
     return get_db()->getTable("User")->findAll();
+}
+
+function filter_array($arr, $propertiesToRemove)
+{
+    foreach ($propertiesToRemove as $prop) {
+        unset($arr[$prop]);
+    }
+    return $arr;
 }

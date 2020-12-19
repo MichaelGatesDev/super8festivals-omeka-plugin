@@ -4,7 +4,7 @@ class SuperEightFestivalsFederationPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FFederationImage;
+    public int $file_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,36 +12,66 @@ class SuperEightFestivalsFederationPhoto extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`file_id`   INT(10) UNSIGNED NOT NULL",
             ),
-            S8FFederationImage::get_db_columns()
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
+    protected function beforeDelete()
     {
-        return "id";
+        parent::beforeDelete();
+        $this->get_file()->delete();
     }
 
-    protected function afterDelete()
+    public function to_array()
     {
-        parent::afterDelete();
-        $this->delete_files();
+        $res = parent::to_array();
+        if ($this->get_file()) $res = array_merge($res, ["file" => $this->get_file()->to_array()]);
+        return $res;
+    }
+
+    public static function create($arr = [])
+    {
+    }
+
+    public function update($arr, $save = true)
+    {
+        $cname = get_called_class();
+        if (isset($arr['file'])) {
+            $file = $this->get_file();
+            if (!$file) throw new Exception("{$cname} is not associated with a SuperEightFestivalsFile");
+            $file->update($arr['file']);
+        }
+
+        parent::update($arr, $save);
+    }
+
+    // ======================================================================================================================== \\
+
+    /**
+     * @param $search_id
+     * @return SuperEightFestivalsFederationBylaw|null
+     */
+    public static function get_by_id($search_id)
+    {
+        return parent::get_by_id($search_id);
     }
 
     /**
-     * @return SuperEightFestivalsFederationPhoto[]
+     * @return SuperEightFestivalsFederationBylaw[]
      */
     public static function get_all()
     {
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public function get_internal_prefix(): string
+    /**
+     * @return SuperEightFestivalsFile|null
+     */
+    public function get_file()
     {
-        return "federation_photo";
+        return SuperEightFestivalsFile::get_by_id($this->file_id);
     }
 
     // ======================================================================================================================== \\

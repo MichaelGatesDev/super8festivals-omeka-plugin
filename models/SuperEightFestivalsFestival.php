@@ -4,8 +4,8 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public $city_id = 0;
-    public $year = 0;
+    public int $city_id = 0;
+    public int $year = 0;
 
     // ======================================================================================================================== \\
 
@@ -13,34 +13,29 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
                 "`city_id`      INT(10) UNSIGNED NOT NULL",
                 "`year`         INT(4)           NOT NULL",
             ),
+            parent::get_db_columns()
         );
     }
 
-    public function get_table_pk()
-    {
-        return "id";
-    }
-
-    protected function _validate()
-    {
-        parent::_validate();
-        if (!is_numeric($this->year) || ($this->year != 0 && strlen($this->year) != 4)) {
-            throw new Error("The year may only be a 4-digit numeric year (e.g. 1974)");
-        }
-        if (($found = SuperEightFestivalsFestival::get_by_params(['city_id' => $this->city_id, 'year' => $this->year])) && count($found) > 0 && $found[0]->id !== $this->id) {
-            throw new Error("A festival with that year already exists!");
-        }
-        return true;
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
-    }
+//    protected function beforeDelete()
+//    {
+//        if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be deleted!");
+//        parent::beforeDelete();
+//    }
+//
+//    protected function beforeSave($args)
+//    {
+//        if (array_key_exists("insert", $args)) {
+//            $insert = $args['insert'];
+//            if (!$insert) {
+//                if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be updated!");
+//            }
+//        }
+//        parent::beforeSave($args);
+//    }
 
     protected function afterDelete()
     {
@@ -48,15 +43,47 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         $this->delete_children();
     }
 
+    public function to_array()
+    {
+        $res = parent::to_array();
+        if ($this->get_city()) $res = array_merge($res, ["city" => $this->get_city()->to_array()]);
+        return $res;
+    }
+
     public function delete_children()
     {
         foreach (SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id) as $record) $record->delete();
-        foreach (SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $this->id) as $record) $record->delete();
         foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->delete();
     }
+
+    public static function create($arr = [])
+    {
+        if (SuperEightFestivalsFestival::get_by_param("year", $arr["year"])) {
+            throw new Exception("A festival with that year already exists!");
+        }
+
+        $festival = new SuperEightFestivalsFestival();
+        $festival->year = $arr['year'];
+        $city_id = $arr['city_id'];
+        $festival->city_id = $city_id;
+
+        try {
+            $festival->save();
+            return $festival;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    public function update($arr, $save = true)
+    {
+        parent::update($arr, $save);
+    }
+
+    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsFestival[]
@@ -65,8 +92,6 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         return parent::get_all();
     }
-
-    // ======================================================================================================================== \\
 
     /**
      * @return SuperEightFestivalsCity|null
@@ -96,14 +121,19 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id);
     }
 
-    public function get_memorabilia()
-    {
-        return SuperEightFestivalsFestivalMemorabilia::get_by_param('festival_id', $this->id);
-    }
-
     public function get_films()
     {
         return SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id);
+    }
+
+    public function get_filmmakers()
+    {
+        $all_films = $this->get_films();
+        $res = [];
+        foreach ($all_films as $film) {
+            array_push($res, $film->get_filmmaker_film()->get_filmmaker());
+        }
+        return $res;
     }
 
     public function get_film_catalogs()
@@ -113,7 +143,8 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     public function get_title()
     {
-        return $this->year != 0 ? $this->year . " " . $this->get_city()->name : $this->get_city()->name . " uncategorized";
+        $year = $this->year != 0 ? $this->year : "uncategorized";
+        return "{$this->get_city()->get_location()->name} {$year} festival";
     }
 
     // ======================================================================================================================== \\

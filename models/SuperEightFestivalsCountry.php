@@ -4,7 +4,7 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    use S8FLocation;
+    public int $location_id = 0;
 
     // ======================================================================================================================== \\
 
@@ -12,29 +12,10 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+                "`location_id`      INT(10) UNSIGNED NOT NULL",
             ),
-            S8FLocation::get_db_columns()
+            parent::get_db_columns()
         );
-    }
-
-    public function get_table_pk()
-    {
-        return "id";
-    }
-
-    protected function _validate()
-    {
-        parent::_validate();
-        $this->__validate();
-        if (($found = SuperEightFestivalsCountry::get_by_param('name', $this->name)) && count($found) > 0 && $found[0]->id !== $this->id ) {
-            throw new Error("A country with that name already exists!");
-        }
-    }
-
-    protected function afterSave($args)
-    {
-        parent::afterSave($args);
     }
 
     protected function afterDelete()
@@ -50,6 +31,41 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         }
     }
 
+    public function to_array()
+    {
+        $res = parent::to_array();
+        if ($this->get_location()) $res = array_merge($res, ["location" => $this->get_location()->to_array()]);
+        return $res;
+    }
+
+    public static function create($arr = [])
+    {
+        $country = new SuperEightFestivalsCountry();
+        $location = SuperEightFestivalsLocation::create($arr['location']);
+        $country->location_id = $location->id;
+        try {
+            $country->save();
+            return $country;
+        } catch (Exception $e) {
+            $location->delete();
+            return null;
+        }
+    }
+
+    public function update($arr, $save = true)
+    {
+        $cname = get_called_class();
+        if (isset($arr['location'])) {
+            $loc = $this->get_location();
+            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsLocation");
+            $loc->update($arr['location']);
+        }
+
+        parent::update($arr, $save);
+    }
+
+    // ======================================================================================================================== \\
+
     /**
      * @return SuperEightFestivalsCountry[]
      */
@@ -58,17 +74,33 @@ class SuperEightFestivalsCountry extends Super8FestivalsRecord
         return parent::get_all();
     }
 
-    // ======================================================================================================================== \\
-
-    public static function get_by_name($name): ?SuperEightFestivalsCountry
+    /**
+     * @param $name string name of the country
+     * @return SuperEightFestivalsCountry|null
+     */
+    public static function get_by_name(string $name)
     {
-        $results = SuperEightFestivalsCountry::get_by_param('name', $name, 1);
-        return count($results) > 0 ? $results[0] : null;
+        $all = SuperEightFestivalsCountry::get_all();
+        foreach ($all as $single) {
+            if ($single->get_location()->name === $name) return $single;
+        }
+        return null;
     }
 
+    /**
+     * @return SuperEightFestivalsCity[]|null
+     */
     function get_cities()
     {
         return SuperEightFestivalsCity::get_by_param('country_id', $this->id);
+    }
+
+    /**
+     * @return SuperEightFestivalsLocation|null
+     */
+    public function get_location()
+    {
+        return SuperEightFestivalsLocation::get_by_id($this->location_id);
     }
 
     // ======================================================================================================================== \\

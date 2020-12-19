@@ -116,7 +116,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     public function get_db_columns()
     {
         return array(
-            "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT",
+            "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE",
             "`created_by_id`                INT(10) UNSIGNED NOT NULL",
             "`created_at`                   VARCHAR(255) NOT NULL",
             "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
@@ -200,7 +200,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
             $this[$key] = $value;
         }
-        if ($save) $this->save(true);
+        if ($save) $this->save();
     }
 
     // ======================================================================================================================== \\

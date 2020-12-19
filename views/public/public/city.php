@@ -172,7 +172,7 @@ $banner = $city->get_banner();
         fetchPosters().then((posters) => {
             posters = _.sortBy(posters, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${posters}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .fancyboxId=${"posters"} .files=${posters}></s8f-file-record-cards>`,
                 document.getElementById("posters"),
             );
         }).catch((e) => {
@@ -184,7 +184,7 @@ $banner = $city->get_banner();
         fetchPhotos().then((photos) => {
             photos = _.sortBy(photos, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .fancyboxId=${"photos"} .files=${photos}></s8f-file-record-cards>`,
                 document.getElementById("photos"),
             );
         }).catch((e) => {
@@ -196,7 +196,7 @@ $banner = $city->get_banner();
         fetchPrintMedia().then((printMedia) => {
             printMedia = _.sortBy(printMedia, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${printMedia}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .fancyboxId=${"print-media"} .files=${printMedia}></s8f-file-record-cards>`,
                 document.getElementById("print-media"),
             );
         }).catch((e) => {
@@ -208,7 +208,7 @@ $banner = $city->get_banner();
         fetchFilmCatalogs().then((filmCatalogs) => {
             filmCatalogs = _.sortBy(filmCatalogs, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${filmCatalogs}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .fancyboxId=${"film-catalogs"} .files=${filmCatalogs}></s8f-file-record-cards>`,
                 document.getElementById("film-catalogs"),
             );
         }).catch((e) => {

@@ -155,28 +155,28 @@ echo head($head);
         fetchNewsletters().then((newsletters) => {
             newsletters = _.sortBy(newsletters, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${newsletters}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .files=${newsletters} .fancyboxId=${"newsletters"}></s8f-file-record-cards>`,
                 document.getElementById("newsletters"),
             );
         });
         fetchPhotos().then((photos) => {
             photos = _.sortBy(photos, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .files=${photos} .fancyboxId=${"photos"}></s8f-file-record-cards>`,
                 document.getElementById("photos"),
             );
         });
         fetchMagazines().then((magazines) => {
             magazines = _.sortBy(magazines, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${magazines}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .files=${magazines} .fancyboxId=${"magazines"}></s8f-file-record-cards>`,
                 document.getElementById("magazines"),
             );
         });
         fetchBylaws().then((bylaws) => {
             bylaws = _.sortBy(bylaws, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .files=${bylaws}></s8f-file-record-cards>`,
+                html`<s8f-file-record-cards .files=${bylaws} .fancyboxId=${"by-laws"}></s8f-file-record-cards>`,
                 document.getElementById("by-laws"),
             );
         });

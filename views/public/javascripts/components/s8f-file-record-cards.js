@@ -20,8 +20,10 @@ function FileRecordCards(element) {
     };
 
     const fileTemplate = fileRecord => html`
-        <div class="card d-inline-block mb-1" style="width: 250px;">
-            <img src=${fileRecord.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="">
+        <div class="card d-inline-block mb-1" style="width: 250px;" >
+            <a href=${fileRecord.file.file_path} data-fancybox=${element.fancyboxId ? element.fancyboxId : "gallery"} data-caption="${isEmptyString(fileRecord.file.description) ? "No description available." : fileRecord.file.description}">
+                <img src=${fileRecord.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="">
+            </a>
             <div class="card-body">
                 <h5 class="card-title chomp-single" title=${fileRecord.file.title}>
                     ${isEmptyString(fileRecord.file.title) ? "Untitled" : fileRecord.file.title}
@@ -62,7 +64,7 @@ function FileRecordCards(element) {
             </button>
             ${filtersVisible ? html`
                 <div class="d-flex my-2">
-                    <label class="mr-2">Search</label>
+                    <span class="mr-2">Search</span>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Enter Search Query" .value=${search} @keyup=${(e) => { setSearch(e.target.value); }}>
                         <button class="btn btn-outline-secondary" type="button" @click=${() => { setSearch(""); }}>Clear</button>

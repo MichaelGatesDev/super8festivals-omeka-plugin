@@ -40,17 +40,24 @@ echo head($head);
     const fetchPhotos = () => API.performRequest(API.constructURL(["filmmakers", <?= $filmmaker->id ?>, "photos"]), HTTPRequestMethod.GET);
 
     $(() => {
+        render(html`<p>Loading...</p>`, document.getElementById("films"));
         fetchFilms().then((films) => {
             render(
                 html`<s8f-embed-record-cards .embeds=${films}></s8f-embed-record-cards>`,
                 document.getElementById("films"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films"));
         });
+
+        render(html`<p>Loading...</p>`, document.getElementById("photos"));
         fetchPhotos().then((photos) => {
             render(
                 html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
                 document.getElementById("photos"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos"));
         });
     });
 </script>

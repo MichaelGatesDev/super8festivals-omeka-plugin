@@ -168,48 +168,78 @@ $banner = $city->get_banner();
     const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
 
     $(() => {
+        render(html`<p>Loading...</p>`, document.getElementById("posters"));
         fetchPosters().then((posters) => {
             posters = _.sortBy(posters, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${posters}></s8f-file-record-cards>`,
                 document.getElementById("posters"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("posters"));
         });
+
+
+        render(html`<p>Loading...</p>`, document.getElementById("photos"));
         fetchPhotos().then((photos) => {
             photos = _.sortBy(photos, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
                 document.getElementById("photos"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos"));
         });
+
+
+        render(html`<p>Loading...</p>`, document.getElementById("print-media"));
         fetchPrintMedia().then((printMedia) => {
             printMedia = _.sortBy(printMedia, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${printMedia}></s8f-file-record-cards>`,
                 document.getElementById("print-media"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("print-media"));
         });
+
+
+        render(html`<p>Loading...</p>`, document.getElementById("film-catalogs"));
         fetchFilmCatalogs().then((filmCatalogs) => {
             filmCatalogs = _.sortBy(filmCatalogs, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${filmCatalogs}></s8f-file-record-cards>`,
                 document.getElementById("film-catalogs"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("film-catalogs"));
         });
+
+
+        render(html`<p>Loading...</p>`, document.getElementById("films"));
         fetchFilms().then((films) => {
             films = _.sortBy(films, ["embed.title", "id"]);
             render(
                 html`<s8f-embed-record-cards .embeds=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-embed-record-cards>`,
                 document.getElementById("films"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films"));
         });
+
+
+        render(html`<p>Loading...</p>`, document.getElementById("filmmakers"));
         fetchFilmmakers().then((filmmakers) => {
             filmmakers = _.sortBy(filmmakers, ["person.first_name", "person.last_name", "person.organization_name", "id"]);
             render(
                 html`<s8f-person-record-cards .persons=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-person-record-cards>`,
                 document.getElementById("filmmakers"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers"));
         });
+
+
     });
 </script>
 

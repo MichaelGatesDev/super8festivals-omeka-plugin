@@ -98,52 +98,52 @@ $banner = $city->get_banner();
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="posters">
         <div class="col">
             <h3>Posters</h3>
-            <div id="posters"></div>
+            <div id="posters-container"></div>
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="photos">
         <div class="col">
             <h3>Photos</h3>
-            <div id="photos"></div>
+            <div id="photos-container"></div>
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="print-media">
         <div class="col">
             <h3>Print Media</h3>
-            <div id="print-media"></div>
+            <div id="print-media-container"></div>
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="films">
         <div class="col">
             <h3>Films</h3>
-            <div id="films"></div>
+            <div id="films-container"></div>
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="filmmakers">
         <div class="col">
             <h3>Filmmakers</h3>
-            <div id="filmmakers"></div>
+            <div id="filmmakers-container"></div>
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="film-catalogs">
         <div class="col">
             <h3>Film Catalogs</h3>
-            <div id="film-catalogs"></div>
+            <div id="film-catalogs-container"></div>
         </div>
     </div>
 
-    <div class="row my-5">
+    <div class="row my-5" id="nearby-festivals">
         <div class="col">
             <h3>Nearby Festivals</h3>
-            <div id="nearby-festivals">
+            <div id="nearby-festivals-container">
                 TBD
             </div>
         </div>
@@ -168,75 +168,75 @@ $banner = $city->get_banner();
     const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
 
     $(() => {
-        render(html`<p>Loading...</p>`, document.getElementById("posters"));
+        render(html`<p>Loading...</p>`, document.getElementById("posters-container"));
         fetchPosters().then((posters) => {
             posters = _.sortBy(posters, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .fancyboxId=${"posters"} .files=${posters}></s8f-file-record-cards>`,
-                document.getElementById("posters"),
+                document.getElementById("posters-container"),
             );
         }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("posters"));
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("posters-container"));
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("photos"));
+        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
         fetchPhotos().then((photos) => {
             photos = _.sortBy(photos, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .fancyboxId=${"photos"} .files=${photos}></s8f-file-record-cards>`,
-                document.getElementById("photos"),
+                document.getElementById("photos-container"),
             );
         }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos"));
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos-container"));
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("print-media"));
+        render(html`<p>Loading...</p>`, document.getElementById("print-media-container"));
         fetchPrintMedia().then((printMedia) => {
             printMedia = _.sortBy(printMedia, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .fancyboxId=${"print-media"} .files=${printMedia}></s8f-file-record-cards>`,
-                document.getElementById("print-media"),
+                document.getElementById("print-media-container"),
             );
         }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("print-media"));
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("print-media-container"));
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("film-catalogs"));
+        render(html`<p>Loading...</p>`, document.getElementById("film-catalogs-container"));
         fetchFilmCatalogs().then((filmCatalogs) => {
             filmCatalogs = _.sortBy(filmCatalogs, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .fancyboxId=${"film-catalogs"} .files=${filmCatalogs}></s8f-file-record-cards>`,
-                document.getElementById("film-catalogs"),
+                document.getElementById("film-catalogs-container"),
             );
         }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("film-catalogs"));
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("film-catalogs-container"));
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("films"));
+        render(html`<p>Loading...</p>`, document.getElementById("films-container"));
         fetchFilms().then((films) => {
             films = _.sortBy(films, ["embed.title", "id"]);
             render(
                 html`<s8f-embed-record-cards .embeds=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-embed-record-cards>`,
-                document.getElementById("films"),
+                document.getElementById("films-container"),
             );
         }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films"));
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films-container"));
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("filmmakers"));
+        render(html`<p>Loading...</p>`, document.getElementById("filmmakers-container"));
         fetchFilmmakers().then((filmmakers) => {
             filmmakers = _.sortBy(filmmakers, ["person.first_name", "person.last_name", "person.organization_name", "id"]);
             render(
                 html`<s8f-person-record-cards .persons=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-person-record-cards>`,
-                document.getElementById("filmmakers"),
+                document.getElementById("filmmakers-container"),
             );
         }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers"));
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers-container"));
         });
 
 

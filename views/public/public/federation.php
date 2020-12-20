@@ -108,31 +108,31 @@ echo head($head);
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-films">
+    <div class="row my-5" id="newsletters">
         <div class="col">
             <h3>Newsletters</h3>
-            <div id="newsletters"></div>
+            <div id="newsletters-container"></div>
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-photos">
+    <div class="row my-5" id="photos">
         <div class="col">
             <h3>Photos</h3>
-            <div id="photos"></div>
+            <div id="photos-container"></div>
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-photos">
+    <div class="row my-5" id="magazines">
         <div class="col">
             <h3>Magazines</h3>
-            <div id="magazines"></div>
+            <div id="magazines-container"></div>
         </div>
     </div>
 
-    <div class="row my-5" id="filmmaker-photos">
+    <div class="row my-5" id="by-laws">
         <div class="col">
             <h3>By-Laws</h3>
-            <div id="by-laws"></div>
+            <div id="bylaws-container"></div>
         </div>
     </div>
 
@@ -156,28 +156,28 @@ echo head($head);
             newsletters = _.sortBy(newsletters, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${newsletters} .fancyboxId=${"newsletters"}></s8f-file-record-cards>`,
-                document.getElementById("newsletters"),
+                document.getElementById("newsletters-container"),
             );
         });
         fetchPhotos().then((photos) => {
             photos = _.sortBy(photos, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${photos} .fancyboxId=${"photos"}></s8f-file-record-cards>`,
-                document.getElementById("photos"),
+                document.getElementById("photos-container"),
             );
         });
         fetchMagazines().then((magazines) => {
             magazines = _.sortBy(magazines, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${magazines} .fancyboxId=${"magazines"}></s8f-file-record-cards>`,
-                document.getElementById("magazines"),
+                document.getElementById("magazines-container"),
             );
         });
         fetchBylaws().then((bylaws) => {
             bylaws = _.sortBy(bylaws, ["file.title", "id"]);
             render(
                 html`<s8f-file-record-cards .files=${bylaws} .fancyboxId=${"by-laws"}></s8f-file-record-cards>`,
-                document.getElementById("by-laws"),
+                document.getElementById("bylaws-container"),
             );
         });
     });

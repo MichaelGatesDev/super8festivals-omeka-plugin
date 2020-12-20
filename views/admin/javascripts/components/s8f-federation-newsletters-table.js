@@ -6,9 +6,11 @@ import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
+import { Person } from "../utils/s8f-records.js";
 
 
 function FederationNewslettersTable(element) {
+    const [allContributors, setAllContributors] = useState();
     const [newsletters, setNewsletters] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
@@ -23,8 +25,21 @@ function FederationNewslettersTable(element) {
         }
     };
 
+    const fetchAllContributors = async () => {
+        try {
+            const contributors = await API.performRequest(API.constructURL([
+                "contributors",
+            ]), HTTPRequestMethod.GET);
+            setAllContributors(_.orderBy(contributors, ["person.first_name", "person.last_name", "person.organization_name"]));
+        } catch (err) {
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Contributors`, err);
+            console.error(`Error - Failed to Fetch Contributors: ${err.message}`);
+        }
+    };
+
     useEffect(() => {
         fetchNewsletters();
+        fetchAllContributors();
     }, []);
 
     const performRestAction = async (formData, action) => {
@@ -89,6 +104,15 @@ function FederationNewslettersTable(element) {
             results = [...results,
                 { label: "Title", type: "text", name: "title", placeholder: "", value: newsletter ? newsletter.file.title : "" },
                 { label: "Description", type: "text", name: "description", placeholder: "", value: newsletter ? newsletter.file.description : "" },
+                {
+                    label: "Contributor", name: "contributor_id", type: "select", options: ([{ id: 0 }, ...allContributors]).map((contributor) => {
+                        return {
+                            value: contributor.id,
+                            label: contributor.id === 0 ? `None` : `${Person.getDisplayName(contributor.person)}`,
+                            selected: newsletter ? newsletter.file.contributor_id === contributor.id : false,
+                        };
+                    }),
+                },
                 { label: "File", type: "file", name: "file" },
             ];
         } else if (action === FormAction.Delete) {

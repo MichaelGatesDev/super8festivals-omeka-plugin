@@ -17,13 +17,17 @@ export class Person {
         let result = "";
         if (!isEmptyString(person.first_name)) {
             result += person.first_name;
-            if (!isEmptyString(person.first_name)) {
+            if (!isEmptyString(person.last_name)) {
                 result += ` ${person.last_name}`;
             }
-            result += ` (${person.email})`;
+            if (!isEmptyString(person.email)) {
+                result += ` (${person.email})`;
+            }
         } else if (!isEmptyString(person.organization_name)) {
             result = person.organization_name;
-            result += ` (${person.email})`;
+            if (!isEmptyString(person.email)) {
+                result += ` (${person.email})`;
+            }
         } else {
             result = person.email;
         }

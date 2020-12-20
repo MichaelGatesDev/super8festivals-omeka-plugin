@@ -6,9 +6,11 @@ import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
+import { Person } from "../utils/s8f-records.js";
 
 
 function FilmmakerPhotosTable(element) {
+    const [allContributors, setAllContributors] = useState();
     const [photos, setPhotos] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
@@ -23,8 +25,21 @@ function FilmmakerPhotosTable(element) {
         }
     };
 
+    const fetchAllContributors = async () => {
+        try {
+            const contributors = await API.performRequest(API.constructURL([
+                "contributors",
+            ]), HTTPRequestMethod.GET);
+            setAllContributors(_.orderBy(contributors, ["person.first_name", "person.last_name", "person.organization_name"]));
+        } catch (err) {
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Contributors`, err);
+            console.error(`Error - Failed to Fetch Contributors: ${err.message}`);
+        }
+    };
+
     useEffect(() => {
         fetchPhotos();
+        fetchAllContributors();
     }, []);
 
     const performRestAction = async (formData, action) => {
@@ -80,15 +95,24 @@ function FilmmakerPhotosTable(element) {
     };
 
     const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
-    const getFormElements = (action, film = null) => {
+    const getFormElements = (action, photo = null) => {
         let results = [];
-        if (film) {
-            results = [...results, recordIdElementObj(film)];
+        if (photo) {
+            results = [...results, recordIdElementObj(photo)];
         }
         if (action === FormAction.Add || action === FormAction.Update) {
             results = [...results,
-                { label: "Title", type: "text", name: "title", placeholder: "", value: film ? film.file.title : "" },
-                { label: "Description", type: "text", name: "description", placeholder: "", value: film ? film.file.description : "" },
+                { label: "Title", type: "text", name: "title", placeholder: "", value: photo ? photo.file.title : "" },
+                { label: "Description", type: "text", name: "description", placeholder: "", value: photo ? photo.file.description : "" },
+                {
+                    label: "Contributor", name: "contributor_id", type: "select", options: ([{ id: 0 }, ...allContributors]).map((contributor) => {
+                        return {
+                            value: contributor.id,
+                            label: contributor.id === 0 ? `None` : `${Person.getDisplayName(contributor.person)}`,
+                            selected: photo ? photo.file.contributor_id === contributor.id : false,
+                        };
+                    }),
+                },
                 { label: "File", type: "file", name: "file" },
             ];
         } else if (action === FormAction.Delete) {
@@ -121,16 +145,16 @@ function FilmmakerPhotosTable(element) {
         Alerts.clear("form-alerts");
     };
 
-    const btnEditClick = (film) => {
+    const btnEditClick = (photo) => {
         setModalTitle("Edit Photo");
-        setModalBody(getForm(FormAction.Update, film));
+        setModalBody(getForm(FormAction.Update, photo));
         Modals.show_custom("photos-form-modal");
         Alerts.clear("form-alerts");
     };
 
-    const btnDeleteClick = (film) => {
+    const btnDeleteClick = (photo) => {
         setModalTitle("Delete Photo");
-        setModalBody(getForm(FormAction.Delete, film));
+        setModalBody(getForm(FormAction.Delete, photo));
         Modals.show_custom("photos-form-modal");
         Alerts.clear("form-alerts");
     };
@@ -161,7 +185,7 @@ function FilmmakerPhotosTable(element) {
             </button>
         </h2>
         <s8f-records-table
-            id="film-table"
+            id="photo-table"
             .tableColumns=${tableColumns}
             .tableRows=${photos}
             .rowViewFunc=${(record) => { openLink(`/admin/super-eight-festivals/filmmakers/${element.filmmakerId}/photos/${record.id}/`); }}

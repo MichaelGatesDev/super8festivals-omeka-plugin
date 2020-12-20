@@ -4,10 +4,13 @@ import { component, useEffect, useState } from "../../../shared/javascripts/vend
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, isEmptyString, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, scrollTo } from "../../../shared/javascripts/misc.js";
+import { Person } from "../utils/s8f-records.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 
 function FestivalPostersTable(element) {
+    const [allContributors, setAllContributors] = useState();
     const [posters, setPosters] = useState();
     const [modalTitle, setModalTitle] = useState();
     const [modalBody, setModalBody] = useState();
@@ -30,8 +33,21 @@ function FestivalPostersTable(element) {
         }
     };
 
+    const fetchAllContributors = async () => {
+        try {
+            const contributors = await API.performRequest(API.constructURL([
+                "contributors",
+            ]), HTTPRequestMethod.GET);
+            setAllContributors(_.orderBy(contributors, ["person.first_name", "person.last_name", "person.organization_name"]));
+        } catch (err) {
+            Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Contributors`, err);
+            console.error(`Error - Failed to Fetch Contributors: ${err.message}`);
+        }
+    };
+
     useEffect(() => {
         fetchPosters();
+        fetchAllContributors();
     }, []);
 
     const performRestAction = async (formData, action) => {
@@ -114,22 +130,6 @@ function FestivalPostersTable(element) {
 
     const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
     const getFormElements = (action, poster = null) => {
-
-        const getPersonName = (person) => {
-            let name = "";
-            if (!isEmptyString(person.first_name)) {
-                name += person.first_name + " ";
-                if (!isEmptyString(person.last_name)) {
-                    name += person.last_name;
-                }
-                return name;
-            } else if (!isEmptyString(person.organization_name)) {
-                return person.organization_name;
-            } else {
-                return "Unknown";
-            }
-        };
-
         let results = [];
         if (poster) {
             results = [...results, recordIdElementObj(poster)];
@@ -138,16 +138,16 @@ function FestivalPostersTable(element) {
             results = [...results,
                 { label: "Title", type: "text", name: "title", placeholder: "", value: poster ? poster.file.title : "" },
                 { label: "Description", type: "text", name: "description", placeholder: "", value: poster ? poster.file.description : "" },
+                {
+                    label: "Contributor", name: "contributor_id", type: "select", options: ([{ id: 0 }, ...allContributors]).map((contributor) => {
+                        return {
+                            value: contributor.id,
+                            label: contributor.id === 0 ? `None` : `${Person.getDisplayName(contributor.person)}`,
+                            selected: poster ? poster.file.contributor_id === contributor.id : false,
+                        };
+                    }),
+                },
                 { label: "File", type: "file", name: "file" },
-                // {
-                //     label: "Poster", name: "postermaker_poster_id", type: "select", options: allPosters.map((postermakerPoster) => {
-                //         return {
-                //             value: postermakerPoster.id,
-                //             label: `(${getPersonName(postermakerPoster.postermaker.person)}) ${isEmptyString(postermakerPoster.embed.title) ? "Untitled" : postermakerPoster.embed.title}`,
-                //             selected: poster ? poster.postermaker_poster_id === postermakerPoster.id : false,
-                //         };
-                //     }),
-                // },
             ];
         } else if (action === FormAction.Delete) {
             results = [...results,

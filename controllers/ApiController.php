@@ -123,6 +123,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $newsletter->upload_file("file");
                     $newsletter->update([
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -154,6 +155,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $newsletter->update([
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -194,6 +196,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $photo->upload_file("file");
                     $photo->update([
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -225,6 +228,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $photo->update([
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -265,6 +269,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $bylaw->upload_file("file");
                     $bylaw->update([
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -296,6 +301,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $bylaw->update([
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -336,6 +342,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $magazine->upload_file("file");
                     $magazine->update([
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -367,6 +374,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
                 $magazine->update([
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -637,6 +645,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $photo->update([
                         "filmmaker_id" => $filmmaker->id,
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -670,6 +679,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $photo->update([
                     "filmmaker_id" => $filmmaker->id,
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -704,6 +714,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $film = SuperEightFestivalsFilmmakerFilm::create([
                     "filmmaker_id" => $filmmaker->id,
                     "embed" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                         "embed" => $request->getParam("embed", ""),
@@ -730,6 +741,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $film->update([
                     "filmmaker_id" => $filmmaker->id,
                     "embed" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                         "embed" => $request->getParam("embed", ""),
@@ -1013,6 +1025,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $poster->update([
                         "festival_id" => $festival->id,
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -1046,6 +1059,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $poster->update([
                     "festival_id" => $festival->id,
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -1088,6 +1102,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $photo->update([
                         "festival_id" => $festival->id,
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -1121,6 +1136,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $photo->update([
                     "festival_id" => $festival->id,
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -1163,6 +1179,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $print_medium->update([
                         "festival_id" => $festival->id,
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -1196,6 +1213,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $print_medium->update([
                     "festival_id" => $festival->id,
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],
@@ -1212,8 +1230,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
         }
     }
-
-    //TODO print media
 
     public function countryCityFestivalFilmsAction()
     {
@@ -1269,8 +1285,6 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         }
     }
 
-    //TODO filmmakers
-
     public function countryCityFestivalFilmCatalogsAction()
     {
         try {
@@ -1296,6 +1310,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     $film_catalog->update([
                         "festival_id" => $festival->id,
                         "file" => [
+                            "contributor_id" => $request->getParam("contributor_id", 0),
                             "title" => $request->getParam("title", ""),
                             "description" => $request->getParam("description", ""),
                         ],
@@ -1329,6 +1344,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $film_catalog->update([
                     "festival_id" => $festival->id,
                     "file" => [
+                        "contributor_id" => $request->getParam("contributor_id", 0),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
                     ],

@@ -52,9 +52,7 @@ function AlertsArea(element) {
         return alerts.map((alert, idx) => {
             return html`
                 <div class="alert alert-${alert.level} alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" aria-label="Close" @click=${() => { removeAlert(idx); }}>
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" aria-label="Close" @click=${() => { removeAlert(idx); }}></button>
                     ${alert.header && (html`<h4 class="alert-heading">${alert.header}</h4>`)}
                     ${alert.body && html`${alert.body}`}
                 </div>

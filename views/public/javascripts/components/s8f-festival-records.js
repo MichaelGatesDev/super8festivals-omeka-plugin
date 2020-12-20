@@ -51,16 +51,8 @@ function S8FFestivalRecords(element) {
     };
 
     const sortRecords = records => {
-        if (records.file) {
-            return _.sortBy(records, ["file.title", "id"]);
-        }
-        if (records.embed) {
-            return _.sortBy(records, ["embed.title", "id"]);
-        }
-        if (records.person) {
-            return _.sortBy(records, ["person.first_name", "person.last_name", "person.organization_name", "id"]);
-        }
-        return _.sortBy(records, ["id"]);
+        if (records.length === 0) return records;
+        return _.sortBy(records, ["festival.year", "file.title", "embed.title", "person.first_name", "person.organization_name"]);
     };
 
     useEffect(() => {

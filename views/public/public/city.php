@@ -9,6 +9,7 @@ queue_js_url("https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.f
 echo head($head);
 
 $banner = $city->get_banner();
+$festivals = $city->get_festivals();
 ?>
 
 <div class="container-fluid" id="landing">
@@ -152,12 +153,13 @@ $banner = $city->get_banner();
 </section>
 
 
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-person-record-cards.js"></script>
+<!--<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>-->
+<!--<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>-->
+<!--<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-person-record-cards.js"></script>-->
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-festival-records.js"></script>
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
-    import _ from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lodash.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
 
     const fetchPosters = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "posters"]), HTTPRequestMethod.GET);
@@ -170,9 +172,8 @@ $banner = $city->get_banner();
     $(() => {
         render(html`<p>Loading...</p>`, document.getElementById("posters-container"));
         fetchPosters().then((posters) => {
-            posters = _.sortBy(posters, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .fancyboxId=${"posters"} .files=${posters}></s8f-file-record-cards>`,
+                html`<s8f-festival-records .sectionId=${"posters"} .records=${posters}></s8f-festival-records>`,
                 document.getElementById("posters-container"),
             );
         }).catch((e) => {
@@ -182,9 +183,8 @@ $banner = $city->get_banner();
 
         render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
         fetchPhotos().then((photos) => {
-            photos = _.sortBy(photos, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .fancyboxId=${"photos"} .files=${photos}></s8f-file-record-cards>`,
+                html`<s8f-festival-records .sectionId=${"photos"} .records=${photos}></s8f-festival-records>`,
                 document.getElementById("photos-container"),
             );
         }).catch((e) => {
@@ -194,9 +194,8 @@ $banner = $city->get_banner();
 
         render(html`<p>Loading...</p>`, document.getElementById("print-media-container"));
         fetchPrintMedia().then((printMedia) => {
-            printMedia = _.sortBy(printMedia, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .fancyboxId=${"print-media"} .files=${printMedia}></s8f-file-record-cards>`,
+                html`<s8f-festival-records .sectionId=${"print-media"} .records=${printMedia}></s8f-festival-records>`,
                 document.getElementById("print-media-container"),
             );
         }).catch((e) => {
@@ -206,9 +205,8 @@ $banner = $city->get_banner();
 
         render(html`<p>Loading...</p>`, document.getElementById("film-catalogs-container"));
         fetchFilmCatalogs().then((filmCatalogs) => {
-            filmCatalogs = _.sortBy(filmCatalogs, ["file.title", "id"]);
             render(
-                html`<s8f-file-record-cards .fancyboxId=${"film-catalogs"} .files=${filmCatalogs}></s8f-file-record-cards>`,
+                html`<s8f-festival-records .sectionId=${"film-catalogs"} .records=${filmCatalogs}></s8f-festival-records>`,
                 document.getElementById("film-catalogs-container"),
             );
         }).catch((e) => {
@@ -218,9 +216,8 @@ $banner = $city->get_banner();
 
         render(html`<p>Loading...</p>`, document.getElementById("films-container"));
         fetchFilms().then((films) => {
-            films = _.sortBy(films, ["embed.title", "id"]);
             render(
-                html`<s8f-embed-record-cards .embeds=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-embed-record-cards>`,
+                html`<s8f-festival-records .sectionId=${"films"} .records=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-festival-records>`,
                 document.getElementById("films-container"),
             );
         }).catch((e) => {
@@ -230,9 +227,8 @@ $banner = $city->get_banner();
 
         render(html`<p>Loading...</p>`, document.getElementById("filmmakers-container"));
         fetchFilmmakers().then((filmmakers) => {
-            filmmakers = _.sortBy(filmmakers, ["person.first_name", "person.last_name", "person.organization_name", "id"]);
             render(
-                html`<s8f-person-record-cards .persons=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-person-record-cards>`,
+                html`<s8f-festival-records .sectionId=${"filmmakers"} .records=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-festival-records>`,
                 document.getElementById("filmmakers-container"),
             );
         }).catch((e) => {

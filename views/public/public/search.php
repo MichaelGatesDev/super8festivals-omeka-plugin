@@ -19,16 +19,11 @@ function search_records($records, $property, $query, &$arr)
 $query = trim($query); // trim blank
 ?>
 
-
-<style>
-</style>
-
 <section class="container my-5" id="search-section">
 
 
     <?php if (trim(strlen($query)) > 0): ?>
-        <h2>Search Results</h2>
-        <p>Search query: <?= $query ?></p>
+        <h2>Search Results for "<?= $query ?>"</h2>
 
         <?php
         $countries = SuperEightFestivalsCountry::get_all();

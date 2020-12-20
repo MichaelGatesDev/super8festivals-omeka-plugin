@@ -6,6 +6,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { Person } from "../utils/s8f-records.js";
 
 
 function FestivalFilmsTable(element) {
@@ -130,21 +131,6 @@ function FestivalFilmsTable(element) {
     const recordIdElementObj = (record) => ({ type: "text", name: "id", value: record ? record.id : null, visible: false });
     const getFormElements = (action, film = null) => {
 
-        const getPersonName = (person) => {
-            let name = "";
-            if (!isEmptyString(person.first_name)) {
-                name += person.first_name + " ";
-                if (!isEmptyString(person.last_name)) {
-                    name += person.last_name;
-                }
-                return name;
-            } else if (!isEmptyString(person.organization_name)) {
-                return person.organization_name;
-            } else {
-                return "Unknown";
-            }
-        };
-
         let results = [];
         if (film) {
             results = [...results, recordIdElementObj(film)];
@@ -155,7 +141,7 @@ function FestivalFilmsTable(element) {
                     label: "Film", name: "filmmaker_film_id", type: "select", options: allFilms.map((filmmakerFilm) => {
                         return {
                             value: filmmakerFilm.id,
-                            label: `(${getPersonName(filmmakerFilm.filmmaker.person)}) ${isEmptyString(filmmakerFilm.embed.title) ? "Untitled" : filmmakerFilm.embed.title}`,
+                            label: `${Person.getDisplayName(filmmakerFilm.filmmaker.person)} - ${isEmptyString(filmmakerFilm.embed.title) ? "Untitled" : filmmakerFilm.embed.title}`,
                             selected: film ? film.filmmaker_film_id === filmmakerFilm.id : false,
                         };
                     }),

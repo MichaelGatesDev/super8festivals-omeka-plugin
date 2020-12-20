@@ -78,17 +78,6 @@ $root_url = $city_url . "/festivals/" . $festival->id;
 
     <div class="row my-5">
         <div class="col">
-            <s8f-festival-filmmakers-table
-                country-id="<?= $country->id; ?>"
-                city-id="<?= $city->id; ?>"
-                festival-id="<?= $festival->id; ?>"
-            >
-            </s8f-festival-filmmakers-table>
-        </div>
-    </div>
-
-    <div class="row my-5">
-        <div class="col">
             <s8f-festival-film-catalogs-table
                 country-id="<?= $country->id; ?>"
                 city-id="<?= $city->id; ?>"
@@ -104,7 +93,6 @@ $root_url = $city_url . "/festivals/" . $festival->id;
 <script type='module' src='<?= get_relative_path(__DIR__ . "/../javascripts/components/s8f-festival-photos-table.js"); ?>'></script>
 <script type='module' src='<?= get_relative_path(__DIR__ . "/../javascripts/components/s8f-festival-print-media-table.js"); ?>'></script>
 <script type='module' src='<?= get_relative_path(__DIR__ . "/../javascripts/components/s8f-festival-films-table.js"); ?>'></script>
-<script type='module' src='<?= get_relative_path(__DIR__ . "/../javascripts/components/s8f-festival-filmmakers-table.js"); ?>'></script>
 <script type='module' src='<?= get_relative_path(__DIR__ . "/../javascripts/components/s8f-festival-film-catalogs-table.js"); ?>'></script>
 
 <?= $this->partial("__partials/footer.php") ?>

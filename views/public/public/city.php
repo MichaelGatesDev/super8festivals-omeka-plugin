@@ -153,9 +153,6 @@ $festivals = $city->get_festivals();
 </section>
 
 
-<!--<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>-->
-<!--<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>-->
-<!--<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-person-record-cards.js"></script>-->
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-festival-records.js"></script>
 <script type="module">
@@ -177,68 +174,68 @@ $festivals = $city->get_festivals();
         render(html`<p>Loading...</p>`, document.getElementById("films-container"));
         render(html`<p>Loading...</p>`, document.getElementById("filmmakers-container"));
 
-        fetchPosters().then((posters) => {
+        const promises = [];
+
+        promises.push(fetchPosters().then((posters) => {
             render(
-                html`<s8f-festival-records .sectionId=${"posters"} .records=${posters}></s8f-festival-records>`,
+                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"posters"} .records=${posters}></s8f-festival-records>`,
                 document.getElementById("posters-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("posters-container"));
-        });
+        }));
 
-
-        fetchPhotos().then((photos) => {
+        promises.push(fetchPhotos().then((photos) => {
             render(
-                html`<s8f-festival-records .sectionId=${"photos"} .records=${photos}></s8f-festival-records>`,
+                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"photos"} .records=${photos}></s8f-festival-records>`,
                 document.getElementById("photos-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos-container"));
-        });
+        }));
 
-
-        fetchPrintMedia().then((printMedia) => {
+        promises.push(fetchPrintMedia().then((printMedia) => {
             render(
-                html`<s8f-festival-records .sectionId=${"print-media"} .records=${printMedia}></s8f-festival-records>`,
+                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"print-media"} .records=${printMedia}></s8f-festival-records>`,
                 document.getElementById("print-media-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("print-media-container"));
-        });
+        }));
 
-
-        fetchFilmCatalogs().then((filmCatalogs) => {
+        promises.push(fetchFilmCatalogs().then((filmCatalogs) => {
             render(
-                html`<s8f-festival-records .sectionId=${"film-catalogs"} .records=${filmCatalogs}></s8f-festival-records>`,
+                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"film-catalogs"} .records=${filmCatalogs}></s8f-festival-records>`,
                 document.getElementById("film-catalogs-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("film-catalogs-container"));
-        });
+        }));
 
-
-        fetchFilms().then((films) => {
+        promises.push(fetchFilms().then((films) => {
             render(
-                html`<s8f-festival-records .sectionId=${"films"} .records=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-festival-records>`,
+                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"films"} .records=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-festival-records>`,
                 document.getElementById("films-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films-container"));
-        });
+        }));
 
-
-        fetchFilmmakers().then((filmmakers) => {
+        promises.push(fetchFilmmakers().then((filmmakers) => {
             render(
-                html`<s8f-festival-records .sectionId=${"filmmakers"} .records=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-festival-records>`,
+                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"filmmakers"} .records=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-festival-records>`,
                 document.getElementById("filmmakers-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers-container"));
+        }));
+
+        Promise.all(promises).then(() => {
+            if (window.location.hash) {
+                document.getElementById(window.location.hash.substring(1)).scrollIntoView();
+            }
         });
-
-
     });
 </script>
-
 
 <?php echo foot(); ?>

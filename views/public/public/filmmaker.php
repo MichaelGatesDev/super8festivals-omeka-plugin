@@ -15,23 +15,22 @@ echo head($head);
 
     <div class="row my-5" id="filmmaker-films">
         <div class="col">
-            <h3>Films</h3>
-            <div id="films"></div>
+            <h3 class="mb-2">Films</h3>
+            <div id="films-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="filmmaker-photos">
         <div class="col">
-            <h3>Photos</h3>
-            <div id="photos"></div>
+            <h3 class="mb-2">Photos</h3>
+            <div id="photos-container"></div>
         </div>
     </div>
 
 </section>
 
-
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-filmmaker-records.js"></script>
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
@@ -40,24 +39,33 @@ echo head($head);
     const fetchPhotos = () => API.performRequest(API.constructURL(["filmmakers", <?= $filmmaker->id ?>, "photos"]), HTTPRequestMethod.GET);
 
     $(() => {
-        render(html`<p>Loading...</p>`, document.getElementById("films"));
-        fetchFilms().then((films) => {
+        render(html`<p>Loading...</p>`, document.getElementById("films-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
+
+        const promises = [];
+
+        promises.push(fetchFilms().then((films) => {
             render(
-                html`<s8f-embed-record-cards .embeds=${films}></s8f-embed-record-cards>`,
-                document.getElementById("films"),
+                html`<s8f-filmmaker-records .sectionId=${"films"} .records=${films}></s8f-filmmaker-records>`,
+                document.getElementById("films-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films"));
-        });
+        }));
 
-        render(html`<p>Loading...</p>`, document.getElementById("photos"));
-        fetchPhotos().then((photos) => {
+        promises.push(fetchPhotos().then((photos) => {
             render(
-                html`<s8f-file-record-cards .files=${photos}></s8f-file-record-cards>`,
-                document.getElementById("photos"),
+                html`<s8f-filmmaker-records .sectionId=${"photos"} .records=${photos}></s8f-filmmaker-records>`,
+                document.getElementById("photos-container"),
             );
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos"));
+        }));
+
+        Promise.all(promises).then(() => {
+            if (window.location.hash) {
+                document.getElementById(window.location.hash.substring(1)).scrollIntoView();
+            }
         });
     });
 </script>

@@ -40,7 +40,7 @@ function S8FCard(element) {
                 -webkit-box-orient: vertical;
             }
         </style>
-        <div class="card d-inline-block mb-1" style="width: 250px;">
+        <div class="card d-inline-block mb-1" style="width: 250px;" id=${element.id}>
             ${record.file ? (html`
                 <a href=${record.file.file_path} data-fancybox=${element.fancyboxId ? `fb-${element.fancyboxId}` : "gallery"} data-caption="${isEmptyString(record.file.description) ? "No description available." : record.file.description}">
                     <img src=${record.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="" style="height: 200px;">

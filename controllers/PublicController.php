@@ -12,6 +12,9 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
 
         $query = $request->getParam("query", "");
         $this->view->query = $query;
+
+        $search_type = $request->getParam("type", "");
+        $this->view->search_type = $search_type;
     }
 
     public function aboutAction()
@@ -54,6 +57,9 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
     {
         $request = $this->getRequest();
         $this->view->city = get_request_param_city($request);
+
+        $year = $request->getParam("year", "");
+        $this->view->year = $year;
     }
 
 }

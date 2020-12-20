@@ -40,6 +40,16 @@ function alpha_only($string)
     return $string;
 }
 
+function get_nested_property($array, $path)
+{
+    $path = explode('.', $path);
+    $temp =& $array;
+    foreach ($path as $key) {
+        $temp =& $temp[$key];
+    }
+    return $temp;
+}
+
 // ============================================================================================================================================================= \\
 
 function get_parent_country_options(): array

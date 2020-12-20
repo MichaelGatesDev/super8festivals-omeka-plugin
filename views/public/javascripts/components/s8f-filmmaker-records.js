@@ -5,7 +5,7 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import { isEmptyString } from "../../../shared/javascripts/misc.js";
 
-function S8FFestivalRecords(element) {
+function S8FFilmmakerRecords(element) {
     const elemRecords = Array.isArray(element.records) ? element.records : [];
     const [records, setRecords] = useState(elemRecords);
     const [search, setSearch] = useState("");
@@ -110,14 +110,14 @@ function S8FFestivalRecords(element) {
 
     return html`
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            ${navTabItemTemplate("all", "all", element.sectionId, isEmptyString(element.year) || !years.includes(Number.parseInt(element.year)))}
-            ${repeat(years, year => navTabItemTemplate(year, year === 0 ? "uncategorized" : year, element.sectionId, year === Number.parseInt(element.year)))}
+            ${navTabItemTemplate("all", "all", element.sectionId, true)}
+            ${repeat(years, year => navTabItemTemplate(year, year === 0 ? "uncategorized" : year, element.sectionId))}
         </ul>
         <div class="tab-content">
-            ${navPaneTemplate("all", "all", element.sectionId, isEmptyString(element.year) || !years.includes(Number.parseInt(element.year)))}
-            ${repeat(years, year => navPaneTemplate(year, year, element.sectionId, year === Number.parseInt(element.year)))}
+            ${navPaneTemplate("all", "all", element.sectionId, true)}
+            ${repeat(years, year => navPaneTemplate(year, year, element.sectionId))}
         </div>
     `;
 }
 
-customElements.define("s8f-festival-records", component(S8FFestivalRecords, { useShadowDOM: false }));
+customElements.define("s8f-filmmaker-records", component(S8FFilmmakerRecords, { useShadowDOM: false }));

@@ -110,37 +110,38 @@ echo head($head);
 
     <div class="row my-5" id="newsletters">
         <div class="col">
-            <h3>Newsletters</h3>
+            <h3 class="mb-2">Newsletters</h3>
             <div id="newsletters-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="photos">
         <div class="col">
-            <h3>Photos</h3>
+            <h3 class="mb-2">Photos</h3>
             <div id="photos-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="magazines">
         <div class="col">
-            <h3>Magazines</h3>
+            <h3 class="mb-2">Magazines</h3>
             <div id="magazines-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="by-laws">
         <div class="col">
-            <h3>By-Laws</h3>
+            <h3 class="mb-2">By-Laws</h3>
             <div id="bylaws-container"></div>
         </div>
     </div>
 
+
 </section>
 
 
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-embed-record-cards.js"></script>
-<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-file-record-cards.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
+<script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-federation-records.js"></script>
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
@@ -152,33 +153,53 @@ echo head($head);
     const fetchBylaws = () => API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
 
     $(() => {
-        fetchNewsletters().then((newsletters) => {
-            newsletters = _.sortBy(newsletters, ["file.title", "id"]);
+        render(html`<p>Loading...</p>`, document.getElementById("newsletters-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("magazines-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("bylaws-container"));
+
+        const promises = [];
+
+        promises.push(fetchNewsletters().then((newsletters) => {
             render(
-                html`<s8f-file-record-cards .files=${newsletters} .fancyboxId=${"newsletters"}></s8f-file-record-cards>`,
+                html`<s8f-federation-records .sectionId=${"newsletters"} .records=${newsletters}></s8f-federation-records>`,
                 document.getElementById("newsletters-container"),
             );
-        });
-        fetchPhotos().then((photos) => {
-            photos = _.sortBy(photos, ["file.title", "id"]);
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("newsletters-container"));
+        }));
+
+        promises.push(fetchPhotos().then((photos) => {
             render(
-                html`<s8f-file-record-cards .files=${photos} .fancyboxId=${"photos"}></s8f-file-record-cards>`,
+                html`<s8f-federation-records .sectionId=${"photos"} .records=${photos}></s8f-federation-records>`,
                 document.getElementById("photos-container"),
             );
-        });
-        fetchMagazines().then((magazines) => {
-            magazines = _.sortBy(magazines, ["file.title", "id"]);
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos-container"));
+        }));
+
+        promises.push(fetchMagazines().then((magazines) => {
             render(
-                html`<s8f-file-record-cards .files=${magazines} .fancyboxId=${"magazines"}></s8f-file-record-cards>`,
+                html`<s8f-federation-records .sectionId=${"magazines"} .records=${magazines}></s8f-federation-records>`,
                 document.getElementById("magazines-container"),
             );
-        });
-        fetchBylaws().then((bylaws) => {
-            bylaws = _.sortBy(bylaws, ["file.title", "id"]);
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("magazines-container"));
+        }));
+
+        promises.push(fetchBylaws().then((bylaws) => {
             render(
-                html`<s8f-file-record-cards .files=${bylaws} .fancyboxId=${"by-laws"}></s8f-file-record-cards>`,
+                html`<s8f-federation-records .sectionId=${"bylaws"} .records=${bylaws}></s8f-federation-records>`,
                 document.getElementById("bylaws-container"),
             );
+        }).catch((e) => {
+            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("bylaws-container"));
+        }));
+
+        Promise.all(promises).then(() => {
+            if (window.location.hash) {
+                document.getElementById(window.location.hash.substring(1)).scrollIntoView();
+            }
         });
     });
 </script>

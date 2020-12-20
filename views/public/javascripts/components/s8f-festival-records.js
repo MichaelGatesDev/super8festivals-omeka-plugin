@@ -33,10 +33,20 @@ function S8FFestivalRecords(element) {
             );
         };
 
+        const personMatch = (record, query) => {
+            query = query.toLowerCase();
+            return record.person && (
+                record.person.first_name.toLowerCase().includes(query)
+                || record.person.last_name.toLowerCase().includes(query)
+                || record.person.organization_name.toLowerCase().includes(query)
+            );
+        };
+
         return records.filter(r =>
             festivalYearMatch(r, search)
             || fileMatch(r, search)
-            || embedMatch(r, search),
+            || embedMatch(r, search)
+            || personMatch(r, search),
         );
     };
 
@@ -58,7 +68,7 @@ function S8FFestivalRecords(element) {
     }, [search]);
 
     const sortedRecords = sortRecords(records);
-    const years = [...new Set(elemRecords.map((record) => record.festival.year))];
+    const years = _.uniq(_.map(records, "festival.year"));
     years.sort();
 
     const recordTemplate = (record, fbId) => html`
@@ -97,7 +107,7 @@ function S8FFestivalRecords(element) {
                 ` : html`
                     <div class="card-deck">
                         ${repeat(
-                            year === "all" ? sortedRecords : sortedRecords.filter((record) => record.festival.year === year),
+                            year === "all" ? sortedRecords : sortedRecords.filter((record) => record.festival && record.festival.year === year),
                             record => recordTemplate(record, `${element.sectionId}-${year}`),
                         )}
                     </div>

@@ -19,7 +19,7 @@ export default class API {
      * @param {FormData | null} formData
      * @returns {Promise<void>}
      */
-    static performRequest(url, method, formData = null) {
+    static async performRequest(url, method, formData = null) {
         switch (method) {
             default:
                 break;

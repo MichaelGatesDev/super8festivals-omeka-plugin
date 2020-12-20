@@ -171,6 +171,12 @@ $festivals = $city->get_festivals();
 
     $(() => {
         render(html`<p>Loading...</p>`, document.getElementById("posters-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("print-media-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("film-catalogs-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("films-container"));
+        render(html`<p>Loading...</p>`, document.getElementById("filmmakers-container"));
+
         fetchPosters().then((posters) => {
             render(
                 html`<s8f-festival-records .sectionId=${"posters"} .records=${posters}></s8f-festival-records>`,
@@ -181,7 +187,6 @@ $festivals = $city->get_festivals();
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
         fetchPhotos().then((photos) => {
             render(
                 html`<s8f-festival-records .sectionId=${"photos"} .records=${photos}></s8f-festival-records>`,
@@ -192,7 +197,6 @@ $festivals = $city->get_festivals();
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("print-media-container"));
         fetchPrintMedia().then((printMedia) => {
             render(
                 html`<s8f-festival-records .sectionId=${"print-media"} .records=${printMedia}></s8f-festival-records>`,
@@ -203,7 +207,6 @@ $festivals = $city->get_festivals();
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("film-catalogs-container"));
         fetchFilmCatalogs().then((filmCatalogs) => {
             render(
                 html`<s8f-festival-records .sectionId=${"film-catalogs"} .records=${filmCatalogs}></s8f-festival-records>`,
@@ -214,7 +217,6 @@ $festivals = $city->get_festivals();
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("films-container"));
         fetchFilms().then((films) => {
             render(
                 html`<s8f-festival-records .sectionId=${"films"} .records=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-festival-records>`,
@@ -225,7 +227,6 @@ $festivals = $city->get_festivals();
         });
 
 
-        render(html`<p>Loading...</p>`, document.getElementById("filmmakers-container"));
         fetchFilmmakers().then((filmmakers) => {
             render(
                 html`<s8f-festival-records .sectionId=${"filmmakers"} .records=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-festival-records>`,

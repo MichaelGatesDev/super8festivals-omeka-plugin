@@ -89,7 +89,7 @@ function S8FFestivalRecords(element) {
         return html`
             <div class="tab-pane ${active ? "active" : ""}" id="${paneName}-pane-${id}" role="tabpanel" aria-labelledby="${paneName}-tab-${id}">
                 <div class="d-flex my-2">
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">Search &nbsp; <i class="bi bi-search"></i></span>
                         <input
                             type="text"

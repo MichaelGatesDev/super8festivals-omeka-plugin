@@ -22,7 +22,7 @@ function FileRecordCards(element) {
 
     const fileTemplate = fileRecord => html`
         <div class="card d-inline-block mb-1" style="width: 250px;" >
-            <a href=${fileRecord.file.file_path} data-fancybox=${element.fancyboxId ? element.fancyboxId : "gallery"} data-caption="${isEmptyString(fileRecord.file.description) ? "No description available." : fileRecord.file.description}">
+            <a href=${fileRecord.file.file_path} data-fancybox=${`fb-${element.fancyboxId}` ? element.fancyboxId : "gallery"} data-caption="${isEmptyString(fileRecord.file.description) ? "No description available." : fileRecord.file.description}">
                 <img src=${fileRecord.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="">
             </a>
             <div class="card-body">

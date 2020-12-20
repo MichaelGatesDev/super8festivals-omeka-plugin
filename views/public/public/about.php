@@ -21,11 +21,12 @@ echo head($head);
                     <div class="col">
                         <div class="row row-cols">
                             <?php foreach ($records as $record): ?>
-                                <div class="card d-inline-block p-0 my-2 mx-2" style="width: 18rem;">
+                                <div class="card d-inline-block p-0 my-2 mx-2" style="width: 300px;">
                                     <img
                                         class="card-img-top"
                                         src="<?= $record->get_file() ? get_relative_path($record->get_file()->get_thumbnail_path()) : img("placeholder-200x200.svg"); ?>"
                                         alt=""
+                                        style="height: 200px;"
                                     />
                                     <div class="card-body text-center">
                                         <h5 class="card-title text-capitalize m-0"><?= html_escape($record->get_person()->get_name()); ?></h5>

@@ -86,7 +86,7 @@ $festivals = $city->get_festivals();
     <!--About-->
     <div class="row" id="about">
         <div class="col">
-            <h3>About</h3>
+            <h3 class="mb-2">About</h3>
             <p class="text-muted">
                 Background information about <span class="title"><?= $city->name; ?></span>
             </p>
@@ -101,49 +101,49 @@ $festivals = $city->get_festivals();
 
     <div class="row my-5" id="posters">
         <div class="col">
-            <h3>Posters</h3>
+            <h3 class="mb-2">Posters</h3>
             <div id="posters-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="photos">
         <div class="col">
-            <h3>Photos</h3>
+            <h3 class="mb-2">Photos</h3>
             <div id="photos-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="print-media">
         <div class="col">
-            <h3>Print Media</h3>
+            <h3 class="mb-2">Print Media</h3>
             <div id="print-media-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="films">
         <div class="col">
-            <h3>Films</h3>
+            <h3 class="mb-2">Films</h3>
             <div id="films-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="filmmakers">
         <div class="col">
-            <h3>Filmmakers</h3>
+            <h3 class="mb-2">Filmmakers</h3>
             <div id="filmmakers-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="film-catalogs">
         <div class="col">
-            <h3>Film Catalogs</h3>
+            <h3 class="mb-2">Film Catalogs</h3>
             <div id="film-catalogs-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="nearby-festivals">
         <div class="col">
-            <h3>Nearby Festivals</h3>
+            <h3 class="mb-2">Nearby Festivals</h3>
             <div id="nearby-festivals-container">
                 TBD
             </div>

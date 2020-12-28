@@ -22,6 +22,17 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
         );
     }
 
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`person_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`file_id`) REFERENCES {db_prefix}{table_prefix}files(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
+        );
+    }
+
     protected function beforeDelete()
     {
         parent::beforeDelete();

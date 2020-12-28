@@ -478,6 +478,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all staff", $staffs));
             } else if ($request->isPost()) {
                 $this->authCheck();
+
                 $staff = SuperEightFestivalsStaff::create([
                     "role" => $request->getParam("role", ""),
                     "person" => [
@@ -489,6 +490,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 ]);
                 if (has_temporary_file("file")) {
                     $staff->upload_file("file");
+                    $staff->save();
                 }
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created staff", $staff->to_array()));
@@ -508,6 +510,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched staff", $staff->to_array()));
             } else if ($request->isPost()) {
                 $this->authCheck();
+
                 $staff->update([
                     "role" => $request->getParam("role", ""),
                     "person" => [
@@ -520,6 +523,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 if (has_temporary_file("file")) {
                     if ($file = $staff->get_file()) $file->delete();
                     $staff->upload_file("file");
+                    $staff->save();
                 }
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated staff", $staff->to_array()));

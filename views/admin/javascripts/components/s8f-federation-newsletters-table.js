@@ -4,7 +4,7 @@ import { component, useEffect, useState } from "../../../shared/javascripts/vend
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, scrollTo, SUPPORTED_DOCUMENT_MIMES, SUPPORTED_IMAGE_MIMES } from "../../../shared/javascripts/misc.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
 import { Person } from "../utils/s8f-records.js";
 
@@ -113,7 +113,7 @@ function FederationNewslettersTable(element) {
                         };
                     }),
                 },
-                { label: "File", type: "file", name: "file" },
+                { label: "File", type: "file", name: "file", accept: SUPPORTED_DOCUMENT_MIMES.concat(SUPPORTED_IMAGE_MIMES).join(", ") },
             ];
         } else if (action === FormAction.Delete) {
             results = [...results,

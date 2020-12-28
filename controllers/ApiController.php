@@ -120,7 +120,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $newsletter = new SuperEightFestivalsFederationNewsletter();
                 try {
-                    $newsletter->upload_file("file");
+                    $newsletter->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                     $newsletter->update([
                         "file" => [
                             "contributor_id" => $request->getParam("contributor_id"),
@@ -151,7 +151,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $newsletter->get_file()) $file->delete();
-                    $newsletter->upload_file("file");
+                    $newsletter->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                 }
                 $newsletter->update([
                     "file" => [
@@ -193,7 +193,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $photo = new SuperEightFestivalsFederationPhoto();
                 try {
-                    $photo->upload_file("file");
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
                     $photo->update([
                         "file" => [
                             "contributor_id" => $request->getParam("contributor_id"),
@@ -224,7 +224,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $photo->get_file()) $file->delete();
-                    $photo->upload_file("file");
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
                 }
                 $photo->update([
                     "file" => [
@@ -266,7 +266,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $bylaw = new SuperEightFestivalsFederationBylaw();
                 try {
-                    $bylaw->upload_file("file");
+                    $bylaw->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                     $bylaw->update([
                         "file" => [
                             "contributor_id" => $request->getParam("contributor_id"),
@@ -297,7 +297,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $bylaw->get_file()) $file->delete();
-                    $bylaw->upload_file("file");
+                    $bylaw->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                 }
                 $bylaw->update([
                     "file" => [
@@ -339,7 +339,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $magazine = new SuperEightFestivalsFederationMagazine();
                 try {
-                    $magazine->upload_file("file");
+                    $magazine->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                     $magazine->update([
                         "file" => [
                             "contributor_id" => $request->getParam("contributor_id"),
@@ -370,7 +370,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $magazine->get_file()) $file->delete();
-                    $magazine->upload_file("file");
+                    $magazine->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                 }
                 $magazine->update([
                     "file" => [
@@ -489,7 +489,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                     ],
                 ]);
                 if (has_temporary_file("file")) {
-                    $staff->upload_file("file");
+                    $staff->upload_file("file", array_merge(supported_image_mimes));
                     $staff->save();
                 }
 
@@ -522,7 +522,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 ]);
                 if (has_temporary_file("file")) {
                     if ($file = $staff->get_file()) $file->delete();
-                    $staff->upload_file("file");
+                    $staff->upload_file("file", array_merge(supported_image_mimes));
                     $staff->save();
                 }
 
@@ -645,7 +645,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $photo = new SuperEightFestivalsFilmmakerPhoto();
                 try {
-                    $photo->upload_file("file");
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
                     $photo->update([
                         "filmmaker_id" => $filmmaker->id,
                         "file" => [
@@ -678,7 +678,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $photo->get_file()) $file->delete();
-                    $photo->upload_file("file");
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
                 }
                 $photo->update([
                     "filmmaker_id" => $filmmaker->id,
@@ -961,7 +961,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $banner = new SuperEightFestivalsCityBanner();
                 try {
-                    $banner->upload_file("file");
+                    $banner->upload_file("file", array_merge(supported_image_mimes));
                     $banner->update([
                         "city_id" => $city->id,
                     ]);
@@ -1064,7 +1064,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $poster = new SuperEightFestivalsFestivalPoster();
                 try {
-                    $poster->upload_file("file");
+                    $poster->upload_file("file", array_merge(supported_image_mimes));
                     $poster->update([
                         "festival_id" => $festival->id,
                         "file" => [
@@ -1097,7 +1097,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $poster->get_file()) $file->delete();
-                    $poster->upload_file("file");
+                    $poster->upload_file("file", array_merge(supported_image_mimes));
                 }
                 $poster->update([
                     "festival_id" => $festival->id,
@@ -1141,7 +1141,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $photo = new SuperEightFestivalsFestivalPhoto();
                 try {
-                    $photo->upload_file("file");
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
                     $photo->update([
                         "festival_id" => $festival->id,
                         "file" => [
@@ -1174,7 +1174,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $photo->get_file()) $file->delete();
-                    $photo->upload_file("file");
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
                 }
                 $photo->update([
                     "festival_id" => $festival->id,
@@ -1218,7 +1218,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $print_medium = new SuperEightFestivalsFestivalPrintMedia();
                 try {
-                    $print_medium->upload_file("file");
+                    $print_medium->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                     $print_medium->update([
                         "festival_id" => $festival->id,
                         "file" => [
@@ -1251,7 +1251,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $print_medium->get_file()) $file->delete();
-                    $print_medium->upload_file("file");
+                    $print_medium->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                 }
                 $print_medium->update([
                     "festival_id" => $festival->id,
@@ -1361,7 +1361,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
 
                 $film_catalog = new SuperEightFestivalsFestivalFilmCatalog();
                 try {
-                    $film_catalog->upload_file("file");
+                    $film_catalog->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                     $film_catalog->update([
                         "festival_id" => $festival->id,
                         "file" => [
@@ -1394,7 +1394,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 if (has_temporary_file("file")) {
                     if ($file = $film_catalog->get_file()) $file->delete();
-                    $film_catalog->upload_file("file");
+                    $film_catalog->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
                 }
                 $film_catalog->update([
                     "festival_id" => $festival->id,

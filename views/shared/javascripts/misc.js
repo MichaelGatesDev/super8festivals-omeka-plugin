@@ -35,3 +35,12 @@ export const getAttributeFromElementStr = (elementStr, attr) => {
     const htmlDoc = parser.parseFromString(elementStr, "text/html");
     return htmlDoc.querySelector("iframe").getAttribute(attr);
 }
+
+export const SUPPORTED_IMAGE_MIMES = [
+    "image/png",
+    "image/jpeg",
+];
+
+export const SUPPORTED_DOCUMENT_MIMES = [
+    "application/pdf",
+];

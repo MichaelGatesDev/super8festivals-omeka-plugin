@@ -176,20 +176,35 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         return get_db()->getTable("User")->find($this->last_modified_by_id);
     }
 
-    public function upload_file($formInputName)
+    public function upload_file($formInputName, $allowed_mimes = [])
     {
-        $file = new SuperEightFestivalsFile();
-
-        list($original_name, $temporary_name, $extension) = get_temporary_file($formInputName);
-        $uniqueFileName = uniqid() . "." . $extension;
-        move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
-        $file->file_name = $uniqueFileName;
-        $file->create_thumbnail();
         try {
+            [
+                $original_name,
+                $temporary_name,
+                $extension,
+                $mime,
+            ] = get_temporary_file($formInputName);
+
+            if (count($allowed_mimes) > 0 && !in_array($mime, $allowed_mimes)) {
+                throw new Exception("Unsupported file type! (${mime})");
+            }
+
+            $file = new SuperEightFestivalsFile();
+            $uniqueFileName = uniqid() . "." . $extension;
+            move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
+            $file->file_name = $uniqueFileName;
+            try {
+                $file->create_thumbnail();
+            } catch (Exception $e) {
+                $file->delete_files();
+                throw $e;
+            }
+
             $file->save();
             $this->file_id = $file->id;
         } catch (Exception $e) {
-            $file->delete_files();
+            throw $e;
         }
     }
 

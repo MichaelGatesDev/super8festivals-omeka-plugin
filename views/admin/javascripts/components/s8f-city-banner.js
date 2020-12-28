@@ -4,7 +4,7 @@ import { component, useEffect, useState } from "../../../shared/javascripts/vend
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, scrollTo } from "../../../shared/javascripts/misc.js";
+import { FormAction, scrollTo, SUPPORTED_IMAGE_MIMES } from "../../../shared/javascripts/misc.js";
 
 
 function S8FCityBanner(element) {
@@ -102,7 +102,7 @@ function S8FCityBanner(element) {
         }
         if (action === FormAction.Add || action === FormAction.Update) {
             results = [...results,
-                { label: "File", type: "file", name: "file" },
+                { label: "File", type: "file", name: "file", accept: SUPPORTED_IMAGE_MIMES.join(", ") },
             ];
         } else if (action === FormAction.Delete) {
             results = [...results,

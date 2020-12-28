@@ -45,11 +45,11 @@ echo head($head);
         </div>
 
         <div class="col-12 order-1 col-lg order-lg-2 mb-lg-0 d-flex flex-column">
-            <div id="carousel" class="carousel slide container mb-4" data-ride="carousel">
+            <div id="carousel" class="carousel slide container mb-4" data-bs-ride="carousel">
                 <?php if (count($records = SuperEightFestivalsFederationPhoto::get_all()) > 0): ?>
                     <ol class="carousel-indicators">
                         <?php foreach ($records as $index => $record): ?>
-                            <li data-target="#carousel" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? "active " : "" ?>"></li>
+                            <li data-bs-target="#carousel" data-bs-slide-to="<?= $index ?>" class="<?= $index == 0 ? "active " : "" ?>"></li>
                         <?php endforeach; ?>
                     </ol>
                 <?php endif; ?>
@@ -73,11 +73,11 @@ echo head($head);
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </div>
-                <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carousel" role="button" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#carousel" role="button" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>

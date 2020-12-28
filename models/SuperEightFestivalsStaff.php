@@ -14,8 +14,8 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`person_id`    INT UNSIGNED NOT NULL",
-                "`file_id`      INT UNSIGNED NOT NULL",
+                "`person_id`    INT UNSIGNED",
+                "`file_id`      INT UNSIGNED",
                 "`role`         VARCHAR(255)",
             ),
             parent::get_db_columns()

@@ -24,7 +24,7 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "FOREIGN KEY (`filmmaker_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`filmmaker_id`) REFERENCES {db_prefix}{table_prefix}filmmakers(`id`) ON DELETE CASCADE",
                 "FOREIGN KEY (`embed_id`) REFERENCES {db_prefix}{table_prefix}embeds(`id`) ON DELETE CASCADE",
             ),
             parent::get_db_foreign_keys()
@@ -52,7 +52,7 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
         $film->embed_id = $embed->id;
         $film->update($arr, false);
         try {
-            $film->save(true);
+            $film->save();
             return $film;
         } catch (Exception $e) {
             $embed->delete();
@@ -64,9 +64,9 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     {
         $cname = get_called_class();
         if (isset($arr['embed'])) {
-            $loc = $this->get_embed();
-            if (!$loc) throw new Exception("{$cname} is not associated with a SuperEightFestivalsEmbed");
-            $loc->update($arr['embed']);
+            $embed = $this->get_embed();
+            if (!$embed) throw new Exception("{$cname} is not associated with a SuperEightFestivalsEmbed");
+            $embed->update($arr['embed']);
         }
 
         parent::update($arr, $save);

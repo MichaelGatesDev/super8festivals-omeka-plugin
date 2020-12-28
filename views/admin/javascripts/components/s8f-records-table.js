@@ -34,7 +34,8 @@ function RecordsTable(
                 return html`<span>N/A</span>`;
             }
             return html`
-                <div>${unsafeHTML(accessed.embed)}</div>`;
+                <div>${unsafeHTML(accessed.embed)}</div>
+            `;
         }
         if (accessor.endsWith("actions")) {
             return html`
@@ -55,7 +56,12 @@ function RecordsTable(
         return _.get(obj, accessor);
     };
 
-    const rowsTemplate = () => tableRows ? tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor))) : [html`Loading...`];
+    const rowsTemplate = () => {
+        if (tableRows) {
+            return tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor)));
+        }
+        return [Array.from({ length: headers.length }).map(() => "Loading...")];
+    };
 
     return html`
         <style>

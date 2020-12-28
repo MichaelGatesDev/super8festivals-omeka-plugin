@@ -34,3 +34,9 @@ export class Person {
         return result;
     };
 }
+
+export class Embed {
+    static getTitle = (embed) => {
+        return isEmptyString(embed.title) ? "Untitled" : embed.title;
+    };
+}

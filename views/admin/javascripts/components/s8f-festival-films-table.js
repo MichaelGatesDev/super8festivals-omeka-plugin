@@ -5,8 +5,8 @@ import _ from "../../../shared/javascripts/vendor/lodash.js";
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
-import { Person } from "../utils/s8f-records.js";
+import { FormAction, scrollTo } from "../../../shared/javascripts/misc.js";
+import { Embed, Person } from "../utils/s8f-records.js";
 
 
 function FestivalFilmsTable(element) {
@@ -138,11 +138,11 @@ function FestivalFilmsTable(element) {
         if (action === FormAction.Add || action === FormAction.Update) {
             results = [...results,
                 {
-                    label: "Film", name: "filmmaker_film_id", type: "select", options: allFilms.map((filmmakerFilm) => {
+                    label: "Film", name: "filmmaker_film_id", type: "select", options: ([{ id: 0 }, ...allFilms]).map((filmmakerFilm) => {
                         return {
                             value: filmmakerFilm.id,
-                            label: `${Person.getDisplayName(filmmakerFilm.filmmaker.person)} - ${isEmptyString(filmmakerFilm.embed.title) ? "Untitled" : filmmakerFilm.embed.title}`,
-                            selected: film ? film.filmmaker_film_id === filmmakerFilm.id : false,
+                            label: filmmakerFilm.id === 0 ? `None` : `${Person.getDisplayName(filmmakerFilm.filmmaker.person)} - ${Embed.getTitle(filmmakerFilm.embed)}`,
+                            selected: film && film.filmmaker_film_id === filmmakerFilm.id,
                         };
                     }),
                 },

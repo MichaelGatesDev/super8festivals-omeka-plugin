@@ -65,6 +65,7 @@
                         <a href="/admin/super-eight-festivals/debug/purge/unused" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Purge All Unused records</a>
                         <a href="/admin/super-eight-festivals/debug/fix-festivals" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Fix Festival IDs</a>
                         <a href="/admin/super-eight-festivals/debug/create-tables" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Create DB Tables</a>
+                        <a href="/admin/super-eight-festivals/debug/drop-tables" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Drop DB Tables</a>
                         <a href="/admin/super-eight-festivals/debug/create-missing-columns" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Create DB Columns</a>
                     </div>
                 </div>

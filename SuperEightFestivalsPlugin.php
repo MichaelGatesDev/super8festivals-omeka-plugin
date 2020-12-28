@@ -233,9 +233,9 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             // Route: /debug/
             $this->add_route($router, ":module/debug/", "admin-debug", "index");
             $this->add_route($router, ":module/debug/purge/all", "admin-debug", "debug-purge-all");
-            $this->add_route($router, ":module/debug/purge/all", "admin-debug", "debug-purge-all");
             $this->add_route($router, ":module/debug/purge/unused", "admin-debug", "debug-purge-unused");
             $this->add_route($router, ":module/debug/create-tables", "admin-debug", "debug-create-tables");
+            $this->add_route($router, ":module/debug/drop-tables", "admin-debug", "debug-drop-tables");
             $this->add_route($router, ":module/debug/create-missing-columns", "admin-debug", "debug-create-missing-columns");
             $this->add_route($router, ":module/debug/create-directories", "admin-debug", "debug-create-directories");
             $this->add_route($router, ":module/debug/generate-missing-thumbnails", "admin-debug", "debug-generate-missing-thumbnails");

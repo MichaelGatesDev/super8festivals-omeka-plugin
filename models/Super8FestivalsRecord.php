@@ -5,10 +5,10 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 {
     // ======================================================================================================================== \\
 
-    public int $created_by_id = 0;
+    public ?int $created_by_id = null;
     public string $created_at = "";
 
-    public int $last_modified_by_id = 0;
+    public ?int $last_modified_by_id = null;
     public string $modified_at = "";
 
     // ======================================================================================================================== \\
@@ -86,13 +86,16 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
 
     // ======================================================================================================================== \\
 
-    public function create_table()
+    public static function create_table()
     {
+        $class = get_called_class();
+        $instance = new $class;
         create_table(
             TablePrefix,
             Inflector::tableize(str_replace("SuperEightFestivals", "", get_called_class())),
-            $this->get_db_columns(),
-            $this->get_table_pk()
+            $instance->get_db_columns(),
+            $instance->get_db_foreign_keys(),
+            $instance->get_table_pk()
         );
     }
 
@@ -105,7 +108,7 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         );
     }
 
-    public function drop_table()
+    public static function drop_table()
     {
         drop_table(
             TablePrefix,
@@ -116,11 +119,19 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
     public function get_db_columns()
     {
         return array(
-            "`id`                           INT(10) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE",
-            "`created_by_id`                INT(10) UNSIGNED NOT NULL",
+            "`id`                           INT UNSIGNED AUTO_INCREMENT",
+            "`created_by_id`                INT UNSIGNED",
             "`created_at`                   VARCHAR(255) NOT NULL",
-            "`last_modified_by_id`          INT(10) UNSIGNED NOT NULL",
+            "`last_modified_by_id`          INT UNSIGNED",
             "`modified_at`                  VARCHAR(255) NOT NULL",
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array(
+            "FOREIGN KEY (`created_by_id`) REFERENCES {db_prefix}users(`id`) ON DELETE SET NULL",
+            "FOREIGN KEY (`last_modified_by_id`) REFERENCES {db_prefix}users(`id`) ON DELETE SET NULL",
         );
     }
 
@@ -174,15 +185,11 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         move_tempfile_to_dir($temporary_name, $uniqueFileName, get_uploads_dir());
         $file->file_name = $uniqueFileName;
         $file->create_thumbnail();
-
-        $this->file_id = $file->id;
         try {
-            $this->save();
-            return $file;
+            $file->save();
+            $this->file_id = $file->id;
         } catch (Exception $e) {
-            logger_log(LogLevel::Info, $e->getMessage());
-            $file->delete();
-            return null;
+            $file->delete_files();
         }
     }
 

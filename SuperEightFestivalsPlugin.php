@@ -202,10 +202,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/countries/:country/cities/:city/", "admin-country-cities", "single");
             // Route: /countries/[country]/cities/[city]/banners/
             $this->add_route($router, ":module/countries/:country/cities/:city/banners/", "admin-country-city-banners", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/", "admin-country-city-banners", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/edit/", "admin-country-city-banners", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/delete/", "admin-country-city-banners", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/add/", "admin-country-city-banners", "add");
             // Route: /countries/[country]/cities/[city]/festivals/
             $this->add_route($router, ":module/countries/:country/cities/:city/festivals/", "admin-country-city-festivals", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/
@@ -304,6 +300,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/", "country");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/", "country-cities");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/", "country-city");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/banner/", "country-city-banner");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/", "country-city-festivals");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-festival");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/", "country-city-festival-films");

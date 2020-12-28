@@ -4,7 +4,7 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $person_id = 0;
+    public ?int $person_id = null;
 
     // ======================================================================================================================== \\
 
@@ -12,9 +12,19 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`person_id`   INT(10) UNSIGNED NOT NULL",
+                "`person_id`   INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`person_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
         );
     }
 
@@ -22,8 +32,8 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     {
         parent::beforeDelete();
         if ($person = $this->get_person()) $person->delete();
-        foreach ($this->get_films() as $film) $film->delete();
-        foreach ($this->get_photos() as $photo) $photo->delete();
+        foreach ($this->get_films() as $film) $film->beforeDelete();
+        foreach ($this->get_photos() as $photo) $photo->beforeDelete();
     }
 
     public function to_array()

@@ -4,8 +4,8 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $filmmaker_id = 0;
-    public int $embed_id = 0;
+    public ?int $filmmaker_id = null;
+    public ?int $embed_id = null;
 
     // ======================================================================================================================== \\
 
@@ -13,10 +13,21 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`filmmaker_id`     INT(10) UNSIGNED NOT NULL",
-                "`embed_id`         INT(10) UNSIGNED NOT NULL",
+                "`filmmaker_id`     INT UNSIGNED NOT NULL",
+                "`embed_id`         INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`filmmaker_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`embed_id`) REFERENCES {db_prefix}{table_prefix}embeds(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
         );
     }
 

@@ -1,11 +1,11 @@
 <?php
 
-class   SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
+class SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $filmmaker_id = 0;
-    public int $file_id = 0;
+    public ?int $filmmaker_id = null;
+    public ?int $file_id = null;
 
     // ======================================================================================================================== \\
 
@@ -13,10 +13,21 @@ class   SuperEightFestivalsFilmmakerPhoto extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`filmmaker_id`     INT(10) UNSIGNED NOT NULL",
-                "`file_id`          INT(10) UNSIGNED NOT NULL",
+                "`filmmaker_id`     INT UNSIGNED NOT NULL",
+                "`file_id`          INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`filmmaker_id`) REFERENCES {db_prefix}{table_prefix}filmmakers(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`file_id`) REFERENCES {db_prefix}{table_prefix}files(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
         );
     }
 

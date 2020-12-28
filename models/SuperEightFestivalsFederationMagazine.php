@@ -4,7 +4,7 @@ class SuperEightFestivalsFederationMagazine extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $file_id = 0;
+    public ?int $file_id = null;
 
     // ======================================================================================================================== \\
 
@@ -12,16 +12,26 @@ class SuperEightFestivalsFederationMagazine extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`file_id`   INT(10) UNSIGNED NOT NULL",
+                "`file_id`   INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`file_id`) REFERENCES {db_prefix}{table_prefix}files(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
         );
     }
 
     protected function beforeDelete()
     {
         parent::beforeDelete();
-        $this->get_file()->delete();
+        if ($file = $this->get_file()) $file->delete_files();
     }
 
     public function to_array()

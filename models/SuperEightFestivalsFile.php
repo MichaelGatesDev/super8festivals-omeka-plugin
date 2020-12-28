@@ -126,7 +126,6 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
             $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
             $imagick->writeImage($this->get_thumbnail_path());
-            return true;
         } catch (ImagickException $e) {
             throw new Error("Failed to create thumbnail (original: $this->file_name)");
         }

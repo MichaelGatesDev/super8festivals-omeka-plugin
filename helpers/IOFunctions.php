@@ -1,39 +1,13 @@
 <?php
 
-function is_image($path)
-{
-    $ext = pathinfo($path, PATHINFO_EXTENSION);
-    return in_array($ext, get_image_types());
-}
+const supported_image_mimes = [
+    "image/png",
+    "image/jpeg",
+];
 
-function get_image_types()
-{
-    return array(
-        "png",
-        "jpg",
-        "jpeg",
-    );
-}
-
-function get_document_types()
-{
-    return array(
-        "pdf",
-        "docx",
-        "doc",
-        "rtf",
-    );
-}
-
-function get_form_accept_string($arr)
-{
-    $result = "";
-    for ($i = 0; $i < count($arr); $i++) {
-        $result .= "." . $arr[$i];
-        if ($i < count($arr) - 1) $result .= ",";
-    }
-    return $result;
-}
+const supported_document_mimes = [
+    "application/pdf",
+];
 
 // ============================================================================================================================================================= \\
 
@@ -50,11 +24,17 @@ function get_temporary_file($inputName): array
 {
     $tmpFileOriginalName = $_FILES[$inputName]['name'];
     $tmpFileName = $_FILES[$inputName]['tmp_name'];
+    if(!is_uploaded_file($tmpFileName)) {
+        throw new Exception("File upload failed. Try another file format.");
+    }
     $ext = pathinfo($tmpFileOriginalName, PATHINFO_EXTENSION);
+    $tmpFileMime = mime_content_type($tmpFileName);
+
     return array(
         $tmpFileOriginalName,
         $tmpFileName,
         $ext,
+        $tmpFileMime,
     );
 }
 

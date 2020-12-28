@@ -4,7 +4,7 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $person_id = 0;
+    public ?int $person_id = null;
 
     // ======================================================================================================================== \\
 
@@ -12,16 +12,20 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`person_id`   INT(10) UNSIGNED NOT NULL",
+                "`person_id`   INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
         );
     }
 
-    protected function beforeDelete()
+    public function get_db_foreign_keys()
     {
-        parent::beforeDelete();
-        if ($person = $this->get_person()) $person->delete();
+        return array_merge(
+            array(
+                "FOREIGN KEY (`person_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
+        );
     }
 
     public function to_array()

@@ -4,8 +4,8 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $person_id = 0;
-    public int $file_id = 0;
+    public ?int $person_id = null;
+    public ?int $file_id = null;
     public string $role = "";
 
     // ======================================================================================================================== \\
@@ -14,19 +14,30 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`person_id`    INT(10) UNSIGNED NOT NULL",
-                "`file_id`      INT(10) UNSIGNED NOT NULL",
+                "`person_id`    INT UNSIGNED",
+                "`file_id`      INT UNSIGNED",
                 "`role`         VARCHAR(255)",
             ),
             parent::get_db_columns()
         );
     }
 
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`person_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`file_id`) REFERENCES {db_prefix}{table_prefix}files(`id`) ON DELETE SET NULL",
+            ),
+            parent::get_db_foreign_keys()
+        );
+    }
+
     protected function beforeDelete()
     {
         parent::beforeDelete();
-        if ($person = $this->get_person()) $person->delete();
-        if ($file = $this->get_file()) $file->delete();
+        if ($person = $this->get_person()) $person->beforeDelete();
+        if ($file = $this->get_file()) $file->beforeDelete();
     }
 
     public function to_array()

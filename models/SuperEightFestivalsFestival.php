@@ -4,7 +4,7 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $city_id = 0;
+    public ?int $city_id = null;
     public int $year = 0;
 
     // ======================================================================================================================== \\
@@ -13,34 +13,21 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`city_id`      INT(10) UNSIGNED NOT NULL",
-                "`year`         INT(4)           NOT NULL",
+                "`city_id`      INT UNSIGNED NOT NULL",
+                "`year`         INT(4) NOT NULL",
             ),
             parent::get_db_columns()
         );
     }
 
-//    protected function beforeDelete()
-//    {
-//        if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be deleted!");
-//        parent::beforeDelete();
-//    }
-//
-//    protected function beforeSave($args)
-//    {
-//        if (array_key_exists("insert", $args)) {
-//            $insert = $args['insert'];
-//            if (!$insert) {
-//                if ($this->year === 0) throw new Exception("The uncategorized (default) Festival can not be updated!");
-//            }
-//        }
-//        parent::beforeSave($args);
-//    }
-
-    protected function afterDelete()
+    public function get_db_foreign_keys()
     {
-        parent::afterDelete();
-        $this->delete_children();
+        return array_merge(
+            array(
+                "FOREIGN KEY (`city_id`) REFERENCES {db_prefix}{table_prefix}cities(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
+        );
     }
 
     public function to_array()
@@ -50,13 +37,19 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
         return $res;
     }
 
+    protected function beforeDelete()
+    {
+        parent::beforeDelete();
+        $this->delete_children();
+    }
+
     public function delete_children()
     {
-        foreach (SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id) as $record) $record->delete();
-        foreach (SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id) as $record) $record->delete();
-        foreach (SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $this->id) as $record) $record->delete();
-        foreach (SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $this->id) as $record) $record->delete();
-        foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->delete();
+        foreach (SuperEightFestivalsFestivalFilm::get_by_param('festival_id', $this->id) as $record) $record->beforeDelete();
+        foreach (SuperEightFestivalsFestivalFilmCatalog::get_by_param('festival_id', $this->id) as $record) $record->beforeDelete();
+        foreach (SuperEightFestivalsFestivalPhoto::get_by_param('festival_id', $this->id) as $record) $record->beforeDelete();
+        foreach (SuperEightFestivalsFestivalPoster::get_by_param('festival_id', $this->id) as $record) $record->beforeDelete();
+        foreach (SuperEightFestivalsFestivalPrintMedia::get_by_param('festival_id', $this->id) as $record) $record->beforeDelete();
     }
 
     public static function create($arr = [])

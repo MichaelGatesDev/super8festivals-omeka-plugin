@@ -10,7 +10,7 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
     public string $title = "";
     public string $description = "";
 
-    public int $contributor_id = 0;
+    public ?int $contributor_id = null;
 
     // ======================================================================================================================== \\
 
@@ -23,9 +23,19 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
                 "`title`                        VARCHAR(255)",
                 "`description`                  TEXT(65535)",
 
-                "`contributor_id`               INT(10) UNSIGNED NOT NULL",
+                "`contributor_id`               INT UNSIGNED",
             ),
             parent::get_db_columns()
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`contributor_id`) REFERENCES {db_prefix}{table_prefix}contributors(`id`) ON DELETE SET NULL",
+            ),
+            parent::get_db_foreign_keys()
         );
     }
 
@@ -55,9 +65,14 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
 
     // ======================================================================================================================== \\
 
-    protected function afterDelete()
+    protected function beforeSave($args)
     {
-        parent::afterDelete();
+        if($this->contributor_id === 0) $this->contributor_id = null;
+    }
+
+    protected function beforeDelete()
+    {
+        parent::beforeDelete();
         $this->delete_files();
     }
 
@@ -111,7 +126,6 @@ class SuperEightFestivalsFile extends Super8FestivalsRecord
             $imagick->scaleImage(300, 0);
             $imagick->setImageFormat("jpg");
             $imagick->writeImage($this->get_thumbnail_path());
-            $this->save();
             return true;
         } catch (ImagickException $e) {
             throw new Error("Failed to create thumbnail (original: $this->file_name)");

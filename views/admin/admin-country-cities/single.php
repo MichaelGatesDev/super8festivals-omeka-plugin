@@ -50,20 +50,10 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
     <!--  City Banner -->
     <div class="row my-5">
         <div class="col">
-            <h3>City Banner</h3>
-            <?php $city_banner = $city->get_banner(); ?>
-            <?php if ($city_banner == null): ?>
-                <p>There is no banner available for this city.</p>
-                <a class="btn btn-success" href="<?= $rootURL; ?>/banners/add">Add City Banner</a>
-            <?php else: ?>
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="<?= get_relative_path($city_banner->get_file()->get_thumbnail_path()); ?>" alt="<?= $city_banner->get_file()->title; ?>" loading="lazy"/>
-                    <div class="card-body">
-                        <a class="btn btn-primary" href="<?= $rootURL; ?>/banners/<?= $city_banner->id; ?>/edit">Edit</a>
-                        <a class="btn btn-danger" href="<?= $rootURL; ?>/banners/<?= $city_banner->id; ?>/delete">Delete</a>
-                    </div>
-                </div>
-            <?php endif; ?>
+            <s8f-city-banner
+                country-id="<?= $country->id; ?>"
+                city-id="<?= $city->id; ?>"
+            ></s8f-city-banner>
         </div>
     </div>
 
@@ -81,5 +71,6 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
 </section>
 
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>
+<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-city-banner.js'></script>
 
 <?= $this->partial("__partials/footer.php") ?>

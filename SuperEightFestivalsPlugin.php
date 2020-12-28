@@ -202,10 +202,6 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/countries/:country/cities/:city/", "admin-country-cities", "single");
             // Route: /countries/[country]/cities/[city]/banners/
             $this->add_route($router, ":module/countries/:country/cities/:city/banners/", "admin-country-city-banners", "index");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/", "admin-country-city-banners", "single");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/edit/", "admin-country-city-banners", "edit");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/:banner/delete/", "admin-country-city-banners", "delete");
-            $this->add_route($router, ":module/countries/:country/cities/:city/banners/add/", "admin-country-city-banners", "add");
             // Route: /countries/[country]/cities/[city]/festivals/
             $this->add_route($router, ":module/countries/:country/cities/:city/festivals/", "admin-country-city-festivals", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/
@@ -236,17 +232,17 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
 
             // Route: /debug/
             $this->add_route($router, ":module/debug/", "admin-debug", "index");
-//            $this->add_route($router, ":module/debug/purge/all", "admin-debug", "debug-purge-all");
-//            $this->add_static_route($router, "debug_purge_all", ":module/debug/purge/all", "debug-purge-all", true);
-//            $this->add_static_route($router, "debug_purge_unused", ":module/debug/purge/unused", "debug-purge-unused", true);
-//            $this->add_static_route($router, "debug_create_tables", ":module/debug/create-tables", "debug-create-tables", true);
-//            $this->add_static_route($router, "debug_create_missing_columns", ":module/debug/create-missing-columns", "debug-create-missing-columns", true);
-//            $this->add_static_route($router, "debug_create_directories", ":module/debug/create-directories", "debug-create-directories", true);
-//            $this->add_static_route($router, "debug_generate_missing_thumbnails", ":module/debug/generate-missing-thumbnails", "debug-generate-missing-thumbnails", true);
-//            $this->add_static_route($router, "debug_regenerate_all_thumbnails", ":module/debug/regenerate-all-thumbnails", "debug-regenerate-all-thumbnails", true);
-//            $this->add_static_route($router, "debug_delete_all_thumbnails", ":module/debug/delete-all-thumbnails", "debug-delete-all-thumbnails", true);
-//            $this->add_static_route($router, "debug_fix_festivals", ":module/debug/fix-festivals", "debug-fix-festivals", true);
-//            $this->add_static_route($router, "debug_relocate_files", ":module/debug/relocate-files", "debug-relocate-files", true);
+            $this->add_route($router, ":module/debug/purge/all", "admin-debug", "debug-purge-all");
+            $this->add_route($router, ":module/debug/purge/unused", "admin-debug", "debug-purge-unused");
+            $this->add_route($router, ":module/debug/create-tables", "admin-debug", "debug-create-tables");
+            $this->add_route($router, ":module/debug/drop-tables", "admin-debug", "debug-drop-tables");
+            $this->add_route($router, ":module/debug/create-missing-columns", "admin-debug", "debug-create-missing-columns");
+            $this->add_route($router, ":module/debug/create-directories", "admin-debug", "debug-create-directories");
+            $this->add_route($router, ":module/debug/generate-missing-thumbnails", "admin-debug", "debug-generate-missing-thumbnails");
+            $this->add_route($router, ":module/debug/regenerate-all-thumbnails", "admin-debug", "debug-regenerate-all-thumbnails");
+            $this->add_route($router, ":module/debug/delete-all-thumbnails", "admin-debug", "debug-delete-all-thumbnails");
+            $this->add_route($router, ":module/debug/fix-festivals", "admin-debug", "debug-fix-festivals");
+            $this->add_route($router, ":module/debug/relocate-files", "admin-debug", "debug-relocate-files");
 
         } else {
 //            $this->add_public_static_route($router, "index", "", "index"); // commented out because the theme should handle the index
@@ -304,6 +300,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/", "country");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/", "country-cities");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/", "country-city");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/banner/", "country-city-banner");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/", "country-city-festivals");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/", "country-city-festival");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/films/", "country-city-festival-films");

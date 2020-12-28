@@ -25,7 +25,7 @@ function RecordsTable(
             }
             let fileAnchorContent = accessed.file_name;
             if (accessed.thumbnail_file_name && accessed.thumbnail_file_name !== "") {
-                fileAnchorContent = html`<img src="${accessed.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">        `;
+                fileAnchorContent = html`<img src="${accessed.thumbnail_file_path}" class="img-fluid img-thumbnail" width="64" height="64">`;
             }
             return html`<a href=${accessed.file_path} target="_blank" rel="noopener">${fileAnchorContent}</a>`;
         }
@@ -55,7 +55,7 @@ function RecordsTable(
         return _.get(obj, accessor);
     };
 
-    const rowsTemplate = () => tableRows  ? tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor))) : [html`Loading...`];
+    const rowsTemplate = () => tableRows ? tableRows.map((row) => headers.map((header) => getCellHtml(row, header.accessor))) : [html`Loading...`];
 
     return html`
         <style>

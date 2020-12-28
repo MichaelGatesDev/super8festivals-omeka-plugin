@@ -4,8 +4,8 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
 {
     // ======================================================================================================================== \\
 
-    public int $country_id = 0;
-    public int $location_id = 0;
+    public ?int $country_id = null;
+    public ?int $location_id = null;
 
     // ======================================================================================================================== \\
 
@@ -13,10 +13,21 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`country_id`       INT(10) UNSIGNED NOT NULL",
-                "`location_id`      INT(10) UNSIGNED NOT NULL",
+                "`country_id`       INT UNSIGNED NOT NULL",
+                "`location_id`      INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
+        );
+    }
+
+    public function get_db_foreign_keys()
+    {
+        return array_merge(
+            array(
+                "FOREIGN KEY (`country_id`) REFERENCES {db_prefix}{table_prefix}countries(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`location_id`) REFERENCES {db_prefix}{table_prefix}locations(`id`) ON DELETE CASCADE",
+            ),
+            parent::get_db_foreign_keys()
         );
     }
 
@@ -33,9 +44,9 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         }
     }
 
-    protected function afterDelete()
+    protected function beforeDelete()
     {
-        parent::afterDelete();
+        parent::beforeDelete();
         $this->delete_children();
     }
 
@@ -43,12 +54,12 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     {
         // banner
         $banner = $this->get_banner();
-        if ($banner != null) $banner->delete();
+        if ($banner != null) $banner->beforeDelete();
 
         // festivals
         $festivals = $this->get_festivals();
         foreach ($festivals as $festival) {
-            $festival->delete();
+            $festival->beforeDelete();
         }
     }
 

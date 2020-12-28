@@ -33,6 +33,12 @@ class SuperEightFestivals_AdminDebugController extends Omeka_Controller_Abstract
         create_tables();
     }
 
+
+    public function debugDropTablesAction()
+    {
+        drop_tables();
+    }
+
     public function debugCreateMissingColumnsAction()
     {
         create_all_missing_columns();

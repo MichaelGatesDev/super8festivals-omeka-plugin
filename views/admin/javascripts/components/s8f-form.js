@@ -80,6 +80,7 @@ const S8FForm = (element) => {
                         class="form-control"
                         id=${elemID}
                         name=${elem.name}
+                        accept=${elem.accept}
                     >
                 `;
                 break;

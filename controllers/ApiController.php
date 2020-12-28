@@ -1284,9 +1284,15 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival films", $films));
             } else if ($request->isPost()) {
                 $this->authCheck();
+
+                $filmmaker_film_id = (int) $request->getParam("filmmaker_film_id");
+                if ($filmmaker_film_id == 0) {
+                    throw new Error("You must select a film!");
+                }
+
                 $film = SuperEightFestivalsFestivalFilm::create([
                     "festival_id" => $festival->id,
-                    "filmmaker_film_id" => $request->getParam("filmmaker_film_id", ""),
+                    "filmmaker_film_id" => $filmmaker_film_id,
                 ]);
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created festival film", $film->to_array()));
@@ -1307,9 +1313,15 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched festival film", $film->to_array()));
             } else if ($request->isPost()) {
                 $this->authCheck();
+
+                $filmmaker_film_id = (int) $request->getParam("filmmaker_film_id");
+                if ($filmmaker_film_id == 0) {
+                    throw new Error("You must select a film!");
+                }
+
                 $film->update([
                     "festival_id" => $festival->id,
-                    "filmmaker_film_id" => $request->getParam("filmmaker_film_id", ""),
+                    "filmmaker_film_id" => $filmmaker_film_id,
                 ]);
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated festival film", $film->to_array()));

@@ -27,7 +27,7 @@ class SuperEightFestivalsStaff extends Super8FestivalsRecord
         return array_merge(
             array(
                 "FOREIGN KEY (`person_id`) REFERENCES {db_prefix}{table_prefix}people(`id`) ON DELETE CASCADE",
-                "FOREIGN KEY (`file_id`) REFERENCES {db_prefix}{table_prefix}files(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`file_id`) REFERENCES {db_prefix}{table_prefix}files(`id`) ON DELETE SET NULL",
             ),
             parent::get_db_foreign_keys()
         );

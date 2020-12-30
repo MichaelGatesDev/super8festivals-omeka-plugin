@@ -111,7 +111,6 @@ function ContributorsTable() {
                 form-id="contributor-form"
                 .elements=${getFormElements(action, record)}
                 .validateFunc=${action !== FormAction.Delete ? validateForm : undefined}
-                .resetOnSubmit=${action === FormAction.Add}
                 @cancel=${cancelForm}
                 @submit=${(e) => { submitForm(e.detail, action); }}
             >

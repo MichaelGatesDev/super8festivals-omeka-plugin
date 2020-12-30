@@ -17,9 +17,9 @@ const S8FForm = (element) => {
         const formData = new FormData(element.querySelector("form"));
 
         let validationResult;
-        if (element.validateFunc !== undefined) {
+        if (element.validateFunc) {
             validationResult = element.validateFunc(formData);
-            if (validationResult != null) {
+            if (validationResult) {
                 Alerts.error("form-alerts", "Invalid Form Data", validationResult.message, true);
                 return;
             }

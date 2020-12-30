@@ -13,3 +13,25 @@ img.city-banner {
 img.card-img-top {
     height: 150px;
 }
+
+
+div.card-details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    background-color: rgba(46, 46, 46, 0.75);
+    color: white;
+
+    transition: visibility 0s, opacity 0.1s linear;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+}

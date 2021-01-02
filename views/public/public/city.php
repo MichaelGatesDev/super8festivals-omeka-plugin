@@ -174,10 +174,6 @@ $nearby_festivals = $city->get_nearby_festivals();
     const fetchFilms = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "films"]), HTTPRequestMethod.GET);
     const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
 
-    const fetchNearbyFestivalPhotos = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "nearby-festivals", "photos"]), HTTPRequestMethod.GET);
-    const fetchNearbyFestivalPrintMedia = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "nearby-festivals", "print-media"]), HTTPRequestMethod.GET);
-
-
     $(() => {
         render(html`<p>Loading...</p>`, document.getElementById("posters-container"));
         render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
@@ -241,16 +237,7 @@ $nearby_festivals = $city->get_nearby_festivals();
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers-container"));
         }));
-
-        promises.push(fetchNearbyFestivalPhotos().then((photos) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"filmmakers"} .records=${photos.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-festival-records>`,
-                document.getElementById("filmmakers-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers-container"));
-        }));
-
+        
         Promise.all(promises).then(() => {
             if (window.location.hash) {
                 document.getElementById(window.location.hash.substring(1)).scrollIntoView();

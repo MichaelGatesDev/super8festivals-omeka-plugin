@@ -21,23 +21,27 @@ function create_table($table_prefix, $table_name, $cols, $fks, $primary_key)
     $db->query($query);
 }
 
+function drop_table($table_prefix, $table_name)
+{
+    $db = get_db();
+    $query = "DROP TABLE IF EXISTS `{$db->prefix}{$table_prefix}{$table_name}`;";
+    $db->query($query);
+}
+
+function create_missing_columns($table_prefix, $table_name, $cols)
+{
+    $db = get_db();
+    foreach ($cols as $col) {
+        try {
+            $db->query("ALTER TABLE `{$db->prefix}{$table_prefix}{$table_name}` ADD COLUMN $col;");
+        } catch (Exception $e) {
+            logger_log(LogLevel::Warning, "Could not create missing column: " . $e->getMessage());
+        }
+    }
+}
+
 function create_tables()
 {
-//    foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
-//        $class = basename($file, '.php');
-//        if (class_exists($class)) {
-//            try {
-//                $reflect = new ReflectionClass($class);
-//                if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
-//                    $instance = new $class;
-//                    $instance->create_table();
-//                    logger_log(LogLevel::Debug, "Created table: " . $class);
-//                }
-//            } catch (ReflectionException $e) {
-//                logger_log(LogLevel::Error, $e->getMessage());
-//            }
-//        }
-//    }
     SuperEightFestivalsPerson::create_table();
     SuperEightFestivalsLocation::create_table();
 
@@ -65,34 +69,20 @@ function create_tables()
     SuperEightFestivalsFestivalPoster::create_table();
     SuperEightFestivalsFestivalPrintMedia::create_table();
 
-    SuperEightFestivalsStaff::create_table();
-}
+    SuperEightFestivalsNearbyFestival::create_table();
+    SuperEightFestivalsNearbyFestivalPhoto::create_table();
+    SuperEightFestivalsNearbyFestivalPrintMedia::create_table();
 
-function drop_table($table_prefix, $table_name)
-{
-    $db = get_db();
-    $query = "DROP TABLE IF EXISTS `{$db->prefix}{$table_prefix}{$table_name}`;";
-    $db->query($query);
+    SuperEightFestivalsStaff::create_table();
 }
 
 function drop_tables()
 {
-//    foreach (glob(__DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "**" . DIRECTORY_SEPARATOR . '*.php') as $file) {
-//        $class = basename($file, '.php');
-//        if (class_exists($class)) {
-//            try {
-//                $reflect = new ReflectionClass($class);
-//                if (!$reflect->isAbstract() && $reflect->isSubclassOf(Super8FestivalsRecord::class)) {
-//                    $instance = new $class;
-//                    $instance->drop_table();
-//                    logger_log(LogLevel::Debug, "Dropped table: " . $class);
-//                }
-//            } catch (ReflectionException $e) {
-//                logger_log(LogLevel::Error, $e->getMessage());
-//            }
-//        }
-//    }
     SuperEightFestivalsStaff::drop_table();
+
+    SuperEightFestivalsNearbyFestivalPrintMedia::drop_table();
+    SuperEightFestivalsNearbyFestivalPhoto::drop_table();
+    SuperEightFestivalsNearbyFestival::drop_table();
 
     SuperEightFestivalsFestivalPrintMedia::drop_table();
     SuperEightFestivalsFestivalPoster::drop_table();
@@ -120,19 +110,6 @@ function drop_tables()
 
     SuperEightFestivalsLocation::drop_table();
     SuperEightFestivalsPerson::drop_table();
-}
-
-
-function create_missing_columns($table_prefix, $table_name, $cols)
-{
-    $db = get_db();
-    foreach ($cols as $col) {
-        try {
-            $db->query("ALTER TABLE `{$db->prefix}{$table_prefix}{$table_name}` ADD COLUMN $col;");
-        } catch (Exception $e) {
-            logger_log(LogLevel::Warning, "Could not create missing column: " . $e->getMessage());
-        }
-    }
 }
 
 function create_all_missing_columns()

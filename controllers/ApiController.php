@@ -994,7 +994,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 foreach ($city->get_festivals() as $festival) {
                     array_push($festivals, $festival->to_array());
                 }
-                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all cities", $festivals));
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festivals", $festivals));
             } else if ($request->isPost()) {
                 $this->authCheck();
                 $festival = SuperEightFestivalsFestival::create([
@@ -1417,6 +1417,258 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         }
     }
 
+    public function countryCityNearbyFestivalsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $country = get_request_param_country($request);
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $festivals = [];
+                foreach ($city->get_nearby_festivals() as $festival) {
+                    array_push($festivals, $festival->to_array());
+                }
+                $this->_helper->getHelper("json")->sendJson(
+                    $this->getJsonResponseArray(
+                        "success",
+                        "Successfully fetched all nearby festivals",
+                        $festivals
+                    )
+                );
+            } else if ($request->isPost()) {
+                $this->authCheck();
+                $festival = SuperEightFestivalsNearbyFestival::create([
+                    "city_id" => $city->id,
+                    "city_name" => $request->getParam("name", ""),
+                    "year" => $request->getParam("year", 0),
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson(
+                    $this->getJsonResponseArray(
+                        "success",
+                        "Successfully created nearby festival",
+                        $festival->to_array()
+                    )
+                );
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson(
+                $this->getJsonResponseArray(
+                    "error",
+                    $e->getMessage()
+                )
+            );
+        }
+    }
+
+    public function countryCityNearbyFestivalAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $country = get_request_param_country($request);
+            $city = get_request_param_city($request);
+            $festival = get_request_param_by_id($request, SuperEightFestivalsNearbyFestival::class, "festival");
+            if ($festival->city_id !== $city->id) {
+                throw new Exception("There is no nearby festival within city of ID {$city->id} with ID: {$festival->id}");
+            }
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson(
+                    $this->getJsonResponseArray(
+                        "success",
+                        "Successfully fetched nearby festival",
+                        $festival->to_array()
+                    )
+                );
+            } else if ($request->isPost()) {
+                $this->authCheck();
+                $festival->update([
+                    "year" => $request->getParam("year", 0),
+                    "city_name" => $request->getParam("name", ""),
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson(
+                    $this->getJsonResponseArray(
+                        "success",
+                        "Successfully updated nearby festival",
+                        $festival->to_array()
+                    )
+                );
+            } else if ($request->isDelete()) {
+                $this->authCheck();
+                if ($festival->year === 0) {
+                    throw new Exception("The default nearby festival can not be deleted!");
+                }
+                $arr = $festival->to_array();
+                $festival->delete();
+                $this->_helper->getHelper("json")->sendJson(
+                    $this->getJsonResponseArray(
+                        "success",
+                        "Successfully deleted nearby festival",
+                        $arr
+                    )
+                );
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityNearbyFestivalPhotosAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsNearbyFestival::class, "festival");
+
+            if ($request->isGet()) {
+                $photos = [];
+                foreach ($festival->get_photos() as $film) {
+                    array_push($photos, $film->to_array());
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival photos", $photos));
+            } else if ($request->isPost()) {
+                $this->authCheck();
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $photo = new SuperEightFestivalsNearbyFestivalPhoto();
+                try {
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
+                    $photo->update([
+                        "nearby_festival_id" => $festival->id,
+                        "file" => [
+                            "contributor_id" => $request->getParam("contributor_id"),
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created festival photo", $photo->to_array()));
+                } catch (Exception $e) {
+                    if ($photo->id !== 0) $photo->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityNearbyFestivalPhotoAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsNearbyFestival::class, "festival");
+            $photo = get_request_param_by_id($request, SuperEightFestivalsNearbyFestivalPhoto::class, "photoID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched photo", $photo->to_array()));
+            } else if ($request->isPost()) {
+                $this->authCheck();
+                if (has_temporary_file("file")) {
+                    if ($file = $photo->get_file()) $file->delete();
+                    $photo->upload_file("file", array_merge(supported_image_mimes));
+                }
+                $photo->update([
+                    "nearby_festival_id" => $festival->id,
+                    "file" => [
+                        "contributor_id" => $request->getParam("contributor_id"),
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated photo", $photo->to_array()));
+            } else if ($request->isDelete()) {
+                $this->authCheck();
+                $arr = $photo->to_array();
+                $photo->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted photo", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityNearbyFestivalPrintMediaAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsNearbyFestival::class, "festival");
+
+            if ($request->isGet()) {
+                $print_media = [];
+                foreach ($festival->get_print_media() as $film) {
+                    array_push($print_media, $film->to_array());
+                }
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all festival print media", $print_media));
+            } else if ($request->isPost()) {
+                $this->authCheck();
+                if (!has_temporary_file("file")) {
+                    throw new Error("There was no file selected for upload.");
+                }
+
+                $print_medium = new SuperEightFestivalsNearbyFestivalPrintMedia();
+                try {
+                    $print_medium->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
+                    $print_medium->update([
+                        "nearby_festival_id" => $festival->id,
+                        "file" => [
+                            "contributor_id" => $request->getParam("contributor_id"),
+                            "title" => $request->getParam("title", ""),
+                            "description" => $request->getParam("description", ""),
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created festival print medium", $print_medium->to_array()));
+                } catch (Exception $e) {
+                    if ($print_medium->id !== 0) $print_medium->delete();
+                    throw $e;
+                }
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityNearbyFestivalPrintMediumAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $festival = get_request_param_by_id($request, SuperEightFestivalsNearbyFestival::class, "festival");
+            $print_medium = get_request_param_by_id($request, SuperEightFestivalsNearbyFestivalPrintMedia::class, "printMediaID");
+
+            if ($request->isGet()) {
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched print medium", $print_medium->to_array()));
+            } else if ($request->isPost()) {
+                $this->authCheck();
+                if (has_temporary_file("file")) {
+                    if ($file = $print_medium->get_file()) $file->delete();
+                    $print_medium->upload_file("file", array_merge(supported_image_mimes, supported_document_mimes));
+                }
+                $print_medium->update([
+                    "nearby_festival_id" => $festival->id,
+                    "file" => [
+                        "contributor_id" => $request->getParam("contributor_id"),
+                        "title" => $request->getParam("title", ""),
+                        "description" => $request->getParam("description", ""),
+                    ],
+                ]);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully updated print medium", $print_medium->to_array()));
+            } else if ($request->isDelete()) {
+                $this->authCheck();
+                $arr = $print_medium->to_array();
+                $print_medium->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted print medium", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
     // ======================================================================================================================== \\
 
     public function countryCityPostersAction()
@@ -1540,6 +1792,28 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 }
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city film catalogs", $film_catalogs));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
+    public function countryCityNearbyFestivalsPhotosAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $photos = [];
+                foreach ($city->get_nearby_festivals() as $festival) {
+                    foreach ($festival->get_photos() as $photo) {
+                        array_push($photos, $photo->to_array());
+                    }
+                }
+                $photos = array_unique($photos, SORT_REGULAR);
+
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all nearby festival festival photos", $photos));
             }
         } catch (Throwable $e) {
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));

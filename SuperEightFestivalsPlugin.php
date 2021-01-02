@@ -34,9 +34,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         drop_tables(); // out with the old tables
         create_tables(); // in with the new tables
 
-        // sample data
-//        $this->add_sample_data();
-        // all defaults used in the website
+        // most defaults used in the website, just for testing
         $this->add_default_data();
     }
 
@@ -216,6 +214,10 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/photos/", "admin-country-city-festival-photos", "index");
             // Route: /countries/[country]/cities/[city]/festivals/[festival]/posters/
             $this->add_route($router, ":module/countries/:country/cities/:city/festivals/:festival/posters/", "admin-country-city-festival-posters", "index");
+            // Route: /countries/[country]/cities/[city]/nearby-festivals/
+            $this->add_route($router, ":module/countries/:country/cities/:city/nearby-festivals/", "admin-country-city-nearby-festivals", "index");
+            // Route: /countries/[country]/cities/[city]/nearby-festivals/[festival]/
+            $this->add_route($router, ":module/countries/:country/cities/:city/nearby-festivals/:festival/", "admin-country-city-nearby-festivals", "single");
 
             // Route: /filmmakers/
             $this->add_route($router, ":module/filmmakers/", "admin-filmmakers", "index");
@@ -313,7 +315,12 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/posters/:posterID/", "country-city-festival-poster");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/print-media/", "country-city-festival-print-media");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/festivals/:festival/print-media/:printMediaID/", "country-city-festival-print-medium");
-
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/", "country-city-nearby-festivals");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/:festival/", "country-city-nearby-festival");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/:festival/photos/", "country-city-nearby-festival-photos");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/:festival/photos/:photoID/", "country-city-nearby-festival-photo");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/:festival/print-media/", "country-city-nearby-festival-print-media");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/:festival/print-media/:printMediaID/", "country-city-nearby-festival-print-medium");
 
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/films/", "country-city-films");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/filmmakers/", "country-city-filmmakers");
@@ -321,6 +328,8 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/photos/", "country-city-photos");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/posters/", "country-city-posters");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/print-media/", "country-city-print-media");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/photos/", "country-city-nearby-festivals-photos");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/print-media/", "country-city-nearby-festivals-print-media");
     }
 
 }

@@ -149,6 +149,14 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
     }
 
     /**
+     * @return SuperEightFestivalsNearbyFestival[]|null
+     */
+    function get_nearby_festivals()
+    {
+        return SuperEightFestivalsNearbyFestival::get_by_param('city_id', $this->id);
+    }
+
+    /**
      * @return SuperEightFestivalsLocation|null
      */
     public function get_location()

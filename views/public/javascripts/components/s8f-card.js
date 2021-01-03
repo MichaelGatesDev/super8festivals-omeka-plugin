@@ -46,7 +46,7 @@ function S8FCard(element) {
                     <img src=${record.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="" style="height: 200px;">
                 </a>
             `) : record.embed ? html`
-                <div class="ratio ratio-16x9 mb-2">
+                <div class="ratio ratio-16x9 ms-2">
                     <iframe class="ratio-item" src="${getAttributeFromElementStr(record.embed.embed, "src")}" allowfullscreen></iframe>
                 </div>
             ` : nothing}

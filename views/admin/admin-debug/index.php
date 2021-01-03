@@ -38,7 +38,7 @@
             ?>
             <div class="row">
                 <div class="col">
-                    <h4 class="mb-2">Migrations</h4>
+                    <h4 class="ms-2">Migrations</h4>
                     <?php if (count($migration_dirs) > 0): ?>
                         <ul>
                             <?php foreach ($migration_dirs as $migration_dir): ?>
@@ -60,7 +60,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <h4 class="mb-2">Records</h4>
+                    <h4 class="ms-2">Records</h4>
                     <div>
                         <a href="/admin/super-eight-festivals/debug/purge/unused" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Purge All Unused records</a>
                         <a href="/admin/super-eight-festivals/debug/fix-festivals" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Fix Festival IDs</a>
@@ -80,7 +80,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <h4 class="mb-2">Thumbnails</h4>
+                    <h4 class="ms-2">Thumbnails</h4>
                     <div>
                         <a href="/admin/super-eight-festivals/debug/generate-missing-thumbnails" class="btn btn-primary" style="margin: 0; padding: 0.5em 1.5em;">Generate Missing Thumbnails</a>
                         <a href="/admin/super-eight-festivals/debug/regenerate-all-thumbnails" class="btn btn-secondary" style="margin: 0; padding: 0.5em 1.5em;">Regenerate All Thumbnails</a>

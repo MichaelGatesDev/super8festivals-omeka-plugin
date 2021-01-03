@@ -15,14 +15,14 @@ echo head($head);
 
     <div class="row my-5" id="filmmaker-films">
         <div class="col">
-            <h3 class="mb-2">Films</h3>
+            <h3 class="ms-2">Films</h3>
             <div id="films-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="filmmaker-photos">
         <div class="col">
-            <h3 class="mb-2">Photos</h3>
+            <h3 class="ms-2">Photos</h3>
             <div id="photos-container"></div>
         </div>
     </div>

@@ -1,36 +1,9 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    /*background-color: red !important;*/
+    display: grid;
+    height: 100vh;
+    grid-template-rows: auto 1fr auto;
 }
-
-/*--------------------------------------------------------------------------------*/
-#content-heading {
-    text-transform: capitalize;
-}
-
-#content-nav .navigation li {
-    font-size: 1.15em;
-}
-
-/*--------------------------------------------------------------------------------*/
-
-.title {
-    text-transform: capitalize;
-}
-
-.records-section {
-    padding: 1em;
-}
-
-.records-section:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-.records-section:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.records-section .button {
-    margin-bottom: 0;
-}
-
-/*--------------------------------------------------------------------------------*/

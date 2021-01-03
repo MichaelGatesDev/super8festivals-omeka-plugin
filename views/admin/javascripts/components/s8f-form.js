@@ -23,6 +23,8 @@ const S8FForm = (element) => {
     }, []);
 
     const triggerCancelEvent = () => {
+        if (submitting) return;
+
         element.dispatchEvent(new CustomEvent("cancel", {
             detail: new FormData(element.querySelector("form")),
         }));
@@ -30,6 +32,8 @@ const S8FForm = (element) => {
     };
 
     const triggerSubmitEvent = () => {
+        if (submitting) return;
+
         const formData = new FormData(element.querySelector("form"));
 
         let validationResult;

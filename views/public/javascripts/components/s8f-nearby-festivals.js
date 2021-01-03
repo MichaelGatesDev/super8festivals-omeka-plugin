@@ -50,14 +50,14 @@ function S8FNearbyFestivals(element) {
                 class="tab-pane p-2 ${festivals.indexOf(festival) === 0 ? "active" : ""}"
                 role="tabpanel"
             >
-                <h4 class="mb-2">Photos</h4>
+                <h4 class="ms-2">Photos</h4>
                 <s8f-nearby-festival-photos
                     country-id=${element.countryId}
                     city-id=${element.cityId}
                     festival-id=${festival.id}
                 ></s8f-nearby-festival-photos>
 
-                <h4 class="mb-2">Print Media</h4>
+                <h4 class="ms-2">Print Media</h4>
                 <s8f-nearby-festival-print-media
                     country-id=${element.countryId}
                     city-id=${element.cityId}

@@ -22,7 +22,7 @@ function EmbedRecordCards(element) {
     const embedTemplate = embedRecord => html`
         <div class="card d-inline-block mb-1" style="width: 500px;">
             <div class="card-body">
-                <div class="ratio ratio-16x9 mb-2">
+                <div class="ratio ratio-16x9 ms-2">
                     <iframe class="ratio-item" src="${getAttributeFromElementStr(embedRecord.embed.embed, "src")}" allowfullscreen></iframe>
                 </div>
                 <h5 class="card-title chomp-single" title=${embedRecord.embed.title}>

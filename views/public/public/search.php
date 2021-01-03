@@ -119,7 +119,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_cities) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Cities</h3>
+                    <h3 class="ms-2">Cities</h3>
                     <ul>
                         <?php foreach ($matching_cities as $city): ?>
                             <li>
@@ -140,7 +140,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_festivals) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Festivals</h3>
+                    <h3 class="ms-2">Festivals</h3>
                     <ul>
                         <?php foreach ($matching_festivals as $festival): ?>
                             <li>
@@ -160,7 +160,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_festival_film_catalogs) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Festival Film Catalogs</h3>
+                    <h3 class="ms-2">Festival Film Catalogs</h3>
                     <ul>
                         <?php foreach ($matching_festival_film_catalogs as $film_catalog): ?>
                             <?php
@@ -182,7 +182,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_festival_photos) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Festival Photos</h3>
+                    <h3 class="ms-2">Festival Photos</h3>
                     <ul>
                         <?php foreach ($matching_festival_photos as $photo): ?>
                             <?php
@@ -204,7 +204,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_festival_posters) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Festival Posters</h3>
+                    <h3 class="ms-2">Festival Posters</h3>
                     <ul>
                         <?php foreach ($matching_festival_posters as $poster): ?>
                             <?php
@@ -226,7 +226,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_festival_print_media) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Festival Print Media</h3>
+                    <h3 class="ms-2">Festival Print Media</h3>
                     <ul>
                         <?php foreach ($matching_festival_print_media as $print_media): ?>
                             <?php
@@ -248,7 +248,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_filmmakers) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Filmmakers</h3>
+                    <h3 class="ms-2">Filmmakers</h3>
                     <ul>
                         <?php foreach ($matching_filmmakers as $filmmaker): ?>
                             <li>
@@ -266,7 +266,7 @@ function search_records($records, $properties, $query, &$arr)
         <?php if (count($matching_films) > 0): ?>
             <div class="row mb-4">
                 <div class="col">
-                    <h3 class="mb-2">Films</h3>
+                    <h3 class="ms-2">Films</h3>
                     <ul>
                         <?php foreach ($matching_films as $film): ?>
                             <li>

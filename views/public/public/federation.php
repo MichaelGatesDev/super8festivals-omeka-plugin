@@ -110,28 +110,28 @@ echo head($head);
 
     <div class="row my-5" id="newsletters">
         <div class="col">
-            <h3 class="mb-2">Newsletters</h3>
+            <h3 class="ms-2">Newsletters</h3>
             <div id="newsletters-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="photos">
         <div class="col">
-            <h3 class="mb-2">Photos</h3>
+            <h3 class="ms-2">Photos</h3>
             <div id="photos-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="magazines">
         <div class="col">
-            <h3 class="mb-2">Magazines</h3>
+            <h3 class="ms-2">Magazines</h3>
             <div id="magazines-container"></div>
         </div>
     </div>
 
     <div class="row my-5" id="by-laws">
         <div class="col">
-            <h3 class="mb-2">By-Laws</h3>
+            <h3 class="ms-2">By-Laws</h3>
             <div id="bylaws-container"></div>
         </div>
     </div>

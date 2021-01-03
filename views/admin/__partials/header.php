@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono&display=swap"/>
 
+    <link rel="stylesheet" href="<?= css_src("admin"); ?>">
+
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-modal.js'></script>
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-alerts-area.js'></script>
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-table.js'></script>
@@ -19,39 +21,35 @@
     <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-form.js'></script>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/admin/">Omeka Admin</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/admin/super-eight-festivals/">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/super-eight-festivals/countries">Countries</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/super-eight-festivals/federation/">Federation</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/super-eight-festivals/filmmakers/">Filmmakers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/super-eight-festivals/contributors/">Contributors</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/super-eight-festivals/staff/">Site Staff</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/" tabindex="-1" aria-disabled="true">Site Home</a>
-                </li>
-            </ul>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><?= option("site_title"); ?></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto ms-2 mb-lg-0">
+                </ul>
+                <ul class="navbar-nav ms-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Plugins</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Appearance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Settings</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</header>
+<main class="container">

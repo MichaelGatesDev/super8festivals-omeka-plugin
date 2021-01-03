@@ -155,7 +155,7 @@ function S8FCityBanner(element) {
             City Banner
         </h2>
         ${banner ? html`
-            <div class="mb-2">
+            <div class="ms-2">
                 <a href=${banner.file.file_path} target="_blank" rel="noopener">
                     <img src="${banner.file.thumbnail_file_path}" class="img-fluid img-thumbnail" width="256" height="256">
                 </a>

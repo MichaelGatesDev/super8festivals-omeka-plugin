@@ -5,6 +5,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function FestivalsTable(element) {
@@ -116,12 +117,15 @@ function FestivalsTable(element) {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("form-modal");
+        Modals.hide_custom("festivals-form-modal");
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("form-modal");
+            Modals.hide_custom("festivals-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 
@@ -169,21 +173,21 @@ function FestivalsTable(element) {
     const btnAddClick = () => {
         setModalTitle("Add Festival");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("festivals-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (festival) => {
         setModalTitle("Edit Festival");
         setModalBody(getForm(FormAction.Update, festival));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("festivals-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (festival) => {
         setModalTitle("Delete Festival");
         setModalBody(getForm(FormAction.Delete, festival));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("festivals-form-modal");
         Alerts.clear("form-alerts");
     };
 
@@ -193,7 +197,7 @@ function FestivalsTable(element) {
     ];
     return html`
         <s8f-modal
-            modal-id="form-modal"
+            modal-id="festivals-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >

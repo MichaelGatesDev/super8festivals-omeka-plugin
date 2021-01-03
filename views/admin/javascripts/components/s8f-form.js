@@ -1,12 +1,30 @@
 import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
-import { component } from "../../../shared/javascripts/vendor/haunted.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 import { repeat } from "../../../shared/javascripts/vendor/lit-html/directives/repeat.js";
 
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 import Alerts from "../utils/alerts.js";
 
 const S8FForm = (element) => {
+    const [submitting, setSubmitting] = useState(false);
+
+    useEffect(() => {
+        const formSubmitRequestSub = eventBus.subscribe(S8FEvent.RequestFormSubmit, () => {
+            setSubmitting(true);
+        });
+        const formSubmitCompleteSub = eventBus.subscribe(S8FEvent.CompleteFormSubmit, () => {
+            setSubmitting(false);
+        });
+
+        return () => {
+            formSubmitRequestSub.unsubscribe();
+            formSubmitCompleteSub.unsubscribe();
+        };
+    }, []);
 
     const triggerCancelEvent = () => {
+        if (submitting) return;
+
         element.dispatchEvent(new CustomEvent("cancel", {
             detail: new FormData(element.querySelector("form")),
         }));
@@ -14,12 +32,14 @@ const S8FForm = (element) => {
     };
 
     const triggerSubmitEvent = () => {
+        if (submitting) return;
+
         const formData = new FormData(element.querySelector("form"));
 
         let validationResult;
-        if (element.validateFunc !== undefined) {
+        if (element.validateFunc) {
             validationResult = element.validateFunc(formData);
-            if (validationResult != null) {
+            if (validationResult) {
                 Alerts.error("form-alerts", "Invalid Form Data", validationResult.message, true);
                 return;
             }
@@ -114,11 +134,13 @@ const S8FForm = (element) => {
     return html`
         <s8f-alerts-area id="form-alerts"></s8f-alerts-area>
         <form id=${element.formId}>
-            ${repeat(element.elements, e => e, elem => formElementTemplate(elem))}
-            <div class="mb-3 float-right">
-                <button type="button" class="btn btn-secondary" @click=${triggerCancelEvent}>Cancel</button>
-                <button type="button" class="btn btn-primary" @click=${triggerSubmitEvent}>Submit</button>
-            </div>
+            <fieldset ?disabled=${submitting}>
+                ${repeat(element.elements, e => e, elem => formElementTemplate(elem))}
+                <div class="mb-3 float-right">
+                    <button type="button" class="btn btn-secondary" @click=${triggerCancelEvent}>Cancel</button>
+                    <button type="button" class="btn btn-primary" @click=${triggerSubmitEvent}>Submit</button>
+                </div>
+            </fieldset>
         </form>
     `;
 };

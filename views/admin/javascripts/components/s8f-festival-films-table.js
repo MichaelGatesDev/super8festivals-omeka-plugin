@@ -7,6 +7,7 @@ import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, scrollTo } from "../../../shared/javascripts/misc.js";
 import { Embed, Person } from "../utils/s8f-records.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function FestivalFilmsTable(element) {
@@ -115,8 +116,11 @@ function FestivalFilmsTable(element) {
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
             Modals.hide_custom("films-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 

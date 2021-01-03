@@ -1,11 +1,12 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
-import _ from "../../../shared/javascripts/vendor/lodash.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function ContributorsTable() {
@@ -62,12 +63,15 @@ function ContributorsTable() {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("form-modal");
+        Modals.hide_custom("contributors-form-modal");
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("form-modal");
+            Modals.hide_custom("contributors-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 
@@ -121,21 +125,21 @@ function ContributorsTable() {
     const btnAddClick = () => {
         setModalTitle("Add Contributor");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("contributors-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (contributor) => {
         setModalTitle("Edit Contributor");
         setModalBody(getForm(FormAction.Update, contributor));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("contributors-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (contributor) => {
         setModalTitle("Delete Contributor");
         setModalBody(getForm(FormAction.Delete, contributor));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("contributors-form-modal");
         Alerts.clear("form-alerts");
     };
 
@@ -151,7 +155,7 @@ function ContributorsTable() {
 
     return html`
         <s8f-modal
-            modal-id="form-modal"
+            modal-id="contributors-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >

@@ -1,12 +1,12 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
-
 import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
-import _ from "../../../shared/javascripts/vendor/lodash.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 function StaffTable() {
     const [staff, setStaff] = useState([]);
@@ -62,12 +62,15 @@ function StaffTable() {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("form-modal");
+        Modals.hide_custom("staff-form-modal");
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("form-modal");
+            Modals.hide_custom("staff-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 
@@ -127,21 +130,21 @@ function StaffTable() {
     const btnAddClick = () => {
         setModalTitle("Add Staff");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("staff-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (staff) => {
         setModalTitle("Edit Staff");
         setModalBody(getForm(FormAction.Update, staff));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("staff-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (staff) => {
         setModalTitle("Delete Staff");
         setModalBody(getForm(FormAction.Delete, staff));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("staff-form-modal");
         Alerts.clear("form-alerts");
     };
 
@@ -158,7 +161,7 @@ function StaffTable() {
 
     return html`
         <s8f-modal
-            modal-id="form-modal"
+            modal-id="staff-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >

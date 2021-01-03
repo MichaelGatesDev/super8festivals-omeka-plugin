@@ -1,10 +1,26 @@
 import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
-import { component } from "../../../shared/javascripts/vendor/haunted.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
 import { repeat } from "../../../shared/javascripts/vendor/lit-html/directives/repeat.js";
 
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 import Alerts from "../utils/alerts.js";
 
 const S8FForm = (element) => {
+    const [submitting, setSubmitting] = useState(false);
+
+    useEffect(() => {
+        const formSubmitRequestSub = eventBus.subscribe(S8FEvent.RequestFormSubmit, () => {
+            setSubmitting(true);
+        });
+        const formSubmitCompleteSub = eventBus.subscribe(S8FEvent.CompleteFormSubmit, () => {
+            setSubmitting(false);
+        });
+
+        return () => {
+            formSubmitRequestSub.unsubscribe();
+            formSubmitCompleteSub.unsubscribe();
+        };
+    }, []);
 
     const triggerCancelEvent = () => {
         element.dispatchEvent(new CustomEvent("cancel", {
@@ -114,11 +130,13 @@ const S8FForm = (element) => {
     return html`
         <s8f-alerts-area id="form-alerts"></s8f-alerts-area>
         <form id=${element.formId}>
-            ${repeat(element.elements, e => e, elem => formElementTemplate(elem))}
-            <div class="mb-3 float-right">
-                <button type="button" class="btn btn-secondary" @click=${triggerCancelEvent}>Cancel</button>
-                <button type="button" class="btn btn-primary" @click=${triggerSubmitEvent}>Submit</button>
-            </div>
+            <fieldset ?disabled=${submitting}>
+                ${repeat(element.elements, e => e, elem => formElementTemplate(elem))}
+                <div class="mb-3 float-right">
+                    <button type="button" class="btn btn-secondary" @click=${triggerCancelEvent}>Cancel</button>
+                    <button type="button" class="btn btn-primary" @click=${triggerSubmitEvent}>Submit</button>
+                </div>
+            </fieldset>
         </form>
     `;
 };

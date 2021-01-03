@@ -1,12 +1,13 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
-import _ from "../../../shared/javascripts/vendor/lodash.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function CountriesTable() {
@@ -63,12 +64,15 @@ function CountriesTable() {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("form-modal");
+        Modals.hide_custom("countries-form-modal");
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("form-modal");
+            Modals.hide_custom("countries-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 
@@ -126,21 +130,21 @@ function CountriesTable() {
     const btnAddClick = () => {
         setModalTitle("Add Country");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("countries-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (country) => {
         setModalTitle("Edit Country");
         setModalBody(getForm(FormAction.Update, country));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("countries-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (country) => {
         setModalTitle("Delete Country");
         setModalBody(getForm(FormAction.Delete, country));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("countries-form-modal");
         Alerts.clear("form-alerts");
     };
 
@@ -154,7 +158,7 @@ function CountriesTable() {
 
     return html`
         <s8f-modal
-            modal-id="form-modal"
+            modal-id="countries-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >

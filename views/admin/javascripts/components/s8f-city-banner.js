@@ -5,6 +5,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, scrollTo, SUPPORTED_IMAGE_MIMES } from "../../../shared/javascripts/misc.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function S8FCityBanner(element) {
@@ -85,12 +86,15 @@ function S8FCityBanner(element) {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("banners-form-modal");
+        Modals.hide_custom("city-banner-form-modal");
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("banners-form-modal");
+            Modals.hide_custom("city-banner-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 
@@ -129,20 +133,20 @@ function S8FCityBanner(element) {
     const btnAddClick = () => {
         setModalTitle("Add Banner");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("banners-form-modal");
+        Modals.show_custom("city-banner-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = () => {
         setModalTitle("Delete Banner");
         setModalBody(getForm(FormAction.Delete, banner));
-        Modals.show_custom("banners-form-modal");
+        Modals.show_custom("city-banner-form-modal");
         Alerts.clear("form-alerts");
     };
 
     return html`
         <s8f-modal
-            modal-id="banners-form-modal"
+            modal-id="city-banner-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >

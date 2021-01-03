@@ -1,12 +1,13 @@
 import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 
 import { FormAction, isValidFloat, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
-import _ from "../../../shared/javascripts/vendor/lodash.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function CitiesTable(element) {
@@ -73,12 +74,15 @@ function CitiesTable(element) {
     };
 
     const cancelForm = () => {
-        Modals.hide_custom("form-modal");
+        Modals.hide_custom("cities-form-modal");
     };
 
     const submitForm = (formData, action) => {
+        eventBus.dispatch(S8FEvent.RequestFormSubmit);
         performRestAction(formData, action).then(() => {
-            Modals.hide_custom("form-modal");
+            Modals.hide_custom("cities-form-modal");
+        }).finally(() => {
+            eventBus.dispatch(S8FEvent.CompleteFormSubmit);
         });
     };
 
@@ -137,21 +141,21 @@ function CitiesTable(element) {
     const btnAddClick = () => {
         setModalTitle("Add City");
         setModalBody(getForm(FormAction.Add, null));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("cities-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnEditClick = (city) => {
         setModalTitle("Edit City");
         setModalBody(getForm(FormAction.Update, city));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("cities-form-modal");
         Alerts.clear("form-alerts");
     };
 
     const btnDeleteClick = (city) => {
         setModalTitle("Delete City");
         setModalBody(getForm(FormAction.Delete, city));
-        Modals.show_custom("form-modal");
+        Modals.show_custom("cities-form-modal");
         Alerts.clear("form-alerts");
     };
 
@@ -163,7 +167,7 @@ function CitiesTable(element) {
     ];
     return html`
         <s8f-modal
-            modal-id="form-modal"
+            modal-id="cities-form-modal"
             .modal-title=${modalTitle}
             .modal-body=${modalBody}
         >

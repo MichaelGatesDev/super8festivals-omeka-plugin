@@ -1,9 +1,19 @@
+export const S8FEvent = {
+    RequestFormSubmit: "request-form-submit",
+    CompleteFormSubmit: "complete-form-submit",
+
+    RecordRequestAdd: "record-request-add",
+    RecordRequestEdit: "record-request-edit",
+    RecordRequestDelete: "record-request-delete",
+    RecordRequestView: "record-request-view",
+};
+
 function EventBus() {
     const subscriptions = {};
 
     /**
-     * @param eventType {S8FEvent} The event to subscribe to
-     * @param callback {function} The function to trigger when the event fires
+     * @param eventType {S8FEvent | string} The event to subscribe to
+     * @param callback {Function} The function to trigger when the event fires
      */
     function subscribe(eventType, callback) {
         if (!subscriptions[eventType]) {
@@ -23,10 +33,10 @@ function EventBus() {
     }
 
     /**
-     * @param eventType {S8FEvent} The event to dispatch
-     * @param callback {Object} The arguments to pass to the callback function
+     * @param eventType {S8FEvent | string} The event to dispatch
+     * @param args {Object | null} The arguments to pass to the callback function
      */
-    function dispatch(eventType, args) {
+    function dispatch(eventType, args = null) {
         if (!subscriptions[eventType]) return;
         subscriptions[eventType].forEach((callback) => callback(args));
     }

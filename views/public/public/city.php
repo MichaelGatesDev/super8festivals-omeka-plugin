@@ -92,7 +92,7 @@ $nearby_festivals = $city->get_nearby_festivals();
             <p class="text-muted">
                 Background information about <span class="title"><?= $city->name; ?></span>
             </p>
-            <?php $description = $city->description; ?>
+            <?php $description = $city->get_location()->description; ?>
             <?php if ($description == null): ?>
                 <p>There is no information available for this city.</p>
             <?php else: ?>

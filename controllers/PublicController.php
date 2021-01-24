@@ -62,4 +62,11 @@ class SuperEightFestivals_PublicController extends Omeka_Controller_AbstractActi
         $this->view->year = $year;
     }
 
+    public function cityTimelineAction()
+    {
+        $request = $this->getRequest();
+        $this->view->city = $city = get_request_param_city($request);
+        $this->view->timeline = $city->get_timeline();
+    }
+
 }

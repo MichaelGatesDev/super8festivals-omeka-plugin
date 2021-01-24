@@ -47,13 +47,23 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
         </div>
     </div>
 
-    <!--  City Banner -->
+    <!-- City Banner -->
     <div class="row my-5">
         <div class="col">
             <s8f-city-banner
                 country-id="<?= $country->id; ?>"
                 city-id="<?= $city->id; ?>"
             ></s8f-city-banner>
+        </div>
+    </div>
+
+    <!-- City Timeline -->
+    <div class="row my-5">
+        <div class="col">
+            <s8f-city-timeline
+                country-id="<?= $country->id; ?>"
+                city-id="<?= $city->id; ?>"
+            ></s8f-city-timeline>
         </div>
     </div>
 
@@ -81,6 +91,7 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
 </section>
 
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-city-banner.js'></script>
+<script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-city-timeline.js'></script>
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-festivals-table.js'></script>
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-nearby-festivals-table.js'></script>
 

@@ -1820,6 +1820,51 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         }
     }
 
+    public function countryCityTimelineAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $country = get_request_param_country($request);
+            $city = get_request_param_city($request);
+
+            if ($request->isGet()) {
+                $timeline = $city->get_timeline();
+                $this->_helper->getHelper("json")->sendJson(
+                    $this->getJsonResponseArray(
+                        "success",
+                        "Successfully fetched timeline",
+                        $timeline == null ? null : $timeline->to_array(),
+                    )
+                );
+            } else if ($request->isPost()) {
+                $this->authCheck();
+
+                try {
+                    $timeline = SuperEightFestivalsCityTimeline::create([
+                        "city_id" => $city->id,
+                        "timeline" => [
+                            "embed" => [
+                                "embed" => $request->getParam("embed", ""),
+                            ],
+                        ],
+                    ]);
+                    $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created timeline", $timeline->to_array()));
+                } catch (Exception $e) {
+                    if ($timeline->id !== 0) $timeline->delete();
+                    throw $e;
+                }
+            } else if ($request->isDelete()) {
+                $this->authCheck();
+                $timeline = $city->get_timeline();
+                $arr = $timeline->to_array();
+                $timeline->delete();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully deleted timeline", $arr));
+            }
+        } catch (Throwable $e) {
+            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
+        }
+    }
+
     // ======================================================================================================================== \\
 
 }

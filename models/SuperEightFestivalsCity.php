@@ -164,5 +164,16 @@ class SuperEightFestivalsCity extends Super8FestivalsRecord
         return SuperEightFestivalsLocation::get_by_id($this->location_id);
     }
 
+
+    /**
+     * @return SuperEightFestivalsTimeline|null
+     */
+    public function get_timeline()
+    {
+        $results = SuperEightFestivalsTimeline::get_by_param('city_id', $this->id, 1);
+        return count($results) > 0 ? $results[0] : null;
+    }
+
+
     // ======================================================================================================================== \\
 }

@@ -50,6 +50,8 @@ function create_tables()
     SuperEightFestivalsEmbed::create_table();
     SuperEightFestivalsFile::create_table();
 
+    SuperEightFestivalsTimeline::create_table();
+
     SuperEightFestivalsFederationBylaw::create_table();
     SuperEightFestivalsFederationMagazine::create_table();
     SuperEightFestivalsFederationNewsletter::create_table();
@@ -62,6 +64,7 @@ function create_tables()
     SuperEightFestivalsCountry::create_table();
     SuperEightFestivalsCity::create_table();
     SuperEightFestivalsCityBanner::create_table();
+    SuperEightFestivalsCityTimeline::create_table();
     SuperEightFestivalsFestival::create_table();
     SuperEightFestivalsFestivalFilm::create_table();
     SuperEightFestivalsFestivalFilmCatalog::create_table();
@@ -90,6 +93,7 @@ function drop_tables()
     SuperEightFestivalsFestivalFilmCatalog::drop_table();
     SuperEightFestivalsFestivalFilm::drop_table();
     SuperEightFestivalsFestival::drop_table();
+    SuperEightFestivalsCityTimeline::drop_table();
     SuperEightFestivalsCityBanner::drop_table();
     SuperEightFestivalsCity::drop_table();
     SuperEightFestivalsCountry::drop_table();
@@ -102,6 +106,8 @@ function drop_tables()
     SuperEightFestivalsFederationNewsletter::drop_table();
     SuperEightFestivalsFederationMagazine::drop_table();
     SuperEightFestivalsFederationBylaw::drop_table();
+
+    SuperEightFestivalsTimeline::drop_table();
 
     SuperEightFestivalsFile::drop_table();
     SuperEightFestivalsEmbed::drop_table();

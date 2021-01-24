@@ -255,6 +255,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
             $this->add_static_route($router, "federation", "federation", "federation", false);
             $this->add_static_route($router, "cities", "cities", "cities", false);
             $this->add_static_route($router, "city", "cities/:city", "city", false);
+            $this->add_static_route($router, "city-timeline", "cities/:city/timeline", "city-timeline", false);
             $this->add_static_route($router, "filmmakers", "filmmakers", "filmmakers", false);
             $this->add_static_route($router, "filmmaker", "filmmakers/:filmmakerID", "filmmaker", false);
         }
@@ -330,6 +331,7 @@ class SuperEightFestivalsPlugin extends Omeka_Plugin_AbstractPlugin
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/print-media/", "country-city-print-media");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/photos/", "country-city-nearby-festivals-photos");
         $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/nearby-festivals/print-media/", "country-city-nearby-festivals-print-media");
+        $this->add_api_route($router, "/rest-api/countries/:country/cities/:city/timeline/", "country-city-timeline");
     }
 
 }

@@ -17,7 +17,7 @@ $nearby_festivals = $city->get_nearby_festivals();
 <div class="container-fluid" id="landing">
     <div class="row">
         <div class="col">
-            <h2 class="text-center py-2 text-capitalize"><?= $city->name; ?></h2>
+            <h2 class="text-center py-2 text-capitalize"><?= $city->get_location()->name; ?></h2>
         </div>
     </div>
     <div class="row">
@@ -79,16 +79,13 @@ $nearby_festivals = $city->get_nearby_festivals();
 
 <section class="container px-0 py-5" id="city">
 
-    <div class="row">
-        <div class="col">
-            <h2 class="my-4 text-capitalize"><?= $city->get_location()->name; ?></h2>
-        </div>
-    </div>
-
     <!--About-->
     <div class="row" id="about">
         <div class="col">
-            <h3 class="ms-2">About</h3>
+            <h3 class="mb-2 d-inline-block">
+                About
+                <a href="/cities/<?= urlencode($city->get_location()->name); ?>/timeline" class="btn btn-sm btn-primary">Timeline</a>
+            </h3>
             <p class="text-muted">
                 Background information about <span class="title"><?= $city->name; ?></span>
             </p>
@@ -237,7 +234,7 @@ $nearby_festivals = $city->get_nearby_festivals();
         }).catch((e) => {
             render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers-container"));
         }));
-        
+
         Promise.all(promises).then(() => {
             if (window.location.hash) {
                 document.getElementById(window.location.hash.substring(1)).scrollIntoView();

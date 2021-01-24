@@ -17,7 +17,7 @@ echo head($head);
             <?php if(!$timeline): ?>
                 <p>There is no timeline available for this city.</p>
             <?php else: ?>
-                <?= $timeline->get_embed()->embed; ?>
+                <?= $timeline->get_timeline()->get_embed()->embed; ?>
             <?php endif; ?>
         </div>
     </div>

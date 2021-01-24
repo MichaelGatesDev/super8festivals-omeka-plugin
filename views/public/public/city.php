@@ -84,7 +84,9 @@ $nearby_festivals = $city->get_nearby_festivals();
         <div class="col">
             <h3 class="mb-2 d-inline-block">
                 About
-                <a href="/cities/<?= urlencode($city->get_location()->name); ?>/timeline" class="btn btn-sm btn-primary">Timeline</a>
+                <a href="/cities/<?= urlencode($city->get_location()->name); ?>/timeline" class="btn btn-sm btn-primary <?= $city->get_timeline() ? "" : "disabled" ?>">
+                    Timeline
+                </a>
             </h3>
             <p class="text-muted">
                 Background information about <span class="title"><?= $city->name; ?></span>

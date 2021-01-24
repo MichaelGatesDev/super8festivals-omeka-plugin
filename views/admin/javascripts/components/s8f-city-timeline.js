@@ -6,6 +6,7 @@ import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, scrollTo, SUPPORTED_IMAGE_MIMES } from "../../../shared/javascripts/misc.js";
 import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
+import { unsafeHTML } from "../../../shared/javascripts/vendor/lit-html/directives/unsafe-html.js";
 
 
 function S8FCityTimeline(element) {
@@ -155,8 +156,10 @@ function S8FCityTimeline(element) {
             City Timeline
         </h2>
         ${timeline ? html`
-            <div class="ms-2">
-                Placeholder for Timeline
+            <div class="mb-4">
+                <div style="width: 100%; height: 500px; overflow: auto;">
+                    ${unsafeHTML(timeline.timeline.embed.embed)}
+                </div>
             </div>
             <button
                 type="button"

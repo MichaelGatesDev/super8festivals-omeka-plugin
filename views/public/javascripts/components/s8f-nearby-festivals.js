@@ -70,6 +70,9 @@ function S8FNearbyFestivals(element) {
     if (!festivals) {
         return html`<p>Loading...</p>`;
     }
+    if(festivals.length === 0) {
+        return html`<p>There are no nearby festivals.</p>`;
+    }
     return html`
         <ul class="nav nav-tabs" id="nearby-festival-tabs" role="tablist">
             ${repeat(festivals, $festival => $festival.id, festival => navTabItemTemplate(festival))}

@@ -21,6 +21,11 @@ function NearbyFestivalsTable(element) {
                 element.cityId,
                 "nearby-festivals",
             ]), HTTPRequestMethod.GET);
+            festivals.forEach((festival) => {
+                if (festival.year === 0) {
+                    festival.year = "Uncategorized";
+                }
+            });
             setFestivals(festivals);
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Nearby Festivals`, err);

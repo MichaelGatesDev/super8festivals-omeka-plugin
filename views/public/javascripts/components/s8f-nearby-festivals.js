@@ -37,7 +37,7 @@ function S8FNearbyFestivals(element) {
                     href="#nearby-festivals-pane-${festival.id}"
                     role="tab"
                 >
-                    <span class="text-capitalize">${festival.city_name} ${festival.year}</span>
+                    <span class="text-capitalize">${festival.city_name} ${festival.year === 0 ? "uncategorized" : festival.year}</span>
                 </a>
             </li>
         `;

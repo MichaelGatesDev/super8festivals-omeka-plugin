@@ -22,7 +22,7 @@ export default class API {
     static async performRequest(url, method, formData = null) {
         switch (method) {
             default:
-                break;
+                return null;
             case HTTPRequestMethod.GET:
                 return Rest.get(url);
             case HTTPRequestMethod.POST:

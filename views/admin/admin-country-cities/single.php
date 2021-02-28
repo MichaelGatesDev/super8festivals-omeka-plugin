@@ -16,19 +16,19 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
         </div>
     </div>
 
+    <!-- S8F Alerts -->
+    <div class="row">
+        <div class="col">
+            <s8f-alerts-area id="alerts"></s8f-alerts-area>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col">
             <h2 class="text-capitalize">
                 <?= $city_loc->name; ?>
                 <span class="text-muted">(<?= $country_loc->name; ?>)</span>
             </h2>
-        </div>
-    </div>
-
-    <!-- S8F Alerts -->
-    <div class="row">
-        <div class="col">
-            <s8f-alerts-area id="alerts"></s8f-alerts-area>
         </div>
     </div>
 

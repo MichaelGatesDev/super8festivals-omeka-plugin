@@ -6,7 +6,7 @@ class SuperEightFestivals_AdminCountryCitiesController extends Omeka_Controller_
     {
         $request = $this->getRequest();
         $this->view->country = $country = get_request_param_country($request);
-        $this->redirect("/super-eight-festivals/countries/" . urlencode($this->view->country->name));
+        $this->redirect("/super-eight-festivals/countries/" . urlencode($this->view->country->get_location()->name));
     }
 
     public function singleAction()

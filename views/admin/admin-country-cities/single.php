@@ -4,7 +4,7 @@ $city_loc = $city->get_location();
 $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->name) . "/cities/" . urlencode($city_loc->name);
 ?>
 
-<?= $this->partial("__partials/header.php", ["title" => ucwords($country_loc->name)]); ?>
+<?= $this->partial("__partials/header.php", ["title" => ucwords($city_loc->name)]); ?>
 
 <section class="container">
 

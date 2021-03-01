@@ -53,10 +53,10 @@ class SuperEightFestivalsNearbyFestival extends Super8FestivalsRecord
 
     public static function create($arr = [])
     {
-        $existing = SuperEightFestivalsNearbyFestival::get_by_param("year", $arr["year"]);
-        if ($existing && count($existing) > 0) {
-            throw new Exception("A nearby festival with that year already exists for this city!");
-        }
+//        $existing = SuperEightFestivalsNearbyFestival::get_by_param("year", $arr["year"]);
+//        if ($existing && count($existing) > 0) {
+//            throw new Exception("A nearby festival with that year already exists for this city!");
+//        }
 
         $festival = new SuperEightFestivalsNearbyFestival();
 

@@ -12,12 +12,15 @@ $country = $city->get_country();
 $banner = $city->get_banner();
 $festivals = $city->get_festivals();
 $nearby_festivals = $city->get_nearby_festivals();
+
+$city_loc = $city->get_location();
+$country_loc = $country->get_location();
 ?>
 
 <div class="container-fluid" id="landing">
     <div class="row">
         <div class="col">
-            <h2 class="text-center py-2 text-capitalize"><?= $city->get_location()->name; ?></h2>
+            <h2 class="text-center py-2 text-capitalize"><?= $city_loc->name; ?></h2>
         </div>
     </div>
     <div class="row">
@@ -84,18 +87,21 @@ $nearby_festivals = $city->get_nearby_festivals();
         <div class="col">
             <h3 class="mb-2 d-inline-block">
                 About
-                <a href="/cities/<?= urlencode($city->get_location()->name); ?>/timeline" class="btn btn-sm btn-primary <?= $city->get_timeline() ? "" : "disabled" ?>">
+                <a href="/cities/<?= urlencode($city_loc->name); ?>/timeline" class="btn btn-sm btn-primary <?= $city->get_timeline() ? "" : "disabled" ?>">
                     Timeline
                 </a>
             </h3>
             <p class="text-muted">
-                Background information about <span class="title"><?= $city->name; ?></span>
+                Background information about <span class="title"><?= $city_loc->name; ?></span>
             </p>
-            <?php $description = $city->get_location()->description; ?>
+            <?php $description = $city_loc->description; ?>
             <?php if ($description == null): ?>
                 <p>There is no information available for this city.</p>
             <?php else: ?>
-                <p><?= $description; ?></p>
+                <p class="collapse p-0" id="city-description" aria-expanded="false" id="city-description">
+                    <?= str_replace("\n", "<br/>", $description); ?>
+                </p>
+                <a class="btn btn-link read-collapse collapsed" data-bs-toggle="collapse" href="#city-description" role="button" aria-expanded="false" aria-controls="city-description"></a>
             <?php endif; ?>
         </div>
     </div>
@@ -166,12 +172,12 @@ $nearby_festivals = $city->get_nearby_festivals();
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
 
-    const fetchPosters = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "posters"]), HTTPRequestMethod.GET);
-    const fetchPhotos = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "photos"]), HTTPRequestMethod.GET);
-    const fetchPrintMedia = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "print-media"]), HTTPRequestMethod.GET);
-    const fetchFilmCatalogs = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "film-catalogs"]), HTTPRequestMethod.GET);
-    const fetchFilms = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "films"]), HTTPRequestMethod.GET);
-    const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $city->get_country()->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
+    const fetchPosters = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "posters"]), HTTPRequestMethod.GET);
+    const fetchPhotos = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "photos"]), HTTPRequestMethod.GET);
+    const fetchPrintMedia = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "print-media"]), HTTPRequestMethod.GET);
+    const fetchFilmCatalogs = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "film-catalogs"]), HTTPRequestMethod.GET);
+    const fetchFilms = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "films"]), HTTPRequestMethod.GET);
+    const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
 
     $(() => {
         render(html`<p>Loading...</p>`, document.getElementById("posters-container"));

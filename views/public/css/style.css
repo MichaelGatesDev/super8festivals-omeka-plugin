@@ -13,3 +13,17 @@ img.city-banner {
 img.card-img-top {
     height: 150px;
 }
+
+
+.collapsed.read-collapse:after {
+    content: "+ Read More"
+}
+:not(.collapsed).read-collapse:after {
+    content: "- Read Less"
+}
+
+#city-description:not(.show){
+    display: block;
+    height: 3rem;
+    overflow: hidden;
+}

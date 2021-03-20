@@ -54,8 +54,11 @@ class SuperEightFestivalsFestival extends Super8FestivalsRecord
 
     public static function create($arr = [])
     {
-        if (SuperEightFestivalsFestival::get_by_param("year", $arr["year"])) {
-            throw new Exception("A festival with that year already exists!");
+        if (SuperEightFestivalsFestival::get_by_params([
+            "year" => $arr["year"],
+            "city_id" => $arr["city_id"],
+        ])) {
+            throw new Exception("A festival with that year for this city already exists!");
         }
 
         $festival = new SuperEightFestivalsFestival();

@@ -12,7 +12,7 @@
     "snowpack": "^2.16.1"
   },
   "scripts": {
-    "postinstall": "npm run package",
+    "postinstall": "yarn run package",
     "package": "npx snowpack install --config package.json"
   },
   "snowpack": {

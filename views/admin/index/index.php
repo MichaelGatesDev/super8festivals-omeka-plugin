@@ -28,10 +28,4 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <a href="/admin/super-eight-festivals/debug" class="btn btn-danger mt-4">Debug Tools</a>
-        </div>
-    </div>
-
 <?= $this->partial("__partials/footer.php") ?>

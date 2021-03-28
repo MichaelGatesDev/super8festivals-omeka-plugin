@@ -1,6 +1,7 @@
 <?php
 
 ini_set('max_execution_time', 0);
+ini_set('display_errors', 'Off');
 
 require_once dirname(__FILE__) . '/helpers/MigrationsHelper.php';
 require_once dirname(__FILE__) . '/helpers/S8FLogger.php';

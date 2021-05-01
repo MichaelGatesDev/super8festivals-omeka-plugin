@@ -19,6 +19,11 @@ echo head($head);
     <div class="row mb-5">
         <div class="col">
             <?php if (count($records = SuperEightFestivalsFilmmaker::get_all()) > 0): ?>
+                <?php
+                usort($records, function ($a, $b) {
+                    return strtolower($a->get_person()->first_name) > strtolower($b->get_person()->first_name);
+                });
+                ?>
                 <?php foreach ($records as $filmmaker): ?>
                     <div class="card d-inline-block mb-4">
                         <div class="card-body">

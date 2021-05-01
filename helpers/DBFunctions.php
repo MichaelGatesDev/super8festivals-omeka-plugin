@@ -28,6 +28,18 @@ function drop_table($table_prefix, $table_name)
     $db->query($query);
 }
 
+function add_column($table_prefix, $table_name, $col)
+{
+    $db = get_db();
+    $db->query("ALTER TABLE `{$db->prefix}{$table_prefix}{$table_name}` ADD COLUMN $col;");
+}
+
+function remove_column($table_prefix, $table_name, $column_name)
+{
+    $db = get_db();
+    $db->query("ALTER TABLE `{$db->prefix}{$table_prefix}{$table_name}` DROP COLUMN $column_name;");
+}
+
 function create_missing_columns($table_prefix, $table_name, $cols)
 {
     $db = get_db();

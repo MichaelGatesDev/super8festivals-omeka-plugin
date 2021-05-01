@@ -98,6 +98,7 @@ function FilmmakersTable() {
                 { label: "Last Name", type: "text", name: "last_name", placeholder: "", value: filmmaker ? filmmaker.person.last_name : "" },
                 { label: "Organization Name", type: "text", name: "organization_name", placeholder: "", value: filmmaker ? filmmaker.person.organization_name : "" },
                 { label: "Email", type: "text", name: "email", placeholder: "", value: filmmaker ? filmmaker.person.email : "" },
+                { label: "Biography", type: "textarea", name: "bio", placeholder: "", value: filmmaker ? filmmaker.bio : "" },
                 // { label: "Photo", type: "file", name: "file" },
             ];
         } else if (action === FormAction.Delete) {

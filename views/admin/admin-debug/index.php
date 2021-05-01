@@ -34,25 +34,50 @@
                 </div>
             </div>
             <?php
-            $migration_dirs = array_filter(glob(__DIR__ . "/../../../migrations/*"), 'is_dir');
+            $migration_files = array_filter(glob(__DIR__ . "/../../../migrations/*"), 'is_file');
+            $migration_files = array_filter($migration_files, function ($file) {
+                return !strpos($file, S8FDatabaseMigration::class);
+            });
             ?>
             <div class="row">
                 <div class="col">
                     <h4 class="ms-2">Migrations</h4>
-                    <?php if (count($migration_dirs) > 0): ?>
-                        <ul>
-                            <?php foreach ($migration_dirs as $migration_dir): ?>
+                    <?php if (count($migration_files) > 0): ?>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td>Migration File Name</td>
+                                <td>Apply Migration</td>
+                                <td>Undo Migration</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($migration_files as $migration_file): ?>
                                 <?php
-                                $dir_name = basename($migration_dir);
+                                $file_name = basename($migration_file);
                                 ?>
-                                <li>
-                                    <form action="/rest-api/migrations/" method="GET">
-                                        <input class="d-none" type="text" name="migration-name" value="<?= $dir_name; ?>">
-                                        <button type="submit" class="btn btn-link"><?= $dir_name; ?></button>
-                                    </form>
-                                </li>
+                                <tr>
+                                    <td>
+                                        <p><?= $file_name; ?></p>
+                                    </td>
+                                    <td>
+                                        <form action="/rest-api/migrations/" method="GET">
+                                            <input class="d-none" type="text" name="migration-name" value="<?= $file_name; ?>">
+                                            <input class="d-none" type="text" name="migration-direction" value="forward">
+                                            <button type="submit" class="btn btn-link m-0 p-0 text-success fs-4"><span class="bi bi-check"></span></button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="/rest-api/migrations/" method="GET">
+                                            <input class="d-none" type="text" name="migration-name" value="<?= $file_name; ?>">
+                                            <input class="d-none" type="text" name="migration-direction" value="backward">
+                                            <button type="submit" class="btn btn-link m-0 p-0 text-danger fs-4"><span class="bi bi-x"></span></button>
+                                        </form>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
-                        </ul>
+                            </tbody>
+                        </table>
                     <?php else: ?>
                         <p>No migrations found.</p>
                     <?php endif; ?>

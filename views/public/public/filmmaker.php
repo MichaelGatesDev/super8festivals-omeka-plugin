@@ -3,6 +3,12 @@ $head = array(
     'title' => "Filmmaker",
 );
 echo head($head);
+
+
+function replace_links_with_href($input) {
+    $pattern = '@(http(s)?://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+    return preg_replace($pattern, '<a href="http$2://$3">$0</a>', $input);
+}
 ?>
 
 <section class="container my-5" id="filmmaker">
@@ -10,6 +16,17 @@ echo head($head);
     <div class="row">
         <div class="col">
             <h2 class="my-4 text-capitalize"><?= html_escape($filmmaker->get_person()->get_name()); ?></h2>
+        </div>
+    </div>
+
+    <div class="row my-5" id="filmmaker-films">
+        <div class="col">
+            <h3 class="">Biography</h3>
+            <?php if ($filmmaker->bio): ?>
+                <p><?= replace_links_with_href($filmmaker->bio); ?></p>
+            <?php else: ?>
+                <p>There is no biography available.</p>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -32,8 +49,8 @@ echo head($head);
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-filmmaker-records.js"></script>
 <script type="module">
-    import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
     import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
+    import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
 
     const fetchFilms = () => API.performRequest(API.constructURL(["filmmakers", <?= $filmmaker->id ?>, "films"]), HTTPRequestMethod.GET);
     const fetchPhotos = () => API.performRequest(API.constructURL(["filmmakers", <?= $filmmaker->id ?>, "photos"]), HTTPRequestMethod.GET);

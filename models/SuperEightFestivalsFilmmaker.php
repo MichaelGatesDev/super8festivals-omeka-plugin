@@ -5,6 +5,7 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     // ======================================================================================================================== \\
 
     public ?int $person_id = null;
+    public ?string $bio = "";
 
     // ======================================================================================================================== \\
 
@@ -12,7 +13,8 @@ class SuperEightFestivalsFilmmaker extends Super8FestivalsRecord
     {
         return array_merge(
             array(
-                "`person_id`   INT UNSIGNED NOT NULL",
+                "`person_id`    INT UNSIGNED NOT NULL",
+                "`bio`          TEXT(65535)",
             ),
             parent::get_db_columns()
         );

@@ -30,6 +30,19 @@
         </div>
     </div>
 
+    <div class="row my-5">
+        <div class="col">
+            <h3>Biography</h3>
+            <?php if ($filmmaker->bio == null): ?>
+                <p>There is no bio available for this filmmaker.</p>
+            <?php else: ?>
+                <div class="form-group">
+                    <textarea class="form-control" readonly><?= $filmmaker->bio; ?></textarea>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
     <!-- Films -->
     <div class="row my-4" id="films">
         <div class="col">

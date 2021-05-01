@@ -73,15 +73,18 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
         try {
             $request = $this->getRequest();
             $migration_name = $request->getParam("migration-name");
+            $migration_direction = $request->getParam("migration-direction");
 
-            $migration_script_file_path = __DIR__ . "/../migrations/" . $migration_name . "/" . "$migration_name.php";
+            $migration_script_file_path = __DIR__ . "/../migrations/" . "$migration_name";
             if (!file_exists($migration_script_file_path)) {
                 throw new Exception("Migration file does not exist: {$migration_script_file_path}");
             }
 
-            $class = "S8F_DB_Migration_" . $migration_name;
+            include_once $migration_script_file_path;
+
+            $class = str_replace(".php", "", $migration_name);
             if (!class_exists($class)) {
-                throw new Exception("No class exists in file: ${migration_script_file_path}");
+                throw new Exception("No class with name $class exists in file: $migration_script_file_path");
             }
 
             $reflect = new ReflectionClass($class);
@@ -90,9 +93,13 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             }
 
             $instance = new $class;
-            $instance->run_migrations();
-
-            $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Performed migration $migration_name"));
+            if ($migration_direction == "forward") {
+                $instance->apply();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Applied migration $migration_name"));
+            } else if ($migration_direction == "backward") {
+                $instance->undo();
+                $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Reversed migration $migration_name"));
+            }
         } catch (Throwable $e) {
             $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("error", $e->getMessage()));
         }
@@ -571,6 +578,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             } else if ($request->isPost()) {
                 $this->authCheck();
                 $filmmaker = SuperEightFestivalsFilmmaker::create([
+                    "bio" => $request->getParam("bio", ""),
                     "person" => [
                         "first_name" => $request->getParam("first_name", ""),
                         "last_name" => $request->getParam("last_name", ""),
@@ -600,6 +608,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
             } else if ($request->isPost()) {
                 $this->authCheck();
                 $filmmaker->update([
+                    "bio" => $request->getParam("bio", ""),
                     "person" => [
                         "first_name" => $request->getParam("first_name", ""),
                         "last_name" => $request->getParam("last_name", ""),

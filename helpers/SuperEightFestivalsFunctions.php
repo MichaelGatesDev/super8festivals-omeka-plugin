@@ -4,12 +4,17 @@
 
 function build_url($pieces)
 {
-    return join("/", $pieces) . "/";
+    return join("/", $pieces) . (sizeof($pieces) > 0 ? "/" : "");
 }
 
 function build_admin_url($pieces)
 {
-    return admin_url() . "/" . build_url($pieces);
+    return "/admin/" . build_url($pieces);
+}
+
+function build_plugin_url($pieces)
+{
+    return admin_url() . build_url($pieces);
 }
 
 function is_localhost()

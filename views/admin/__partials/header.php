@@ -64,6 +64,14 @@
 <main class="container">
     <div class="row pt-4">
         <div class="col-2">
+            <ul id="content-nav">
+                <li><a href="<?= build_admin_url([]); ?>">Dashboard</a></li>
+                <li><a href="<?= build_admin_url(["items"]); ?>">Items</a></li>
+                <li><a href="<?= build_admin_url(["collections"]); ?>">Collections</a></li>
+                <li><a href="<?= build_admin_url(["item-types"]); ?>">Item Types</a></li>
+                <li><a href="<?= build_admin_url(["tags"]); ?>">Tags</a></li>
+                <li class="active"><a href="<?= build_plugin_url([]); ?>">Super 8 Festivals</a></li>
+            </ul>
         </div>
         <div class="col-10">
             <div class="row">

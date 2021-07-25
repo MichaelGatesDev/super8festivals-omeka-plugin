@@ -42,19 +42,25 @@
                 </ul>
                 <ul class="navbar-nav ms-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/">Dashboard</a>
+                        <a class="nav-link" aria-current="page" href="/admin/plugins/">Plugins</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Plugins</a>
+                        <a class="nav-link" aria-current="page" href="/admin/appearance/">Appearance</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/appearance/">Appearance</a>
+                        <a class="nav-link" aria-current="page" href="/admin/users/">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/users/">Users</a>
+                        <a class="nav-link" aria-current="page" href="/admin/settings/">Settings</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-2 mb-lg-0">
+                    <li class="nav-item d-flex">
+                        <span class="text-light">Welcome,</span>
+                        <a class="nav-link" aria-current="page" href="/admin/"><?= current_user()->username; ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/settings/">Settings</a>
+                        <a class="nav-link" aria-current="page" href="/admin/users/logout/">Logout</a>
                     </li>
                 </ul>
             </div>

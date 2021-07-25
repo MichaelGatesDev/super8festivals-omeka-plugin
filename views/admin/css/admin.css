@@ -21,18 +21,25 @@ body {
     padding: 0.625em 0;
 }
 
-#navbar-primary a.navbar-brand, #navbar-primary a.nav-link {
-    color: #ccc;
+#navbar-primary {
+    color: #cccccc;
     font-size: 14px;
     line-height: 21px;
-    text-decoration: #ccc;
+    text-shadow: #000 1px 1px 1px;
+}
+
+#navbar-primary a.navbar-brand, #navbar-primary a.nav-link {
+    color: #cccccc;
     text-decoration-line: none;
     text-decoration-style: solid;
     text-decoration-thickness: auto;
-    text-shadow: #000 1px 1px 1px;
 
     padding-top: 0;
     padding-bottom: 0;
+}
+
+#navbar-primary a.navbar-brand:hover, #navbar-primary a.nav-link:hover {
+    color: #ffffff;
 }
 
 h1, h2, h3, h4, h5, h6 {

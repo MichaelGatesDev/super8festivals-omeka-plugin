@@ -2,6 +2,21 @@
 
 // ============================================================================================================================================================= \\
 
+function build_url($pieces)
+{
+    return join("/", $pieces) . (sizeof($pieces) > 0 ? "/" : "");
+}
+
+function build_admin_url($pieces)
+{
+    return "/admin/" . build_url($pieces);
+}
+
+function build_plugin_url($pieces)
+{
+    return "/admin/super-eight-festivals/" . build_url($pieces);
+}
+
 function is_localhost()
 {
     return (in_array($_SERVER['REMOTE_ADDR'], array(

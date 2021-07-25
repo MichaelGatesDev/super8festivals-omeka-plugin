@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Arvo:400,700,400italic,700italic|Cabin:400,700,400italic,700italic");
+
 html {
     scroll-behavior: smooth;
 }
@@ -6,4 +8,116 @@ body {
     display: grid;
     height: 100vh;
     grid-template-rows: auto 1fr auto;
+
+    background-color: #e8e6d9 !important;
+
+    font-family: "Arvo", serif !important;
+}
+
+#navbar-primary {
+    background-color: #2A2520 !important;
+    border-bottom: .375em solid #9d5b41 !important;
+    box-shadow: #666 0 0 5px 0;
+    padding: 0.625em 0;
+}
+
+#navbar-primary {
+    color: #cccccc;
+    font-size: 14px;
+    line-height: 21px;
+    text-shadow: #000 1px 1px 1px;
+}
+
+#navbar-primary a.navbar-brand, #navbar-primary a.nav-link {
+    color: #cccccc;
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-decoration-thickness: auto;
+
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#navbar-primary a.navbar-brand:hover, #navbar-primary a.nav-link:hover {
+    color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #4c3939;
+}
+
+
+.omeka-panel {
+    background-image: url("/admin/themes/default/images/content_bg.jpg");
+    border-top-color: #9d5b41;
+    border-top-style: solid;
+    border-top-width: 5px;
+    box-shadow: #999 0 0 1px 0;
+    clear: right;
+    color: #4c3939;
+    display: block;
+    font-family: "Cabin", sans-serif;
+    font-size: 14px;
+    padding: 20px 10px;
+    width: 100%;
+
+    margin: 1em 0;
+}
+
+.omeka-panel .tab-content {
+    border-top: 0;
+    border-right: 1px;
+    border-bottom: 1px;
+    border-left: 1px;
+    border-color: #dee2e6;
+    border-style: solid;
+    background-color: #FFFFFF;
+}
+
+#content-nav {
+    border-top: 1px solid #000000;
+    list-style-type: none;
+    padding: 0;
+}
+
+#content-nav li {
+    background-image: url("/admin/themes/default/images/navbg-gray.jpg");
+
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    border-top: 1px solid #ffffff1a;
+    box-shadow: #00000080 1px 1px 3px 0;
+
+    list-style-type: none;
+}
+
+#content-nav li.active {
+    background-image: url("/admin/themes/default/images/navbg-blue.jpg");
+}
+
+#content-nav li:not(.active):hover {
+    background-image: url("/admin/themes/default/images/navbg-gray2.jpg");
+}
+
+#content-nav li a {
+    background-color: #0000;
+    color: #fff;
+    display: block;
+    font-family: "Arvo", serif;
+    font-size: 12.25px;
+    line-height: 18.3833px;
+    list-style-type: none;
+    overflow-wrap: break-word;
+
+    padding: 0.5em 1em;
+    text-decoration: #fff;
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-decoration-thickness: auto;
+    text-shadow: #000 -1px -1px 1px;
+}
+
+#content-nav li:hover a {
+    color: #ffc;
 }

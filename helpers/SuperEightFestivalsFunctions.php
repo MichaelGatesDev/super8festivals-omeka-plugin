@@ -2,6 +2,16 @@
 
 // ============================================================================================================================================================= \\
 
+function build_url($pieces)
+{
+    return join("/", $pieces) . "/";
+}
+
+function build_admin_url($pieces)
+{
+    return admin_url() . "/" . build_url($pieces);
+}
+
 function is_localhost()
 {
     return (in_array($_SERVER['REMOTE_ADDR'], array(

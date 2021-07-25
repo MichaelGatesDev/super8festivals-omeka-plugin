@@ -22,7 +22,8 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar-primary">
         <div class="container">
             <a class="navbar-brand" href="/"><?= option("site_title"); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,13 +40,13 @@
                         <a class="nav-link active" aria-current="page" href="/admin/plugins/">Plugins</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Appearance</a>
+                        <a class="nav-link active" aria-current="page" href="/admin/appearance/">Appearance</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Users</a>
+                        <a class="nav-link active" aria-current="page" href="/admin/users/">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/admin/plugins/">Settings</a>
+                        <a class="nav-link active" aria-current="page" href="/admin/settings/">Settings</a>
                     </li>
                 </ul>
             </div>

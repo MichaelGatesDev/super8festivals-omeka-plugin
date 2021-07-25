@@ -55,6 +55,8 @@ if ($sort_mode == "country") {
             $banner = $city->get_banner();
             if ($banner) {
                 $banner_file = $banner->get_file();
+            } else {
+                $banner_file = null;
             }
             $country = $city->get_country();
             $country_loc = $country->get_location();

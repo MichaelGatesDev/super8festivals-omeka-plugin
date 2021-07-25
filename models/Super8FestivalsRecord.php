@@ -225,13 +225,5 @@ abstract class Super8FestivalsRecord extends Omeka_Record_AbstractRecord impleme
         if ($save) $this->save();
     }
 
-    public static function expand_arr($raw_arr) {
-        $arr = [];
-        foreach ($raw_arr as $record) {
-            array_push($arr, $record->to_array());
-        }
-        return $arr;
-    }
-
     // ======================================================================================================================== \\
 }

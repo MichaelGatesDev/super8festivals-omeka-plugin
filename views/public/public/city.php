@@ -162,6 +162,11 @@ $country_loc = $country->get_location();
 
 </section>
 
+<?php
+
+
+?>
+
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-festival-records.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-nearby-festivals.js"></script>

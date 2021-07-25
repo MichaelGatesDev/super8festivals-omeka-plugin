@@ -57,7 +57,7 @@
                 <ul class="navbar-nav ms-2 mb-lg-0">
                     <li class="nav-item d-flex">
                         <span class="text-light">Welcome,</span>
-                        <a class="nav-link" aria-current="page" href="/admin/"><?= current_user()->username; ?></a>
+                        <a class="nav-link" aria-current="page" href="/admin/users/edit/<?= current_user()->id; ?>/"><?= current_user()->username; ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/admin/users/logout/">Logout</a>

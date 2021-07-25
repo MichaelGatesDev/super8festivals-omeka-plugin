@@ -56,3 +56,13 @@ h1, h2, h3, h4, h5, h6 {
 
     margin: 1em 0;
 }
+
+.omeka-panel .tab-content {
+    border-top: 0;
+    border-right: 1px;
+    border-bottom: 1px;
+    border-left: 1px;
+    border-color: #dee2e6;
+    border-style: solid;
+    background-color: #FFFFFF;
+}

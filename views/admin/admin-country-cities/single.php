@@ -6,89 +6,70 @@ $rootURL = "/admin/super-eight-festivals/countries/" . urlencode($country_loc->n
 
 <?= $this->partial("__partials/header.php", ["title" => ucwords($city_loc->name)]); ?>
 
-<section class="container">
-
-    <?= $this->partial("__partials/flash.php"); ?>
-
-    <div class="row">
-        <div class="col">
-            <?= $this->partial("__components/breadcrumbs.php"); ?>
-        </div>
+<div class="row">
+    <div class="col">
+        <h2 class="text-capitalize">
+            <?= $city_loc->name; ?>
+            <span class="text-muted">(<?= $country_loc->name; ?>)</span>
+        </h2>
     </div>
+</div>
 
-    <!-- S8F Alerts -->
-    <div class="row">
-        <div class="col">
-            <s8f-alerts-area id="alerts"></s8f-alerts-area>
-        </div>
+<!--  Description -->
+<div class="row my-5">
+    <div class="col">
+        <h3>Description</h3>
+        <?php $description = $city_loc->description; ?>
+        <?php if ($description == null): ?>
+            <p>There is no description available for this city.</p>
+        <?php else: ?>
+            <div class="form-group">
+                <textarea class="form-control" readonly><?= $description; ?></textarea>
+            </div>
+        <?php endif; ?>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col">
-            <h2 class="text-capitalize">
-                <?= $city_loc->name; ?>
-                <span class="text-muted">(<?= $country_loc->name; ?>)</span>
-            </h2>
-        </div>
+<!-- City Banner -->
+<div class="row my-5">
+    <div class="col">
+        <s8f-city-banner
+            country-id="<?= $country->id; ?>"
+            city-id="<?= $city->id; ?>"
+        ></s8f-city-banner>
     </div>
+</div>
 
-    <!--  Description -->
-    <div class="row my-5">
-        <div class="col">
-            <h3>Description</h3>
-            <?php $description = $city_loc->description; ?>
-            <?php if ($description == null): ?>
-                <p>There is no description available for this city.</p>
-            <?php else: ?>
-                <div class="form-group">
-                    <textarea class="form-control" readonly><?= $description; ?></textarea>
-                </div>
-            <?php endif; ?>
-        </div>
+<!-- City Timeline -->
+<div class="row my-5">
+    <div class="col">
+        <s8f-city-timeline
+            country-id="<?= $country->id; ?>"
+            city-id="<?= $city->id; ?>"
+        ></s8f-city-timeline>
     </div>
+</div>
 
-    <!-- City Banner -->
-    <div class="row my-5">
-        <div class="col">
-            <s8f-city-banner
-                country-id="<?= $country->id; ?>"
-                city-id="<?= $city->id; ?>"
-            ></s8f-city-banner>
-        </div>
+<div class="row my-5">
+    <div class="col">
+        <s8f-festivals-table
+            country-id="<?= $country->id; ?>"
+            city-id="<?= $city->id; ?>"
+        >
+        </s8f-festivals-table>
     </div>
+</div>
 
-    <!-- City Timeline -->
-    <div class="row my-5">
-        <div class="col">
-            <s8f-city-timeline
-                country-id="<?= $country->id; ?>"
-                city-id="<?= $city->id; ?>"
-            ></s8f-city-timeline>
-        </div>
+<div class="row my-5">
+    <div class="col">
+        <s8f-nearby-festivals-table
+            country-id="<?= $country->id; ?>"
+            city-id="<?= $city->id; ?>"
+        >
+        </s8f-nearby-festivals-table>
     </div>
+</div>
 
-    <div class="row my-5">
-        <div class="col">
-            <s8f-festivals-table
-                country-id="<?= $country->id; ?>"
-                city-id="<?= $city->id; ?>"
-            >
-            </s8f-festivals-table>
-        </div>
-    </div>
-
-    <div class="row my-5">
-        <div class="col">
-            <s8f-nearby-festivals-table
-                country-id="<?= $country->id; ?>"
-                city-id="<?= $city->id; ?>"
-            >
-            </s8f-nearby-festivals-table>
-        </div>
-    </div>
-
-
-</section>
 
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-city-banner.js'></script>
 <script type='module' src='/plugins/SuperEightFestivals/views/admin/javascripts/components/s8f-city-timeline.js'></script>

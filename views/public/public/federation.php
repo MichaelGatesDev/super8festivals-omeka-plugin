@@ -139,68 +139,64 @@ echo head($head);
 
 </section>
 
-
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-federation-records.js"></script>
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
-    import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
-    import _ from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lodash.js";
 
-    const fetchNewsletters = () => API.performRequest(API.constructURL(["federation", "newsletters"]), HTTPRequestMethod.GET);
-    const fetchPhotos = () => API.performRequest(API.constructURL(["federation", "photos"]), HTTPRequestMethod.GET);
-    const fetchMagazines = () => API.performRequest(API.constructURL(["federation", "magazines"]), HTTPRequestMethod.GET);
-    const fetchBylaws = () => API.performRequest(API.constructURL(["federation", "bylaws"]), HTTPRequestMethod.GET);
+    const newsletters = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFederationNewsletter::get_all())); ?>;
+    const photos = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFederationPhoto::get_all())); ?>;
+    const magazines = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFederationMagazine::get_all())); ?>;
+    const bylaws = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFederationBylaw::get_all())); ?>;
 
     $(() => {
-        render(html`<p>Loading...</p>`, document.getElementById("newsletters-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("magazines-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("bylaws-container"));
+        render(
+            html`
+                <s8f-federation-records
+                    .sectionId=${"newsletters"}
+                    .records=${newsletters}
+                >
+                </s8f-federation-records>
+            `,
+            document.getElementById("newsletters-container"),
+        );
 
-        const promises = [];
+        render(
+            html`
+                <s8f-federation-records
+                    .sectionId=${"photos"}
+                    .records=${photos}
+                >
+                </s8f-federation-records>
+            `,
+            document.getElementById("photos-container"),
+        );
 
-        promises.push(fetchNewsletters().then((newsletters) => {
-            render(
-                html`<s8f-federation-records .sectionId=${"newsletters"} .records=${newsletters}></s8f-federation-records>`,
-                document.getElementById("newsletters-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("newsletters-container"));
-        }));
+        render(
+            html`
+                <s8f-federation-records
+                    .sectionId=${"magazines"}
+                    .records=${magazines}
+                >
+                </s8f-federation-records>
+            `,
+            document.getElementById("magazines-container"),
+        );
 
-        promises.push(fetchPhotos().then((photos) => {
-            render(
-                html`<s8f-federation-records .sectionId=${"photos"} .records=${photos}></s8f-federation-records>`,
-                document.getElementById("photos-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos-container"));
-        }));
+        render(
+            html`
+                <s8f-federation-records
+                    .sectionId=${"bylaws"}
+                    .records=${bylaws}
+                >
+                </s8f-federation-records>
+            `,
+            document.getElementById("bylaws-container"),
+        );
 
-        promises.push(fetchMagazines().then((magazines) => {
-            render(
-                html`<s8f-federation-records .sectionId=${"magazines"} .records=${magazines}></s8f-federation-records>`,
-                document.getElementById("magazines-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("magazines-container"));
-        }));
-
-        promises.push(fetchBylaws().then((bylaws) => {
-            render(
-                html`<s8f-federation-records .sectionId=${"bylaws"} .records=${bylaws}></s8f-federation-records>`,
-                document.getElementById("bylaws-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("bylaws-container"));
-        }));
-
-        Promise.all(promises).then(() => {
-            if (window.location.hash) {
-                document.getElementById(window.location.hash.substring(1)).scrollIntoView();
-            }
-        });
+        if (window.location.hash) {
+            document.getElementById(window.location.hash.substring(1)).scrollIntoView();
+        }
     });
 </script>
 

@@ -5,10 +5,12 @@ $head = array(
 echo head($head);
 
 
-function replace_links_with_href($input) {
+function replace_links_with_href($input)
+{
     $pattern = '@(http(s)?://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
     return preg_replace($pattern, '<a href="http$2://$3">$0</a>', $input);
 }
+
 ?>
 
 <section class="container my-5" id="filmmaker">
@@ -49,41 +51,37 @@ function replace_links_with_href($input) {
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-filmmaker-records.js"></script>
 <script type="module">
-    import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
 
-    const fetchFilms = () => API.performRequest(API.constructURL(["filmmakers", <?= $filmmaker->id ?>, "films"]), HTTPRequestMethod.GET);
-    const fetchPhotos = () => API.performRequest(API.constructURL(["filmmakers", <?= $filmmaker->id ?>, "photos"]), HTTPRequestMethod.GET);
+    const films = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFilmmakerFilm::get_by_param('filmmaker_id', $filmmaker->id))); ?>;
+    const photos = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFilmmakerPhoto::get_by_param('filmmaker_id', $filmmaker->id))); ?>;
 
     $(() => {
-        render(html`<p>Loading...</p>`, document.getElementById("films-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
+        render(
+            html`
+                <s8f-filmmaker-records
+                    .sectionId=${"films"}
+                    .records=${films}
+                >
+                </s8f-filmmaker-records>
+            `,
+            document.getElementById("films-container"),
+        );
 
-        const promises = [];
+        render(
+            html`
+                <s8f-filmmaker-records
+                    .sectionId=${"photos"}
+                    .records=${photos}
+                >
+                </s8f-filmmaker-records>
+            `,
+            document.getElementById("photos-container"),
+        );
 
-        promises.push(fetchFilms().then((films) => {
-            render(
-                html`<s8f-filmmaker-records .sectionId=${"films"} .records=${films}></s8f-filmmaker-records>`,
-                document.getElementById("films-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films"));
-        }));
-
-        promises.push(fetchPhotos().then((photos) => {
-            render(
-                html`<s8f-filmmaker-records .sectionId=${"photos"} .records=${photos}></s8f-filmmaker-records>`,
-                document.getElementById("photos-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos"));
-        }));
-
-        Promise.all(promises).then(() => {
-            if (window.location.hash) {
-                document.getElementById(window.location.hash.substring(1)).scrollIntoView();
-            }
-        });
+        if (window.location.hash) {
+            document.getElementById(window.location.hash.substring(1)).scrollIntoView();
+        }
     });
 </script>
 

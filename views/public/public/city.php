@@ -162,7 +162,6 @@ $country_loc = $country->get_location();
 
 </section>
 
-
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-card.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-festival-records.js"></script>
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-nearby-festivals.js"></script>
@@ -170,84 +169,83 @@ $country_loc = $country->get_location();
 <script type="module" src="/plugins/SuperEightFestivals/views/public/javascripts/components/s8f-nearby-festival-print-media.js"></script>
 <script type="module">
     import { html, render } from "/plugins/SuperEightFestivals/views/shared/javascripts/vendor/lit-html.js";
-    import API, { HTTPRequestMethod } from "/plugins/SuperEightFestivals/views/shared/javascripts/api.js";
 
-    const fetchPosters = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "posters"]), HTTPRequestMethod.GET);
-    const fetchPhotos = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "photos"]), HTTPRequestMethod.GET);
-    const fetchPrintMedia = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "print-media"]), HTTPRequestMethod.GET);
-    const fetchFilmCatalogs = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "film-catalogs"]), HTTPRequestMethod.GET);
-    const fetchFilms = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "films"]), HTTPRequestMethod.GET);
-    const fetchFilmmakers = () => API.performRequest(API.constructURL(["countries", "<?= $country->id; ?>", "cities", "<?= $city->id; ?>", "filmmakers"]), HTTPRequestMethod.GET);
+    const posters = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFestivalPoster::get_by_param('city_id', $city->id))); ?>;
+    const photos = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFestivalPhoto::get_by_param('city_id', $city->id))); ?>;
+    const printMedia = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFestivalPrintMedia::get_by_param('city_id', $city->id))); ?>;
+    const filmCatalogs = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFestivalFilmCatalog::get_by_param('city_id', $city->id))); ?>;
+    const films = <?= json_encode(Super8FestivalsRecord::expand_arr(SuperEightFestivalsFestivalFilm::get_by_param('city_id', $city->id))); ?>;
+    const filmmakers = <?= json_encode(Super8FestivalsRecord::expand_arr($city->get_filmmakers())); ?>;
 
     $(() => {
-        render(html`<p>Loading...</p>`, document.getElementById("posters-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("photos-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("print-media-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("film-catalogs-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("films-container"));
-        render(html`<p>Loading...</p>`, document.getElementById("filmmakers-container"));
+        render(
+            html`
+                <s8f-festival-records
+                    year=${"<?= $year; ?>"}
+                    .sectionId=${"posters"}
+                    .records=${posters}
+                >
+                </s8f-festival-records>
+            `,
+            document.getElementById("posters-container"),
+        );
 
-        const promises = [];
+        render(
+            html`
+                <s8f-festival-records
+                    .year=${"<?= $year; ?>"}
+                    .sectionId=${"photos"}
+                    .records=${photos}
+                >
+                </s8f-festival-records>
+            `,
+            document.getElementById("photos-container"),
+        );
 
-        promises.push(fetchPosters().then((posters) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"posters"} .records=${posters}></s8f-festival-records>`,
-                document.getElementById("posters-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("posters-container"));
-        }));
+        render(
+            html`
+                <s8f-festival-records
+                    .year=${"<?= $year; ?>"}
+                    .sectionId=${"print-media"}
+                    .records=${printMedia}
+                >
+                </s8f-festival-records>`,
+            document.getElementById("print-media-container"),
+        );
 
-        promises.push(fetchPhotos().then((photos) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"photos"} .records=${photos}></s8f-festival-records>`,
-                document.getElementById("photos-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("photos-container"));
-        }));
+        render(
+            html`
+                <s8f-festival-records
+                    .year=${"<?= $year; ?>"}
+                    .sectionId=${"film-catalogs"}
+                    .records=${filmCatalogs}
+                >
+                </s8f-festival-records>`,
+            document.getElementById("film-catalogs-container"),
+        );
 
-        promises.push(fetchPrintMedia().then((printMedia) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"print-media"} .records=${printMedia}></s8f-festival-records>`,
-                document.getElementById("print-media-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("print-media-container"));
-        }));
+        render(
+            html`
+                <s8f-festival-records
+                    .year=${"<?= $year; ?>"}
+                    .sectionId=${"films"}
+                    .records=${films.map((film => ({ ...film, ...film.filmmaker_film })))}
+                >
+                </s8f-festival-records>
+            `,
+            document.getElementById("films-container"),
+        );
 
-        promises.push(fetchFilmCatalogs().then((filmCatalogs) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"film-catalogs"} .records=${filmCatalogs}></s8f-festival-records>`,
-                document.getElementById("film-catalogs-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("film-catalogs-container"));
-        }));
-
-        promises.push(fetchFilms().then((films) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"films"} .records=${films.map((film => ({ ...film, ...film.filmmaker_film })))}></s8f-festival-records>`,
-                document.getElementById("films-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("films-container"));
-        }));
-
-        promises.push(fetchFilmmakers().then((filmmakers) => {
-            render(
-                html`<s8f-festival-records .year=${"<?= $year; ?>"} .sectionId=${"filmmakers"} .records=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}></s8f-festival-records>`,
-                document.getElementById("filmmakers-container"),
-            );
-        }).catch((e) => {
-            render(html`<p>Error: ${e.toString()}</p>`, document.getElementById("filmmakers-container"));
-        }));
-
-        Promise.all(promises).then(() => {
-            if (window.location.hash) {
-                document.getElementById(window.location.hash.substring(1)).scrollIntoView();
-            }
-        });
+        render(
+            html`
+                <s8f-festival-records
+                    .year=${"<?= $year; ?>"}
+                    .sectionId=${"filmmakers"}
+                    .records=${filmmakers.map((filmmaker) => ({ ...filmmaker, url: `/filmmakers/${filmmaker.id}` }))}
+                ></s8f-festival-records>
+            `,
+            document.getElementById("filmmakers-container"),
+        );
     });
 </script>
 

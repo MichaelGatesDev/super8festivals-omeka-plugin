@@ -14,7 +14,7 @@ function build_admin_url($pieces)
 
 function build_plugin_url($pieces)
 {
-    return admin_url() . "/" . build_url($pieces);
+    return "/admin/super-eight-festivals/" . build_url($pieces);
 }
 
 function is_localhost()

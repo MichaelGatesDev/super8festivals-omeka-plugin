@@ -124,6 +124,7 @@ function drop_tables()
 
     SuperEightFestivalsFile::drop_table();
     SuperEightFestivalsEmbed::drop_table();
+    SuperEightFestivalsVideo::drop_table();
 
     SuperEightFestivalsContributor::drop_table();
 

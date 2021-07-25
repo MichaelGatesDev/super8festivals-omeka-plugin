@@ -35,8 +35,8 @@ export class Person {
     };
 }
 
-export class Embed {
-    static getTitle = (embed) => {
-        return isEmptyString(embed.title) ? "Untitled" : embed.title;
+export class Video {
+    static getTitle = (video) => {
+        return isEmptyString(video.title) ? "Untitled" : video.title;
     };
 }

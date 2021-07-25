@@ -37,6 +37,14 @@ function RecordsTable(
                 <div>${unsafeHTML(accessed.embed)}</div>
             `;
         }
+        if (accessor.endsWith("video")) {
+            if (!accessed) {
+                return html`<span>N/A</span>`;
+            }
+            return html`
+                <a href="${accessed.url}" rel="noreferrer" target="_blank">${accessed.url}</a>
+            `;
+        }
         if (accessor.endsWith("actions")) {
             return html`
                 <div class="btn-group">

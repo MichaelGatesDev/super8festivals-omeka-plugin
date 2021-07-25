@@ -61,6 +61,7 @@ function create_tables()
 
     SuperEightFestivalsEmbed::create_table();
     SuperEightFestivalsFile::create_table();
+    SuperEightFestivalsVideo::create_table();
 
     SuperEightFestivalsTimeline::create_table();
 

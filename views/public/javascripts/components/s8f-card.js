@@ -1,11 +1,11 @@
-import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
-import { component } from "../../../shared/javascripts/vendor/haunted.js";
-
-
-import { getAttributeFromElementStr, isEmptyString } from "../../../shared/javascripts/misc.js";
 import { Person } from "../../../admin/javascripts/utils/s8f-records.js";
 
-function S8FCard(element) {
+
+import {  getVideoThumbnailFor, isEmptyString } from "../../../shared/javascripts/misc.js";
+import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import { html, nothing } from "../../../shared/javascripts/vendor/lit-html.js";
+
+const S8FCard = element => {
 
     const { record } = element;
 
@@ -17,11 +17,21 @@ function S8FCard(element) {
         title = record.file.title;
         description = record.file.description;
         contributor = record.file.contributor;
-    } else if (record.embed) {
-        title = record.embed.title;
-        description = record.embed.description;
-        contributor = record.embed.contributor;
+    } else if (record.video) {
+        title = record.video.title;
+        description = record.video.description;
+        contributor = record.video.contributor;
     }
+
+    const [thumbnail, setThumbnail] = useState();
+
+    useEffect(() => {
+        if (record.video) {
+            getVideoThumbnailFor(record.video.url).then((thumb) => {
+                setThumbnail(thumb);
+            });
+        }
+    }, []);
 
     return html`
         <style>
@@ -45,10 +55,10 @@ function S8FCard(element) {
                 <a href=${record.file.file_path} data-fancybox=${element.fancyboxId ? `fb-${element.fancyboxId}` : "gallery"} data-caption="${isEmptyString(record.file.description) ? "No description available." : record.file.description}">
                     <img src=${record.file.thumbnail_file_path} class="card-img-top" loading="lazy" alt="" style="height: 200px;">
                 </a>
-            `) : record.embed ? html`
-                <div class="ratio ratio-16x9 ms-2">
-                    <iframe class="ratio-item" src="${getAttributeFromElementStr(record.embed.embed, "src")}" allowfullscreen></iframe>
-                </div>
+            `) : record.video ? html`
+                <a href="${record.video.url}" data-fancybox>
+                    <img src="${thumbnail}" class="card-img-top ratio ratio-16x9" loading="lazy" alt="" style="height: 200px;">
+                </a>
             ` : nothing}
             <div class="card-body">
                 ${record.person ? html`
@@ -73,6 +83,6 @@ function S8FCard(element) {
             ` : nothing}
         </div>
     `;
-}
+};
 
 customElements.define("s8f-card", component(S8FCard, { useShadowDOM: false }));

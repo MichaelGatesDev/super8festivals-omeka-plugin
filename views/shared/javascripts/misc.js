@@ -34,7 +34,7 @@ export const getAttributeFromElementStr = (elementStr, attr) => {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(elementStr, "text/html");
     return htmlDoc.querySelector("iframe").getAttribute(attr);
-}
+};
 
 export const SUPPORTED_IMAGE_MIMES = [
     "image/png",
@@ -44,3 +44,21 @@ export const SUPPORTED_IMAGE_MIMES = [
 export const SUPPORTED_DOCUMENT_MIMES = [
     "application/pdf",
 ];
+
+export const getVideoThumbnailFor = async (url) => {
+    const pattern = /(youtube\.com\/watch\?v=|vimeo\.com\/)([A-Za-z0-9_]+)/;
+    const res = pattern.exec(url);
+    const vidId = res[2];
+
+    if (url.includes("vimeo")) {
+        const res = await $.ajax({
+            type: "GET",
+            url: `//vimeo.com/api/v2/video/${vidId}.json`,
+            dataType: "json",
+        });
+        return res[0].thumbnail_medium;
+    }
+    if (url.includes("youtube") || url.includes("yt")) {
+        return `https://img.youtube.com/vi/${vidId}/0.jpg`;
+    }
+};

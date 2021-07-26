@@ -1,13 +1,13 @@
-import { html } from "../../../shared/javascripts/vendor/lit-html.js";
+import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
+import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
+import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 import { component, useEffect, useState } from "../../../shared/javascripts/vendor/haunted.js";
+import { html } from "../../../shared/javascripts/vendor/lit-html.js";
 import _ from "../../../shared/javascripts/vendor/lodash.js";
 
 import Alerts from "../utils/alerts.js";
-import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
-import { FormAction, isEmptyString, openLink, scrollTo } from "../../../shared/javascripts/misc.js";
 import { Person } from "../utils/s8f-records.js";
-import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
 function FilmmakerFilmsTable(element) {
@@ -19,7 +19,7 @@ function FilmmakerFilmsTable(element) {
     const fetchFilms = async () => {
         try {
             const films = await API.performRequest(API.constructURL(["filmmakers", element.filmmakerId, "films"]), HTTPRequestMethod.GET);
-            setFilms(_.orderBy(films, ["embed.title", "id"]));
+            setFilms(_.orderBy(films, ["video.title", "id"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Films`, err);
             console.error(`Error - Failed to Fetch Films: ${err.message}`);
@@ -91,9 +91,9 @@ function FilmmakerFilmsTable(element) {
     };
 
     const validateForm = (formData) => {
-        const embed = formData.get("embed");
-        if (isEmptyString(embed)) {
-            return { input_name: "embed", message: "Embed can not be blank!" };
+        const url = formData.get("url");
+        if (isEmptyString(url)) {
+            return { input_name: "url", message: "URL can not be blank!" };
         }
         return null;
     };
@@ -106,18 +106,18 @@ function FilmmakerFilmsTable(element) {
         }
         if (action === FormAction.Add || action === FormAction.Update) {
             results = [...results,
-                { label: "Title", type: "text", name: "title", placeholder: "", value: film ? film.embed.title : "" },
-                { label: "Description", type: "text", name: "description", placeholder: "", value: film ? film.embed.description : "" },
+                { label: "Title", type: "text", name: "title", placeholder: "", value: film ? film.video.title : "" },
+                { label: "Description", type: "text", name: "description", placeholder: "", value: film ? film.video.description : "" },
+                { label: "URL", type: "text", name: "url", placeholder: "", value: film ? film.video.url : "" },
                 {
                     label: "Contributor", name: "contributor_id", type: "select", options: ([{ id: 0 }, ...allContributors]).map((contributor) => {
                         return {
                             value: contributor.id,
                             label: contributor.id === 0 ? `None` : `${Person.getDisplayName(contributor.person)}`,
-                            selected: film ? film.embed.contributor_id === contributor.id : false,
+                            selected: film ? film.video.contributor_id === contributor.id : false,
                         };
                     }),
                 },
-                { label: "Embed", type: "textarea", name: "embed", placeholder: "", value: film ? film.embed.embed : "" },
             ];
         } else if (action === FormAction.Delete) {
             results = [...results,
@@ -166,9 +166,9 @@ function FilmmakerFilmsTable(element) {
 
     const tableColumns = [
         { title: "ID", accessor: "id" },
-        { title: "Preview", accessor: "embed" },
-        { title: "Title", accessor: "embed.title" },
-        { title: "Description", accessor: "embed.description" },
+        { title: "URL", accessor: "video" },
+        { title: "Title", accessor: "video.title" },
+        { title: "Description", accessor: "video.description" },
     ];
 
     return html`

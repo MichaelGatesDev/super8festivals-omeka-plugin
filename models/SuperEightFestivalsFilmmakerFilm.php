@@ -5,7 +5,7 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     // ======================================================================================================================== \\
 
     public ?int $filmmaker_id = null;
-    public ?int $embed_id = null;
+    public ?int $video_id = null;
 
     // ======================================================================================================================== \\
 
@@ -14,7 +14,7 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
         return array_merge(
             array(
                 "`filmmaker_id`     INT UNSIGNED NOT NULL",
-                "`embed_id`         INT UNSIGNED NOT NULL",
+                "`video_id`         INT UNSIGNED NOT NULL",
             ),
             parent::get_db_columns()
         );
@@ -25,7 +25,7 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
         return array_merge(
             array(
                 "FOREIGN KEY (`filmmaker_id`) REFERENCES {db_prefix}{table_prefix}filmmakers(`id`) ON DELETE CASCADE",
-                "FOREIGN KEY (`embed_id`) REFERENCES {db_prefix}{table_prefix}embeds(`id`) ON DELETE CASCADE",
+                "FOREIGN KEY (`video_id`) REFERENCES {db_prefix}{table_prefix}videos(`id`) ON DELETE CASCADE",
             ),
             parent::get_db_foreign_keys()
         );
@@ -34,28 +34,28 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     protected function beforeDelete()
     {
         parent::beforeDelete();
-        if ($embed = $this->get_embed()) $embed->delete();
+        if ($video = $this->get_video()) $video->delete();
     }
 
     public function to_array()
     {
         $res = parent::to_array();
         if ($this->get_filmmaker()) $res = array_merge($res, ["filmmaker" => $this->get_filmmaker()->to_array()]);
-        if ($this->get_embed()) $res = array_merge($res, ["embed" => $this->get_embed()->to_array()]);
+        if ($this->get_video()) $res = array_merge($res, ["video" => $this->get_video()->to_array()]);
         return $res;
     }
 
     public static function create($arr = [])
     {
         $film = new SuperEightFestivalsFilmmakerFilm();
-        $embed = SuperEightFestivalsEmbed::create($arr['embed']);
-        $film->embed_id = $embed->id;
+        $video = SuperEightFestivalsVideo::create($arr['video']);
+        $film->video_id = $video->id;
         $film->update($arr, false);
         try {
             $film->save();
             return $film;
         } catch (Exception $e) {
-            $embed->delete();
+            $video->delete();
             throw $e;
         }
     }
@@ -63,10 +63,10 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     public function update($arr, $save = true)
     {
         $cname = get_called_class();
-        if (isset($arr['embed'])) {
-            $embed = $this->get_embed();
-            if (!$embed) throw new Exception("{$cname} is not associated with a SuperEightFestivalsEmbed");
-            $embed->update($arr['embed']);
+        if (isset($arr['video'])) {
+            $video = $this->get_video();
+            if (!$video) throw new Exception("{$cname} is not associated with a SuperEightFestivalsVideo");
+            $video->update($arr['video']);
         }
 
         parent::update($arr, $save);
@@ -100,11 +100,11 @@ class SuperEightFestivalsFilmmakerFilm extends Super8FestivalsRecord
     }
 
     /**
-     * @return SuperEightFestivalsEmbed|null
+     * @return SuperEightFestivalsVideo|null
      */
-    public function get_embed()
+    public function get_video()
     {
-        return SuperEightFestivalsEmbed::get_by_id($this->embed_id);
+        return SuperEightFestivalsVideo::get_by_id($this->video_id);
     }
 
     // ======================================================================================================================== \\

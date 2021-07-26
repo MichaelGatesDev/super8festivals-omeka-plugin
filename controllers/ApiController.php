@@ -726,11 +726,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 $film = SuperEightFestivalsFilmmakerFilm::create([
                     "filmmaker_id" => $filmmaker->id,
-                    "embed" => [
+                    "video" => [
                         "contributor_id" => $request->getParam("contributor_id"),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
-                        "embed" => $request->getParam("embed", ""),
+                        "url" => $request->getParam("url", ""),
                     ],
                 ]);
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully created filmmaker film", $film->to_array()));
@@ -753,11 +753,11 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                 $this->authCheck();
                 $film->update([
                     "filmmaker_id" => $filmmaker->id,
-                    "embed" => [
+                    "video" => [
                         "contributor_id" => $request->getParam("contributor_id"),
                         "title" => $request->getParam("title", ""),
                         "description" => $request->getParam("description", ""),
-                        "embed" => $request->getParam("embed", ""),
+                        "url" => $request->getParam("url", ""),
                     ],
                 ]);
 

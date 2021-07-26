@@ -6,7 +6,7 @@ import Alerts from "../utils/alerts.js";
 import API, { HTTPRequestMethod } from "../../../shared/javascripts/api.js";
 import Modals from "../utils/modals.js";
 import { FormAction, scrollTo } from "../../../shared/javascripts/misc.js";
-import { Embed, Person } from "../utils/s8f-records.js";
+import { Video, Person } from "../utils/s8f-records.js";
 import { eventBus, S8FEvent } from "../../../shared/javascripts/event-bus.js";
 
 
@@ -39,7 +39,7 @@ function FestivalFilmsTable(element) {
             const films = await API.performRequest(API.constructURL([
                 "films",
             ]), HTTPRequestMethod.GET);
-            setAllFilms(_.orderBy(films, ["filmmaker.person.first_name", "embed.title"]));
+            setAllFilms(_.orderBy(films, ["filmmaker.person.first_name", "video.title"]));
         } catch (err) {
             Alerts.error("alerts", html`<strong>Error</strong> - Failed to Fetch Filmmaker Films`, err);
             console.error(`Error - Failed to Fetch Filmmaker Films: ${err.message}`);
@@ -145,7 +145,7 @@ function FestivalFilmsTable(element) {
                     label: "Film", name: "filmmaker_film_id", type: "select", options: ([{ id: 0 }, ...allFilms]).map((filmmakerFilm) => {
                         return {
                             value: filmmakerFilm.id,
-                            label: filmmakerFilm.id === 0 ? `None` : `${Person.getDisplayName(filmmakerFilm.filmmaker.person)} - ${Embed.getTitle(filmmakerFilm.embed)}`,
+                            label: filmmakerFilm.id === 0 ? `None` : `${Person.getDisplayName(filmmakerFilm.filmmaker.person)} - ${Video.getTitle(filmmakerFilm.video)}`,
                             selected: film && film.filmmaker_film_id === filmmakerFilm.id,
                         };
                     }),
@@ -199,9 +199,9 @@ function FestivalFilmsTable(element) {
     const tableColumns = [
         { title: "ID", accessor: "id" },
         { title: "Filmmaker Film ID", accessor: "filmmaker_film.id" },
-        { title: "Preview", accessor: "filmmaker_film.embed" },
-        { title: "Title", accessor: "filmmaker_film.embed.title" },
-        { title: "Description", accessor: "filmmaker_film.embed.description" },
+        { title: "Preview", accessor: "filmmaker_film.video" },
+        { title: "Title", accessor: "filmmaker_film.video.title" },
+        { title: "Description", accessor: "filmmaker_film.video.description" },
     ];
 
     return html`

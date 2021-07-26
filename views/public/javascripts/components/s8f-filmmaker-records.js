@@ -100,6 +100,7 @@ function S8FFilmmakerRecords(element) {
                     <div class="card-deck">
                         ${repeat(
                             year === "all" ? sortedRecords : sortedRecords.filter((record) => record.festival && record.festival.year === year),
+                            record => record.id,
                             record => recordTemplate(record, `${element.sectionId}-${year}`),
                         )}
                     </div>

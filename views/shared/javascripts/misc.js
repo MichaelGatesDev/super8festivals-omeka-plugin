@@ -46,7 +46,7 @@ export const SUPPORTED_DOCUMENT_MIMES = [
 ];
 
 export const getVideoThumbnailFor = async (url) => {
-    const pattern = /(youtube\.com\/watch\?v=|vimeo\.com\/)([A-Za-z0-9_]+)/;
+    const pattern = /(youtube\.com\/watch\?v=|vimeo\.com\/)([A-Za-z0-9_\-]+)/;
     const res = pattern.exec(url);
     const vidId = res[2];
 

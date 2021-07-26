@@ -25,11 +25,11 @@ function S8FFilmmakerRecords(element) {
             );
         };
 
-        const embedMatch = (record, query) => {
+        const videoMatch = (record, query) => {
             query = query.toLowerCase();
-            return record.embed && (
-                record.embed.title.toLowerCase().includes(query)
-                || record.embed.description.toLowerCase().includes(query)
+            return record.video && (
+                record.video.title.toLowerCase().includes(query)
+                || record.video.description.toLowerCase().includes(query)
             );
         };
 
@@ -45,14 +45,14 @@ function S8FFilmmakerRecords(element) {
         return records.filter(r =>
             festivalYearMatch(r, search)
             || fileMatch(r, search)
-            || embedMatch(r, search)
+            || videoMatch(r, search)
             || personMatch(r, search),
         );
     };
 
     const sortRecords = records => {
         if (records.length === 0) return records;
-        return _.sortBy(records, ["festival.year", "file.title", "embed.title", "person.first_name", "person.organization_name"]);
+        return _.sortBy(records, ["festival.year", "file.title", "video.title", "person.first_name", "person.organization_name"]);
     };
 
     useEffect(() => {

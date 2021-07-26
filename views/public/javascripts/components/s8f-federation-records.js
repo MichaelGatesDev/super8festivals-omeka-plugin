@@ -21,14 +21,6 @@ function S8FFederationRecords(element) {
             );
         };
 
-        const embedMatch = (record, query) => {
-            query = query.toLowerCase();
-            return record.embed && (
-                record.embed.title.toLowerCase().includes(query)
-                || record.embed.description.toLowerCase().includes(query)
-            );
-        };
-
         const personMatch = (record, query) => {
             query = query.toLowerCase();
             return record.person && (
@@ -40,14 +32,13 @@ function S8FFederationRecords(element) {
 
         return records.filter(r =>
             fileMatch(r, search)
-            || embedMatch(r, search)
             || personMatch(r, search),
         );
     };
 
     const sortRecords = records => {
         if (records.length === 0) return records;
-        return _.sortBy(records, ["file.title", "embed.title", "person.first_name", "person.organization_name"]);
+        return _.sortBy(records, ["file.title", "person.first_name", "person.organization_name"]);
     };
 
     useEffect(() => {

@@ -46,19 +46,22 @@ export const SUPPORTED_DOCUMENT_MIMES = [
 ];
 
 export const getVideoThumbnailFor = async (url) => {
-    const pattern = /(youtube\.com\/watch\?v=|vimeo\.com\/)([A-Za-z0-9_\-]+)/;
-    const res = pattern.exec(url);
-    const vidId = res[2];
+    const ytRegex = /(youtube\.com|youtu.be)\/(watch\?v=)?([A-Za-z0-9_\-]+)/;
+    const vimeoRegex = /vimeo\.com\/(manage\/)?(videos\/)?([0-9]+)/;
 
-    if (url.includes("vimeo")) {
-        const res = await $.ajax({
+    if (ytRegex.test(url)) {
+        const res = ytRegex.exec(url);
+        const vidId = res[3];
+        return `https://img.youtube.com/vi/${vidId}/0.jpg`;
+    } else if (vimeoRegex.test(url)) {
+        const res = vimeoRegex.exec(url);
+        const vidId = res[3];
+
+        const resp = await $.ajax({
             type: "GET",
             url: `//vimeo.com/api/v2/video/${vidId}.json`,
             dataType: "json",
         });
-        return res[0].thumbnail_medium;
-    }
-    if (url.includes("youtube") || url.includes("yt")) {
-        return `https://img.youtube.com/vi/${vidId}/0.jpg`;
+        return resp[0].thumbnail_medium;
     }
 };

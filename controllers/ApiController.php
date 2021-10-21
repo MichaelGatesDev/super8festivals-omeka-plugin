@@ -1777,7 +1777,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                         array_push($filmmakers, $filmmaker->to_array());
                     }
                 }
-                $filmmakers = array_unique($filmmakers, SORT_REGULAR);
+                $filmmakers = array_values(array_unique($filmmakers));
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all city filmmakers", $filmmakers));
             }
@@ -1820,7 +1820,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                         array_push($photos, $photo->to_array());
                     }
                 }
-                $photos = array_unique($photos, SORT_REGULAR);
+                $photos = array_values(array_unique($photos, SORT_REGULAR));
 
                 $this->_helper->getHelper("json")->sendJson($this->getJsonResponseArray("success", "Successfully fetched all nearby festival festival photos", $photos));
             }

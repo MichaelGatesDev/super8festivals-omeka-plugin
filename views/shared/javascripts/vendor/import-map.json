@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "@popperjs/core": "./@popperjs/core.js",
+    "bootstrap": "./bootstrap.js",
+    "haunted": "./haunted.js",
+    "jquery": "./jquery.js",
+    "lit-element": "./lit-element.js",
+    "lit-html": "./lit-html.js",
+    "lit-html/directives/repeat": "./lit-html/directives/repeat.js",
+    "lit-html/directives/unsafe-html": "./lit-html/directives/unsafe-html.js",
+    "lit-html/directives/unsafe-svg": "./lit-html/directives/unsafe-svg.js",
+    "lit-html/directives/until": "./lit-html/directives/until.js",
+    "lodash": "./lodash.js"
+  }
+}

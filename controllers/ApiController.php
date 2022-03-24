@@ -421,6 +421,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                         "last_name" => $request->getParam("last_name", ""),
                         "email" => $request->getParam("email", ""),
                         "organization_name" => $request->getParam("organization_name", ""),
+                        "is_email_visible" => $request->getParam("is_email_visible", 0),
                     ],
                 ]);
 //                if (has_temporary_file("file")) {
@@ -451,6 +452,7 @@ class SuperEightFestivals_ApiController extends Omeka_Controller_AbstractActionC
                         "last_name" => $request->getParam("last_name", ""),
                         "email" => $request->getParam("email", ""),
                         "organization_name" => $request->getParam("organization_name", ""),
+                        "is_email_visible" => $request->getParam("is_email_visible", 0),
                     ],
                 ]);
 //                if (has_temporary_file("file")) {

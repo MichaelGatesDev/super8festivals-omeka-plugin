@@ -32,6 +32,9 @@ class SuperEightFestivalsContributor extends Super8FestivalsRecord
     {
         $res = parent::to_array();
         if ($this->get_person()) $res = array_merge($res, ["person" => $this->get_person()->to_array()]);
+        if(!$this->get_person()->is_email_visible) {
+            $res['person']['email'] = null;
+        }
         return $res;
     }
 

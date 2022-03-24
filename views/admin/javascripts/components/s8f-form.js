@@ -121,11 +121,23 @@ const S8FForm = (element) => {
             case "description":
                 inputElem = html`<p class=${elem.styleClasses ? elem.styleClasses.join(" ") : ""}>${elem.value}</p>`;
                 break;
+            case "toggle":
+                inputElem = html`
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id=${elemID} name=${elem.name} .checked=${elem.value}>
+                        <label class="form-check-label" for=${elemID}>
+                            ${elem.label}
+                        </label>
+                    </div>
+                `;
+                break;
         }
 
         return html`
             <div class="mb-3 ${"visible" in elem && !elem.visible ? "d-none" : ""}">
-                ${labelElem}
+                ${elem.type !== "toggle" ? (
+                    labelElem
+                ) : null}
                 ${inputElem}
             </div>
         `;

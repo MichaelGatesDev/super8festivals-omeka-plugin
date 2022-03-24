@@ -9,6 +9,7 @@ class SuperEightFestivalsPerson extends Super8FestivalsRecord
     public string $last_name = "";
     public string $email = "";
     public string $organization_name = "";
+    public bool $is_email_visible = false;
 
     // ======================================================================================================================== \\
 
@@ -20,6 +21,7 @@ class SuperEightFestivalsPerson extends Super8FestivalsRecord
                 "`last_name`                    VARCHAR(255)",
                 "`email`                        VARCHAR(255)",
                 "`organization_name`            VARCHAR(255)",
+                "`is_email_visible`             BOOL",
             ),
             parent::get_db_columns()
         );

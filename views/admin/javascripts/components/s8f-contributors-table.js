@@ -98,6 +98,7 @@ function ContributorsTable() {
                 { label: "Last Name", type: "text", name: "last_name", placeholder: "", value: contributor ? contributor.person.last_name : "" },
                 { label: "Organization Name", type: "text", name: "organization_name", placeholder: "", value: contributor ? contributor.person.organization_name : "" },
                 { label: "Email", type: "text", name: "email", placeholder: "", value: contributor ? contributor.person.email : "" },
+                { label: "Email Visible", type: "toggle", name: "is_email_visible", value: contributor ? contributor.person.is_email_visible : false },
                 // { label: "Photo", type: "file", name: "file" },
             ];
         } else if (action === FormAction.Delete) {
@@ -151,6 +152,7 @@ function ContributorsTable() {
         { title: "Last Name", accessor: "person.last_name" },
         { title: "Organization Name", accessor: "person.organization_name" },
         { title: "Email", accessor: "person.email" },
+        { title: "Is Email Visible", accessor: "person.is_email_visible" },
     ];
 
     return html`

@@ -76,8 +76,11 @@ const S8FCard = element => {
             </div>
             ${!record.person ? html`
                 <div class="card-footer">
-                    <p class="chomp-single" title=${contributor ? Person.getDisplayName(contributor.person) : "N/A"}>
-                        Contributor: ${contributor ? Person.getDisplayName(contributor.person) : "N/A"}
+                    <p class="chomp-single" title=${contributor ? `${Person.getDisplayName(contributor.person)} ${contributor.person.is_email_visible ? `(${contributor.person.email})` : ""}` : "N/A"}>
+                        Contributor:
+                        ${contributor != null  ? (
+                            contributor.person.is_email_visible ? html`<a href=${`mailto:${contributor.person.email}`}>${Person.getDisplayName(contributor.person)}</a>` : Person.getDisplayName(contributor.person)
+                        ) : "N/A"}
                     </p>
                 </div>
             ` : nothing}

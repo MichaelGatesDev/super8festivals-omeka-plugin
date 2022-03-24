@@ -20,9 +20,6 @@ export class Person {
             if (!isEmptyString(person.last_name)) {
                 result += ` ${person.last_name}`;
             }
-            if (!isEmptyString(person.email)) {
-                result += ` (${person.email})`;
-            }
         } else if (!isEmptyString(person.organization_name)) {
             result = person.organization_name;
             if (!isEmptyString(person.email)) {

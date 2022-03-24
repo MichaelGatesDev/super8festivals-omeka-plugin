@@ -60,6 +60,9 @@ function RecordsTable(
                 </div>
             `;
         }
+        if(accessor.includes(".is_")) {
+            return html`<span>${!!accessed}</span>`;
+        }
 
         return _.get(obj, accessor);
     };

@@ -11,7 +11,7 @@
     "@popperjs/core": "^2.6.0"
   },
   "devDependencies": {
-    "snowpack": "^2.16.1"
+    "snowpack": "^3.7.1"
   },
   "scripts": {
     "postinstall": "yarn run package",
